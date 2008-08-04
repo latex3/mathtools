@@ -1,0 +1,4166 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2002-2007 by Morten Hoegholm <mh.ctan@gmail.com>
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either
+% version 1.3 of this license or (at your option) any later
+% version. The latest version of this license is in
+%    http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of
+% LaTeX version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status "maintained".
+%
+% This Current Maintainer of this work is Morten Hoegholm.
+%
+% This work consists of the main source file empheq.dtx
+% and the derived files
+%    empheq.sty, empheq.pdf, empheq.ins, empheq.drv.
+%
+% Distribution:
+%    CTAN:macros/latex/contrib/mh/empheq.dtx
+%    CTAN:macros/latex/contrib/mh/empheq.pdf
+%
+% Unpacking:
+%    (a) If empheq.ins is present:
+%           tex empheq.ins
+%    (b) Without empheq.ins:
+%           tex empheq.dtx
+%    (c) If you insist on using LaTeX
+%           latex \let\install=y\input{empheq.dtx}
+%        (quote the arguments according to the demands of your shell)
+%
+% Documentation:
+%    (a) If empheq.drv is present:
+%           latex empheq.drv
+%    (b) Without empheq.drv:
+%           latex empheq.dtx; ...
+%    The class ltxdoc loads the configuration file ltxdoc.cfg
+%    if available. Here you can specify further options, e.g.
+%    use A4 as paper format:
+%       \PassOptionsToClass{a4paper}{article}
+%
+%    Programm calls to get the documentation (example):
+%       pdflatex empheq.dtx
+%       makeindex -s gind.ist empheq.idx
+%       pdflatex empheq.dtx
+%       makeindex -s gind.ist empheq.idx
+%       pdflatex empheq.dtx
+%
+% Installation:
+%    TDS:tex/latex/mh/empheq.sty
+%    TDS:doc/latex/mh/empheq.pdf
+%    TDS:source/latex/mh/empheq.dtx
+%
+%<*ignore>
+\begingroup
+  \def\x{LaTeX2e}
+\expandafter\endgroup
+\ifcase 0\ifx\install y1\fi\expandafter
+         \ifx\csname processbatchFile\endcsname\relax\else1\fi
+         \ifx\fmtname\x\else 1\fi\relax
+\else\csname fi\endcsname
+%</ignore>
+%<*install>
+\input docstrip.tex
+\Msg{************************************************************************}
+\Msg{* Installation}
+\Msg{* Package: empheq 2007/12/03 v2.12 empheq (MH)}
+\Msg{************************************************************************}
+
+\keepsilent
+\askforoverwritefalse
+
+\preamble
+
+This is a generated file.
+
+Copyright (C) 2002-2007 by Morten Hoegholm <mh.ctan@gmail.com>
+
+This work may be distributed and/or modified under the
+conditions of the LaTeX Project Public License, either
+version 1.3 of this license or (at your option) any later
+version. The latest version of this license is in
+   http://www.latex-project.org/lppl.txt
+and version 1.3 or later is part of all distributions of
+LaTeX version 2005/12/01 or later.
+
+This work has the LPPL maintenance status "maintained".
+
+This Current Maintainer of this work is Morten Hoegholm.
+
+This work consists of the main source file empheq.dtx
+and the derived files
+   empheq.sty, empheq.pdf, empheq.ins, empheq.drv.
+
+\endpreamble
+
+\generate{%
+  \file{empheq.ins}{\from{empheq.dtx}{install}}%
+  \file{empheq.drv}{\from{empheq.dtx}{driver}}%
+  \usedir{tex/latex/mh}%
+  \file{empheq.sty}{\from{empheq.dtx}{package}}%
+}
+
+\obeyspaces
+\Msg{************************************************************************}
+\Msg{*}
+\Msg{* To finish the installation you have to move the following}
+\Msg{* file into a directory searched by TeX:}
+\Msg{*}
+\Msg{*     empheq.sty}
+\Msg{*}
+\Msg{* To produce the documentation run the file `empheq.drv'}
+\Msg{* through LaTeX.}
+\Msg{*}
+\Msg{* Happy TeXing!}
+\Msg{*}
+\Msg{************************************************************************}
+
+\endbatchfile
+%</install>
+%<*ignore>
+\fi
+%</ignore>
+%<*driver>
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesFile{empheq.drv}%
+  [2007/12/03 v2.12 Emphasizing equations (MH)]
+\documentclass{ltxdoc}
+\usepackage{mathpazo}
+\usepackage[overload]{empheq}
+\usepackage{xcolor,varioref,booktabs,fancybox}
+
+\pagestyle{headings}
+\hyphenation{emph-eq}
+\makeatletter
+\providecommand*\pkg[1]{\textsf{#1}}
+\providecommand*\env[1]{\texttt{#1}}
+\providecommand*\email[1]{\href{mailto:#1}{\texttt{#1}}}
+\providecommand*\mode[1]{\texttt{[#1]}}
+\providecommand*\file[1]{\texttt{#1}}
+\addtolength\marginparwidth{-30pt}
+
+
+\newcommand*\AddDescribe[3]{%
+  \@namedef{Describe#1}{\leavevmode\@bsphack\begingroup\MakePrivateLetters
+    \@nameuse{Describe@#1}}
+  \@namedef{Describe@#1}##1{\endgroup
+                \marginpar{\raggedleft\@nameuse{PrintDescribe#1}{##1}}%
+                \@nameuse{Special#1Index}{##1}\@esphack\ignorespaces}
+  \@namedef{Special#1Index}##1{\@bsphack
+      \index{##1\actualchar{\protect\ttfamily ##1}
+            (#2)\encapchar usage}%
+      \index{#3:\levelchar##1\actualchar{\protect\ttfamily ##1}\encapchar
+            usage}\@esphack}
+  \@namedef{PrintDescribe#1}##1{\strut \MacroFont ##1\ }%
+  \@namedef{Print#1Name}##1{\strut \MacroFont ##1\ }%
+}
+\AddDescribe{Color}{color}{colors}
+\AddDescribe{KeyFamily}{key family}{key families}
+\newcommand*\DescribeDelimiter[1]{%
+  \cs{#1}&\SpecialMkhIndex{empheq#1}\cs{empheq}\texttt{#1} &
+  \SpecialMkhIndex{empheqbig#1}\cs{empheqbig}\texttt{#1} &
+  $\@nameuse{#1}$\tabularnewline}
+\newcommand*\SpecialMkhIndex[1]{%
+  \@bsphack
+    \index{#1\actualchar{\protect\ttfamily \protect\bslash\space#1}
+     (` $\bslash#1$ ')\encapchar usage}%
+  \@esphack
+}
+\newcommand\TabDescribeOption[3][(default)]{%
+    \SpecialOptIndex{#2}\opt{#2}  & #3 \tabularnewline
+}
+\newcommand*\TabDescribeAmsKey[2][]{%
+    \SpecialKeyIndex{#2}\env{#2} &
+    \texttt{\{#2#1\}} &
+    \SpecialKeyIndex{#2*}\env{#2*} &
+    \texttt{\{#2*#1\}} \tabularnewline
+}
+\newcommand*\TabDescribeOptKey[3][]{%
+    \SpecialKeyIndex{#2}\key{#2} &
+    \texttt{#2=}\meta{#3} & #1 \tabularnewline
+}
+
+\newenvironment{codesyntax}
+    {\par\small\addvspace{4.5ex plus 1ex}%
+     \vskip -\parskip
+     \noindent
+     \begin{tabular}{|l|}\hline\ignorespaces}%
+    {\\\hline\end{tabular}\nobreak\par\nobreak
+     \vspace{2.3ex}\vskip -\parskip\noindent\ignorespacesafterend}
+\makeatletter
+
+\newcommand*\FeatureRequest[2]{%
+  \hskip1sp
+  \marginpar{%
+    \parbox[b]{\marginparwidth}{\small\sffamily\raggedright
+      \strut Feature request by\\#1\\#2%
+    }
+  }%
+}
+
+\newcommand*\cttPosting[2]{%
+  \hskip1sp
+  \marginpar{%
+    \parbox[b]{\marginparwidth}{\small\sffamily\raggedright
+     \strut Posted on \texttt{comp.text.tex} \\#1\\#2%
+    }%
+  }%
+}
+
+\expandafter\def\expandafter\MakePrivateLetters\expandafter{%
+  \MakePrivateLetters  \catcode`\_=11\relax
+}
+
+\providecommand*\SpecialOptIndex[1]{%
+  \@bsphack
+  \index{#1\actualchar{\protect\ttfamily #1}
+          (option)\encapchar usage}%
+      \index{options:\levelchar#1\actualchar{\protect\ttfamily #1}\encapchar
+            usage}\@esphack}
+\providecommand*\opt[1]{\texttt{#1}}
+
+\providecommand*\SpecialKeyIndex[1]{%
+  \@bsphack
+  \index{#1\actualchar{\protect\ttfamily #1}
+          (key)\encapchar usage}%
+      \index{keys:\levelchar#1\actualchar{\protect\ttfamily #1}\encapchar
+            usage}\@esphack}
+\providecommand*\key[1]{\textsf{#1}}
+\providecommand*\keyfam[1]{\textsf{#1}}
+
+\providecommand*\eTeX{$\m@th\varepsilon$-\TeX}
+
+\def\MTmeta#1{%
+     \ensuremath\langle
+     \ifmmode \expandafter \nfss@text \fi
+     {%
+      \meta@font@select
+      \edef\meta@hyphen@restore
+        {\hyphenchar\the\font\the\hyphenchar\font}%
+      \hyphenchar\font\m@ne
+      \language\l@nohyphenation
+      #1\/%
+      \meta@hyphen@restore
+     }\ensuremath\rangle
+     \endgroup
+}
+\makeatother
+\DeclareRobustCommand\meta{\begingroup\MakePrivateLetters\MTmeta}%
+\def\MToarg#1{{\ttfamily[}\meta{#1}{\ttfamily]}\endgroup}
+\DeclareRobustCommand\oarg{\begingroup\MakePrivateLetters\MToarg}%
+\def\MHmarg#1{{\ttfamily\char`\{}\meta{#1}{\ttfamily\char`\}}\endgroup}
+\DeclareRobustCommand\marg{\begingroup\MakePrivateLetters\MHmarg}%
+\def\MHarg#1{{\ttfamily\char`\{#1\ttfamily\char`\}}\endgroup}
+\DeclareRobustCommand\arg{\begingroup\MakePrivateLetters\MHarg}%
+\def\MHcs#1{\texttt{\char`\\#1}\endgroup}
+\DeclareRobustCommand\cs{\begingroup\MakePrivateLetters\MHcs}
+\def\MHbool#1{{\ttfamily #1}\endgroup}
+\DeclareRobustCommand\bool{\begingroup\MakePrivateLetters\MHbool}%
+
+\def\endverbatim{\if@newlist
+\leavevmode\fi\endtrivlist\vspace{-\baselineskip}}
+\expandafter\let\csname endverbatim*\endcsname =\endverbatim
+
+\let\MTtheindex\theindex
+\def\theindex{\MTtheindex\MakePrivateLetters}
+
+\newcommand*\widefbox[1]{\fbox{\hspace{1em}#1\hspace{1em}}}
+\definecolor{myblue}{rgb}{.8, .8, 1}
+\newcommand*\mybluebox[1]{%
+  \colorbox{myblue}{\hspace{1em}#1\hspace{1em}}}
+\newenvironment{important}[2][]{%
+  \setkeys{EmphEqEnv}{#2}%
+  \setkeys{EmphEqOpt}{box=\mybluebox,#1}%
+  \EmphEqMainEnv}%
+  {\endEmphEqMainEnv}
+\definecolor{shadecolor}{cmyk}{0,0,0.41,0}
+\definecolor{light-blue}{cmyk}{0.25,0,0,0}
+\newsavebox{\mysaveboxM} % M for math
+\newsavebox{\mysaveboxT} % T for text
+\newcommand*\Garybox[2][Example]{%
+  \sbox{\mysaveboxM}{#2}%
+  \sbox{\mysaveboxT}{\fcolorbox{black}{light-blue}{#1}}%
+  \sbox{\mysaveboxM}{%
+    \parbox[b][\ht\mysaveboxM+.5\ht\mysaveboxT+.5\dp\mysaveboxT][b]{%
+      \wd\mysaveboxM}{#2}%
+  }%
+  \sbox{\mysaveboxM}{%
+    \fcolorbox{black}{shadecolor}{%
+      \makebox[\linewidth-10em]{\usebox{\mysaveboxM}}%
+    }%
+  }%
+  \usebox{\mysaveboxM}%
+  \makebox[0pt][r]{%
+    \makebox[\wd\mysaveboxM][c]{%
+      \raisebox{\ht\mysaveboxM-0.5\ht\mysaveboxT
+                +0.5\dp\mysaveboxT-0.5\fboxrule}{\usebox{\mysaveboxT}}%
+    }%
+  }%
+}
+
+\newcommand\EmphEqpart{%
+  \def\partname{\EmphEqpartname}%
+  \part}
+
+\def\EmphEqpartname{Part}
+\makeatother
+
+\usepackage{graphicx}
+\usepackage[final,breaklinks=true,hyperindex=false]{hyperref}
+\renewcommand*\usage[1]{\textit{\hyperpage{#1}}}
+
+\OnlyDescription
+\begin{document}
+\DocInput{empheq.dtx}
+\end{document}
+%</driver>
+%  \fi
+%
+%  \changes{v2.11}{2004/08/03}{Removed interface to the obsolete empheq
+%  package \pkg{empheq07}}
+%
+%  \changes{v2.10}{2004/07/26}{Rewrote most of the documentation}
+%
+%  \changes{v2.10}{2004/07/26}{Moved options \texttt{fixamsmath} and
+%  \texttt{donotfixamsmathbugs} to \pkg{mathtools}}
+%
+%  \changes{v2.10}{2004/07/26}{Added support for \pkg{showkeys}}
+%
+%  \changes{v2.00}{2004/04/14}{Added options \opt{overload},
+%  \opt{overload2}, \texttt{fixamsmath}, and
+%  \texttt{donotfixamsmathbugs} plus descriptions of their use}
+%
+%  \changes{v1.06}{2004/03/13}{Upgraded license to LPPL version 1.3}
+%
+%  \changes{v1.00}{2004/02/15}{Complete rewrite of the package hence
+%  no description of the changes made}
+%
+%  \changes{v0.7a}{2004/02/15}{Made the old package obsolete and
+%  changed its name to \pkg{empheq-obsolete}}
+%
+%  \changes{v0.7}{2003/05/11}{Added further examples and changed
+%  existing ones}
+%  \changes{v0.6b}{2003/03/04}{Added example for changing margins
+%  inside the boxtype}
+%  \changes{v0.6a}{2003/01/28}{Minor updates to documentation}
+%
+%  \changes{v0.5}{2002/12/30}{First experimental and very limited
+%  release}
+%
+%  \GetFileInfo{empheq.drv}
+%  \CheckSum{2495}
+%
+%  \title{The \pkg{empheq} package\thanks{This file has version number
+%  \fileversion, last revised \filedate.}\\
+%  Emphasizing equations in \LaTeXe}
+%  \author{Morten H\o gholm}
+%  \date{\filedate}
+%
+%  \maketitle
+%
+%  \begin{abstract}
+%  The \pkg{empheq} package can best be described as a visual markup
+%  extension to \pkg{amsmath}. In short it offers a)~a multi line
+%  equivalent of \cs{boxed} from \pkg{amsmath} and b)~a way to
+%  produce arbitrary delimiters that span entire math displays.
+%  \end{abstract}
+%
+%  \tableofcontents
+%
+%  \clearpage
+%  \EmphEqpart{Basic user's guide}
+%
+%  There can be little doubt that the de facto standard for
+%  mathematical typesetting in \LaTeX{} is the \pkg{amsmath} package.
+%  For the creation of \pkg{empheq}, a visual markup package for use
+%  in math, it made perfect sense to have \pkg{amsmath} as the
+%  backbone.
+%
+%  The main idea of \pkg{empheq} is to maintain the familiar syntax
+%  of the \pkg{amsmath} environments while still providing an easy
+%  way of specifying markup instructions. This manual is plastered
+%  with examples showing just how.
+%
+%
+%  \section{Basic use of the package}
+%
+%  So what is it \pkg{empheq} does? Well, it allows you to produce
+%  displays like this:
+%  \begin{subequations}
+%  \begin{empheq}[
+%    box=\mybluebox,
+%    right={\;\makebox[.9em]{$\raisebox{-.5\totalheight+\fontdimen22\textfont2}
+%              {\resizebox{!}{\EmphEqdisplayheight+\EmphEqdisplaydepth}{!}}$}},
+%    left={X=Y\Rightarrow\empheqlbrace}
+%     ]{alignat=3}
+%    A_1&=b_1 & \qquad c_1&=d_1 & \qquad e_1&= f_1
+%         \tag*{\_A\raisebox{1ex}{silly}\raisebox{-1ex}{tag}\_}\\
+%    A_2&=b_2 & \qquad c_2&=d_2 & \qquad  e_2&= f_2 \\
+%    A_3&=b_3 & \qquad c_3&=d_3 & \qquad  e_3&= f_3
+%  \end{empheq}
+%  \end{subequations}
+%  In short \pkg{empheq} enables the user to put things on every side
+%  of the display without said user having to worry about what
+%  happens to the equation numbers. For example you can now have a
+%  display containing multiple lines and still get the effect of the
+%  \cs{boxed} command from \pkg{amsmath}.
+%
+%
+%  \subsection{Using the \env{empheq} environment}
+%
+%  The package defines a single environment
+%  \SpecialEnvIndex{empheq}\env{empheq} and the usage is kind of straight
+%  forward:
+%  \begin{codesyntax}
+%    |\begin{empheq}|\oarg{markup instructions}\marg{\AmS{} env_name}\\
+%    \mbox{}\quad\meta{contents of \AmS{} environment}\\
+%    |\end{empheq}|
+%  \end{codesyntax}
+%  A first minimal example file would then be something like
+%  \begin{verbatim}
+%    \documentclass{minimal}
+%    \usepackage{empheq}
+%    \begin{document}
+%    \begin{empheq}{align*}
+%      a&=b \tag{*}\\
+%      E&=mc^2 + \int_a^a x\, dx
+%    \end{empheq}
+%    \end{document}
+%  \end{verbatim}
+%  This gives the following display:
+%    \begin{empheq}{align*}
+%      a&=b \tag{*}\\
+%      E&=mc^2 + \int_a^a x\, dx
+%    \end{empheq}
+%  Maybe not the most impressive example, but as you can see the
+%  contents of the environment is exactly the same as for the regular
+%  \env{align*} evironment from \pkg{amsmath}. The rest of the \AmS{}
+%  environments are chosen the same way by typing the name as the
+%  mandatory argument of \env{empheq} with the exception of the
+%  \env{alignat} environment. For this you have to specify the number
+%  of columns as shown below.
+%  \begin{verbatim}
+%  \begin{empheq}{alignat=2}
+%    a &= b &\quad c &= d \\
+%    \text{this} &= \text{that} &\quad \mathit{fish}&\neq fish
+%  \end{empheq}
+%  \end{verbatim}
+%  \begin{empheq}{alignat=2}
+%    a &= b &\quad c &= d \\
+%    \text{this} &= \text{that} &\quad \mathit{fish}&\neq fish
+%  \end{empheq}
+%  To choose the starred version of \env{alignat}, simply type
+%  \arg{alignat*=2} instead in the above example.
+%
+%  The supported \AmS{} environments are listed in Table
+%  \vref{tab:environments}. Not supported is the standard \LaTeX{}
+%  \env{eqnarray} environment as it is fundamentally
+%  deficient.\footnote{See for instance
+%  \url{http://www.tex.ac.uk/cgi-bin/texfaq2html?label=eqnarray}}
+%
+%  \begin{table}
+%  \centering
+%  \begin{tabular}{llll}\toprule
+%    Environment & Usage & Environment & Usage \\ \midrule
+%    \TabDescribeAmsKey{equation}
+%    \TabDescribeAmsKey{align}
+%    \TabDescribeAmsKey{gather}
+%    \TabDescribeAmsKey{flalign}
+%    \TabDescribeAmsKey[=\textrm{\meta{cols}}]{alignat}
+%    \TabDescribeAmsKey{multline} \bottomrule
+%  \end{tabular}
+%  \caption{The supported \pkg{amsmath}
+%  environments}\label{tab:environments}
+%  \end{table}
+%
+%
+%  \subsection{Markup instructions}
+%
+%  The optional argument of the \env{empheq} environment will take
+%  markup instructions consisting of a $\meta{key}=\meta{value}$ list
+%  of assignments. There are currently five such keys (a sixth is
+%  added for naming consistency). They're shown in Table
+%  \vref{tab:keys}.
+%
+%  \begin{table}
+%  \centering
+%  \begin{tabular}{llp{13em}}\toprule
+%    Key & Usage & Additional Info \tabularnewline \midrule
+%    \TabDescribeOptKey{box}{box command}
+%    \TabDescribeOptKey{innerbox}{box command}
+%    \TabDescribeOptKey[Use \cs{text}\arg{...} if you need text
+%                       material.]{left}{math material}
+%    \TabDescribeOptKey[Use \cs{text}\arg{...} if you need text
+%                       material.]{right}{math material}
+%    \TabDescribeOptKey[Alias for \key{box}.]{outerbox}{box command}
+%    \TabDescribeOptKey[Contents must be horizontally centered;
+%                       can only be used in \mode{fleqn} mode.]
+%                       {marginbox}{box command}
+%    \bottomrule
+%  \end{tabular}
+%  \caption{The six keys for the optional argument of the
+%  \env{empheq} environment}\label{tab:keys}
+%  \end{table}
+%
+%  \begin{codesyntax}
+%    \SpecialKeyIndex{left}\key{left}
+%  \end{codesyntax}
+%  The key \key{left} is for material put on the left side of the
+%  display. The material is typeset in math mode and centered
+%  vertically.
+%  \begin{verbatim}
+%  \begin{empheq}[left=L\Rightarrow]{align}
+%    a&=b\\
+%    E&=mc^2 + \int_a^a x\, dx
+%  \end{empheq}
+%  \end{verbatim}
+%  \begin{empheq}[left=L\Rightarrow]{align}
+%    a&=b\\
+%    E&=mc^2 + \int_a^a x\, dx
+%  \end{empheq}
+%
+%
+%  \begin{codesyntax}
+%    \SpecialKeyIndex{right}\key{right}
+%  \end{codesyntax}
+%  As there is a \key{left} key it hopefully comes as no surprise
+%  that there is a companion \key{right} key for typesetting material
+%  on the right side of the display.
+%  \begin{verbatim}
+%  \begin{empheq}[right=\Leftarrow R]{align}
+%    a&=b\\
+%    E&=mc^2 + \int_a^a x\, dx
+%  \end{empheq}
+%  \end{verbatim}
+%  \begin{empheq}[right=\Leftarrow R]{align}
+%    a&=b\\
+%    E&=mc^2 + \int_a^a x\, dx
+%  \end{empheq}
+%
+%  \begin{codesyntax}
+%    \SpecialKeyIndex{box}\key{box}\\
+%    \SpecialKeyIndex{outerbox}\key{outerbox}
+%  \end{codesyntax}
+%  The key \key{box} specifies the kind of box you would like to put
+%  around the display. It can be any kind of box, as long as the
+%  contents of the box is situated on the baseline like in a
+%  \fbox{\cs{fbox}}.
+%  \begin{verbatim}
+%  \begin{empheq}[box=\fbox]{align}
+%    a&=b\\
+%    E&=mc^2 + \int_a^a x\, dx
+%  \end{empheq}
+%  \end{verbatim}
+%  \begin{empheq}[box=\fbox]{align}
+%    a&=b\\
+%    E&=mc^2 + \int_a^a x\, dx
+%  \end{empheq}
+%  The key \key{outerbox} is an alias for \key{box} and is added for
+%  naming consistency with the key described below.
+%
+%  \begin{codesyntax}
+%    \SpecialKeyIndex{innerbox}\key{innerbox}
+%  \end{codesyntax}
+%  There is also an \key{innerbox} key. It is not very interesting
+%  unless you use one of the other keys.
+%  \begin{verbatim}
+%  \begin{empheq}[innerbox=\fbox,
+%                 left=L\Rightarrow]{align}
+%    a&=b\\
+%    E&=mc^2 + \int_a^a x\, dx
+%  \end{empheq}
+%  \end{verbatim}
+%  \begin{empheq}[innerbox=\fbox,
+%                 left=L\Rightarrow]{align}
+%    a&=b\\
+%    E&=mc^2 + \int_a^a x\, dx
+%  \end{empheq}
+%
+%  \begin{codesyntax}
+%    \SpecialKeyIndex{marginbox}\key{marginbox}
+%  \end{codesyntax}
+%  \FeatureRequest{Uwe Siart}{2003/12/08}
+%  The last key is the \key{marginbox} key. If you typeset your math
+%  in \mode{fleqn} mode\footnote{Sorry, but I can't show you because
+%  this manual features centered math displays.} you may want the
+%  math display and not the outer box to align at the left margin (or
+%  rather: the indentation). If you make sure the contents of the
+%  outer box is centered horizontally inside the box, \key{marginbox}
+%  will align it properly. You shouldn't set both \key{box} and
+%  \key{marginbox} at the same time, as this is surely not what you
+%  want and the package will silently use the last one in the list.
+%
+%
+%  \begin{quote}
+%  \textbf{Warning}: \pkg{keyval} treats commas and equal signs as
+%  separator and assignment signs which in turn means that if you
+%  want to typeset either of them, they \emph{must}---and believe me,
+%  it's really important---be enclosed in braces. In short:
+%  \begin{description}
+%    \item[{\makebox[3em][l]{Good}}] \texttt{[left=\{(A,B)=(1,0)\}]}
+%    \item[{\makebox[3em][l]{Bad}}]  \texttt{[left=(A,B)=(1,0)]}
+%  \end{description}
+%  \end{quote}
+%
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\empheqset}\cs{empheqset}\marg{markup instructions}
+%  \end{codesyntax}
+%  \FeatureRequest{Uwe Siart}{2004/01/13}
+%  You can also set the keys globally\footnote{Or rather: outside the
+%  scope of the \env{empheq} environment. The settings will still
+%  obey scoping rules.} with the command
+%  \cs{empheqset}. This means that
+%  \begin{verbatim}
+%    \empheqset{marginbox=\psframebox}
+%  \end{verbatim}
+%  will force a |box=\psframebox| in all occurrences of the
+%  \env{empheq} environment, but an explicitly given \key{box} or
+%  \key{marginbox} will override this setting. You can only use the
+%  keys listed in this section as arguments to \cs{empheqset}; not
+%  the \AmS\ environments.
+%
+%
+%
+%  \subsection{What won't work in the \env{empheq} environment}
+%
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{intertext}\cs{intertext}\marg{text}\\
+%    \SpecialUsageIndex{displaybreak}\cs{displaybreak}\oarg{num}
+%  \end{codesyntax}
+%  Now we've seen some of the things that work in the \env{empheq}
+%  environment but we also have to take note of what won't work. As
+%  this package provides a way to box multi line math displays it can
+%  come as no surprise that using either \cs{intertext} or
+%  \cs{displaybreak} inside the \env{empheq} environment makes no
+%  sense. Should you however happen to try them anyway, you'll
+%  experience that \cs{intertext} issues an error message and
+%  \cs{displaybreak} issues a warning. The reason only \cs{intertext}
+%  gives an error message is that you'll get output very different
+%  from what you expect, and that is not the case (so much at least)
+%  with \cs{displaybreak}. But of course, you'll never see either
+%  message because you read the manual!
+%
+%
+%
+%  \subsection{Special delimiters}
+%
+%  As you've seen a few pages back, it's possible to add material on
+%  both sides of the math display. When doing so you often need a
+%  delimiter that scales to fit the entire display, so it comes as no
+%  surprise that \pkg{empheq} provides such delimiters.
+%  \begin{codesyntax}
+%    \cs{empheql}\meta{delim_name}  \cs{empheqbigl}\meta{delim_name}\\
+%    \cs{empheqr}\meta{delim_name}  \cs{empheqbigr}\meta{delim_name}
+%  \end{codesyntax}
+%  For example one might need a large brace like the one in the
+%  \env{cases} environment:
+%  \begin{verbatim}
+%  \begin{empheq}[left=\empheqlbrace, right=\empheqrbrace]{align}
+%    E&=mc^2 \\
+%    Y&= \sum_{n=1}^\infty \frac{1}{n^2}
+%  \end{empheq}
+%  \end{verbatim}
+%  \begin{empheq}[left=\empheqlbrace, right=\empheqrbrace]{align}
+%    E&=mc^2 \\
+%    Y&= \sum_{n=1}^\infty \frac{1}{n^2}
+%  \end{empheq}
+%  The naming scheme is \cs{empheq}\meta{delimiter name} and
+%  \cs{empheqbig}\meta{delimiter name}. Thus \cs{empheqrbrace}
+%  produces an auto-scaling right brace with same size as the math
+%  display while \cs{empheqbigrbrace} produces an even bigger version
+%  that spans the inner box plus the math display inside it. For a
+%  complete list of supported delimiters see Table
+%  \vref{tab:delimiters}.
+%
+%  \begin{table}
+%  \centering
+%  \begin{tabular}{lllc} \toprule
+%  \multicolumn{3}{c}{\textbf{Delimiter}}\\ \cmidrule{1-3}
+%  \multicolumn{1}{c}{Original} & \multicolumn{1}{c}{Normal}  &
+%    \multicolumn{1}{c}{Bigger} & Symbol\\ \midrule
+%  \DescribeDelimiter{lbrace} \DescribeDelimiter{rbrace}
+%  \DescribeDelimiter{lbrack} \DescribeDelimiter{rbrack} \midrule
+%  \DescribeDelimiter{langle} \DescribeDelimiter{rangle}
+%  \DescribeDelimiter{lparen} \DescribeDelimiter{rparen} \midrule
+%  \DescribeDelimiter{lvert} \DescribeDelimiter{rvert}
+%  \DescribeDelimiter{lVert} \DescribeDelimiter{rVert} \midrule
+%  \DescribeDelimiter{lfloor} \DescribeDelimiter{rfloor}
+%  \DescribeDelimiter{lceil} \DescribeDelimiter{rceil} \bottomrule
+%  \end{tabular}
+%  \caption{The supported auto-scaling delimiters in
+%  \pkg{empheq}}\label{tab:delimiters}
+%  \end{table}
+%
+%
+%
+%  \section{Taking things a little further}
+%
+%  So far we have covered the basic functions of \pkg{empheq}: the
+%  markup instructions and the predefined auto-scaling delimiters.
+%  There is more to \pkg{empheq} however, and we'll cover that in
+%  this section.
+%
+%  \subsection{Loading the package}
+%
+%  The package has two main requirements: One is the
+%  \pkg{mathtools}\footnote{By the same author and is distributed
+%  with \pkg{empheq}. See its documentation for more information.}
+%  package which provides \pkg{empheq} with a lot of necessary tools
+%  for doing its thing. The other one is \pkg{amsmath} of course, and
+%  to make the loading procedure as easy as possible, you can simply
+%  substitute
+%  \begin{verbatim}
+%  \usepackage[leqno,fleqn,intlimits]{amsmath}
+%  \end{verbatim}
+%  with
+%  \begin{verbatim}
+%  \usepackage[leqno,fleqn,intlimits]{empheq}
+%  \end{verbatim}
+%  \pkg{empheq} makes sure that the \pkg{amsmath} options are passed
+%  on and loaded by \pkg{amsmath}. The same goes for the options
+%  provided by \pkg{mathtools}.
+%
+%
+%  \subsubsection{Compatibility with the old version}
+%
+%  The current version (\fileversion) of \pkg{empheq} is incompatible with
+%  versions prior to and including~0.7e. If you have documents produced
+%  with versions prior to~0.7e, then you have to load the package
+%  \pkg{empheq07} instead. \pkg{empheq07} now exists as a separate package
+%  package with its own documentation, but I strongly recommend switching
+%  to the new version because it is so much better.
+%
+%  \subsection{Package options}
+%
+%  In addition to the \pkg{amsmath} options, \pkg{empheq} itself
+%  provides a string of options listed in Table \vref{tab:options}.
+%
+%  \begin{table}[ht]
+%    \centering
+%    \begin{tabular}{lp{21em}} \toprule
+%      Option  & Short description \tabularnewline \midrule
+%      \TabDescribeOption[]{overload}
+%      {Lets you use the \pkg{empheq} visual markup extensions
+%      transparently in an existing document.}
+%      \TabDescribeOption[]{overload2}
+%      {A wild version of \opt{overload}. Use with care.}
+%      \TabDescribeOption[]{ntheorem}
+%      {A support module for users of \pkg{ntheorem} and its
+%      \opt{thmmarks} and \opt{thref} options.}
+%      \TabDescribeOption[]{newmultline}
+%      {With v2.10 of \pkg{empheq} the syntax for \env{multline} and
+%      \env{multlined} has been improved immensely.}
+%      \TabDescribeOption[]{oldmultline}
+%      {Support for the somewhat strange syntax for \env{multline} and
+%      \env{multlined} in v2.00.}
+%      \bottomrule
+%    \end{tabular}
+%    \caption{Supported options in the \pkg{empheq} package}
+%    \label{tab:options}
+%  \end{table}
+%
+%
+%  \begin{codesyntax}
+%    \SpecialOptIndex{ntheorem}\opt{ntheorem}
+%  \end{codesyntax}
+%  The \pkg{ntheorem} package is supported by means of the
+%  \opt{ntheorem} option. In order for this to work properly, an
+%  \pkg{amsmath} bug\footnote{See the \LaTeX{} Bugs Database
+%  \url{http://www.latex-project.org/cgi-bin/ltxbugs2html} under
+%  \AmS\LaTeX{} problem report 3624.} is fixed. For more information
+%  on this option see \S \vref{sec:ntheorem-support}.
+%
+%  \subsubsection{Using \env{multline}}
+%
+%  \begin{codesyntax}
+%    \SpecialOptIndex{newmultline}\opt{newmultline}\\
+%    \SpecialOptIndex{oldmultline}\opt{oldmultline}
+%  \end{codesyntax}
+%  Those familiar with v2.00 of this package will recognize the
+%  somewhat weird syntax for using \env{multline} and
+%  \env{multlined}. The good news is that since v2.10 there is now a
+%  much improved syntax available. The option \opt{newmultline}
+%  (default) selects this better interface, while the old interface
+%  is provided for compatibility reasons by the \opt{oldmultline}
+%  option.
+%
+%
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\shoveleft}\cs{shoveleft}\oarg{dimen}\marg{arg}\\
+%    \SpecialUsageIndex{\shoveright}\cs{shoveright}\oarg{dimen}\marg{arg}
+%  \end{codesyntax}
+%  With the new interface you also get an extended syntax for
+%  \cs{shoveleft} and \cs{shoveright} as shown in the example below.
+%  \begin{verbatim}
+%  \begin{empheq}{multline}
+%    \framebox[.65\columnwidth]{First line} \\
+%    \framebox[.5\columnwidth]{Second line} \\
+%    \shoveleft{L+E+F+T}         \\
+%    \shoveright{R+I+G+H+T}         \\
+%    \shoveleft[1cm]{L+E+F+T}         \\
+%    \shoveright[\widthof{$R+I+G+H+T$}]{R+I+G+H+T}         \\
+%    \framebox[.65\columnwidth]{Last line}
+%  \end{empheq}
+%  \end{verbatim}
+%  \begin{empheq}{multline}
+%    \framebox[.65\columnwidth]{First line} \\
+%    \framebox[.5\columnwidth]{Second line} \\
+%    \shoveleft{L+E+F+T}         \\
+%    \shoveright{R+I+G+H+T}         \\
+%    \shoveleft[1cm]{L+E+F+T}         \\
+%    \shoveright[\widthof{$R+I+G+H+T$}]{R+I+G+H+T}         \\
+%    \framebox[.65\columnwidth]{Last line}
+%  \end{empheq}
+%
+%
+%  There are however a few differences in the output between the
+%  original \pkg{amsmath} version of \env{multline} and the one
+%  \pkg{empheq} provides. In \pkg{amsmath} a centered line in
+%  \env{multline} is centered on the page without taking into account
+%  the \cs{multlinegap}, \cs{multlinetaggap}, and the tag width. Thus
+%  \pkg{amsmath} can sometimes give you horrible output without
+%  giving you any warning as shown below.
+%  \begin{verbatim}
+%  \begin{multline}
+%    \framebox[.65\columnwidth]{First line} \\
+%    \framebox[.9\columnwidth]{Loooong line} \\
+%    \framebox[.65\columnwidth]{Last line} \tag{wide tag}
+%  \end{multline}
+%  \end{verbatim}
+%  \begin{AmSmultline}
+%    \framebox[.65\columnwidth]{First line} \\
+%    \framebox[.9\columnwidth]{Loooong line} \\
+%    \framebox[.65\columnwidth]{Last line} \tag{wide tag}
+%  \end{AmSmultline}
+%  In \pkg{empheq} these parameters are taken into account, so the
+%  same input will produce this in \pkg{empheq}:
+%  \begin{verbatim}
+%  \begin{empheq}{multline}
+%    \framebox[.65\columnwidth]{First line} \\
+%    \framebox[.9\columnwidth]{Loooong line} \\
+%    \framebox[.65\columnwidth]{Last line} \tag{wide tag}
+%  \end{empheq}
+%  \end{verbatim}
+%  \begin{multline*}
+%    \framebox[.65\columnwidth]{First line} \\
+%    \framebox[.9\columnwidth]{Loooong line} \\
+%    \framebox[.65\columnwidth]{Last line} \tag{wide tag}
+%  \end{multline*}
+%  This results in an
+%  \begin{verbatim}
+%    Overfull \hbox (30.03783pt too wide) in paragraph ...
+%  \end{verbatim}
+%  message in the log file, indicating a visual problem. I think this
+%  behavior is more sensible than the one the original \env{multline}
+%  environment provides.
+%
+%  \begin{codesyntax}
+%    \SpecialEnvIndex{MTmultlined}\cs{begin}\arg{MTmultlined}\oarg{pos}\oarg{width}
+%        \meta{contents} \cs{end}\arg{MTmultlined}
+%  \end{codesyntax}
+%  When you choose the \opt{oldmultline} option you may still want to
+%  use the much improved \env{multlined} environment defined in
+%  \pkg{mathtools} but unfortunately there will be a name clash.
+%  Instead you can access it under the name \env{MTmultlined}.
+%
+%
+%
+%  \subsubsection{The \opt{overload} option}\label{sec:overload}
+%
+%  \begin{codesyntax}
+%    \SpecialOptIndex{overload}\opt{overload}\\
+%    \SpecialOptIndex{overload2}\opt{overload2}
+%  \end{codesyntax}
+%  \FeatureRequest{Lars Madsen}{2004/03/25}
+%  The \opt{overload} option redefines the original \AmS{}
+%  environments so that they take an optional argument.
+%  \begin{codesyntax}
+%    \cs{begin}\marg{\AmS{} env_name}\oarg{markup instructions}\\
+%    \meta{contents of \AmS{} environment}\\
+%    \cs{end}\marg{\AmS{} env_name}
+%  \end{codesyntax}
+%  For example
+%  \begin{verbatim}
+%    \begin{gather}[box=\widefbox]
+%      a = b
+%    \end{gather}
+%  \end{verbatim}
+%  is then actually short for
+%  \begin{verbatim}
+%    \begin{empheq}[box=\widefbox]{gather}
+%      a = b
+%    \end{empheq}
+%  \end{verbatim}
+%  All the \AmS{} environments are supported by this option except
+%  for the pseudo environment |\[ ... \]| (it's not really an
+%  environment), \footnote{With the option \opt{oldmultline} the
+%  \env{multline} and \env{multline*} environments aren't supported
+%  either because their syntax in \pkg{empheq} then differ from their
+%  syntax in \pkg{amsmath}.} because a)~you don't really need markup
+%  instructions for a one line display, and b)~would you really like
+%  a syntax like
+%  \begin{verbatim}
+%    \[[box=\fbox] a=b \]
+%  \end{verbatim}
+%  where its difficult to see whether or not there is a typo?
+%  Choosing \opt{overload} is meant for people who don't want to
+%  change their entire document into \pkg{empheq} syntax. I have no
+%  problems with that; just be careful when you fiddle with
+%  \cs{empheqset} as it will affect \emph{all} math displays!
+%
+%
+%  There is of course a catch (well, two actually): These redefined
+%  environments don't run as fast as the regular ones (about three
+%  times as slow), but in this day and age I seriously doubt you'll
+%  be able to tell the difference unless you have a vast number of
+%  equations. The other catch is that you cannot use \cs{intertext}
+%  and \cs{displaybreak} as described earlier. If you find yourself
+%  wanting to use one of these features in say, an \env{align}
+%  environment, you have to use the original \env{align} environment.
+%  Luckily it is available if you call it like this:
+%  \begin{codesyntax}
+%    \cs{begin}\arg{AmS\meta{\rmfamily \AmS{} env_name}} \\
+%    \texttt{~~}\meta{contents of \AmS{} environment}\\
+%    \cs{end}\arg{AmS\meta{\rmfamily \AmS{} env_name}}
+%  \end{codesyntax}
+%  For example the original \env{align} environment could be selected
+%  with
+%  \begin{verbatim}
+%    \begin{AmSalign}
+%      ...
+%    \end{AmSalign}
+%  \end{verbatim}
+%  These original versions with prefix \texttt{AmS} exist for all the
+%  environments.
+%
+%
+%  The option \opt{overload2} activates the overloading feature
+%  for the pseudo environment |\[ ... \]|, although I doubt you'll
+%  find it useful. Beware that this definition is fragile unless you
+%  have \eTeX{} as \LaTeX{} engine.\footnote{\eTeX{} has been the
+%  default engine for \LaTeX{} in most major distributions since
+%  2003.} Not surprisingly \opt{overload2} activates
+%  \opt{overload}.
+%
+%
+%
+%  Before you get all excited about these options, you should take
+%  note of some aspects of centered math displays in \pkg{amsmath}.
+%  In certain circumstances truly centering the display is not always
+%  the best solution as in this example:
+%  \begin{center}
+%    \mbox{}\hfill
+%    \framebox[.75\linewidth]{Wide math display; not adjusted}%
+%    \hfill\mbox{}%
+%    \makebox[0pt][r]{Wide Tag}
+%  \end{center}
+%  Instead centering the display in the available space works pretty
+%  well:
+%  \begin{gather*}
+%    \framebox[.75\linewidth]{Wide math display; adjusted}%
+%    \tag*{Wide Tag}
+%  \end{gather*}
+%  This is what \pkg{amsmath} does normally, but in the \env{gather}
+%  environment it does it on a per line basis. This means that we get
+%  results like
+%  \begin{AmSgather*}
+%    \framebox[.75\linewidth]{Wide math display; adjusted}%
+%    \tag*{Wide Tag} \\
+%    \framebox[.75\linewidth]{Wide math display; not adjusted} \tag{i}%
+%  \end{AmSgather*}
+%  whether we like it or not. Inside the \env{empheq} environment we
+%  need to have the same adjustment for all lines else the boxing
+%  process will not work properly, so when activating the
+%  \opt{overload} option the above two-line \env{gather} will
+%  instead look like this:
+%  \begin{empheq}{gather*}
+%    \framebox[.75\linewidth]{Wide math display; adjusted}%
+%    \tag*{Wide Tag} \\
+%    \framebox[.75\linewidth]{Wide math display; adjusted} \tag*{i}%
+%  \end{empheq}
+%  I leave it to you to choose whether or not this is better (I think
+%  it is better).
+%
+%
+%
+%  \subsection{A note on boxed displays}
+%
+%  When browsing a 400+ pages textbook with at least twice the number
+%  of displayed formulae, some of them are surely more important than
+%  others. Thus the author of the book (in cooperation with the
+%  designer) should make sure that such formulae are easily found
+%  again i.e., they should be easily distinguishable from the rest of
+%  the pack. One way of doing this is putting the formula into a box
+%  which is something we've seen \pkg{empheq} being capable of. There
+%  are however a few things to keep in mind:
+%  \begin{itemize}
+%    \item Don't overdo it. If you do it on half of them there's no
+%    point in doing it at all. I don't see much reason for applying
+%    this technique to more than 10\% of the formulae.
+%    \item Choose the type of box carefully. You want to draw
+%    attention to it so it might as well look good.
+%  \end{itemize}
+%  The latter point can be illustrated by defining a macro similar to
+%  \cs{fbox} only with a little more space to the right and left of
+%  the argument.
+%  \begin{verbatim}
+%  \newcommand*\widefbox[1]{\fbox{\hspace{1em}#1\hspace{1em}}}
+%  \end{verbatim}
+%  If we replace the \cs{fbox} from the \key{box} example before, we
+%  get this display:
+%  \begin{verbatim}
+%  \begin{empheq}[box=\widefbox]{align}
+%    a&=b\\
+%    E&=mc^2 + \int_a^a x\, dx
+%  \end{empheq}
+%  \end{verbatim}
+%  \begin{empheq}[box=\widefbox]{align}
+%    a&=b\\
+%    E&=mc^2 + \int_a^a x\, dx
+%  \end{empheq}
+%  Compare it with
+%  \begin{empheq}[box=\fbox]{align}
+%    a&=b\\
+%    E&=mc^2 + \int_a^a x\, dx
+%  \end{empheq}
+%  and see which one you prefer.
+%
+%  Similarly one might be tempted to use colored boxes:
+%  \begin{verbatim}
+%  \definecolor{myblue}{rgb}{.8, .8, 1}
+%  \newcommand*\mybluebox[1]{%
+%    \colorbox{myblue}{\hspace{1em}#1\hspace{1em}}}
+%  \end{verbatim}
+%  We know the drill by now.
+%  \begin{verbatim}
+%  \begin{empheq}[box=\mybluebox]{align}
+%    a&=b\\
+%    E&=mc^2 + \int_a^a x\, dx
+%  \end{empheq}
+%  \end{verbatim}
+%  \begin{empheq}[box=\mybluebox]{align}
+%    a&=b\\
+%    E&=mc^2 + \int_a^a x\, dx
+%  \end{empheq}
+%  There is more on boxes later in this manual. If you're into the
+%  \pkg{fancybox} package then remember to read \S
+%  \vref{sec:fancybox_support}.
+%
+%  \section{Support for other packages}
+%
+%  With the multitude of packages for \LaTeX, it is not always easy
+%  to be a PWWO package (``Plays Well With Others''), but
+%  \pkg{empheq} tries really hard to do so. This section lists the
+%  packages where \pkg{empheq} has to provide workarounds and they
+%  can be divided into two categories.
+%  \begin{description}
+%    \item[Compatibility] Some packages affect \LaTeX' labelling
+%    mechanism and since \pkg{empheq} internally has to turn off
+%    labels and related code temporarily, hooks must be provided for
+%    these packages. Examples of such packages are \pkg{hyperref} and
+%    \pkg{showkeys}.
+%
+%    \item[Enhancements] Other packages provide useful features that
+%    for some reason may not work directly or optimally with
+%    \pkg{empheq}. In these cases the problematic commands are
+%    redefined so that they not only work with \pkg{empheq}, but
+%    also give the same if not better output. An example of this
+%    would be the \cs{shadowbox} command from \pkg{fancybox}
+%    (described below).
+%  \end{description}
+%  %
+%  \subsection{Support for \pkg{fancybox}}\label{sec:fancybox_support}
+%
+%  The \pkg{fancybox} package provides various boxes and you can use
+%  them with \pkg{empheq} as well. Here's \cs{ovalbox}:
+%  \begin{verbatim}
+%  \begin{empheq}[box=\ovalbox]{align}
+%      E&=mc^2 \\
+%      Y&= \sum_{n=1}^\infty \frac{1}{n^2}
+%  \end{empheq}
+%  \end{verbatim}
+%  \begin{empheq}[box=\ovalbox]{align}
+%      E&=mc^2 \\
+%      Y&= \sum_{n=1}^\infty \frac{1}{n^2}
+%  \end{empheq}
+%
+%
+%  \begin{codesyntax}
+%  \SpecialUsageIndex{\shadowbox}\SpecialUsageIndex{\shadowbox*}
+%    \cs{shadowbox*}\marg{arg} \\
+%  \SpecialColorIndex{shadowcolor} \texttt{shadowcolor}
+%  \end{codesyntax}
+%  The only problem with using the \pkg{fancybox} boxes in
+%  conjunction with the \env{empheq} environment is \cs{shadowbox},
+%  as this macro typesets the shadow on the baseline and for the
+%  equation numbers to be placed correctly, the box command must set
+%  its argument on the baseline. Thus the normal \cs{shadowbox}
+%  produces \shadowbox{\meta{arg}}, but we need this instead:
+%  \shadowbox*{\meta{arg}}. Therefore \pkg{empheq} will detect if
+%  \pkg{fancybox} is loaded and in that case it'll enhance
+%  \cs{shadowbox} in two ways:
+%  \begin{itemize}
+%    \item It defines a starred version \cs{shadowbox*} which
+%    typesets its argument on the baseline.
+%
+%    \item The color \texttt{shadowcolor} is introduced. The default
+%    color is black.
+%  \end{itemize}
+%  \begin{verbatim}
+%  \definecolor{shadowcolor}{rgb}{0,.5,.5}
+%  \setlength\shadowsize{2pt}
+%  Line of text for \shadowbox*{testing of \Verb|f#&%\| verbatim} and
+%  showing the shadow color.
+%  \end{verbatim}
+%  \begin{quote}
+%  \definecolor{shadowcolor}{rgb}{0,.5,.5}
+%  \setlength\shadowsize{2pt}
+%  Line of text for \shadowbox*{testing of \Verb|f#&%\| verbatim} and
+%  showing the shadow color.
+%  \end{quote}
+%
+%  The point is that if you want a \cs{shadowbox} around your math
+%  display then you must use the starred version:
+%  \begin{verbatim}
+%  \begin{empheq}[box=\shadowbox*]{align}
+%      E&=mc^2 \\
+%      Y&= \sum_{n=1}^\infty \frac{1}{n^2}
+%  \end{empheq}
+%  \end{verbatim}
+%  \begin{empheq}[box=\shadowbox*]{align}
+%      E&=mc^2 \\
+%      Y&= \sum_{n=1}^\infty \frac{1}{n^2}
+%  \end{empheq}
+%
+%  See \S \vref{stunning} if you want
+%  to make a fancy box yourself.
+%
+%
+%  \subsection{Support for \pkg{ntheorem}}\label{sec:ntheorem-support}
+%
+%  \changes{v2.00}{2004/04/14}{Added description of the
+%  \opt{ntheorem} option}
+%  \changes{v1.05}{2004/02/16}{Added support for the end-of-theorem
+%  marker mechanism of \pkg{ntheorem}}
+%
+%  \begin{codesyntax}
+%    \SpecialOptIndex{ntheorem}\opt{ntheorem}
+%  \end{codesyntax}
+%  The \pkg{ntheorem} package is supported by the means of the
+%  \opt{ntheorem} option of \pkg{empheq}. This loads a set of
+%  extra macros which fixes various compatibility problems between
+%  \pkg{ntheorem} and \pkg{amsmath} and furthermore introduces
+%  special (internal) macros for optimum positioning of
+%  end-of-theorem markers, while retaining a user friendly interface.
+%
+%
+%  When you want to use the automatic end-of-theorem marker mechanism
+%  from \pkg{ntheorem} you sometimes run into problems as you would
+%  want the marker to be placed aligned at the bottom of the math
+%  display but still keeping the tags in their proper place. In
+%  \mode{leqno} mode this is not that much of a problem as the tags
+%  and the marker are set on either side of the math display like
+%  in Figure \vref{fig:markerI}.
+%  \changes{v1.05a}{2004/02/17}{Added explanatory drawings for
+%  \pkg{ntheorem}}
+%
+%  \begin{figure}[btp]\centering
+%  \unitlength2.5pt \thicklines
+%  \begin{picture}(90,30)(-30,40)
+%    \put(0,50){\framebox(25,20){Math Height}}
+%    \put(0,40){\framebox(25,10){Math Depth}}
+%    \put(-30,50){\framebox(20,10){Tag height}}
+%    \put(-30,45){\framebox(20,5){Tag depth}}
+%    \put(40,40){\framebox(20,10){Marker}}
+%    \multiput(26,40)(2,0){7}{\line(1,0){1}}
+%  \end{picture}
+%  \caption{Marker placement in \mode{leqno} mode}
+%  \label{fig:markerI}
+%  \end{figure}
+%
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\mintagvsep}\cs{mintagvsep}
+%  \end{codesyntax}
+%  Unfortunately things are not this easy in \mode{reqno} mode. There
+%  are two possible situations as shown in Figure \vref{fig:markerII}.
+%  \begin{figure}[btp]
+%  \unitlength2.5pt \thicklines
+%  \begin{picture}(60,45)(0,25)
+%    \put(0,50){\framebox(25,20){Math Height}}
+%    \put(0,25){\framebox(25,25){Math Depth}}
+%    \put(40,50){\framebox(20,10){Tag height}}
+%    \put(40,45){\framebox(20,5){Tag depth}}
+%    \put(40,25){\framebox(20,10){Marker}}
+%    \put(50,35){\vector(0,1){10}}
+%    \put(50,45){\vector(0,-1){10}}
+%    \put(50,39){\ \ $>\delta$}
+%    \multiput(26,25)(2,0){7}{\line(1,0){1}}
+%  \end{picture} \hfill\vrule\hfill
+%  \begin{picture}(60,45)(0,25)
+%    \put(0,50){\framebox(25,20){Math Height}}
+%    \put(0,40){\framebox(25,10){Math Depth}}
+%    \put(40,50){\framebox(20,10){Tag height}}
+%    \put(40,45){\framebox(20,5){Tag depth}}
+%    \put(40,28){\framebox(20,10){Marker}}
+%    \put(50,38){\vector(0,1){7}}
+%    \put(50,45){\vector(0,-1){7}}
+%    \put(50,40){\ \ $=\delta$}
+%  \end{picture}
+%  \caption{The two possible situations for end marks in \mode{reqno}
+%  mode}
+%  \label{fig:markerII}
+%  \end{figure}
+%  If possible we want the bottom of the marker to be aligned with
+%  the bottom of the math display, but at the same time we want to
+%  ensure a minimum vertical separation $\delta$ between marker and
+%  tag. In \pkg{empheq} this is controlled by the length parameter
+%  \cs{mintagvsep} which by default is 5\,pt.
+%
+%  The good news is that this is where \pkg{empheq} sets in.
+%  Basically all you need to do is to use the \env{empheq}
+%  environment to type set your equations inside the theorem
+%  environments:
+%  \begin{verbatim}
+%    \begin{Theorem}
+%    Some text at first and then a math display
+%    \begin{empheq}{align}
+%      a&=b\\
+%      E&=mc^2 + \int_a^a x\, dx
+%    \end{empheq}
+%    \end{Theorem}
+%  \end{verbatim}
+%  Then the tag placement and the end-of-theorem marker will be set
+%  properly (after a couple of runs as usual).
+%
+%  To ensure the correct outcome remember to load the packages like
+%  this:
+%  \begin{verbatim}
+%    \usepackage[ntheorem]{empheq} % this loads amsmath as well
+%    \usepackage[thmmarks,amsmath]{ntheorem}
+%  \end{verbatim}
+%  Remember that if you use the \opt{overload} option you
+%  can just use the regular math environments to get the desired
+%  result with the end mark. The exception is the |\[ ... \]|
+%  environment which will only work if you use the option
+%  \opt{overload2}.
+%
+%  \clearpage
+%
+%  \EmphEqpart{Advanced user's guide}
+%
+%  The \pkg{empheq} package has more to offer than you have seen, but
+%  I found some of the functionality so dangerous it was best to hide
+%  it for a little while. The commands you have encountered so far in
+%  this manual all have one thing in common: They have only lower
+%  case letters in their names. Now it's time to reveal those that
+%  have \emph{mixed-case} names, thus implying that you should take
+%  great care when using them.
+%
+%  \section{Delimiters revisited}
+%  Let's go back to delimiters, shall we?
+%
+%  \subsection{Creating your own delimiters}
+%  As a convenience for the user, this interface is extended in a
+%  more general way so that it is also possible to declare delimiters
+%  with the following two commands: \SpecialUsageIndex{\DeclareLeftDelimiter}
+%  \SpecialUsageIndex{\DeclareRightDelimiter}
+%  \begin{codesyntax}
+%    \cs{DeclareLeftDelimiter}\oarg{space adjustment}\marg{delimiter}\\
+%    \cs{DeclareRightDelimiter}\oarg{space adjustment}\marg{delimiter}
+%  \end{codesyntax}
+%  While \pkg{empheq} provides auto-scaling versions of the most
+%  common delimiters, you may sometimes want some new ones. Say for
+%  instance you have loaded the \pkg{stmaryrd} package and you want
+%  to use the double bracket commands \cs{llbracket} and
+%  \cs{rrbracket} with \pkg{empheq}. Then you simply do this:
+%  \begin{verbatim}
+%    \DeclareLeftDelimiter{\llbracket}
+%    \DeclareRightDelimiter{\rrbracket}
+%  \end{verbatim}
+%  This defines the new delimiters \cs{empheqllbracket},
+%  \cs{empheqbigllbracket}, \cs{empheqrrbracket} and
+%  \cs{empheqbigrrbracket}.
+%
+%  You can use \cs{big...} delimiters as well if you don't like the
+%  automatic scaling. There are however ways to fine-tune if you
+%  really want it.
+%
+%  \subsection{Fine-tuning of delimiters}
+%
+%  \TeX{} provides two primitives to control the scaling of
+%  delimiters produced with \cs{left} and \cs{right}, namely the
+%  dimension \cs{delimitershortfall} (denoted by $\delta$ here) and
+%  the integer \cs{delimiterfactor} ($f$). The idea is that the
+%  sub-formula inside the \cs{left}-\cs{right} pair is to be
+%  vertically centered and given its height $h_1$ and its depth $h_2$
+%  we want to produce a delimiter with total height $h$, where  $h =
+%  2 \max(h_1,h_2)$. \TeX' rules on this is that the minimum
+%  delimiter size $h_{\min}$ must meet the requirements
+%  \[
+%    h_{\min}\geq h \frac{f}{1000} \quad\land \quad h_{\min}\geq h-\delta
+%  \]
+%  \LaTeX{} sets $\cs{delimitershortfall} = \text{\the\delimitershortfall} $
+%  and $\cs{delimiterfactor} = \the\delimiterfactor$, but in our case
+%  we will almost always want a delimiter that spans the entire
+%  \cs{left}-\cs{right} pair (the math display), thus a change of
+%  these settings is needed.
+%
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\EmphEqdelimitershortfall}
+%    \cs{EmphEqdelimitershortfall}\\
+%    \SpecialUsageIndex{\EmphEqdelimiterfactor}
+%    \cs{EmphEqdelimiterfactor}
+%  \end{codesyntax}
+%  However it is a bad idea to just change these two settings without
+%  thinking of the effect it'll have on the rest of the mathematics
+%  in your document. Therefore \pkg{empheq} provides the parameters
+%  \cs{EmphEqdelimitershortfall} (default setting is
+%  \the\EmphEqdelimitershortfall) and \cs{EmphEqdelimiterfactor}
+%  (default is \the\EmphEqdelimiterfactor) to cater for this.
+%
+%
+%  \subsection{Scaling material yourself}
+%
+%  The attentive reader may have noticed that I still haven't
+%  revealed how I managed to get the right size of that big
+%  exclamation mark in the first example of this manual, so I guess
+%  it's about time.
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\EmphEqdisplayheight}\cs{EmphEqdisplayheight} \\
+%    \SpecialUsageIndex{\EmphEqdisplaydepth}\cs{EmphEqdisplaydepth}
+%  \end{codesyntax}
+%  The height of the math display plus the surrounding inner box is
+%  given by \cs{EmphEqdisplayheight} and the depth by
+%  \cs{EmphEqdisplaydepth}. These can be used when constructing
+%  something that should scale to fit the display and can't be done
+%  with ``auto-scaling'' commands like \cs{vrule} or \cs{left} or
+%  \cs{right}. There is a catch however: If you do any horizontal
+%  resizing of the material you want to scale, then you must specify
+%  the width \emph{manually}:\footnote{The
+%  \cs{fontdimen22}\cs{textfont2} in the \meta{length} argument of
+%  \cs{raisebox} is the \emph{math axis} of the font. It is needed in
+%  order to get the vertical positioning of the oversized exclamation
+%  mark just right.}
+%  \begin{verbatim}
+%  \begin{empheq}[
+%    box=\colorbox{myblue},
+%    right={\;
+%           \makebox[.9em]{%
+%            $\raisebox{-.5\totalheight+\fontdimen22\textfont2}
+%              {\resizebox{!}{%
+%                \EmphEqdisplayheight+\EmphEqdisplaydepth}{!}}$%
+%           }},
+%    left={X=Y\Rightarrow}
+%     ]{alignat=3}
+%    A_1&=b_1 & \qquad c_1&=d_1 & \qquad e_1&= f_1
+%         \tag*{\_A\raisebox{1ex}{silly}\raisebox{-1ex}{tag}\_}\\
+%    A_2&=b_2 & \qquad c_2&=d_2 & \qquad  e_2&= f_2 \\
+%    A_3&=b_3 & \qquad c_3&=d_3 & \qquad  e_3&= f_3
+%  \end{empheq}
+%  \end{verbatim}
+%
+%  Here's another example. We want to be able to put a \cs{parbox}
+%  with some descriptive text top-aligned on the side of the display.
+%  \begin{verbatim}
+%  \begin{empheq}[
+%    left={\parbox[c][\EmphEqdisplayheight+\EmphEqdisplaydepth][t]
+%           {4.5cm}
+%           {You may find this kind of description useful.}\enspace}]
+%      {align}
+%    a&=\int_0^1 x\,dx +\frac{foo + bar}{baz}\\
+%    E&= mc^2
+%  \end{empheq}
+%  \end{verbatim}
+%  \begin{empheq}[
+%    left={\parbox[c][\EmphEqdisplayheight+\EmphEqdisplaydepth][t]
+%           {4.5cm}
+%           {You may find this kind of description useful.}\enspace}]
+%      {align}
+%    a&=\int_0^1 x\,dx +\frac{foo + bar}{baz}\\
+%    E&= mc^2
+%  \end{empheq}
+%
+%  \section{Creating something new}
+%
+%  You can create your own environments and boxes to go with
+%  \pkg{empheq}, but there are certain things that must be fulfilled
+%  to get it to work properly.
+%
+%  \subsection{New \env{empheq}-like environments}
+%
+%  \begin{codesyntax}
+%    \SpecialEnvIndex{EmphEqMainEnv}\env{EmphEqMainEnv}\\
+%    \SpecialUsageIndex{\EmphEqMainEnv}\cs{EmphEqMainEnv}\\
+%    \SpecialUsageIndex{\endEmphEqMainEnv}\cs{endEmphEqMainEnv}
+%  \end{codesyntax}
+%  Although the real work in \pkg{empheq} is done by an environment
+%  (\env{EmphEqMainEnv}), you cannot use it like that yourself when
+%  you want to define an \env{empheq}-like environment. Due to
+%  technical reasons (see~\cite{Ams99}), you have to use a slightly
+%  different syntax:
+%  \begin{codesyntax}
+%    \cs{newenvironment}
+%      \marg{env_name} \oarg{num} \oarg{default}\\
+%      \texttt{~~}\arg{\meta{other commands} \cs{EmpheqMainEnv}}\\
+%      \texttt{~~}\arg{\cs{endEmpheqMainEnv}}
+%  \end{codesyntax}
+%  In the above environment the \meta{other commands} part must
+%  contain certain things before it'll work.
+%  \begin{codesyntax}
+%    \SpecialKeyFamilyIndex{EmphEqEnv}\keyfam{EmphEqEnv}\\
+%    \SpecialKeyFamilyIndex{EmphEqOpt}\keyfam{EmphEqOpt}
+%  \end{codesyntax}
+%  Before your homemade environment will work you must set at least
+%  one key. The key family \keyfam{EmphEqOpt} is for all the markup
+%  instructions like \key{left} and \key{box}, while
+%  \keyfam{EmphEqEnv} controls the type of \AmS{} environment. You
+%  must set the \keyfam{EmphEqEnv} family before \cs{EmhpEqMainEnv}
+%  else you'll get an error message.
+%
+%  One example could be something like this:
+%  \begin{verbatim}
+%  \newenvironment{important}[2][]{%
+%    \setkeys{EmphEqEnv}{#2}%
+%    \setkeys{EmphEqOpt}{box=\mybluebox,#1}%
+%    \EmphEqMainEnv}%
+%    {\endEmphEqMainEnv}
+%  \end{verbatim}
+%  Thus
+%  \begin{verbatim}
+%  \begin{important}{gather}
+%    a = b + c +d \\ e = f
+%  \end{important}
+%  \end{verbatim}
+%  produces
+%  \begin{important}{gather}
+%    a = b + c +d \\ e =  f
+%  \end{important}
+%  while
+%  \begin{verbatim}
+%  \begin{important}[left={A=B \Rightarrow \empheqlbrace}]{alignat=2}
+%    a &= b &\quad c &= d \\
+%    \text{this} &= \text{that} &\quad \mathit{fish}&\neq fish
+%  \end{important}
+%  \end{verbatim}
+%  produces
+%  \begin{important}[left={A=B \Rightarrow \empheqlbrace}]{alignat=2}
+%    a &= b &\quad c &= d \\
+%    \text{this} &= \text{that} &\quad \mathit{fish}&\neq fish
+%  \end{important}
+%
+%
+%  \subsection{Creating fancy boxes}\label{stunning}
+%
+%  As a final example I will show you how to create complicated
+%  displays involving (vertically) asymmetrical boxes like
+%  \cs{shadowbox*}. In order to get the correct output, the contents
+%  of the box must be placed on the baseline as in \fbox{\cs{fbox}}.
+%  In this example we want to put a set of equations into a bright
+%  yellow box and then add another box with some explanatory text at
+%  the top of the yellow box making them overlap.
+%
+%  First we define the colors used and allocate the boxes. We could
+%  probably use scratch boxes, but this is safer.
+%  \begin{verbatim}
+%  \definecolor{shadecolor}{cmyk}{0,0,0.41,0}
+%  \definecolor{light-blue}{cmyk}{0.25,0,0,0}
+%  \newsavebox{\mysaveboxM} % M for math
+%  \newsavebox{\mysaveboxT} % T for text
+%  \end{verbatim}
+%  Save the display body in \cs{mysaveboxM} and the text argument in
+%  \cs{mysaveboxT}.
+%  \begin{verbatim}
+%  \newcommand*\Garybox[2][Example]{%
+%    \sbox{\mysaveboxM}{#2}%
+%    \sbox{\mysaveboxT}{\fcolorbox{black}{light-blue}{#1}}%
+%  \end{verbatim}
+%  Then typeset the math display in a \cs{parbox} where we control
+%  the height and save it in \cs{mysaveboxM}.
+%  \begin{verbatim}
+%    \sbox{\mysaveboxM}{%
+%      \parbox[b][\ht\mysaveboxM+.5\ht\mysaveboxT+.5\dp\mysaveboxT][b]{%
+%        \wd\mysaveboxM}{#2}%
+%    }%
+%  \end{verbatim}
+%  We put it into the colored box with the desired width.
+%  \begin{verbatim}
+%    \sbox{\mysaveboxM}{%
+%      \fcolorbox{black}{shadecolor}{%
+%        \makebox[\linewidth-10em]{\usebox{\mysaveboxM}}%
+%      }%
+%    }%
+%  \end{verbatim}
+%  Then finally we get to the real typesetting. We just insert the
+%  math display and then make a box of zero width right next to it.
+%  In that box we lift the text argument and center it at the top of
+%  the display.
+%  \begin{verbatim}
+%    \usebox{\mysaveboxM}%
+%    \makebox[0pt][r]{%
+%      \makebox[\wd\mysaveboxM][c]{%
+%        \raisebox{\ht\mysaveboxM-0.5\ht\mysaveboxT
+%                  +0.5\dp\mysaveboxT-0.5\fboxrule}{\usebox{\mysaveboxT}}%
+%      }%
+%    }%
+%  }
+%  \end{verbatim}
+%  Let's see what it looks like.
+%  \begin{verbatim}
+%  \begin{empheq}[box=\Garybox]{align}
+%    \sum \mathbf{F} &= \mathbf{0} \\
+%    \sum F_{x} \,\mathbf{i} + \sum F_{y} \,\mathbf{j}
+%      + \sum F_{z}  \,\mathbf{k} &= \mathbf{0} \\
+%    \sum F_{x} &= 0 \\ \sum F_{y} &= 0 \\ \sum F_{z} &= 0
+%  \end{empheq}
+%  \end{verbatim}
+%  \begin{subequations}
+%  \begin{empheq}[box=\Garybox]{align}
+%    \sum \mathbf{F} &= \mathbf{0} \\
+%    \sum F_{x} \,\mathbf{i} + \sum F_{y} \,\mathbf{j} + \sum F_{z}
+%    \,\mathbf{k} &= \mathbf{0}\\
+%  \sum F_{x} &= 0 \\ \sum F_{y} &= 0 \\ \sum F_{z} &= 0
+%  \end{empheq}
+%  If we use the optional argument of \cs{Garybox} we have to enclose
+%  the entire argument of \key{box} in braces because we're in
+%  \env{empheq}'s optional argument (as described in \cite[page
+%  167]{Lamp94}):
+%  \begin{verbatim}
+%  \begin{empheq}[box={\Garybox[Same old example again]}]{align}
+%    a&=b\\
+%    E&=mc^2 + \int_a^a x\, dx
+%  \end{empheq}
+%  \end{verbatim}
+%  \begin{empheq}[box={\Garybox[Same old example again]}]{align}
+%    a&=b\\
+%    E&=mc^2 + \int_a^a x\, dx
+%  \end{empheq}
+%  \end{subequations}
+%
+%
+%
+%
+%  \section{Contact information}
+%
+%  Should you have any feature request, suggestions, or bug reports
+%  then feel free to contact me at
+%  \begin{quote}
+%    \email{mh.ctan@gmail.com}
+%  \end{quote}
+%  Please put `empheq' in the subject line.
+%
+%  \subsection*{Contributors}
+%
+%  \begin{itemize}
+%    \item In November 2002 Lars Madsen (\email{daleif@imf.au.dk})
+%    asked for some features that wasn't readily available with
+%    \pkg{amsmath} or any other package. This was the start of
+%    \pkg{empheq}.
+%
+%    \item Gary Gray (\email{gray@engr.psu.edu}) gave me some bug
+%    reports on the old version (v0.7) which convinced me to rewrite
+%    the package completely. The \cs{Garybox} example is inspired by
+%    a wish from Gary.
+%
+%    \item Uwe Siart (\email{uwe.siart@tum.de}) has been a thorough
+%    beta-tester on v1.00 of the package.
+%
+%    \item Bernard Alfonsi (\email{alfonsi@math.u-psud.fr}) reported
+%     a problem with the \opt{ntheorem} option. It turned out to be a
+%     bug in the \pkg{ntheorem} package itself but it's fixed in the
+%     option.
+%
+%    \item I have received reports on weird behavior from
+%    \pkg{empheq} when used with the \pkg{color} package on some
+%    dvi-viewers, which is caused by the lack of color support in
+%    those dvi-viewers. Both Andrew B.~Collier (\email{colliera@ukzn.ac.za})
+%    and Andr\'e M.~de Roos (\email{aroos@science.uva.nl}) have
+%    notified me of this. The solution is to either upgrade you
+%    dvi-viewer if possible or convert the document in question to
+%    PDF or PS.
+%  \end{itemize}
+%  Thank you all.
+%
+%
+% \begin{thebibliography}{99}
+% \bibitem{Lamp94}
+%   Leslie Lamport,
+%   \emph{LaTeX User's Guide and Reference Manual}, 2nd edition,
+%   Addison-Wesley, Reading, Massachusetts,
+%   1994.
+% \bibitem{Goos-etal94}
+%   Michel Goossens, Frank Mittelbach, and Alexander Samarin,
+%   \emph{The \LaTeX\ Companion},
+%   Addison-Wesley, Reading, Massachusetts,
+%   1994.
+% \bibitem{Knut86}
+%   Donald Ervin Knuth,
+%   \emph{The \TeX book},
+%   Addison-Wesley, Reading, Mas\-sa\-chu\-setts,
+%   1986.
+%  \bibitem{Ams99}
+%    American Mathematical Society and Michael Downes,
+%    \emph{Technical notes on the \pkg{amsmath} package} Version 2.0,
+%    1999/10/29.
+%    (Available from CTAN as file \texttt{technote.tex}.)
+%  \bibitem{Ams00}
+%    Frank Mittelbach, Rainer Sch\"opf, Michael Downes, and David M.~Jones,
+%    \emph{The \pkg{amsmath} package} Version 2.13,
+%    2000/07/18.
+%    (Available from CTAN as file \texttt{amsmath.dtx}.)
+%
+%  \changes{v1.05b}{2004/02/18}{Added \pkg{fancybox} and
+%  \pkg{ntheorem} to the \refname}
+%  \bibitem{fancybox}
+%    Timothy Van Zandt,
+%    \emph{The \pkg{fancybox} package} Version 1.3,
+%    2000/09/19
+%    (Available from CTAN as file \texttt{fancybox.sty}.)
+%
+% \bibitem{Raht03}
+%   Sebastian Rahtz,
+%   \emph{Hypertext marks in \LaTeX} Version v6.74m,
+%   2003/11/30.
+%   (Available from \url{http://www.tug.org/applications/hyperref} as file
+%   \texttt{hyperref.dtx}.)
+%
+% \bibitem{Carl99}
+%   David Carlisle,
+%   \emph{The \pkg{keyval} Package},
+%   Version 1.13, 1999/03/16.
+%   (Available from CTAN as file \texttt{keyval.dtx}.)
+%
+%  \changes{v1.06}{2004/03/13}{Added \pkg{calc} to the \refname}
+%  \bibitem{Thorup:calc:1998}
+%  Kresten~Krab Thorup, Frank Jensen, and Chris Rowley.
+%  \emph{The {\pkg{calc}} package}, Version 4.1b, 1998/07/07,
+%  (Available from CTAN as file \texttt{calc.dtx}.)
+%
+%  \bibitem{ntheorem}
+%    Wolfgang May and Andreas Schlechte,
+%    \emph{The \pkg{ntheorem} package} Version 1.203,
+%    2002/01/07,
+%    (Available from CTAN as file \texttt{ntheorem.dtx}.)
+%
+%  \changes{v2.10}{2004/07/26}{Added \pkg{showkeys} to the \refname}
+%  \bibitem{Carlisle:showkeys:1997}
+%  David Carlisle. \emph{The {\pkg{showkeys}} package}, v3.12,
+%  1997/06/12, (Available from CTAN as file \texttt{showkeys.dtx}.)
+%
+%  \end{thebibliography}
+%
+%  \StopEventually{}
+%
+%  \EmphEqpart{Implementation}
+%
+%  \section{Requirements, Options, and Strategy}
+%  Lets start the package. We'll need the tools from \pkg{mhsetup}.
+%    \begin{macrocode}
+%<*package>
+\ProvidesPackage{empheq}%
+  [2007/12/03 v2.12 Emphasizing equations (MH)]
+%    \end{macrocode}
+%    \begin{macrocode}
+\RequirePackage{mhsetup}[2004/10/10]
+\MHInternalSyntaxOn
+%    \end{macrocode}
+%
+%
+%  \subsection{Requirements, Options, and Allocation}
+%
+%  The \opt{overload} option allows the user to type
+%  \begin{verbatim}
+%    \begin{gather}[box=\fbox]
+%      a = b
+%    \end{gather}
+%  \end{verbatim}
+%  when they really mean
+%  \begin{verbatim}
+%    \begin{empheq}{gather}[box=\fbox]
+%      a = b
+%    \end{empheq}
+%  \end{verbatim}
+%    \begin{macrocode}
+\MH_new_boolean:n {overload_ams}
+\DeclareOption{overload}{
+  \MH_set_boolean_T:n {overload_ams}
+}
+\MH_new_boolean:n {overload_amsII}
+\DeclareOption{overload2}{
+  \MH_set_boolean_T:n {overload_ams}
+  \MH_set_boolean_T:n {overload_amsII}
+}
+%    \end{macrocode}
+%  Old crappy \env{multline} interface or the new dazzling?
+%    \begin{macrocode}
+\MH_new_boolean:n {good_mult}
+\DeclareOption{oldmultline}{\MH_set_boolean_F:n {good_mult}}
+\DeclareOption{newmultline}{\MH_set_boolean_T:n {good_mult}}
+%    \end{macrocode}
+%
+%
+%  Load the \pkg{ntheorem} support file.
+%    \begin{macrocode}
+\gdef\g@EQ@ntheorem@support@bool{01}
+\DeclareOption{ntheorem}{\gdef\g@EQ@ntheorem@support@bool{00}}
+%    \end{macrocode}
+%  Pass other options to \pkg{mathtools}.
+%    \begin{macrocode}
+\DeclareOption*{
+  \PassOptionsToPackage{\CurrentOption}{mathtools}
+}
+\ExecuteOptions{newmultline}
+\ProcessOptions\relax
+%    \end{macrocode}
+%  The name of the game is \pkg{amsmath} so we'll need that of
+%  course. Since v2.10 that is now taken care of in the
+%  \pkg{mathtools} package which'll pass on the options to
+%  \pkg{amsmath}.
+%    \begin{macrocode}
+\MHInternalSyntaxOff
+\RequirePackage{mathtools}[2004/10/10]
+%    \end{macrocode}
+%  Activate the internal syntax.
+%    \begin{macrocode}
+\MHInternalSyntaxOn
+\AtEndOfPackage{\MHInternalSyntaxOff}
+%    \end{macrocode}
+%  \changes{v2.00}{2004/04/14}{Changed description of naming
+%  conventions. Altered \emph{all} private macros; this is not
+%  mentioned at each macro as this would just be too troublesome}
+%
+%  \begin{macro}{\l_EQ_equationtype_int}
+%  \begin{macro}{\l_EQ_alignmentmode_int}
+%  I'll use the following numbering scheme for the equation types,
+%  and store the value in \cs{l_EQ_equationtype_int}:
+%  \begin{multicols}{2}
+%  \begin{enumerate}\setlength{\itemsep}{0pt}
+%    \item align
+%    \item align*
+%    \item gather
+%    \item gather*
+%    \item flalign
+%    \item flalign*
+%    \item alignat
+%    \item alignat*
+%  \end{enumerate}
+%  \end{multicols}
+%  As you notice \env{equation} and \env{equation*} are missing. This
+%  is because \env{gather} and \env{gather*} work the same way, only
+%  they are `nicer'. Cuts down on the amount of code as well. I will
+%  add an alias so that a user can use the key \key{equation}, but
+%  then \key{gather} will kick in instead behind the scenes. Also the
+%  \env{multline} environments are missing here, but again it's
+%  because I'm faking it. See \S~\vref{sec:flalign+multline} for
+%  further details. The value $0$ isn't used for any of the
+%  environments and thus serves as a checkpoint (see
+%  page~\pageref{ZeroCheckpoint}).
+%
+%  Similarly I'll use the counter \cs{l_EQ_alignmentmode_int} to
+%  store the standard options for placement of math displays and
+%  equation numbering.
+%  \begin{multicols}{2}
+%  \begin{enumerate}\setlength{\itemsep}{0pt}
+%    \item reqno
+%    \item leqno
+%    \item fleqn, reqno
+%    \item fleqn, leqno
+%  \end{enumerate}
+%  \end{multicols}
+%
+%    \begin{macrocode}
+\newcount\l_EQ_equationtype_int
+\newcount\l_EQ_alignmentmode_int
+\if@fleqn
+  \iftagsleft@
+    \l_EQ_alignmentmode_int=4
+  \else:
+    \l_EQ_alignmentmode_int=\thr@@
+  \fi:
+\else:
+  \iftagsleft@
+    \l_EQ_alignmentmode_int=\tw@
+  \else:
+    \l_EQ_alignmentmode_int=\@ne
+  \fi:
+\fi:
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \begin{macro}{\l_EQ_totalwidth_dim}
+%  \begin{macro}{\l_EQ_displaywidth_dim}
+%  \begin{macro}{\l_EQ_temp_linewidth_dim}
+%  \begin{macro}{\EmphEqdelimitershortfall}
+%  \begin{macro}{\EmphEqdelimiterfactor}
+%  \begin{macro}{\g_EQ_toptag_height_dim}
+%  \begin{macro}{\g_EQ_bottomtag_depth_dim}
+%  \begin{macro}{\g_EQ_toprow_height_dim}
+%  \begin{macro}{\g_EQ_bottomrow_depth_dim}
+%  \begin{macro}{\g_EQ_widesttag_dim}
+%  Some lengths we'll need. Could possibly be scratch registers but we
+%  have to make global assignments so that road is a little
+%  dangerous.
+%    \begin{macrocode}
+\newdimen\l_EQ_totalwidth_dim
+\newdimen\l_EQ_displaywidth_dim
+%    \end{macrocode}
+%  Just to make it accessible.
+%    \begin{macrocode}
+\def\EmphEqdisplaywidth{\l_EQ_displaywidth_dim}
+\newdimen\l_EQ_temp_linewidth_dim
+\newdimen\EmphEqdelimitershortfall
+\newcount\EmphEqdelimiterfactor
+\EmphEqdelimiterfactor950
+\EmphEqdelimitershortfall\p@
+\newdimen\g_EQ_toptag_height_dim
+\newdimen\g_EQ_bottomtag_depth_dim
+\newdimen\g_EQ_toprow_height_dim
+\newdimen\g_EQ_bottomrow_depth_dim
+\newdimen\g_EQ_widesttag_dim
+\def\EmphEqtagwidth{\g_EQ_widesttag_dim}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%
+%  \begin{macro}{\EQ_outerbox:}
+%  \begin{macro}{\EQ_innerbox:}
+%  \begin{macro}{\EQ_left_side:}
+%  \begin{macro}{\EQ_right_side:}
+%  The two boxes and the material on either side of the math display.
+%    \begin{macrocode}
+\def\EQ_outerbox:{}
+\def\EQ_innerbox:{}
+\def\EQ_left_side:{}
+\def\EQ_right_side:{}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%
+% \subsection{Strategy}
+%
+%  In non-\mode{fleqn} math displays are centered---even when having
+%  tags. However this can look rather appalling when either the tag
+%  or the math display are very wide like in the following example.
+%  \begin{center}
+%  \makebox[\linewidth][s]{\mbox{}\hfill \mbox{$\displaystyle
+%    a+b+c+d+e+f+g+h+i+j+k+l+m+n+o$} \hfill\mbox{} \llap{(wide tag)}}
+%  \end{center}
+%  Not exactly pleasing to look at. \pkg{amsmath} takes care to do
+%  this adjustment for us, so the user instead obtains the far better
+%  \begin{gather*}
+%  a+b+c+d+e+f+g+h+i+j+k+l+m+n+o \tag{wide tag}
+%  \end{gather*}
+%  So \pkg{amsmath} handles this quite well. That's good. It looks
+%  like \pkg{amsmath} has an internal threshold that matches the
+%  width of the math display against the width of the tags. But what
+%  if we have a multiple line display and one of the lines causes an
+%  adjustment to kick in while the others don't need it? Then we
+%  cannot keep track of the complete display anymore. Furthermore we
+%  may want to add material on either side of the math display making
+%  the whole thing even more complicated, if not impossible to do
+%  without some sort of different approach.
+%
+%  Luckily we have such an approach. The idea that comes to mind is
+%  to see if one can typeset the labels and the math displays
+%  \emph{separately}, store them in separate boxes and then put them
+%  back together again afterwards. Is this really possible? Yes.
+%  Come, I'll show you.
+%
+%  \subsection{The Main Environment}
+%  \begin{macro}{\EQ_mathdisplay_box}
+%  \begin{macro}{\EmphEqdisplayheight}
+%  \begin{macro}{\EmphEqdisplaydepth}
+%  \begin{macro}{\EQ_tag_box}
+%  Okay, we'll start by allocating two box registers.
+%    \begin{macrocode}
+\newsavebox\EQ_mathdisplay_box
+\def\EmphEqdisplayheight{\ht\EQ_mathdisplay_box}
+\def\EmphEqdisplaydepth{\dp\EQ_mathdisplay_box}
+\newsavebox\EQ_tag_box
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%
+%  \begin{macro}{\EQ_complete_mathdisplay:}
+%  \begin{macro}{\EQ_getbody:n}
+%  \begin{environment}{EmphEqMainEnv}
+%  The \env{EmphEqMainEnv} is (as the name implies) the main
+%  environment. I decided to go with the environment form because
+%  that's what \pkg{amsmath} users are accustomed to. But the code
+%  will require the contents of the environment to be handled as an
+%  argument to a command, so we use \cs{collect@body} from
+%  \pkg{amsmath} itself to collect it.
+%    \begin{macrocode}
+\def\EQ_complete_mathdisplay:{}
+\def\EQ_getbody:n #1{%
+  \def\EQ_complete_mathdisplay:{}\def\EQ_mathbody:{#1}}
+\newenvironment{EmphEqMainEnv}{\collect@body\EQ_getbody:n}{%
+%    \end{macrocode}
+%  If the user didn't specify the mandatory argument we will catch it
+%  because \cs{l_EQ_equationtype_int} is zero. An error is
+%  issued\label{ZeroCheckpoint}.
+%    \begin{macrocode}
+  \if_num:w \l_EQ_equationtype_int=\z@ %ZeroCheckpoint
+    \EQ_upgrade_error:
+  \else:
+%    \end{macrocode}
+%  Those that read the manual get the reward here: The package will
+%  actually work!
+%    \begin{macrocode}
+    \EQ_post_process:
+    \ignorespacesafterend
+  \fi:}
+%    \end{macrocode}
+%  \end{environment}
+%  \end{macro}
+%  \end{macro}
+%  \subsection{Post Processing}
+%  \begin{macro}{\EQ_post_process:}
+%  I know: it almost looked easy for a while didn't it? Sadly the
+%  post-processing step of the code is also by far the most
+%  complicated.
+%    \begin{macrocode}
+\def\EQ_post_process:{%
+%    \end{macrocode}
+%  First a hook where we initialize a few things like storing the
+%  line width for later manipulation. Also we want to measure the
+%  height of the top row and the depth of the bottom row for best
+%  possible placement of the math display and the boxes around it
+%  (same with the tags). Those four dimensions are globally set
+%  during the code, hence this assignment. Most other stuff is local.
+%    \begin{macrocode}
+  \EQ_initialize:
+%    \end{macrocode}
+%  Then we proceed by completing the input. We store it in the
+%  control sequence \cs{EQ_complete_mathdisplay}.
+%  \cs{EQ_begin_equation:} adds the start of the environment and
+%  \cs{EQ_end_equation:} adds the corresponding end.
+%    \begin{macrocode}
+  \EQ_begin_equation:
+%    \end{macrocode}
+%  In case we face a \env{multline} we add what's necessary.
+%    \begin{macrocode}
+  \MH_if_boolean:nT {outer_mult}{
+    \setkeys{\MT_options_name:}{
+      firstline-afterskip=0pt,
+      lastline-preskip=0pt,
+      multlined-width=0pt,
+    }
+    \ifodd \l_EQ_alignmentmode_int
+      \setkeys{\MT_options_name:}{multlined-pos=b}
+    \else:
+      \setkeys{\MT_options_name:}{multlined-pos=t}
+    \fi:
+      \g@addto@macro\EQ_complete_mathdisplay:{
+        \begin{MTmultlined}\relax}
+  }
+  \g@addto@macro\EQ_complete_mathdisplay:\EQ_mathbody:
+  \MH_if_boolean:nT {outer_mult}{
+    \g@addto@macro\EQ_complete_mathdisplay:{\end{MTmultlined}}
+  }
+  \EQ_end_equation:
+%    \end{macrocode}
+%  Save the value of the \pkg{hyperref} link counter
+%  \cs{Hy@linkcounter}.
+%    \begin{macrocode}
+  \edef\EQ_hyperref_link_fint{\number\Hy@linkcounter}
+%    \end{macrocode}
+%  Firstly we call \cs{EQ_typeset_tags:} which suppresses all
+%  output from the equations with the exception of the \cs{tag}'s.
+%  This also allows us to find the widest tag which we'll need for
+%  the environments that set's the math displays flush to the
+%  margins, namely the \env{flalign} family. We save the counters
+%  first though. As an extra treat we're also able to measure the
+%  height and depth of the tags and the math display.
+%    \begin{macrocode}
+  \savecounters@
+  \EQ_typeset_tags:
+%    \end{macrocode}
+%  \changes{v1.05d}{2004/02/26}{Removed one instance of
+%  \cs{EQ_typeset_display:}}
+%  Then find the widest tag. In an earlier implementation it was
+%  necessary to typeset the display twice---a very costly procedure!
+%  Now we save roughly 2120 lines of output from \cs{tracingall} on a
+%  simple \env{gather} and 2600 lines with \env{align}. That's  a
+%  little more than 21\% saved\ldots
+%  \changes{v2.10}{2004/07/26}{Removed \cs{find_widesttag:}}
+%  \changes{v2.10}{2004/07/26}{Added check for equation number to
+%  make sure the labelling/printing mechanism of \pkg{mathtools} work
+%  properly}
+%  Then we restore the counters and measure the extra material.
+%  Save the value of the equation counter for later in case the
+%  special equation numbering scheme from \pkg{mathtools} is in
+%  effect.
+%    \begin{macrocode}
+  \edef\l_EQ_equation_fint{\number\c@equation}
+  \restorecounters@
+%    \end{macrocode}
+%  Restore the value of the \pkg{hyperref} link counter
+%  \cs{Hy@linkcounter}.
+%    \begin{macrocode}
+  \Hy@linkcounter=\EQ_hyperref_link_fint
+  \settowidth\l_EQ_totalwidth_dim{%
+    $\EQ_left_side:\EQ_innerbox:{}\EQ_right_side:$}%
+%    \end{macrocode}
+%  Then call the appropriate \cs{EQ_modify_linewidth_}\meta{num}\texttt{:}
+%  where \meta{num} is taken from the numbering scheme shown earlier.
+%    \begin{macrocode}
+  \MH_if_boolean:nTF {outer_mult}
+    { \def\EQ_next:{_mult} }
+    { \def\EQ_next:{} }
+  \@nameuse{EQ_modify_linewidth_
+            \romannumeral\l_EQ_equationtype_int\EQ_next: :}%
+%    \end{macrocode}
+%  We can then typeset the display knowing that all modifications
+%  have been made correctly. \cs{EQ_typeset_display:} gobbles the
+%  \cs{tag}'s, which in turn is equivalent to setting the display
+%  centered in non-\mode{fleqn} mode.
+%    \begin{macrocode}
+  \EQ_typeset_display:
+%    \end{macrocode}
+%  Call the appropriate \cs{find_displaywidth_}\meta{num}\texttt{:}
+%  which extracts the display width (\cs{l_EQ_displaywidth_dim}).
+%    \begin{macrocode}
+  \@nameuse{find_displaywidth_
+           \romannumeral\l_EQ_equationtype_int\EQ_next: :}
+  \MH_addtolength:dn
+    \l_EQ_totalwidth_dim{\l_EQ_displaywidth_dim}
+%    \end{macrocode}
+%  We save the math display in a box of the correct size.
+%    \begin{macrocode}
+  \savebox\EQ_mathdisplay_box[\l_EQ_totalwidth_dim][c]{%
+    $\EQ_left_side:
+    \EQ_innerbox:{%
+      \if_case:w \l_EQ_alignmentmode_int\or:
+%    \end{macrocode}
+%  If the equation is centered we make the box centered
+%    \begin{macrocode}
+        \makebox[\l_EQ_displaywidth_dim][c]
+          {\usebox{\EQ_mathdisplay_box}}%
+      \or:
+        \makebox[\l_EQ_displaywidth_dim][c]
+          {\usebox{\EQ_mathdisplay_box}}%
+      \or:
+%    \end{macrocode}
+%  Else we set it in a left aligned box and take care of the
+%  \cs{@mathmargin} unless we're in \env{flalign} or \env{flalign*}.
+%    \begin{macrocode}
+        \makebox[\l_EQ_displaywidth_dim][l]{%
+          \if_num:w \l_EQ_equationtype_int=5 \else:
+            \if_num:w \l_EQ_equationtype_int=6 \else:
+              \kern-\@mathmargin
+            \fi:
+          \fi:
+          \usebox{\EQ_mathdisplay_box}}%
+      \or:
+        \makebox[\l_EQ_displaywidth_dim][l]{%
+          \if_num:w \l_EQ_equationtype_int=5 \else:
+            \if_num:w \l_EQ_equationtype_int=6 \else:
+              \kern-\@mathmargin
+            \fi:
+          \fi:
+          \usebox{\EQ_mathdisplay_box}}%
+      \fi:}%
+    \EQ_right_side:$}%
+%    \end{macrocode}
+%  Then we're ready for typesetting. We just use an ordinary
+%  |\begin{equation*}| | ... | |\end{equation*}| construction.
+%  \changes{v2.00}{2004/04/14}{Used a saved definition of
+%  \env{equation*} instead to allow overloading}
+%  With v2.00 this changed to using a copy of the original
+%  \env{equation*} environment. All this because of the
+%  \opt{overload} option.
+%    \begin{macrocode}
+  \begin{AmSequation*}
+  \@nameuse{EQ_place_display_
+           \romannumeral\l_EQ_equationtype_int\EQ_next: :}
+%    \end{macrocode}
+%  \cs{tag} must have a non-zero width argument in order to function
+%  properly, so we make sure there is a tag before we try to typeset
+%  it. Also make sure that the boolean |show_manual_tags| is true
+%  just for this tag.
+%    \begin{macrocode}
+  \if_dim:w \g_EQ_widesttag_dim>\z@
+  \MH_set_boolean_T:n {show_manual_tags}
+%    \end{macrocode}
+%  Set the tag in a left aligned box when in \mode{leqno} mode and
+%  right aligned when in \mode{reqno} mode.
+%    \begin{macrocode}
+    \if_case:w \l_EQ_alignmentmode_int
+    \or: \EQ_place_tag:N r %#1
+    \or: \EQ_place_tag:N l %#2
+    \or: \EQ_place_tag:N r %#3
+    \or: \EQ_place_tag:N l %#4
+    \fi:
+  \fi:
+  \end{AmSequation*}
+%    \end{macrocode}
+%  \changes{v2.11}{2004/08/03}{Use raw \TeX{} commands to speed it up}
+%  Restore the equation counter.
+%    \begin{macrocode}
+  \global\c@equation=\l_EQ_equation_fint\relax
+}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \subsubsection{Initializing the Equations}
+%
+%  \begin{macro}{\EQ_initialize:}
+%  We save all the initializations in this hook:
+%    \begin{macrocode}
+\def\EQ_initialize:{%
+  \m@th
+%    \end{macrocode}
+%  More support for \pkg{ntheorem}. We use special versions of
+%  the tag setting commands in order to produce the correct result.
+%  For instance in \mode{leqno} mode you would still want the end of
+%  theorem symbol at the bottom of the math display.
+%    \begin{macrocode}
+  \MH_let:NwN\SetTagPlusEndMark\EQ_tag_plus_endmark:
+  \MH_let:NwN\SetOnlyEndMark\EQ_only_endmark:
+  \l_EQ_temp_linewidth_dim\linewidth
+  \g_EQ_toprow_height_dim\z@
+  \g_EQ_bottomrow_depth_dim\z@
+  \g_EQ_toptag_height_dim\z@
+  \g_EQ_bottomtag_depth_dim\z@
+  \g_EQ_widesttag_dim\z@
+%    \end{macrocode}
+%  \changes{v2.11}{2004/08/03}{Added a \cs{g_EQ_latest_nonzerodepth_row_fint}}
+%    \begin{macrocode}
+  \xdef\g_EQ_latest_nonzerodepth_row_fint{\z@}
+  \edef\EQ_restore_tex_delimiter:{%
+    \delimiterfactor\the\delimiterfactor
+    \delimitershortfall\the\delimitershortfall\relax}%
+  \g@addto@macro\EQ_complete_mathdisplay:
+                \EQ_restore_tex_delimiter:
+  \delimitershortfall\EmphEqdelimitershortfall
+  \delimiterfactor\EmphEqdelimiterfactor
+%    \end{macrocode}
+%  Disable \cs{intertext} and issue an error message. Using the
+%  normal error message for an invalid \cs{intertext} would be less
+%  than great because it would say
+%  \begin{verbatim}
+%  ! Package amsmath Error: Invalid use of \intertext.
+%
+%  See the amsmath package documentation for explanation.
+%  Type  H <return>  for immediate help.
+%   ...
+%  \end{verbatim}
+%  That's not good enough, so we redefine things a bit. In
+%  \pkg{amsmath} the command \cs{intertext@} is called inside the
+%  math environments and defines \cs{intertext}. We hook into this.
+%    \begin{macrocode}
+  \MH_let:NwN\intertext@\EQ_intertext:
+  \EQ_displaybreak:}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\EQ_intertext:}
+%  Then we issue a suitable error message.
+%    \begin{macrocode}
+\def\EQ_intertext:{%
+  \def\intertext##1{\PackageError{empheq}{%
+    You~cannot~use~\string\intertext\space inside~the~`empheq'
+    \MessageBreak
+    environment,~as~`empheq'~creates~an~unbreakable~box}\@eha}}
+\def\EQ_displaybreak:{%
+  \def\dspbrk@[##1]{\PackageWarning{empheq}{%
+    You~cannot~use~\string\displaybreak\space inside~the~`empheq'%
+    \MessageBreak
+    environment,~as~`empheq'~creates~an~unbreakable~box.}}}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\EQ_new_equationtype:nnn}
+%  \begin{macro}{\EQ_new_equationtype_arg:nnn}
+%  We have to inform \env{EmphEqMainEnv} which equation type we're
+%  using, so we define an interface for that.
+%    \begin{macrocode}
+\def\EQ_new_equationtype:nnn #1#2#3{%
+  \define@key{#1}{#2}[true]{%
+    \l_EQ_equationtype_int=#3\relax
+    \def\EQ_begin_equation:
+      {\g@addto@macro{\EQ_complete_mathdisplay:}{\begin{#2}}}%
+    \def\EQ_end_equation:
+      {\g@addto@macro{\EQ_complete_mathdisplay:}{\end{#2}}}}}
+\def\EQ_new_equationtype_arg:nnn #1#2#3{%
+  \define@key{#1}{#2}{%
+    \l_EQ_equationtype_int=#3\relax
+    \def\EQ_begin_equation:
+      {\g@addto@macro{\EQ_complete_mathdisplay:}{\begin{#2}{##1}}}%
+    \def\EQ_end_equation:
+      {\g@addto@macro{\EQ_complete_mathdisplay:}{\end{#2}}}}}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%
+%  \subsubsection{Separating Tags and Display}
+%
+%  \begin{macro}{\EQ_typeset_tags:}
+%  Typesetting the tags without the display.
+%    \begin{macrocode}
+\def\EQ_typeset_tags:{%
+  \sbox\EQ_tag_box{%
+    \parbox{.5\maxdimen}{%
+      \hbadness\@M
+%    \end{macrocode}
+%  Make sure all skips are zero ands support \pkg{ntheorem}.
+%  \changes{v1.05a}{2004/02/17}{Forgot to support \pkg{ntheorem} in
+%  both \cs{EQ_typeset_tags:} and \cs{EQ_typeset_display:}.}
+%    \begin{macrocode}
+      \EQ_prevent_vertical_space:
+%    \end{macrocode}
+%  Support for \pkg{ntheorem}. This package patches \cs{endgather}
+%  and \cs{endalign} with the commands \cs{TagsPlusEndmarks} and
+%  \cs{RestoreTags} but we do not want them disturbing our output so
+%  we disable them when typesetting the display.
+%    \begin{macrocode}
+      \EQ_typeset_tags_hook:
+%    \end{macrocode}
+%  Then use our own versions of \cs{set@gather@field} and
+%  \cs{set@field}.
+%    \begin{macrocode}
+      \MH_let:NwN\set@gather@field\EQ_set_gather_field:
+      \MH_let:NwN\set@field\EQ_set_align_field:
+%    \end{macrocode}
+%  Next two lines are for measuring of the first and last row of a
+%  display of the \env{align}, \env{alignat} or \env{flalign} family.
+%    \begin{macrocode}
+      \MH_set_boolean_T:n {continue_measuring}
+      \global\g_EQ_temprow_int\m@ne
+      \MH_let:NwN \EQ_saved_maketag:n \maketag@@@
+      \def\maketag@@@##1{
+        \EQ_maketag:Nn \EQ_saved_maketag:n {##1}}
+%    \end{macrocode}
+%  Then typeset the display.
+%    \begin{macrocode}
+      \EQ_complete_mathdisplay:}}}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\EQ_predisplay_adjustment:}
+%  \changes{v1.05c}{2004/02/25}{Added \cs{EQ_predisplay_adjustment:}}
+%
+%  \changes{v2.00}{2004/04/14}{Added a missing \cs{normallineskip} in
+%  case of extremely big tag height}
+%
+%  For adjusting vertical spacing in the display.
+%    \begin{macrocode}
+\def\EQ_predisplay_adjustment:{%
+  \if_dim:w \g_EQ_toprow_height_dim<\baselineskip
+    \vskip\g_EQ_toprow_height_dim
+    \vskip-\baselineskip
+  \else:
+    \vskip-\normallineskip
+  \fi:
+  \if_dim:w \g_EQ_toptag_height_dim>\g_EQ_toprow_height_dim
+    \if_dim:w \g_EQ_toptag_height_dim>\baselineskip
+      \vskip-\g_EQ_toptag_height_dim
+      \vskip\baselineskip
+      \vskip-\normallineskip
+    \fi:
+  \fi:}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\EQ_postdisplay_adjustment:}
+%  \changes{v1.05c}{2004/02/25}{Added \cs{EQ_postdisplay_adjustment:}}
+%  Name says it all.
+%    \begin{macrocode}
+\def\EQ_postdisplay_adjustment:{%
+  \if_dim:w \g_EQ_bottomrow_depth_dim<\dp\strutbox
+    \vskip\g_EQ_bottomrow_depth_dim
+    \vskip-\dp\strutbox
+  \fi:
+  \if_dim:w \g_EQ_bottomtag_depth_dim>\g_EQ_bottomrow_depth_dim
+    \if_dim:w \g_EQ_bottomtag_depth_dim>\dp\strutbox
+      \vskip-\g_EQ_bottomtag_depth_dim
+      \vskip\dp\strutbox
+    \fi:
+  \fi:}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\EQ_typeset_display:}
+%  \changes{v1.05c}{2004/02/25}{Now takes two arguments: Either both
+%  empty or \cs{EQ_predisplay_adjustment:} \&
+%  \cs{EQ_postdisplay_adjustment:}}
+%  \changes{v1.05d}{2004/02/26}{Changed again. Uses only
+%  \cs{EQ_predisplay_adjustment:} \& \cs{EQ_postdisplay_adjustment:}}
+%  We typeset the display without the tags and save it in a box.
+%    \begin{macrocode}
+\def\EQ_typeset_display:{%
+  \sbox\EQ_mathdisplay_box{%
+    \parbox{\l_EQ_temp_linewidth_dim}{%
+%    \end{macrocode}
+%  We adjust the vertical spacing if needed:
+%    \begin{macrocode}
+      \EQ_predisplay_adjustment:
+      \EQ_prevent_vertical_space:
+%    \end{macrocode}
+%  Support for \pkg{ntheorem}. This package patches \cs{endgather}
+%  and \cs{endalign} with the commands \cs{TagsPlusEndmarks} and
+%  \cs{RestoreTags} but we do not want them disturbing our output so
+%  we disable them when typesetting the display.
+%    \begin{macrocode}
+      \EQ_typeset_display_hook:
+%    \end{macrocode}
+%  Instead of gobbling the tags it's better to use \cs{phantom} since
+%  a tall tag will ruin the vertical spacing. We use a special
+%  version of \cs{phantom} to help us with other things as well.
+%    \begin{macrocode}
+      \def\maketag@@@##1{\EQ_maketag:Nn \vphantom{##1}}%
+      \EQ_complete_mathdisplay:
+%    \end{macrocode}
+%  More space adjustment.
+%    \begin{macrocode}
+      \EQ_postdisplay_adjustment:}}}
+%    \end{macrocode}
+%  \end{macro}
+%  We need a few little helpers:
+%  \begin{macro}{\EQ_prevent_vertical_space:}
+%  \changes{v2.00}{2004/04/14}{Used \cs{nointerlineskip} instead}
+%  As we typeset the math display inside a \cs{parbox} the math
+%  environment will add \cs{abovedisplayskip} at the top and
+%  \cs{belowdisplayskip} at the bottom. Also we suppress interline
+%  skip with \cs{nointerlineskip}.
+%    \begin{macrocode}
+\def\EQ_prevent_vertical_space:{%
+  \nointerlineskip
+  \abovedisplayskip\z@  \belowdisplayskip\z@\relax}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\EQ_maketag:Nn}
+%  \changes{v1.05d}{2004/02/26}{Changed name from
+%  \cs{EmphEqphantom} to \cs{EmphEqMaketag}}
+%  This takes care of two things: We need to store the height of the
+%  top tag and the depth of the bottom tag for later, but we also
+%  need to use a \cs{vphantom} of the tag as it may be taller than
+%  the line of math it is attached to (say, if you are using node
+%  connectors from \pkg{pstricks} or some other weird stuff).
+%    \begin{macrocode}
+\def\EQ_maketag:Nn #1#2{%
+  \setboxz@h{#2}%
+  \if_num:w \row@=\@ne
+    \global \g_EQ_toptag_height_dim = \ht\z@
+  \fi:
+%    \end{macrocode}
+%  Similarly the depth of the last row is determined by measuring the
+%  depth of box zero for each row and then using the last of the
+%  values.
+%    \begin{macrocode}
+  \global \g_EQ_bottomtag_depth_dim=\dp\z@
+%    \end{macrocode}
+%  \changes{v2.11}{2004/08/03}{Added a check for being in the last row.}
+%  Save the row number for later as the \opt{ntheorem} option will need
+%  it.
+%    \begin{macrocode}
+  \xdef\g_EQ_latest_nonzerodepth_row_fint{\number\row@}
+  \@tempdima=\wd\z@
+  \if_dim:w \@tempdima > \g_EQ_widesttag_dim
+    \global \g_EQ_widesttag_dim = \@tempdima
+  \fi:
+  #1{#2}%
+}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \subsubsection{Measuring \env{gather}}
+%  \begin{macro}{\EQ_set_gather_field:}
+%  Box zero (\cs{z@}) contains the entire line of math in a
+%  \env{gather}, so instead of typesetting it we typeset the phantom
+%  of it and call \cs{EQ_measure_gather:}.
+%    \begin{macrocode}
+\def\EQ_set_gather_field:{%
+  \iftagsleft@
+    \global\lineht@\ht\z@
+  \else:
+    \global\lineht@\dp\z@
+  \fi:
+  \kern\eqnshift@
+  %\boxz@ % Original amsmath version
+  \EQ_measure_gather:
+  \phantom{\boxz@}%
+  \hfil}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\EQ_measure_gather:}
+%  Measuring the height of the individual lines in a \env{gather} is
+%  fairly easy. If \cs{row@} is equal to one, we're in the first
+%  line, and the height of the top row is simply given by the height
+%  of box zero.
+%    \begin{macrocode}
+\def\EQ_measure_gather:{%
+  \if_num:w \row@=\@ne
+    \g_EQ_toprow_height_dim=\ht\z@
+  \fi:
+%    \end{macrocode}
+%  Similarly the depth of the last row is determined by measuring the
+%  depth of box zero for each row and then using the last of the
+%  values.
+%    \begin{macrocode}
+  \g_EQ_bottomrow_depth_dim=\dp\z@
+  \global\g_EQ_toprow_height_dim\g_EQ_toprow_height_dim
+  \global\g_EQ_bottomrow_depth_dim\g_EQ_bottomrow_depth_dim}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \subsubsection{Measuring \env{align}, \env{alignat} and \env{flalign}}
+%  \begin{macro}{\EQ_set_align_field:}
+%  Same technique as for \cs{EQ_set_gather_field}. Only this time
+%  we have to stop the underlying \cs{start@align} from going over
+%  the measuring phase twice. That's when the conditional
+%  \bool{continue_measuring} comes into the picture.
+%    \begin{macrocode}
+\def\EQ_set_align_field:{%
+  \column@plus
+  \iftagsleft@
+    \if_dim:w \ht\z@>\lineht@
+      \global\lineht@\ht\z@
+    \fi:
+  \else:
+    \if_dim:w \dp\z@>\lineht@
+      \global\lineht@\dp\z@
+    \fi:
+  \fi:
+  %\boxz@ % Original amsmath version
+  \MH_if_boolean:nT {continue_measuring}{ \EQ_measure_align: }
+  \phantom{\boxz@}}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\EQ_measure_align:}
+%  We have to measure every single field of the \cs{align@} \ldots\@
+%  Oh well, here it comes:
+%    \begin{macrocode}
+\newcount\g_EQ_temprow_int
+\MH_new_boolean:n {still_in_samerow}
+\MH_new_boolean:n {continue_measuring}
+\def\EQ_measure_align:{%
+  \if_num:w \g_EQ_temprow_int=\row@
+    \MH_set_boolean_T:n {still_in_samerow}
+  \else:
+    \if_num:w \g_EQ_temprow_int>\row@
+      \global\MH_set_boolean_F:n {continue_measuring}
+    \fi:
+    \MH_set_boolean_F:n {still_in_samerow}
+    \global\@tempdimc=\@tempdimb
+    \global\@tempdimb=\g_EQ_bottomrow_depth_dim
+  \fi:
+  \MH_if_boolean:nTF {continue_measuring}{
+    \global\g_EQ_temprow_int=\row@
+    \@tempcnta=\row@
+    \if_num:w \@tempcnta=\z@
+      \@tempdima=\g_EQ_toprow_height_dim
+      \g_EQ_toprow_height_dim=\ht\z@\relax
+      \if_dim:w \g_EQ_toprow_height_dim<\@tempdima
+        \g_EQ_toprow_height_dim\@tempdima
+      \fi:
+    \fi:
+    \MH_if_boolean:nTF {still_in_samerow}{
+      \@tempdima=\g_EQ_bottomrow_depth_dim
+      \g_EQ_bottomrow_depth_dim=\dp\z@\relax
+      \if_dim:w \g_EQ_bottomrow_depth_dim<\@tempdima
+        \g_EQ_bottomrow_depth_dim\@tempdima
+      \fi:
+    }{
+      \g_EQ_bottomrow_depth_dim\dp\z@\relax
+    }
+  }{
+    \global\g_EQ_bottomrow_depth_dim=\@tempdimc
+  }
+  \global\g_EQ_toprow_height_dim\g_EQ_toprow_height_dim
+  \global\g_EQ_bottomrow_depth_dim\g_EQ_bottomrow_depth_dim}
+%    \end{macrocode}
+%  \end{macro}
+%  \subsubsection{Typesetting the Tags}
+%  \begin{macro}{\EQ_place_tag:N}
+%  Fool \LaTeX\ into thinking the tag is only as wide as the widest
+%  tag (remember the real width of the \cs{EQ_tag_box} is
+%  $0.5$\cs{maxdimen}.
+%    \begin{macrocode}
+\def\EQ_place_tag:N #1{%
+  \tag*{\makebox[\g_EQ_widesttag_dim][#1]{%
+    \EQ_vertical_tag_adjustment:n {\usebox{\EQ_tag_box}}}}}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\EQ_vertical_tag_adjustment:n}
+%  \changes{v2.00}{2004/04/14}{Added a missing \cs{normallineskip} in
+%  case of extremely big tag height}
+%  This is a little tricky. We have measured the height of the top
+%  row and top tag and the depth of the bottom row and bottom tag.
+%  Now we have to adjust the vertical spacing so it comes out just
+%  right. Remember we have separated the tags and the math display
+%  but we would still like to have them line up as they should! We do
+%  it all inside a group so we can use the scratch dimensions safely.
+%    \begin{macrocode}
+\def\EQ_vertical_tag_adjustment:n #1{{%
+  \@tempdima\z@\@tempdimb\z@
+  \@tempdimc=\dp\strutbox
+  \if_dim:w \g_EQ_toprow_height_dim<\baselineskip
+    \MH_setlength:dn
+      \@tempdima{\g_EQ_toprow_height_dim-\baselineskip}
+  \else:
+    \MH_setlength:dn \@tempdima{-\normallineskip}
+  \fi:
+  \if_dim:w \g_EQ_toptag_height_dim>\g_EQ_toprow_height_dim
+    \if_dim:w \g_EQ_toptag_height_dim>\baselineskip
+      \MH_addtolength:dn \@tempdima
+        {-\g_EQ_toptag_height_dim+\baselineskip-\normallineskip}
+    \fi:
+  \fi:
+  \if_dim:w \g_EQ_bottomrow_depth_dim<\@tempdimc
+    \MH_setlength:dn \@tempdimb
+      {\g_EQ_bottomrow_depth_dim-\@tempdimc}
+  \fi:
+%    \end{macrocode}
+%  \changes{v2.00}{2004/04/14}{Fixed minor bug}
+%  If the last condition is fulfilled we also need to cancel the
+%  first condition.
+%    \begin{macrocode}
+  \if_dim:w \g_EQ_bottomtag_depth_dim>\g_EQ_bottomrow_depth_dim
+    \if_dim:w \g_EQ_bottomtag_depth_dim<\@tempdimc
+    \else:
+      \MH_addtolength:dn \@tempdimb
+        {-\g_EQ_bottomtag_depth_dim+\@tempdimc}
+    \fi:
+  \fi:
+  \raisebox{-0.5\@tempdima+0.5\@tempdimb}{#1}}}%
+%    \end{macrocode}
+%  \end{macro}
+%  \section{Adding the Equation Types}
+%  Adding an equation type is fairly easy. The outline is this:
+%  \begin{list}{}{\leftmargin2em}
+%    \item[]|\EQ_new_equationtype{EmphEqEnv}|\marg{\AmS\
+%    env}\marg{arabic num}\texttt{:}
+%    \item[]|\def\EQ_modify_linewidth_|\meta{roman num}\texttt{:}\\
+%    \hspace*{2em}\marg{Optionally alter \cs{l_EQ_temp_linewidth_dim}}
+%    \item[]|\def\find_displaywidth_|\meta{roman num}\texttt{:}\\
+%    \hspace*{2em}\marg{Set \cs{l_EQ_displaywidth_dim}}
+%    \item[]|\def\EQ_place_display_|\meta{roman num}\texttt{:}\\
+%    \hspace*{2em}\marg{Make use of \cs{EQ_use_mathdisplay:}}
+%  \end{list}
+%  \begin{macro}{\EQ_use_mathdisplay:}
+%  A shorthand.
+%    \begin{macrocode}
+\def\EQ_use_mathdisplay:{%
+  \EQ_outerbox:{\usebox{\EQ_mathdisplay_box}}}
+%    \end{macrocode}
+%  \end{macro}
+%    \begin{macrocode}
+\def\EQ_options_name:{EmphEqOpt}
+%    \end{macrocode}
+%  \subsection{The \env{equation} Family}
+%  Just a few aliases because \env{equation} and \env{equation*}
+%  behave strangely. Much better to use \env{gather} instead as this
+%  is easier to measure. Besides it's less work (for us, not the
+%  compiler). ;-)
+%    \begin{macrocode}
+\MH_keyval_alias_with_addon:nnnn {EmphEqEnv}{equation}{gather}
+  {\EQ_disable_linebreak:}
+\MH_keyval_alias_with_addon:nnnn {EmphEqEnv}{equation*}{gather*}
+  {\EQ_disable_linebreak:}
+%    \end{macrocode}
+%  \begin{macro}{\EQ_disable_linebreak:}
+%  \changes{v1.05c}{2004/02/25}{Introduced
+%  \cs{EQ_disable_linebreak:} to prevent multi line
+%  \env{equation}'s}
+%  \changes{v1.05c}{2004/02/25}{Fixed it so that it works better}
+%  Disable the line breaks in \env{equation} as these are actually
+%  possible now, since we're in a \env{gather}! \cs{Let@} does it in
+%  the environment, so that's the place to hack.
+%    \begin{macrocode}
+\def\EQ_disable_linebreak:{%
+  \MH_let:NwN \EQ_saved_Let: \Let@
+  \def\Let@{\def\\{%
+    \PackageError{empheq}{You~ cannot~ use~ \string\\~ in~ equation!}
+      {\@eha}}
+%    \end{macrocode}
+%  Then restore the meaning of \cs{Let@} in case there is a
+%  \env{gathered} or alike coming up.
+%    \begin{macrocode}
+    \MH_let:NwN \Let@ \EQ_saved_Let:
+  }%
+}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \subsection{The \env{align} Family}
+%    \begin{macrocode}
+\EQ_new_equationtype:nnn {EmphEqEnv}{align}{1}
+\EQ_new_equationtype:nnn {EmphEqEnv}{align*}{2}
+%    \end{macrocode}
+%    \begin{macrocode}
+\def\EQ_modify_linewidth_i:{%
+%    \end{macrocode}
+%  If $\cs{maxfields@}=2$ we're in a single column \env{align} and
+%  thus there is no flexible space.
+%    \begin{macrocode}
+  \if_num:w \maxfields@=\tw@
+  \else:
+%    \end{macrocode}
+%  But if there is any flexible space we would very much like to
+%  adjust it because we add material to the right and left of the
+%  math display.
+%    \begin{macrocode}
+    \setlength{\l_EQ_temp_linewidth_dim}{%
+      \linewidth-\l_EQ_totalwidth_dim-\widthof{\EQ_outerbox:{}}}%
+  \fi:}
+\def\EQ_modify_linewidth_ii:{\EQ_modify_linewidth_i:}
+\def\find_displaywidth_i:{%
+  \MH_setlength:dn \l_EQ_displaywidth_dim
+    {\l_EQ_temp_linewidth_dim-\alignsep@}
+  \if_case:w \l_EQ_alignmentmode_int
+  \or: % #1:
+    \MH_addtolength:dn \l_EQ_displaywidth_dim{-\alignsep@}%
+  \or: % #2:
+    \MH_addtolength:dn \l_EQ_displaywidth_dim{-\alignsep@}%
+  \or: % #3:
+    \MH_addtolength:dn \l_EQ_displaywidth_dim{-\@mathmargin}%
+  \or: % #4:
+    \MH_addtolength:dn \l_EQ_displaywidth_dim{-\@mathmargin}%
+  \fi:}
+\def\find_displaywidth_ii:{\find_displaywidth_i:}
+\def\EQ_place_display_i: {\EQ_use_mathdisplay:}
+\def\EQ_place_display_ii:{\EQ_place_display_i:}
+%    \end{macrocode}
+%
+%  \subsection{The \env{gather} Family}
+%  This is a gem. Notice how easy it is once we got the framework for
+%  it.
+%    \begin{macrocode}
+\EQ_new_equationtype:nnn {EmphEqEnv}{gather}{3}
+\EQ_new_equationtype:nnn {EmphEqEnv}{gather*}{4}
+\def\EQ_modify_linewidth_iii:{}
+\def\EQ_modify_linewidth_iv:{\EQ_modify_linewidth_iii:}
+\def\find_displaywidth_iii:{%
+  \MH_setlength:dn \l_EQ_displaywidth_dim{\totwidth@}%
+  \if_case:w \l_EQ_alignmentmode_int \or: \or: % #1 & #2:
+  \or: % #3:
+    \MH_addtolength:dn \l_EQ_displaywidth_dim{-\@mathmargin}%
+  \or: % #4:
+    \MH_addtolength:dn \l_EQ_displaywidth_dim{-\@mathmargin}%
+  \fi:}
+\def\find_displaywidth_iv:{\find_displaywidth_iii:}
+\def\EQ_place_display_iii:{\EQ_use_mathdisplay:}
+\def\EQ_place_display_iv: {\EQ_place_display_iii:}
+%    \end{macrocode}
+%
+%  \subsection{The \env{flalign} Family}\label{sec:flalign+multline}
+%  This was fairly easy, but then I had to take care of \ldots
+%
+%  \subsubsection{The \env{multline} Family}
+%  This was quite a pickle. Its implementation in \pkg{amsmath} is
+%  very strange indeed; for instance the tag is typeset in the
+%  measuring phase! So instead I thought I could fake it, but how
+%  should I do it?
+%
+%  The basic idea of \env{multline} is to typeset the first line
+%  flush left, the last line flush right and the rest centered.
+%  ``Aha,'' I thought, ``what if I make three columns, fool \LaTeX{}
+%  into thinking the contents of the columns take no space and then
+%  just put each line into a column?'' Thus  the \env{flalign}
+%  environment came to mind. I also distinctly remembered to have
+%  seen an article about the equivalent of \cs{rlap} and \cs{llap} in
+%  math mode, namely an article by Alexander R.~Perlis. This works
+%  pretty well, and so does the same trick for producing a
+%  \env{multlined} environment. That one uses an \env{alignedat} with
+%  three columns.
+%
+%  \changes{v1.05c}{2004/02/25}{Makes use of
+%  \cs{MakeKeyvalAliasAddon} now}
+%  Then we make \env{multline} into an alias for {flalign} but with
+%  an extra switch \cs{ifEQ_multline:} set to true.
+%    \begin{macrocode}
+\MH_keyval_alias_with_addon:nnnn {EmphEqEnv}{multline}
+  {flalign}{\MH_set_boolean_T:n {multline}}
+\MH_keyval_alias_with_addon:nnnn {EmphEqEnv}{multline*}
+  {flalign*}{\MH_set_boolean_T:n {multline}}
+%    \end{macrocode}
+%  \begin{macro}{\if_EQ_multline:}
+%  \begin{macro}{\EQ_generic_multline:nnnnn}
+%  We make a general command that'll provide the correct spacing and
+%  then just define the user commands in terms of that single generic
+%  one.
+%    \begin{macrocode}
+\MH_new_boolean:n {multline}
+%    \end{macrocode}
+%  \begin{macro}{\EQ_multline_modify_linewidth_tag:}
+%  \begin{macro}{\EQ_multline_modify_linewidth_notag:}
+%  There is a big difference between the spacing in \env{multline}
+%  depending on the presence of a tag. Therefore we split it up in
+%  two cases. I made this choice because we need these adjustments
+%  inside the adjustments for \env{flalign} and that makes it
+%  incredibly difficult to see what happens.
+%    \begin{macrocode}
+\def\EQ_multline_modify_linewidth_tag:{%
+  \if_case:w \l_EQ_alignmentmode_int
+  \or: % #1:
+    \MH_addtolength:dn \l_EQ_temp_linewidth_dim{%
+      -\g_EQ_widesttag_dim-\multlinetaggap-\multlinegap}%
+  \or:
+    \MH_addtolength:dn \l_EQ_temp_linewidth_dim{%
+      -\g_EQ_widesttag_dim-\multlinetaggap-\multlinegap}%
+  \or:
+    \MH_addtolength:dn \l_EQ_temp_linewidth_dim{%
+      -\@mathmargin-\g_EQ_widesttag_dim-\multlinetaggap}%
+  \or:
+    \MH_addtolength:dn
+      \l_EQ_temp_linewidth_dim{-\@mathmargin-\multlinegap}%
+  \fi:
+}
+\def\EQ_multline_modify_linewidth_notag:{%
+  \if_case:w \l_EQ_alignmentmode_int\or:
+    \MH_addtolength:dn \l_EQ_temp_linewidth_dim{-2\multlinegap}
+  \or:
+    \MH_addtolength:dn \l_EQ_temp_linewidth_dim{-2\multlinegap}
+  \or:
+    \MH_addtolength:dn
+      \l_EQ_temp_linewidth_dim{-\@mathmargin-\multlinegap}%
+  \or:
+    \MH_addtolength:dn
+      \l_EQ_temp_linewidth_dim{-\@mathmargin-\multlinegap}%
+  \fi:
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%
+%  \begin{environment}{MTmultlined}
+%  Save the superior \env{multlined} from \pkg{mathtools} under a new
+%  name.
+%    \begin{macrocode}
+\MH_let:NwN \MTmultlined \multlined
+\MH_let:NwN \endMTmultlined \endmultlined
+%    \end{macrocode}
+%  \end{environment}
+%  We make a choice here: the good \env{multline} or the bad?
+%    \begin{macrocode}
+\MH_if_boolean:nTF {good_mult}{
+%    \end{macrocode}
+%  The good:
+%    \begin{macrocode}
+\MH_keyval_alias_with_addon:nnnn {EmphEqEnv}{multline}{gather}
+  {\MH_set_boolean_T:n {outer_mult}}
+\MH_keyval_alias_with_addon:nnnn {EmphEqEnv}{multline*}{gather*}
+  {\MH_set_boolean_T:n {outer_mult}}
+\def\EQ_modify_linewidth_iii_mult:{
+  \setlength{\l_EQ_temp_linewidth_dim}{%
+    \linewidth-\widthof{\EQ_outerbox:{}}}%
+  \if_dim:w \g_EQ_widesttag_dim>\z@
+    \EQ_multline_modify_linewidth_tag:
+  \else:
+    \EQ_multline_modify_linewidth_notag:
+  \fi:
+  \MH_setlength:dn \l_MT_multwidth_dim{\l_EQ_temp_linewidth_dim}
+}
+\def\EQ_modify_linewidth_iv_mult:{\EQ_modify_linewidth_iii_mult:}
+\def\find_displaywidth_iii_mult:{%
+  \MH_setlength:dn \l_EQ_displaywidth_dim{\totwidth@}%
+  \if_case:w \l_EQ_alignmentmode_int \or: \or: % #1 & #2:
+  \or: % #3:
+    \MH_addtolength:dn \l_EQ_displaywidth_dim{-\@mathmargin}%
+  \or: % #4:
+    \MH_addtolength:dn \l_EQ_displaywidth_dim{-\@mathmargin}%
+  \fi:}
+\def\find_displaywidth_iv_mult:{\find_displaywidth_iii_mult:}
+\def\EQ_place_display_iii_mult:{
+  \if_case:w \l_EQ_alignmentmode_int
+  \or: % #1:
+    \if_dim:w \g_EQ_widesttag_dim>\z@
+      \abovedisplayshortskip=\abovedisplayskip
+      \rlap{
+        \kern-.5\linewidth
+        \kern\multlinegap
+        \EQ_use_mathdisplay:
+      }
+    \else:
+      \EQ_use_mathdisplay:
+    \fi:
+  \or: % #2:
+    \if_dim:w \g_EQ_widesttag_dim>\z@
+      \llap{
+        \EQ_use_mathdisplay:
+        \kern-.5\linewidth
+        \kern\multlinegap
+      }%
+    \else:
+      \EQ_use_mathdisplay:
+    \fi:
+  \or: % #3:
+    \EQ_use_mathdisplay:
+  \or: % #4:
+    \EQ_use_mathdisplay:
+  \fi:
+}
+\def\EQ_place_display_iv_mult: {\EQ_place_display_iii_mult:}
+%    \end{macrocode}
+%    \begin{macrocode}
+}{
+%    \end{macrocode}
+%  The bad
+%    \begin{macrocode}
+\def\EQ_generic_multline:nnnnn #1#2#3#4#5{%
+%    \end{macrocode}
+%  This is a very tricky little detail. If we're in \mode{leqno} mode
+%  we need just a we little width inside the \env{flalign}, so we put
+%  in the smallest possible amount. Otherwise we wind up in a
+%  \begin{verbatim}
+%  ! Arithmetic overflow.
+%  <recently read> \count@
+%
+%  l.304 %  \end{empheq}
+%  \end{verbatim}
+%  If you scroll past this error it will be typeset correctly, but
+%  how many users can fix this by themselves?
+%    \begin{macrocode}
+  \hskip1sp#2#3{{}#5}#4%
+  \if:w *#1\relax\else:\notag\fi:}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \begin{macro}{\multleft}
+%  \begin{macro}{\multcenter}
+%  \begin{macro}{\multright}
+%  Then the commands that use \cs{EQ_generic_multline:nnnnn}. The
+%  first three are the general purpose ones that also have a starred
+%  version. The other three are for normal use.
+%    \begin{macrocode}
+\def\multleft{\@ifstar{%
+  \MH_if_boolean:nTF {multlined}{
+    \def\EQ_next:{\EQ_multlined_left:n}
+  }{
+    \def\EQ_next:{
+      \EQ_generic_multline:nnnnn {*}{}{\mathrlap}{&&&&&}}
+  }
+  \EQ_next:}{%
+  \MH_if_boolean:nTF {multlined}{
+    \def\EQ_next:{\EQ_multlined_left:n}%
+  }{
+    \def\EQ_next:{
+      \EQ_generic_multline:nnnnn {}{}{\mathrlap}{&&&&&}}
+  }
+  \EQ_next:}}%
+\def\multcenter{\@ifstar{%
+  \MH_if_boolean:nTF {multlined}{
+    \def\EQ_next:{\EQ_multlined_center:n}%
+  }{
+    \def\EQ_next:{
+      \EQ_generic_multline:nnnnn {*}{&&}{\mathclap}{&&&}}
+  }
+  \EQ_next:}{%
+  \MH_if_boolean:nTF {multlined}{
+    \def\EQ_next:{\EQ_multlined_center:n }%
+  }{
+    \def\EQ_next:{
+      \EQ_generic_multline:nnnnn {}{&&}{\mathclap}{&&&}}
+  }
+  \EQ_next:}}%
+\def\multright{\@ifstar{%
+  \MH_if_boolean:nTF {multlined}{
+    \def\EQ_next:{\EQ_multlined_right:n }%
+  }{
+    \def\EQ_next:{
+      \EQ_generic_multline:nnnnn {*}{&&&&&}{\mathllap}{}}
+  }
+  \EQ_next:}{%
+  \MH_if_boolean:nTF {multlined}{
+    \def\EQ_next:{\EQ_multlined_right:n }%
+  }{
+    \def\EQ_next:{
+      \EQ_generic_multline:nnnnn {}{&&&&&}{\mathllap}{}}
+  }
+  \EQ_next:}}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \begin{macro}{\multfirst}
+%  \begin{macro}{\multmiddle}
+%  \begin{macro}{\multlast}
+%  If we're using the \mode{leqno} option, the equation number should
+%  be placed in the first line.
+%    \begin{macrocode}
+\def\multfirst{%
+  \MH_if_boolean:nTF {multlined}{
+     \def\EQ_next:{\EQ_multlined_left:n }%
+  }{
+    \if_case:w \l_EQ_alignmentmode_int
+    \or: % #1:
+      \def\EQ_next:{\multleft}%
+    \or: % #2:
+      \def\EQ_next:{\multleft*}%
+    \or: % #3:
+      \def\EQ_next:{\multleft}%
+    \or: % #4:
+      \def\EQ_next:{\multleft*}%
+    \fi:
+  }
+  \EQ_next:}
+%    \end{macrocode}
+%  Pretend the star was never there.
+%    \begin{macrocode}
+\def\multmiddle{%
+  \def\EQ_next:{%
+    \MH_if_boolean:nTF {multlined}{
+      \expandafter\EQ_multlined_center:n
+    }{
+      \expandafter\multcenter
+    }
+  }%
+  \@ifstar{\EQ_next:}{\EQ_next:}}
+%    \end{macrocode}
+%  If we're  using the \mode{reqno} option, the equation number
+%  should be placed in the last line.
+%    \begin{macrocode}
+\def\multlast{%
+  \MH_if_boolean:nTF {multlined}{
+     \def\EQ_next:{\EQ_multlined_right:n }%
+  }{
+    \if_case:w \l_EQ_alignmentmode_int
+    \or: % #1:
+      \def\EQ_next:{\multright*}%
+    \or: % #2:
+      \def\EQ_next:{\multright}%
+    \or: % #3:
+      \def\EQ_next:{\multright*}%
+    \or: % #4:
+      \def\EQ_next:{\multright}%
+    \fi:
+  }
+  \EQ_next:}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \begin{macro}{\multlinedwidth}
+%  Here begins the code for \env{multlined}.
+%    \begin{macrocode}
+\MH_new_boolean:n {multlined}
+\newdimen\multlinedwidth
+\MH_setlength:dn \multlinedwidth{.7\linewidth}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{environment}{multlined}
+%  \changes{v2.10}{2004/07/26}{Disallow spaces before optional
+%  arguments.}
+%  \begin{macro}{\EQ_multlined_I:w}
+%  \begin{macro}{\EQ_multlined_II:w}
+%  \begin{macro}{\EQ_multlined_III:nn}
+%  Some trickery as we want to scan for two optional arguments that
+%  may be interchanged.
+%    \begin{macrocode}
+\renewenvironment{multlined}%
+  {\MH_nospace_ifnextchar:Nnn [  {\EQ_multlined_I:w}
+                                 {\EQ_multlined_I:w[c]}
+  }
+  { \endaligned }
+\def\EQ_multlined_I:w[#1]{%
+  \MH_nospace_ifnextchar:Nnn[  {\EQ_multlined_II:w[#1]}
+                               {\EQ_multlined_II:w[#1][\multlinedwidth]}}
+\def\EQ_multlined_II:w[#1][#2]{%
+%    \end{macrocode}
+%  We tell \LaTeX\ that we're in \env{multlined}.
+%    \begin{macrocode}
+  \MH_set_boolean_T:n {multlined}
+%    \end{macrocode}
+%  \changes{v2.10}{2004/07/26}{Fixed restoration of \cmd{\\}}
+%  Restore the meaning of \cmd{\\} inside \env{multlined}, else it
+%  wouldn't work in the \env{equation} environment.
+%    \begin{macrocode}
+  \MH_let:NwN \Let@\MT_saved_Let:
+%    \end{macrocode}
+%  Then check the first optional argument and call
+%  \cs{EQ_multlined_III:w}, which sets \cs{multlinewidth} if
+%  specified and calls \cs{start@aligned} (an \env{alignedat} with
+%  three columns).
+%    \begin{macrocode}
+  \if:w t#1\relax \EQ_multlined_III:nn {#1}{#2}%
+  \else:
+    \if:w b#1\relax \EQ_multlined_III:nn {#1}{#2}%
+    \else:
+      \if:w c#1\relax \EQ_multlined_III:nn {#1}{#2}%
+      \else:
+        \EQ_multlined_III:nn {#2}{#1}%
+      \fi:
+    \fi:
+  \fi:
+  \mkern-\thinmuskip
+  \EQ_next:}
+\def\EQ_multlined_III:nn #1#2{%
+  \def\EQ_next:{\setlength\multlinedwidth{#2}%
+                          \start@aligned{#1}{\thr@@}}}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{environment}
+%  \begin{macro}{\EQ_multlined_left:n}
+%  \begin{macro}{\EQ_multlined_center:n}
+%  \begin{macro}{\EQ_multlined_right:n}
+%  The internal versions of \cs{multleft} etc.\ adapted for
+%  \env{multlined}.
+%    \begin{macrocode}
+\def\EQ_multlined_left:n #1{%
+  \mathrlap{#1}&\hskip.5\multlinedwidth&&\hskip.5\multlinedwidth&&}
+\def\EQ_multlined_center:n #1{%
+  &\hskip.5\multlinedwidth&&\mathclap{#1}\hskip.5\multlinedwidth&&}
+\def\EQ_multlined_right:n #1{%
+  &\hskip.5\multlinedwidth&&\hskip.5\multlinedwidth&&\mathllap{#1}}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%
+%  End of bad multline.
+%    \begin{macrocode}
+}
+%    \end{macrocode}
+%
+%  \subsubsection{The Code for \env{flalign} \& \env{multline}}
+%    \begin{macrocode}
+\EQ_new_equationtype:nnn {EmphEqEnv}{flalign}{5}
+\EQ_new_equationtype:nnn {EmphEqEnv}{flalign*}{6}
+\def\EQ_modify_linewidth_v:{%
+  \setlength{\l_EQ_temp_linewidth_dim}{%
+    \linewidth-\l_EQ_totalwidth_dim-\widthof{\EQ_outerbox:{}}}%
+  \if_dim:w \g_EQ_widesttag_dim>\z@
+    \MH_if_boolean:nTF {multline}{
+      \EQ_multline_modify_linewidth_tag:
+    }{
+      \if_case:w \l_EQ_alignmentmode_int
+      \or: % #1:
+        \MH_addtolength:dn  \l_EQ_temp_linewidth_dim
+          {-\g_EQ_widesttag_dim-\mintagsep}
+      \or: % #2:
+        \MH_addtolength:dn \l_EQ_temp_linewidth_dim
+          {-\g_EQ_widesttag_dim-\mintagsep}%
+      \or: % #3:
+        \MH_addtolength:dn \l_EQ_temp_linewidth_dim
+          {-\g_EQ_widesttag_dim-\mintagsep}
+      \or: % #4:
+        \MH_addtolength:dn \l_EQ_temp_linewidth_dim
+          {-\@mathmargin}
+      \fi:
+    }
+  \else:
+    \MH_if_boolean:nT {multline}{
+      \EQ_multline_modify_linewidth_notag:
+    }
+  \fi:}
+\def\EQ_modify_linewidth_vi:{\EQ_modify_linewidth_v:}
+\def\find_displaywidth_v:{%
+  \MH_setlength:dn
+    \l_EQ_displaywidth_dim{\l_EQ_temp_linewidth_dim}}
+\def\find_displaywidth_vi:{\find_displaywidth_v:}
+\def\EQ_place_display_v:{%
+  \if_case:w \l_EQ_alignmentmode_int
+  \or: % #1:
+    \if_dim:w \g_EQ_widesttag_dim>\z@
+      \MH_if_boolean:nTF {multline}{
+        \rlap{\kern\multlinegap  \kern-.5\linewidth
+          \EQ_use_mathdisplay:
+          \kern-\mintagsep  \kern\multlinetaggap}%
+      }{
+        \rlap{\kern-.5\linewidth\EQ_use_mathdisplay:}%
+      }
+    \else:
+      \EQ_use_mathdisplay:
+    \fi:
+  \or: % #2:
+    \if_dim:w \g_EQ_widesttag_dim>\z@
+      \MH_if_boolean:nTF {multline}{
+        \llap{\kern-\mintagsep \kern\multlinetaggap
+          \EQ_use_mathdisplay:
+          \kern\multlinegap  \kern-.5\linewidth}%
+      }{
+        \llap{\EQ_use_mathdisplay:\kern-.5\linewidth}%
+      }
+    \else:
+      \EQ_use_mathdisplay:
+    \fi:
+  \or: % #3:
+    \MH_if_boolean:nF {multline}{ \kern-\multlinetaggap }
+    \EQ_use_mathdisplay:
+  \or: % #4:
+    \if_dim:w \g_EQ_widesttag_dim>\z@
+    \else:
+      \MH_if_boolean:nF {multline}{ \kern-\@mathmargin }
+    \fi:
+    \EQ_use_mathdisplay:
+  \fi:
+  \MH_set_boolean_F:n {multline}}
+\def\EQ_place_display_vi:{\EQ_place_display_v:}
+%    \end{macrocode}
+%
+%  \subsection{The \env{alignat} Family}
+%  This is just as easy as \env{gather}. Actually only one line is
+%  different from \env{gather}!
+%    \begin{macrocode}
+\EQ_new_equationtype_arg:nnn {EmphEqEnv}{alignat}{7}
+\EQ_new_equationtype_arg:nnn {EmphEqEnv}{alignat*}{8}
+\def\EQ_modify_linewidth_vii:{}
+\def\EQ_modify_linewidth_viii:{\EQ_modify_linewidth_vii:}
+\def\find_displaywidth_vii:{%
+  \MH_setlength:dn \l_EQ_displaywidth_dim{\totwidth@}%
+  \if_case:w \l_EQ_alignmentmode_int
+  \or: % #1:
+  \or: % #2:
+  \or: % #3:
+    \MH_addtolength:dn \l_EQ_displaywidth_dim{-\eqnshift@}%
+  \or: % #4:
+    \MH_addtolength:dn \l_EQ_displaywidth_dim{-\@mathmargin}%
+  \fi:}
+\def\find_displaywidth_viii:{\find_displaywidth_vii:}
+\def\EQ_place_display_vii:{\EQ_use_mathdisplay:}
+\def\EQ_place_display_viii:{\EQ_place_display_vii:}
+%    \end{macrocode}
+%  \section{The User Interface}
+%  The different keys.
+%    \begin{macrocode}
+\define@key{\EQ_options_name:}{box}{\def\EQ_outerbox:{#1}}
+\MH_keyval_alias:nnn {\EQ_options_name:}{outerbox}{box}
+%    \end{macrocode}
+%  \begin{macro}{\EQ_marginbox:nn}
+%  The margin box. Uwe Siart wanted it.
+%    \begin{macrocode}
+\def\EQ_marginbox:nn #1#2{%
+  \settowidth{\@tempdima}{#2}%
+  \makebox[\z@]{\hspace{\@tempdima}#1{#2}}}
+\define@key{\EQ_options_name:}{marginbox}{%
+  \def\EQ_outerbox:{\EQ_marginbox:nn {#1}}}
+%    \end{macrocode}
+%  \end{macro}
+%  Almost self-explanatory, isn't?
+%    \begin{macrocode}
+\define@key{\EQ_options_name:}{innerbox}{\def\EQ_innerbox:{#1}}
+\define@key{\EQ_options_name:}{left}{\def\EQ_left_side:{#1}}
+\define@key{\EQ_options_name:}{right}{\def\EQ_right_side:{#1}}
+%    \end{macrocode}
+%  \begin{macro}{\empheqset}
+%  Just a user friendly way to set keys. Uwe Siart again.
+%    \begin{macrocode}
+\newcommand*\empheqset[1]{\setkeys{\EQ_options_name:}{#1}}
+%    \end{macrocode}
+%  \end{macro}
+%  The old keys from the original version are no longer supported.
+%  Instead they give an error message (RM):
+%    \begin{macrocode}
+\def\EQ_upgrade_error:{%
+  \PackageError{empheq}
+    {You~ are~ using~ the~ old~ syntax!\MessageBreak
+    The~ `empheq'~ environment~ takes~ a~ mandatory~
+    argument~ now.\MessageBreak
+    You~ need~ to~ exit~ and~ change~ your~ source~ file.}
+    {It~ won't~ work,~ trust me.~ Press~ `X'~ now.}}
+\define@key{\EQ_options_name:}{boxtype}{\EQ_upgrade_error:}
+\define@key{\EQ_options_name:}{Left}{\EQ_upgrade_error:}
+\define@key{\EQ_options_name:}{Right}{\EQ_upgrade_error:}
+%    \end{macrocode}
+%  \begin{environment}{empheq}
+%  The environment.
+%    \begin{macrocode}
+\newenvironment{empheq}[2][]{%
+  \setkeys{EmphEqEnv}{#2}\setkeys{\EQ_options_name:}{#1}%
+  \EmphEqMainEnv}{\endEmphEqMainEnv}
+%    \end{macrocode}
+%  \end{environment}
+%  \begin{macro}{\DeclareLeftDelimiter}
+%  \begin{macro}{\EQ_declare_left_delimiter:nnnn}
+%  \begin{macro}{\DeclareRightDelimiter}
+%  \begin{macro}{\EQ_declare_right_delimiter:nnnn}
+%  The delimiter interface.
+%  \changes{v0.7}{2003/05/11}{Introduced delimiter interface}
+%  \changes{v1.05d}{2004/02/26}{Changed the definitions.}
+%  We now use the \cs{EQ_tag_box} to calculate the height but
+%  adjust the vertical spacing. All this to prevent running
+%  \cs{EQ_typeset_display:} twice.
+%    \begin{macrocode}
+\newcommand*\DeclareLeftDelimiter[2][]{%
+  \EQ_declare_left_delimiter:nnnn {#1}{#2}{}{}%
+  \EQ_declare_left_delimiter:nnnn {#1}{#2}{big}{\EQ_innerbox:}}
+\def\EQ_declare_left_delimiter:nnnn #1#2#3#4{%
+  \@namedef{empheq#3\expandafter\@gobble\string#2}{%
+    \left#2%
+    \mkern-\thinmuskip
+    \vphantom{#4{\parbox{.5\maxdimen}{%
+      \EQ_predisplay_adjustment:
+      \EQ_prevent_vertical_space:
+      \usebox{\EQ_tag_box}%
+      \EQ_postdisplay_adjustment:}}}%
+    \right.%
+    \kern-\nulldelimiterspace #1}}
+\newcommand*\DeclareRightDelimiter[2][]{%
+  \EQ_declare_right_delimiter:nnnn {#1}{#2}{}{}%
+  \EQ_declare_right_delimiter:nnnn {#1}{#2}{big}{\EQ_innerbox:}}
+\def\EQ_declare_right_delimiter:nnnn #1#2#3#4{%
+  \@namedef{empheq#3\expandafter\@gobble\string#2}{%
+    \kern-\nulldelimiterspace
+    #1%
+    \left.%
+    \vphantom{#4{\parbox{.5\maxdimen}{%
+      \EQ_predisplay_adjustment:
+      \EQ_prevent_vertical_space:
+      \usebox{\EQ_tag_box}%
+      \EQ_postdisplay_adjustment:}}}%
+    \mkern-\thinmuskip
+    \right#2}}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  The actual declarations.
+%    \begin{macrocode}
+\DeclareLeftDelimiter{\lbrace}
+\DeclareRightDelimiter{\rbrace}
+\DeclareLeftDelimiter{\lbrack}
+\DeclareRightDelimiter{\rbrack}
+\DeclareLeftDelimiter{\langle}
+\DeclareRightDelimiter{\rangle}
+\DeclareLeftDelimiter{\lvert}
+\DeclareRightDelimiter{\rvert}
+\DeclareLeftDelimiter{\lVert}
+\DeclareRightDelimiter{\rVert}
+\DeclareLeftDelimiter{\lfloor}
+\DeclareRightDelimiter{\rfloor}
+\DeclareLeftDelimiter{\lceil}
+\DeclareRightDelimiter{\rceil}
+\DeclareLeftDelimiter{\lparen}
+\DeclareRightDelimiter{\rparen}
+%    \end{macrocode}
+%
+%  \section{Support for Other Packages}
+%
+%  Support for various other packages is found in this section. The
+%  \pkg{ntheorem} package now has a dedicated section (\S
+%  \vref{sec:impl:ntheorem}), as it now a module.
+%
+%
+%
+%    \begin{macrocode}
+\def\EQ_typeset_tags_hook:{}
+\def\EQ_typeset_display_hook:{}
+%    \end{macrocode}
+%
+%  \subsection{\pkg{showkeys}}
+%  \changes{v2.10}{2004/07/26}{Added support for the \pkg{showkeys}
+%  package}
+%  We just disable \pkg{showkeys} when typesetting the labels.
+%    \begin{macrocode}
+\g@addto@macro\EQ_typeset_display_hook:{
+  \def\SK@@label#1>#2\SK@{}
+}
+%    \end{macrocode}
+%  If we overload the \AmS{} equation types we should still be able
+%  to use \pkg{showkeys}.
+%    \begin{macrocode}
+\@namedef{SK@AmSequation}  {\SK@equationtrue}
+\@namedef{SK@AmSequation*} {\SK@equationtrue}
+\@namedef{SK@AmSalign}     {\SK@equationtrue}
+\@namedef{SK@AmSalign*}    {\SK@equationtrue}
+\@namedef{SK@AmSalignat}   {\SK@equationtrue}
+\@namedef{SK@AmSalignat*}  {\SK@equationtrue}
+\@namedef{SK@AmSgather}    {\SK@equationtrue}
+\@namedef{SK@AmSgather*}   {\SK@equationtrue}
+\@namedef{SK@AmSmultline}  {\SK@equationtrue}
+\@namedef{SK@AmSmultline*} {\SK@equationtrue}
+\@namedef{SK@AmSflalign}   {\SK@equationtrue}
+\@namedef{SK@AmSflalign*}  {\SK@equationtrue}
+%    \end{macrocode}
+%
+%  \subsection{\pkg{hyperref}}
+%
+%
+%  A little trick to avoid the (in)famous warning
+%  \begin{verbatim}
+%  ! pdfTeX warning (ext4): destination with the same identifier
+%  (name{equation.1a }) has been already used, duplicate ignored
+%  <to be read again>
+%                     \endgroup \set@typeset@protect
+%  \end{verbatim}
+%  This doesn't require \pkg{hyperref}.
+%    \begin{macrocode}
+\AtBeginDocument{
+  \@ifundefined{Hy@linkcounter}{\newcount\Hy@linkcounter}{}
+}
+\g@addto@macro\EQ_typeset_display_hook:{
+  \MH_let:NwN \hyper@refstepcounter\@gobble
+}
+%    \end{macrocode}
+% 
+% \subsection{\pkg{nccmath}}
+%
+% Must disable this macro, otherwise the spacing is wrong.
+%    \begin{macrocode}
+ \g@addto@macro\EQ_typeset_display_hook:{
+   \let\NCC@ignorepar\relax
+ }
+ \g@addto@macro\EQ_typeset_tags_hook:{
+   \let\NCC@ignorepar\relax
+ }
+%    \end{macrocode}
+%
+%  \subsection{Basic \pkg{ntheorem} support}
+%    \begin{macrocode}
+\g@addto@macro\EQ_typeset_tags_hook:{
+  \MH_let:NwN\TagsPlusEndmarks\relax
+  \MH_let:NwN\RestoreTags\relax
+}
+\g@addto@macro\EQ_typeset_display_hook:{
+  \MH_let:NwN\TagsPlusEndmarks\relax
+  \MH_let:NwN\RestoreTags\relax
+}
+%    \end{macrocode}
+%  \subsection{Basic \LaTeXe{} support}
+%  Gobble the \cs{ltx@label} and disable most error messages.
+%  \changes{v2.00}{2004/04/14}{Make a special label-gobbling command
+%  to support \pkg{ntheorem} even more}
+%    \begin{macrocode}
+\g@addto@macro\EQ_typeset_display_hook:{
+  \MH_let:NwN\ltx@label\MT_gobblelabel:w
+  \MH_let:NwN \GenericError \@gobblefour
+}
+%    \end{macrode}
+%  \subsection{Support for \pkg{fancybox}}
+%  First check if \pkg{fancybox} is loaded and then see if
+%  \pkg{color} is loaded. If the latter is loaded we define
+%  \texttt{shadowcolor} else we let \cs{textcolor} gobble the first
+%  argument (the color).
+%    \begin{macrocode}
+\AtBeginDocument{%
+  \@ifpackageloaded{fancybox}{%
+    \@ifpackageloaded{color}{\definecolor{shadowcolor}{rgb}{0,0,0}}%
+    {\newcommand*\textcolor[2]{\normalcolor{#2}}}%
+%    \end{macrocode}
+%  \begin{macro}{\shadowbox}
+%  Then define the \cs{shadowbox}. Use a conditional to let us know if
+%  it was starred or not.
+%    \begin{macrocode}
+    \MH_new_boolean:n {shadowbox_star}
+    \renewcommand*\shadowbox{%
+      \@ifstar{\MH_set_boolean_T:n {shadowbox_star}
+               \VerbBox\EQ_shadowbox:n}
+              {\MH_set_boolean_F:n {shadowbox_star}
+               \VerbBox\EQ_shadowbox:n}}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\EQ_shadowbox:n}
+%  The internal version of \cs{shadowbox}.
+%    \begin{macrocode}
+    \def\EQ_shadowbox:n #1{%
+      \sbox{\z@}{\fbox{#1}}%
+%    \end{macrocode}
+%  The difference between the two versions is that \cs{shadowbox}
+%  aligns the bottom of the shadow at the baseline whereas
+%  \cs{shadowbox*} aligns the argument on the baseline, so for the
+%  starred version the trick is to raise the box by the depth of the
+%  argument plus the size of the shadow.
+%    \begin{macrocode}
+      \MH_if_boolean:nTF {shadowbox_star}{
+        \MH_setlength:dn \@tempdima{\z@}%
+      }{
+        \MH_setlength:dn \@tempdima{\dp\z@+\shadowsize}%
+      }
+      \raisebox{\@tempdima}{%
+        \makebox[\z@][l]{%
+          \kern\shadowsize \textcolor{shadowcolor}{%
+            \rule[-\dp\z@-\shadowsize]{\wd\z@}{\shadowsize}}%
+        }%
+        \usebox\z@\textcolor{shadowcolor}{%
+          \rule[-\dp\z@-\shadowsize]{\shadowsize}{\ht\z@+\dp\z@}}}}%
+  }{}%
+}
+%    \end{macrocode}
+%  \end{macro}
+%
+%
+%  \section{The \opt{overload} option}
+%  \begin{macro}{\EQ_overload_ams_begin:n}
+%  A helper for saving snapshots:
+%    \begin{macrocode}
+\def\EQ_overload_ams_begin:n #1{%
+  \MH_let:cc {AmS#1}{#1}%
+  \MH_let:cc {AmS#1*}{#1*}
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\EQ_overload_ams_end:n}
+%  All but one of the aligned variations must be set to the original
+%    \begin{macrocode}
+\def\EQ_overload_ams_end:n #1{%
+  \MH_let:cc {endAmS#1}{endAmSalign}
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{environment}{AmSequation}
+%  \begin{environment}{AmSequation*}
+%  \changes{v2.10}{2004/07/26}{Moved redefinitions to
+%  \cs{AtBeginDocument} to give \pkg{hyperref} a chance}
+%  Before we start redefining environments, we'll need a basic
+%  \env{equation} environment that is not redefined.
+%    \begin{macrocode}
+\AtBeginDocument{
+  \EQ_overload_ams_begin:n {equation}
+  \MH_let:cc {endAmSequation}{endequation}
+  \MH_let:cc {endAmSequation*}{endequation*}
+%    \end{macrocode}
+%  \end{environment}
+%  \end{environment}
+%  Lets start overloading.
+%    \begin{macrocode}
+  \MH_if_boolean:nT {overload_ams}{
+%    \end{macrocode}
+%  \begin{macro}{\EQ_renew_ams_environment:n}
+%  \changes{v2.10}{2004/07/26}{Disallow spaces before the optional
+%  argument.}
+%  Then we can renew the environments. Syntax is
+%  \cs{begin}\marg{\AmS{} env}\oarg{markup}. Exception to this rule
+%  is \env{alignat} (see further down).
+%    \begin{macrocode}
+    \def\EQ_renew_ams_environment:n #1{%
+      \MaybeMHPrecedingSpacesOff
+      \renewenvironment{#1}[1][]{%
+        \setkeys{\EQ_options_name:}{##1}%
+        \setkeys{EmphEqEnv}{AmS#1}%
+        \EmphEqMainEnv
+      }{\endEmphEqMainEnv}
+      \MHPrecedingSpacesOn
+    }
+%    \end{macrocode}
+%  \end{macro}
+%  Add equation type: \emph{Must} have same number as original type!
+%    \begin{macrocode}
+    \EQ_new_equationtype:nnn     {EmphEqEnv}{AmSalign}   {1}
+    \EQ_new_equationtype:nnn     {EmphEqEnv}{AmSalign*}  {2}
+    \EQ_new_equationtype:nnn     {EmphEqEnv}{AmSgather}  {3}
+    \EQ_new_equationtype:nnn     {EmphEqEnv}{AmSgather*} {4}
+    \EQ_new_equationtype:nnn     {EmphEqEnv}{AmSflalign} {5}
+    \EQ_new_equationtype:nnn     {EmphEqEnv}{AmSflalign*}{6}
+    \EQ_new_equationtype_arg:nnn {EmphEqEnv}{AmSalignat} {7}
+    \EQ_new_equationtype_arg:nnn {EmphEqEnv}{AmSalignat*}{8}
+%    \end{macrocode}
+%  Then overload by saving the snapshots of the old definitions. We
+%  do it via \cs{AtBeginDocument}, because a package like
+%  \pkg{ntheorem} redefines \cs{endgather} etc.
+%
+%  First the \env{gather} and \env{equation} families.
+%    \begin{macrocode}
+    \EQ_overload_ams_begin:n {gather}
+    \MH_let:cc {endAmSgather}{endgather}
+    \MH_let:cc {endAmSgather*}{endAmSgather}
+    \EQ_renew_ams_environment:n {gather}
+    \EQ_renew_ams_environment:n {gather*}
+    \EQ_overload_ams_begin:n {equation}
+    \MH_keyval_alias_with_addon:nnnn {EmphEqEnv} {AmSequation}
+      {AmSgather}{\EQ_disable_linebreak:}
+    \MH_keyval_alias_with_addon:nnnn {EmphEqEnv}{AmSequation*}
+      {AmSgather*}{\EQ_disable_linebreak:}
+    \EQ_renew_ams_environment:n {equation}
+    \EQ_renew_ams_environment:n {equation*}
+%    \end{macrocode}
+%  The \env{align} family.
+%    \begin{macrocode}
+    \EQ_overload_ams_begin:n {align}
+    \MH_let:cc {endAmSalign}{endalign}
+    \EQ_overload_ams_end:n {align*}
+    \EQ_renew_ams_environment:n {align}
+    \EQ_renew_ams_environment:n {align*}
+%    \end{macrocode}
+%  The \env{flalign} family.
+%    \begin{macrocode}
+    \EQ_overload_ams_begin:n {flalign}
+    \EQ_overload_ams_end:n {flalign}
+    \EQ_overload_ams_end:n {flalign*}
+    \EQ_renew_ams_environment:n {flalign}
+    \EQ_renew_ams_environment:n {flalign*}
+%    \end{macrocode}
+%  The \env{alignat} family.
+%    \begin{macrocode}
+    \EQ_overload_ams_begin:n {alignat}
+    \EQ_overload_ams_end:n {alignat}
+    \EQ_overload_ams_end:n {alignat*}
+%    \end{macrocode}
+%  \begin{macro}{\EQ_alignat_optional:w}
+%  \changes{v2.10}{2004/07/26}{Disallow spaces before the optional
+%  argument.}
+%  \begin{environment}{alignat}
+%  \begin{environment}{alignat*}
+%  This one is a little different because we want a syntax like
+%  \cs{begin\{alignat\}}\linebreak[0]\marg{cols}\oarg{markup}, so we
+%  have to make a separate command for testing the trailing optional
+%  argument.
+%    \begin{macrocode}
+    \MaybeMHPrecedingSpacesOff
+    \newcommand*\EQ_alignat_optional:w [1][]{
+      \setkeys{\EQ_options_name:}{#1}
+      \EmphEqMainEnv}
+    \MHPrecedingSpacesOn
+    \renewenvironment{alignat}[1]{
+      \setkeys{EmphEqEnv}{AmSalignat=#1}
+      \EQ_alignat_optional:w}
+      {\endEmphEqMainEnv}
+    \renewenvironment{alignat*}[1]{%
+      \setkeys{EmphEqEnv}{AmSalignat*=#1}%
+      \EQ_alignat_optional:w}%
+      {\endEmphEqMainEnv}
+%    \end{macrocode}
+%  \end{environment}
+%  \end{environment}
+%  \end{macro}
+%  \begin{macro}{\[}
+%  \begin{macro}{\]}
+%  Then restore \cs{[} and \cs{]}.
+%    \begin{macrocode}
+    \DeclareRobustCommand{\[}{\begin{AmSequation*}}
+    \DeclareRobustCommand{\]}{\end{AmSequation*}}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  Finally a string of aliases so that we can blend \opt{overload}
+%  syntax with regular syntax.
+%    \begin{macrocode}
+    \MH_keyval_alias:nnn {EmphEqEnv}{gather}  {AmSgather}
+    \MH_keyval_alias:nnn {EmphEqEnv}{gather*} {AmSgather*}
+    \MH_keyval_alias:nnn {EmphEqEnv}{align}   {AmSalign}
+    \MH_keyval_alias:nnn {EmphEqEnv}{align*}  {AmSalign*}
+    \MH_keyval_alias:nnn {EmphEqEnv}{flalign} {AmSflalign}
+    \MH_keyval_alias:nnn {EmphEqEnv}{flalign*}{AmSflalign*}
+    \MH_keyval_alias:nnn {EmphEqEnv}{alignat} {AmSalignat}
+    \MH_keyval_alias:nnn {EmphEqEnv}{alignat*}{AmSalignat*}
+    \MH_if_boolean:nT {good_mult}{
+      \EQ_overload_ams_begin:n {multline}
+      \MH_let:cc {endAmSmultline}{endmultline}
+      \MH_let:cc {endAmSmultline*}{endAmSmultline}
+      \MH_keyval_alias_with_addon:nnnn {EmphEqEnv}{AmSmultline}
+        {AmSgather}{\MH_set_boolean_T:n {outer_mult}}
+      \MH_keyval_alias_with_addon:nnnn {EmphEqEnv}{AmSmultline*}
+        {AmSgather*}{\MH_set_boolean_T:n {outer_mult}}
+      \EQ_renew_ams_environment:n {multline}
+      \EQ_renew_ams_environment:n {multline*}
+    }
+%    \end{macrocode}
+%  End of \opt{overload}. We go into \opt{overload2}\ldots This
+%  is dangerous, but will probably work. The macro \cs{[} is now
+%  fragile except if you're running \eTeX{} as engine for \LaTeX.
+%    \begin{macrocode}
+    \MH_if_boolean:nT {overload_amsII}{
+      \MH_protected:\def\[#1\]{\begin{equation*} #1\end{equation*}}
+%    \end{macrocode}
+%  Then we add the \env{multline} family.
+%    \begin{macrocode}
+      \MH_if_boolean:nF {good_mult}{
+        \EQ_overload_ams_begin:n {multline}
+        \MH_keyval_alias_with_addon:nnnn {EmphEqEnv}{AmSmultline}
+          {AmSflalign}{\MH_set_boolean_T:n {multline}}
+        \MH_keyval_alias_with_addon:nnnn {EmphEqEnv}{AmSmultline*}
+          {AmSflalign*}{\MH_set_boolean_T:n {multline}}
+        \EQ_renew_ams_environment:n {multline}
+        \EQ_renew_ams_environment:n {multline*}
+      }
+    }
+  }
+}
+%    \end{macrocode}
+%  End of \cs{AtBeginDocument} additions.
+%
+%  If we need to load \pkg{ntheorem} support this is where it
+%  happens. Otherwise we just stop here.
+%    \begin{macrocode}
+\if\g@EQ@ntheorem@support@bool
+\else 
+  \expandafter\endinput
+\fi
+%    \end{macrocode}
+%
+%  \section{Patching Things up for \pkg{ntheorem}}
+%  \label{sec:impl:ntheorem}
+%
+%  Although \pkg{ntheorem} provides a lot of useful features it
+%  does however ruin things in the \pkg{amsmath} environments,
+%  because of the alternative syntax of its \cs{label} command.
+%  \begin{macro}{\default_raisetag}
+%  \begin{macro}{\raisetag}
+%  \begin{macro}{\raise@tag}
+%  \changes{v1.06}{2004/03/13}{Fixed \pkg{amsmath} bug \# 3624}
+%  This corrects a bug\footnote{See
+%  \url{http://www.latex-project.org/cgi-bin/ltxbugs2html?pr=amslatex/3624}}
+%  in \pkg{amsmath} that could cause tags to cross page boundaries
+%  without warning. The \cs{nobreak} is the addition.
+%    \begin{macrocode}
+\def\default_raisetag:{\nobreak}
+\def\raisetag#1{
+  \skip@#1\relax
+  \xdef\raise@tag{\default_raisetag:
+                  \vskip\iftagsleft@\else:-\fi:\the\skip@\relax}}
+\MH_let:NwN\raise@tag\default_raisetag:
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \begin{macro}{\displ@y@}
+%  Patch it so that it doesn't set \cs{raise@tag} to \cs{@empty}
+%  globally.
+%    \begin{macrocode}
+\def\displ@y@{\@display@init{%
+  \global\column@\z@ \global\dspbrk@lvl\m@ne
+  \global\tag@false \global\MH_let:NwN\raise@tag\default_raisetag:
+}}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\MT_gobblelabel:w}
+%  \changes{v2.00}{2004/04/14}{Added \cs{MT_gobblelabel:w}}
+%  \begin{macro}{\EQ_gobbleoptional:w}
+%  \changes{v2.00}{2004/04/14}{Added \cs{EQ_gobbleoptional:w}}
+%  Macros for gobbling the `unorthodox' \cs{label} syntax of
+%  \pkg{ntheorem}. Also overrides the normal \cs{label}-gobbling.
+%    \begin{macrocode}
+\def\MT_gobblelabel:w #1{\@ifnextchar[{\EQ_gobbleoptional:w}{}}
+\def\EQ_gobbleoptional:w [#1]{}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \subsection{Fixing \env{gather}}
+%  The measuring phase of \env{gather} is patched by letting
+%  \cs{label} be a copy of the internal \cs{MT_gobblelabel:w}
+%  instead of \cs{@gobble}.
+%    \begin{macrocode}
+\def\gmeasure@#1{%
+  \begingroup
+    \measuring@true
+    \totwidth@\z@
+    \global\MH_let:NwN\tag@lengths\@empty
+    \savecounters@
+    \setbox\@ne\vbox{%
+      \everycr{\noalign{\global\tag@false
+%    \end{macrocode}
+%  The patch for \cs{raisetag}.
+%    \begin{macrocode}
+        \global\MH_let:NwN\raise@tag\default_raisetag:
+        \global\column@\z@}}%
+%    \end{macrocode}
+%  The patch for \cs{label}.
+%    \begin{macrocode}
+      \MH_let:NwN\label\MT_gobblelabel:w
+      \halign{%
+        \setboxz@h{$\m@th\displaystyle{##}$}%
+        \if_dim:w \wdz@>\totwidth@
+          \global\totwidth@\wdz@
+        \fi:
+        &\setboxz@h{\strut@{##}}%
+        \savetaglength@
+        \crcr
+        #1%
+        \math@cr@@@
+      }%
+    }%
+    \restorecounters@
+    \if@fleqn
+        \global\advance\totwidth@\@mathmargin
+    \fi:
+    \iftagsleft@
+        \if_dim:w \totwidth@>\displaywidth
+            \global\MH_let:NwN\gdisplaywidth@\totwidth@
+        \else:
+            \global\MH_let:NwN\gdisplaywidth@\displaywidth
+        \fi:
+    \fi:
+  \endgroup
+}
+%    \end{macrocode}
+%
+%  \subsection{Fixing \env{align}, \env{alignat}, and \env{flalign}}
+%  Just copy the definition of \cs{measure@} from \pkg{amsmath} and
+%  change one (1!) line like we did for \env{gather}.
+%    \begin{macrocode}
+\def\measure@#1{%
+  \begingroup
+    \measuring@true
+    \global\eqnshift@\z@
+    \global\alignsep@\z@
+    \global\MH_let:NwN\tag@lengths\@empty
+    \global\MH_let:NwN\field@lengths\@empty
+    \savecounters@
+    \global\setbox0\vbox{%
+      \MH_let:NwN\math@cr@@@\math@cr@@@align@measure
+      \everycr{\noalign{\global\tag@false
+%    \end{macrocode}
+%  The patch for \cs{raisetag}.
+%    \begin{macrocode}
+        \global\MH_let:NwN\raise@tag\default_raisetag:
+        \global\column@\z@}}%
+%    \end{macrocode}
+%  The patch.
+%    \begin{macrocode}
+      \MH_let:NwN\label\MT_gobblelabel:w
+      \global\row@\z@
+      \tabskip\z@
+      \halign{\span\align@preamble\crcr
+        #1%
+        \math@cr@@@
+        \global\column@\z@
+        \add@amps\maxfields@\cr
+      }%
+    }%
+    \restorecounters@
+    \ifodd\maxfields@
+      \global\advance\maxfields@\@ne
+    \fi:
+    \if_num:w \xatlevel@=\tw@
+      \if_num:w \maxfields@<\thr@@
+        \MH_let:NwN\xatlevel@\z@
+      \fi:
+    \fi:
+    \setbox\z@\vbox{%
+      \unvbox\z@ \unpenalty \global\setbox\@ne\lastbox
+    }%
+    \global\totwidth@\wd\@ne
+    \if@fleqn \global\advance\totwidth@\@mathmargin \fi:
+    \global\MH_let:NwN\maxcolumn@widths\@empty
+    \begingroup
+      \MH_let:NwN\or:\relax
+      \loop
+        \global\setbox\@ne\hbox{%
+          \unhbox\@ne \unskip \global\setbox\thr@@\lastbox
+        }%
+      \ifhbox\thr@@
+        \xdef\maxcolumn@widths{ \or: \the\wd\thr@@ \maxcolumn@widths}%
+      \repeat
+    \endgroup
+    \dimen@\displaywidth
+    \advance\dimen@-\totwidth@
+    \if_case:w \xatlevel@
+      \global\alignsep@\z@
+      \MH_let:NwN\minalignsep\z@
+      \@tempcntb\z@
+      \if@fleqn
+        \@tempcnta\@ne
+        \global\eqnshift@\@mathmargin
+      \else:
+        \@tempcnta\tw@
+        \global\eqnshift@\dimen@
+        \global\divide\eqnshift@\@tempcnta
+      \fi:
+    \or:
+      \@tempcntb\maxfields@
+      \divide\@tempcntb\tw@
+      \@tempcnta\@tempcntb
+      \advance\@tempcntb\m@ne
+      \if@fleqn
+        \global\eqnshift@\@mathmargin
+        \global\alignsep@\dimen@
+        \global\divide\alignsep@\@tempcnta
+      \else:
+        \global\advance\@tempcnta\@ne
+        \global\eqnshift@\dimen@
+        \global\divide\eqnshift@\@tempcnta
+        \global\alignsep@\eqnshift@
+      \fi:
+    \or:
+      \@tempcntb\maxfields@
+      \divide\@tempcntb\tw@
+      \global\advance\@tempcntb\m@ne
+      \global\@tempcnta\@tempcntb
+      \global\eqnshift@\z@
+      \global\alignsep@\dimen@
+      \if@fleqn
+        \global\advance\alignsep@\@mathmargin\relax
+      \fi:
+      \global\divide\alignsep@\@tempcntb
+    \fi:
+    \if_dim:w \alignsep@<\minalignsep\relax
+      \global\alignsep@\minalignsep\relax
+      \if_dim:w \eqnshift@>\z@
+        \if@fleqn\else:
+          \global\eqnshift@\displaywidth
+          \global\advance\eqnshift@-\totwidth@
+          \global\advance\eqnshift@-\@tempcntb\alignsep@
+          \global\divide\eqnshift@\tw@
+        \fi:
+      \fi:
+    \fi:
+    \if_dim:w \eqnshift@<\z@
+      \global\eqnshift@\z@
+    \fi:
+    \calc@shift@align
+    \global\tagshift@\totwidth@
+    \global\advance\tagshift@\@tempcntb\alignsep@
+    \if@fleqn
+      \if_num:w \xatlevel@=\tw@
+        \global\advance\tagshift@-\@mathmargin\relax
+      \fi:
+    \else:
+      \global\advance\tagshift@\eqnshift@
+    \fi:
+    \iftagsleft@ \else:
+      \global\advance\tagshift@-\displaywidth
+    \fi:
+    \dimen@\minalignsep\relax
+    \global\advance\totwidth@\@tempcntb\dimen@
+    \if_dim:w \totwidth@>\displaywidth
+      \global\MH_let:NwN\displaywidth@\totwidth@
+    \else:
+      \global\MH_let:NwN\displaywidth@\displaywidth
+    \fi:
+  \endgroup
+}
+%    \end{macrocode}
+%
+%  \subsection{Fixing \env{multline}}
+%  \begin{macro}{\EQ_multline_labelhack:n}
+%  \begin{macro}{\EQ_multline_labelhack_opt:nw}
+%  As \pkg{ntheorem} defines \cs{label} to have the syntax
+%  \cs{label}\marg{label}\oarg{name}, we need to make sure that it
+%  has that inside \env{multline} as well. Especially since the
+%  measuring phase of \env{multline} \emph{defines} \cs{label} as
+%  well.
+%    \begin{macrocode}
+\def\EQ_multline_labelhack:n #1{%
+  \begingroup\measuring@false\label@in@display{#1}\endgroup}
+\def\EQ_multline_labelhack_opt:nw #1[#2]{%
+  \begingroup\measuring@false\label@in@display{#1}[#2]\endgroup}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \begin{macro}{\multline@}
+%  Patching \env{multline} takes more work because it does its
+%  processing differently, so we need to apply hooks twice: One in
+%  the measuring phase \cs{mmeasure@} where \cs{label} is redefined
+%  and one in the production phase \cs{multline@} where the ordinary
+%  \cs{label} is gobbled (we use \cs{MT_gobblelabel:w} as
+%  before). First the typesetting phase.
+%    \begin{macrocode}
+\def\multline@#1{%
+  \Let@
+  \@display@init{\global\advance\row@\@ne \global\dspbrk@lvl\m@ne}%
+  \chardef\dspbrk@context\z@
+  \restore@math@cr
+  \MH_let:NwN\tag\tag@in@align
+%    \end{macrocode}
+%  The patch for \cs{raisetag}.
+%    \begin{macrocode}
+  \global\tag@false \global\MH_let:NwN\raise@tag\default_raisetag:
+  \mmeasure@{#1}%
+  \MH_let:NwN\tag\gobble@tag
+%    \end{macrocode}
+%  The patch.
+%    \begin{macrocode}
+  \MH_let:NwN\label\MT_gobblelabel:w
+  \tabskip \if@fleqn \@mathmargin \else: \z@skip \fi:
+  \totwidth@\displaywidth
+  \if@fleqn
+    \advance\totwidth@-\@mathmargin
+  \fi:
+  \halign\bgroup
+    \hbox to\totwidth@{%
+      \if@fleqn
+        \hskip \@centering \relax
+      \else:
+        \hfil
+      \fi:
+      \strut@
+      $\m@th\displaystyle{}##\endmultline@math%$
+      \hfil
+    }%
+    \crcr
+    \if@fleqn
+      \hskip-\@mathmargin
+      \def\multline@indent{\hskip\@mathmargin}% put it back
+    \else:
+      \hfilneg
+      \def\multline@indent{\hskip\multlinegap}%
+    \fi:
+    \iftagsleft@
+      \iftag@
+        \begingroup
+          \ifshifttag@
+            \rlap{\vbox{%
+              \normalbaselines
+              \hbox{%
+                \strut@
+                \make@display@tag
+              }%
+              \vbox to\lineht@{}%
+              \raise@tag
+            }}%
+              \multline@indent
+          \else:
+            \setbox\z@\hbox{\make@display@tag}%
+            \dimen@\@mathmargin \advance\dimen@-\wd\z@
+            \if_dim:w \dimen@<\multlinetaggap
+              \dimen@\multlinetaggap
+            \fi:
+            \box\z@ \hskip\dimen@\relax
+          \fi:
+        \endgroup
+      \else:
+        \multline@indent
+      \fi:
+    \else:
+      \multline@indent
+    \fi:
+  #1%
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\mmeasure@}
+%  Then redefine the label correctly.
+%    \begin{macrocode}
+\def\mmeasure@#1{%
+  \begingroup
+    \measuring@true
+%    \end{macrocode}
+%  The patch.
+%    \begin{macrocode}
+    \def\label##1{%
+      \@ifnextchar[
+        {\EQ_multline_labelhack_opt:nw {##1}}
+        {\EQ_multline_labelhack:n {##1}}
+    }
+    \def\math@cr@@@{\cr}%
+    \MH_let:NwN\shoveleft\@iden \MH_let:NwN\shoveright\@iden
+    \savecounters@
+    \global\row@\z@
+    \setbox\@ne\vbox{%
+      \global\MH_let:NwN\df@tag\@empty
+      \halign{%
+        \setboxz@h{\@lign$\m@th\displaystyle{}##$}%
+        \iftagsleft@
+          \if_num:w \row@=\@ne
+            \global\totwidth@\wdz@
+            \global\lineht@\ht\z@
+          \fi:
+        \else:
+          \global\totwidth@\wdz@
+          \global\lineht@\dp\z@
+        \fi:
+        \crcr
+        #1%
+        \crcr
+      }%
+    }%
+    \if_meaning:NN
+      \df@tag\@empty
+    \else:
+      \global\tag@true
+    \fi:
+    \if@eqnsw\global\tag@true\fi:
+    \iftag@
+      \setboxz@h{%
+        \if@eqnsw
+          \stepcounter{equation}%
+          \tagform@\theequation
+        \else:
+          \df@tag
+        \fi:
+      }%
+      \global\tagwidth@\wdz@
+      \dimen@\totwidth@
+      \advance\dimen@\tagwidth@
+      \advance\dimen@\multlinetaggap
+      \iftagsleft@\else:
+        \if@fleqn
+          \advance\dimen@\@mathmargin
+        \fi:
+      \fi:
+      \if_dim:w \dimen@>\displaywidth
+        \global\shifttag@true
+      \else:
+        \global\shifttag@false
+      \fi:
+    \fi:
+    \restorecounters@
+  \endgroup
+}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \subsection{Setting End Marks Correctly}
+%
+%  \begin{macro}{\mintagvsep}
+%  \changes{v1.05}{2004/02/16}{Introduced \cs{mintagvsep} to
+%  support the \pkg{ntheorem} package}
+%  \begin{macro}{\EQ_only_endmark:}
+%  \changes{v1.05}{2004/02/16}{Introduced \cs{EQ_only_endmark:}
+%  to support the \pkg{ntheorem} package}
+%  \changes{v2.11}{2004/08/03}{Make sure the tag is printed even with the
+%  \pkg{mathtools} key \key{showonlyrefs} activated}
+%  \begin{macro}{\EQ_tag_plus_endmark:}
+%  \changes{v1.05}{2004/02/16}{Introduced
+%  \cs{EQ_tag_plus_endmark:} to support the \pkg{ntheorem} package}
+%  \pkg{ntheorem} provides an extension to the theorem environment
+%  and also supports automatic end of theorem marks. To do so it must
+%  redefine parts of the \pkg{amsmath} code and it eventually ends up
+%  in problems when the tags and the marker are all typeset at the
+%  right margin.
+%
+%  There are basically two different possibilities:
+%  \begin{center}\hfill
+%  \unitlength2.5pt \thicklines
+%  \begin{picture}(60,45)(0,25)
+%    \put(0,50){\framebox(25,20){Math Height}}
+%    \put(0,25){\framebox(25,25){Math Depth}}
+%    \put(40,50){\framebox(20,10){Tag height}}
+%    \put(40,45){\framebox(20,5){Tag depth}}
+%    \put(40,25){\framebox(20,10){Marker}}
+%    \put(50,35){\vector(0,1){10}}
+%    \put(50,45){\vector(0,-1){10}}
+%    \put(50,39){\ \ $\delta>0$}
+%    \multiput(26,25)(2,0){7}{\line(1,0){1}}
+%  \end{picture} \hfill\vrule\hfill
+%  \begin{picture}(60,45)(0,25)
+%    \put(0,50){\framebox(25,20){Math Height}}
+%    \put(0,40){\framebox(25,10){Math Depth}}
+%    \put(40,50){\framebox(20,10){Tag height}}
+%    \put(40,45){\framebox(20,5){Tag depth}}
+%    \put(40,28){\framebox(20,10){Marker}}
+%    \put(50,38){\vector(0,1){7}}
+%    \put(50,45){\vector(0,-1){7}}
+%    \put(50,40){\ \ $\delta=0$}
+%  \end{picture}\hfill\mbox{}
+%  \end{center}
+%  Let's look closer at this. $h_M$ is the height of the end of
+%  theorem marker, which we'll try to place so that its baseline
+%  aligns with the bottom of the math display. $d_D$ is the depth of
+%  the the last line of the math display including the depth of the
+%  surrounding boxes while $d_T$ is the depth of the tag. Also we let
+%  $m$ denote the minimum vertical distance between tag and marker
+%  and $\delta$ is some positive length that may be added to $m$
+%  depending on the other values. To ensure a ``proper'' placement of
+%  the marker we simply test the inequality
+%  \begin{gather}
+%     h_M + d_T + m > d_D \label{eq:tag_placement}
+%  \end{gather}
+%  If the test is true we're done and just have to set the marker so
+%  that the top of it is placed at a distance of $m$ from the bottom
+%  of the tag. If it's not we can safely put the marker at the bottom
+%  of the display.
+%    \begin{macrocode}
+\newlength\mintagvsep
+\mintagvsep5pt
+\def\EQ_only_endmark:{%
+  \MH_set_boolean_T:n {show_manual_tags}
+  \global\tag@true
+  \iftagsleft@
+    \gdef\df@tag{%
+      \hbox to \displaywidth{%
+        \hss
+%    \end{macrocode}
+%  If the tags are set to the left we just have to lower the end mark
+%  by the total depth of the display including its surrounding box.
+%  Also we have to take care of \cs{normallineskip}.
+%    \begin{macrocode}
+        \raisebox{-\normallineskip
+                  -\depthof{\EQ_outerbox:{}}
+                  -\heightof{\EQ_outerbox:{}}
+                  -\dp\EQ_mathdisplay_box
+                  -\ht\EQ_mathdisplay_box}
+                 [0pt][0pt]{\PotEndMark{\maketag@@@}}}}
+  \else:
+    \gdef\df@tag{%
+      \raisebox{-\dp\EQ_mathdisplay_box
+                -\depthof{\EQ_outerbox:{}}}
+               {\PotEndMark{\maketag@@@}}}%
+  \fi:}
+%    \end{macrocode}
+%  \changes{v2.00}{2004/04/14}{Fixed another bug in placement of the
+%  marker}
+%  \changes{v2.10}{2004/07/26}{Fixed horizontal spacing in \env{equation}}
+%  In v2.00 I fixed another bug I had overlooked. This is getting
+%  embarrassing. The outer box must be taken into account as well.
+%    \begin{macrocode}
+\def\EQ_tag_plus_endmark:{%
+  \iftagsleft@
+    \gdef\maketag@@@##1{%
+%    \end{macrocode}
+%  The following fixes a bug when there is a wide tag in an
+%  \env{equation} environment and was reported by Bernard
+%  Alfonsi.\footnote{\email{alfonsi@math.u-psud.fr}} The problem
+%  arises when \pkg{ntheorem} tries to typeset a tag and an end mark,
+%  because the tag is set at the left margin and the end mark at the
+%  right margin and \pkg{ntheorem} over-simplifies this and forgets
+%  to take the displayed math into account! The right solution is to
+%  wrap the tag in a box of the correct size, namely |\widthof{##1}|
+%  and then push the end mark to the right margin. Then the displayed
+%  math is set correcly.
+%    \begin{macrocode}
+      \hfuzz\displaywidth
+      \makebox[\widthof{##1}][l]{%
+        \hbox to \displaywidth{\m@th\normalfont##1\hss
+          \raisebox{-\dp\EQ_mathdisplay_box
+                    -\depthof{\EQ_outerbox:{}}}
+                   {\PotEndMark{\hss}}}}}%
+  \else:
+    \gdef\maketag@@@##1{%
+      \hbox{\m@th\normalfont##1\llap{\hss\PotEndMark{%
+        \settoheight{\@tempdima}{\@nameuse{\InTheoType Symbol}}%
+        \MH_addtolength:dn \@tempdima
+          {\g_EQ_bottomtag_depth_dim+\mintagvsep}
+        \setlength{\@tempdimb}
+          {\g_EQ_bottomrow_depth_dim+\depthof{\EQ_outerbox:{}}
+            +\depthof{\EQ_innerbox:{}}}
+        \if_dim:w \@tempdima>\@tempdimb
+          \MH_setlength:dn \@tempdima{-\dp\EQ_mathdisplay_box
+            -\@tempdima+\g_EQ_bottomrow_depth_dim}
+          \addtolength{\@tempdima}{\depthof{\EQ_innerbox:{}}}%
+          \def\EQ_next:{\raisebox{\@tempdima}}%
+        \else:
+%    \end{macrocode}
+%  \changes{v1.06}{2004/03/13}{Fixed bug in placement of the marker
+%  and re-arranged some code}
+%  In v1.06 I fixed a stupid bug regarding placement of the marker.
+%  If I had done a proper test I would have discovered it
+%  immediately!
+%    \begin{macrocode}
+          \def\EQ_next:{
+            \raisebox{-\dp\EQ_mathdisplay_box
+                      -\depthof{\EQ_outerbox:{}}}}%
+        \fi:\EQ_next:}}}}%
+  \fi:}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%
+%  \begin{macro}{\MT_nonumber:}
+%    \begin{macrocode}
+\MH_let:NwN \MT_nonumber: \nonumber
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\nonumber}
+%  Redefine \cs{nonumber} to reset depth of bottom tag.
+%    \begin{macrocode}
+\def\g_EQ_latest_nonzerodepth_row_fint{\z@}
+\renewcommand*\nonumber{
+  \@tempcnta=\row@
+  \if_num:w \l_EQ_equationtype_int=\thr@@
+    \advance\@tempcnta\m@ne
+  \else:
+    \if_num:w \l_EQ_equationtype_int=4\relax
+      \advance\@tempcnta\m@ne
+    \fi:
+  \fi:
+  \if_num:w \g_EQ_latest_nonzerodepth_row_fint=\@tempcnta
+  \else:
+    \global\g_EQ_bottomtag_depth_dim=-\baselineskip
+  \fi:
+  \MT_nonumber:
+}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  End of \pkg{ntheorem} patches and package.
+%    \begin{macrocode}
+%</package>
+%    \end{macrocode}
+% \Finale
+\endinput

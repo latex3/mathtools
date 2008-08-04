@@ -1,0 +1,3984 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2004-2008 by Morten Hoegholm <mh.ctan@gmail.com>
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either
+% version 1.3 of this license or (at your option) any later
+% version. The latest version of this license is in
+%    http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of
+% LaTeX version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status "maintained".
+%
+% This Current Maintainer of this work is Morten Hoegholm.
+%
+% This work consists of the main source file mathtools.dtx
+% and the derived files
+%    mathtools.sty, mathtools.pdf, mathtools.ins, mathtools.drv.
+%
+% Distribution:
+%    CTAN:macros/latex/contrib/mh/mathtools.dtx
+%    CTAN:macros/latex/contrib/mh/mathtools.pdf
+%
+% Unpacking:
+%    (a) If mathtools.ins is present:
+%           tex mathtools.ins
+%    (b) Without mathtools.ins:
+%           tex mathtools.dtx
+%    (c) If you insist on using LaTeX
+%           latex \let\install=y\input{mathtools.dtx}
+%        (quote the arguments according to the demands of your shell)
+%
+% Documentation:
+%    (a) If mathtools.drv is present:
+%           latex mathtools.drv
+%    (b) Without mathtools.drv:
+%           latex mathtools.dtx; ...
+%    The class ltxdoc loads the configuration file ltxdoc.cfg
+%    if available. Here you can specify further options, e.g.
+%    use A4 as paper format:
+%       \PassOptionsToClass{a4paper}{article}
+%
+%    Programm calls to get the documentation (example):
+%       pdflatex mathtools.dtx
+%       makeindex -s gind.ist mathtools.idx
+%       pdflatex mathtools.dtx
+%       makeindex -s gind.ist mathtools.idx
+%       pdflatex mathtools.dtx
+%
+% Installation:
+%    TDS:tex/latex/mh/mathtools.sty
+%    TDS:doc/latex/mh/mathtools.pdf
+%    TDS:source/latex/mh/mathtools.dtx
+%
+%<*ignore>
+\begingroup
+  \def\x{LaTeX2e}
+\expandafter\endgroup
+\ifcase 0\ifx\install y1\fi\expandafter
+         \ifx\csname processbatchFile\endcsname\relax\else1\fi
+         \ifx\fmtname\x\else 1\fi\relax
+\else\csname fi\endcsname
+%</ignore>
+%<*install>
+\input docstrip.tex
+\Msg{************************************************************************}
+\Msg{* Installation}
+\Msg{* Package: mathtools 2008/08/01 v1.06 (MH)}
+\Msg{************************************************************************}
+
+\keepsilent
+\askforoverwritefalse
+
+\preamble
+
+This is a generated file.
+
+Copyright (C) 2002-2007 by Morten Hoegholm <mh.ctan@gmail.com>
+
+This work may be distributed and/or modified under the
+conditions of the LaTeX Project Public License, either
+version 1.3 of this license or (at your option) any later
+version. The latest version of this license is in
+   http://www.latex-project.org/lppl.txt
+and version 1.3 or later is part of all distributions of
+LaTeX version 2005/12/01 or later.
+
+This work has the LPPL maintenance status "maintained".
+
+This Current Maintainer of this work is Morten Hoegholm.
+
+This work consists of the main source file mathtools.dtx
+and the derived files
+   mathtools.sty, mathtools.pdf, mathtools.ins, mathtools.drv.
+
+\endpreamble
+
+\generate{%
+  \file{mathtools.ins}{\from{mathtools.dtx}{install}}%
+  \file{mathtools.drv}{\from{mathtools.dtx}{driver}}%
+  \usedir{tex/latex/mh}%
+  \file{mathtools.sty}{\from{mathtools.dtx}{package}}%
+}
+
+\obeyspaces
+\Msg{************************************************************************}
+\Msg{*}
+\Msg{* To finish the installation you have to move the following}
+\Msg{* file into a directory searched by TeX:}
+\Msg{*}
+\Msg{*     mathtools.sty}
+\Msg{*}
+\Msg{* To produce the documentation run the file `mathtools.drv'}
+\Msg{* through LaTeX.}
+\Msg{*}
+\Msg{* Happy TeXing!}
+\Msg{*}
+\Msg{************************************************************************}
+
+\endbatchfile
+%</install>
+%<*ignore>
+\fi
+%</ignore>
+%<*driver>
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesFile{mathtools.drv}%
+  [2008/08/01 v1.06 mathematical typesetting tools (MH)]
+\documentclass{ltxdoc}
+\IfFileExists{fourier.sty}{\usepackage{fourier}}{}
+\addtolength\marginparwidth{-25pt}
+\usepackage{mathtools}
+
+\setcounter{IndexColumns}{2}
+
+\providecommand*\pkg[1]{\textsf{#1}}
+\providecommand*\env[1]{\texttt{#1}}
+\providecommand*\email[1]{\href{mailto:#1}{\texttt{#1}}}
+\providecommand*\mode[1]{\texttt{[#1]}}
+\providecommand*\file[1]{\texttt{#1}}
+\usepackage{xcolor,varioref}
+\makeatletter
+\newcommand*\thinfbox[2][black]{\fboxsep0pt\textcolor{#1}{\rulebox{{\normalcolor#2}}}}
+\newcommand*\thinboxed[2][black]{\thinfbox[#1]{\ensuremath{\displaystyle#2}}}
+\newcommand*\rulebox[1]{%
+  \sbox\z@{\ensuremath{\displaystyle#1}}%
+  \@tempdima\dp\z@
+  \hbox{%
+    \lower\@tempdima\hbox{%
+      \vbox{\hrule height\fboxrule\box\z@\hrule height\fboxrule}%
+    }%
+  }%
+}
+
+\newenvironment{codesyntax}
+    {\par\small\addvspace{4.5ex plus 1ex}%
+     \vskip -\parskip
+     \noindent
+     \begin{tabular}{|l|}\hline\ignorespaces}%
+    {\\\hline\end{tabular}\nobreak\par\nobreak
+     \vspace{2.3ex}\vskip -\parskip\noindent\ignorespacesafterend}
+\makeatletter
+
+\newcommand*\FeatureRequest[2]{%
+  \hskip1sp
+  \marginpar{%
+    \parbox[b]{\marginparwidth}{\small\sffamily\raggedright
+      \strut Feature request by\\#1\\#2%
+    }
+  }%
+}
+
+\newcommand*\ProvidedBy[2]{%
+  \hskip1sp
+  \marginpar{%
+    \parbox[b]{\marginparwidth}{\small\sffamily\raggedright
+      \strut Feature provided by\\#1\\#2%
+    }
+  }%
+}
+
+
+
+\newcommand*\cttPosting[2]{%
+  \hskip1sp
+  \marginpar{%
+    \parbox[b]{\marginparwidth}{\small\sffamily\raggedright
+     \strut Posted on \texttt{comp.text.tex} \\#1\\#2%
+    }%
+  }%
+}
+
+\expandafter\def\expandafter\MakePrivateLetters\expandafter{%
+  \MakePrivateLetters  \catcode`\_=11\relax
+}
+
+\providecommand*\SpecialOptIndex[1]{%
+  \@bsphack
+  \index{#1\actualchar{\protect\ttfamily #1}
+          (option)\encapchar usage}%
+      \index{options:\levelchar#1\actualchar{\protect\ttfamily #1}\encapchar
+            usage}\@esphack}
+\providecommand*\opt[1]{\texttt{#1}}
+
+\providecommand*\SpecialKeyIndex[1]{%
+  \@bsphack
+  \index{#1\actualchar{\protect\ttfamily #1}
+          (key)\encapchar usage}%
+      \index{keys:\levelchar#1\actualchar{\protect\ttfamily #1}\encapchar
+            usage}\@esphack}
+\providecommand*\key[1]{\textsf{#1}}
+
+\providecommand*\eTeX{$\m@th\varepsilon$-\TeX}
+
+\def\MTmeta#1{%
+     \ensuremath\langle
+     \ifmmode \expandafter \nfss@text \fi
+     {%
+      \meta@font@select
+      \edef\meta@hyphen@restore
+        {\hyphenchar\the\font\the\hyphenchar\font}%
+      \hyphenchar\font\m@ne
+      \language\l@nohyphenation
+      #1\/%
+      \meta@hyphen@restore
+     }\ensuremath\rangle
+     \endgroup
+}
+\makeatother
+\DeclareRobustCommand\meta{\begingroup\MakePrivateLetters\MTmeta}%
+\def\MToarg#1{{\ttfamily[}\meta{#1}{\ttfamily]}\endgroup}
+\DeclareRobustCommand\oarg{\begingroup\MakePrivateLetters\MToarg}%
+\def\MHmarg#1{{\ttfamily\char`\{}\meta{#1}{\ttfamily\char`\}}\endgroup}
+\DeclareRobustCommand\marg{\begingroup\MakePrivateLetters\MHmarg}%
+\def\MHarg#1{{\ttfamily\char`\{#1\ttfamily\char`\}}\endgroup}
+\DeclareRobustCommand\arg{\begingroup\MakePrivateLetters\MHarg}%
+\def\MHcs#1{\texttt{\char`\\#1}\endgroup}
+\DeclareRobustCommand\cs{\begingroup\MakePrivateLetters\MHcs}
+
+\def\endverbatim{\if@newlist
+\leavevmode\fi\endtrivlist\vspace{-\baselineskip}}
+\expandafter\let\csname endverbatim*\endcsname =\endverbatim
+
+\let\MTtheindex\theindex
+\def\theindex{\MTtheindex\MakePrivateLetters}
+
+\usepackage[final,hyperindex=false]{hyperref}
+\renewcommand*\usage[1]{\textit{\hyperpage{#1}}}
+
+\OnlyDescription
+\begin{document}
+  \DocInput{mathtools.dtx}
+\end{document}
+%</driver>
+%  \fi
+%
+%  \changes{v1.0}{2004/07/26}{Initial release}
+%
+%  \GetFileInfo{mathtools.drv}
+%
+%  \CheckSum{2004}
+%
+%  \title{The \pkg{mathtools} package\thanks{This file has version number
+%  \fileversion, last revised \filedate.}}
+%
+%  \author{Morten H\o gholm}
+%  \date{\filedate}
+%
+%  \maketitle
+%
+%  \begin{abstract}
+%    The \pkg{mathtools} package is an extension package to
+%    \pkg{amsmath}. There are two things on \pkg{mathtools}' agenda:
+%    1)~correct various bugs/defeciencies in \pkg{amsmath} until
+%    these are fixed by the \AmS{} and 2)~provide useful tools
+%    for mathematical typesetting, be it a small macro for
+%    typesetting a prescript or an underbraket, or entirely new
+%    display math constructs such as a \env{multlined} environment.
+%  \end{abstract}
+%
+%  \tableofcontents
+%
+%  \section{Introduction}
+%
+%  Although \pkg{amsmath} provides many handy tools for mathematical
+%  typesetting, it is nonetheless a static package. This is not a bad
+%  thing, because what it does, it mostly does quite well and having
+%  a stable math typesetting package is ``a good thing.'' However,
+%  \pkg{amsmath} does not fulfill all the needs of the mathematical
+%  part of the \LaTeX{} community, resulting in many authors writing
+%  small snippets of code for tweaking the mathematical layout. Some
+%  of these snippets has also been posted to newsgroups and mailing
+%  lists over the years, although more often than not without being
+%  released as stand-alone packages.
+%
+%
+%  The \pkg{mathtools} package is exactly what its name implies:
+%  tools for mathematical typesetting. It is a collection of many of
+%  these often needed small tweaks---with some big tweaks added as
+%  well. It can only do so by having me harvesting newsgroups for
+%  code and/or you writing me with wishes for code to be included, so
+%  if you have any good macros or just macros that help you when
+%  writing mathematics, then don't hesitate to report them to me. I
+%  can be reached at
+%  \begin{quote}\email{mh.ctan@gmail.com}\end{quote}
+%  This is of course also the address to use in case of bug reports.
+%
+%  \section{Package loading}
+%
+%
+%  The \pkg{mathtools} package requires \pkg{amsmath} but is able to
+%  pass options to it as well. Thus a line like
+%  \begin{verbatim}
+%    \usepackage[fleqn,tbtags]{mathtools}
+%  \end{verbatim}
+%  is equivalent to
+%  \begin{verbatim}
+%    \usepackage[fleqn,tbtags]{amsmath}
+%    \usepackage{mathtools}
+%  \end{verbatim}
+%
+%
+%  \subsection{Special \pkg{mathtools} options}
+%
+%  \begin{codesyntax}
+%  \SpecialOptIndex{fixamsmath}\opt{fixamsmath}\texttt{~~~~}
+%  \SpecialOptIndex{donotfixamsmathbugs}\opt{donotfixamsmathbugs}
+%  \end{codesyntax}
+%  The option \opt{fixamsmath} (default) fixes two bugs in
+%  \pkg{amsmath}.\footnote{See the online \LaTeX{} bugs database
+%  \url{http://www.latex-project.org/cgi-bin/ltxbugs2html} under
+%  \AmS\LaTeX{} problem reports 3591 and 3614.} Should you for some
+%  reason not want to fix these bugs then just add the option
+%  \opt{donotfixamsmathbugs} (if you can do it without typos). The
+%  reason for this extremely long name is that I really don't see why
+%  you wouldn't want these bugs to be fixed, so I've made it slightly
+%  difficult not to fix them.
+%
+%  \begin{codesyntax}
+%  \SpecialOptIndex{allowspaces}\opt{allowspaces}\texttt{~~~~}
+%  \SpecialOptIndex{disallowspaces}\opt{disallowspaces}
+%  \end{codesyntax}
+%  Sometimes \pkg{amsmath} gives you nasty surprises, as here where
+%  things look seemingly innocent:
+%  \begin{verbatim}
+%  \[
+%      \begin{gathered}
+%        [p] = 100 \\
+%        [v] = 200
+%      \end{gathered}
+%  \]
+%  \end{verbatim}
+%  Without \pkg{mathtools} this will result in this output:
+%  \[
+%      \begin{gathered}[c]
+%        = 100 \\
+%        [v] = 200
+%      \end{gathered}
+%  \]
+%  Yes, the \texttt[p] has been gobbled without any warning
+%  whatsoever.\footnote{\pkg{amsmath} thought the \texttt[p] was an
+%  optional argument, checked if it was \texttt{t} or \texttt{b} and
+%  when both tests failed, assumed it was a \texttt{c}.} This is
+%  hardly what you'd expect as an end user, as the desired output was
+%  probably something like this instead:
+%  \[
+%      \begin{gathered}[c]
+%        [p] = 100 \\
+%        [v] = 200
+%      \end{gathered}
+%  \]
+%  With the option \opt{disallowspaces} (default) \pkg{mathtools}
+%  disallows spaces in front of optional arguments where it could
+%  possibly cause problems just as \pkg{amsmath} does with |\\|
+%  inside the display environments. This includes the environments
+%  \env{gathered} (and also those shown in \S
+%  \vref{subsec:gathered}), \env{aligned}, \env{multlined}, and the
+%  extended \env{matrix}-environments (\S \vref{subsubsec:matrices}).
+%  If you however want to preserve the more dangerous standard
+%  optional spaces, simply choose the option \opt{allowspaces}.
+%
+%
+%  \section{Tools for mathematical typesetting}
+%
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\mathtoolsset}\cs{mathtoolsset}\marg{key val list}
+%  \end{codesyntax}
+%  Many of the tools shown in this manual can be turned on and off be
+%  setting a switch to either true or false. In all cases it is done
+%  with the command \cs{mathtoolsset}. A typical use could be something like
+%  \begin{verbatim}
+%    \mathtoolsset{
+%      showonlyrefs,
+%      mathic % or mathic = true
+%    }
+%  \end{verbatim}
+%  More information on the keys later on.
+%
+%  \subsection{Fine-tuning mathematical layout}
+%
+%  Sometimes you need to tweak the layout of formulas a little to get
+%  the best result and this part of the manual describes the various
+%  macros \pkg{mathtools} provides for this.
+%
+%  \subsubsection{A complement to \texttt{\textbackslash smash},
+%  \texttt{\textbackslash llap}, and \texttt{\textbackslash rlap}}
+%
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\mathllap}
+%    \cs{mathllap}\oarg{mathstyle}\marg{math}\texttt{~~}
+%    \SpecialUsageIndex{\mathclap}
+%    \cs{mathclap}\oarg{mathstyle}\marg{math}\\
+%    \SpecialUsageIndex{\mathrlap}
+%    \cs{mathrlap}\oarg{mathstyle}\marg{math}\texttt{~~}
+%    \SpecialUsageIndex{\clap}
+%    \cs{clap}\marg{text}\\
+%    \SpecialUsageIndex{\mathmbox}
+%    \cs{mathmbox}\marg{math}\phantom{\meta{mathstyle}}\texttt{~~~~}
+%    \SpecialUsageIndex{\mathmakebox}
+%    \cs{mathmakebox}\oarg{width}\oarg{pos}\marg{math}
+%  \end{codesyntax}
+%  In \cite{Perlis01}, Alexander R.~Perlis describes some simple yet
+%  useful macros for use in math displays. For example the display
+%  \begin{verbatim}
+%    \[
+%      X = \sum_{1\le i\le j\le n} X_{ij}
+%    \]
+%  \end{verbatim}
+%  \[
+%    X = \sum_{1\le i\le j\le n} X_{ij}
+%  \]
+%  contains a lot of excessive white space.  The idea that comes to
+%  mind is to fake the width of the subscript. The command
+%  \cs{mathclap} puts its argument in a zero width box and centers
+%  it, so it could possibly be of use here.
+%  \begin{verbatim}
+%    \[
+%      X = \sum_{\mathclap{1\le i\le j\le n}} X_{ij}
+%    \]
+%  \end{verbatim}
+%  \[
+%    X = \sum_{\mathclap{1\le i\le j\le n}} X_{ij}
+%  \]
+%  For an in-depth discussion of
+%  these macros I find it better to read the article; an online
+%  version can be found at
+%  \begin{quote}
+%    \url{http://www.tug.org/TUGboat/Articles/tb22-4/tb72perlS.pdf}
+%  \end{quote}
+%  Note that the definitions shown in the article do not exactly
+%  match the definitions in \pkg{mathtools}. Besides providing an
+%  optional argument for specifying the desired math style, these
+%  versions also work around a most unfortunate \TeX{}
+%  ``feature.''\footnote{The faulty reboxing procedure.} The
+%  \cs{smash} macro is fixed too.
+%
+%
+%  \subsubsection{Forcing a cramped style}
+%
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\cramped}
+%    \cs{cramped}\oarg{mathstyle}\marg{math}
+%  \end{codesyntax}
+%  \cttPosting{Michael Herschorn}{1992/07/21}
+%  Let's look at another example where we have used \cs{mathclap}:
+%  \begin{verbatim}
+%    \begin{equation}\label{eq:mathclap}
+%      \sum_{\mathclap{a^2<b^2<c}}\qquad
+%      \sum_{a^2<b^2<c}
+%    \end{equation}
+%  \end{verbatim}
+%  \begin{equation}\label{eq:mathclap}
+%    \sum_{\mathclap{a^2<b^2<c}}\qquad
+%    \sum_{a^2<b^2<c}
+%  \end{equation}
+%  Do you see the difference? Maybe if I zoomed in a bit:
+%  \begingroup \fontsize{24}{\baselineskip}\selectfont
+%  \[
+%    \sum_{\mathclap{a^2<b^2<c}}\qquad
+%    \sum_{a^2<b^2<c}
+%  \]
+%  \endgroup
+%  Notice how the limit of the right summation sign is typeset in a
+%  more compact style than the left. It is because \TeX{} sets the
+%  limits of operators in a \emph{cramped} style. For each of \TeX'
+%  four math styles (\cs{displaystyle}, \cs{textstyle},
+%  \cs{scriptstyle}, and \cs{scriptscriptstyle}), there also exists a
+%  cramped style that doesn't raise exponents as much. Besides in the
+%  limits of operators, \TeX{} also automatically uses these cramped
+%  styles in radicals such as \cs{sqrt} and in the denominators of
+%  fractions, but unfortunately there are no primitive commands that
+%  allows you to detect crampedness or switch to it.
+%
+%  \pkg{mathtools} offers the command \cs{cramped} which forces a
+%  cramped style in normal un-cramped math. Additionally you can
+%  choose which of the four styles you want it in as well by
+%  specifying it as the optional argument:
+%  \begin{verbatim}
+%    \[
+%      \cramped{x^2}               \leftrightarrow x^2    \quad
+%      \cramped[\scriptstyle]{x^2} \leftrightarrow {\scriptstyle x^2}
+%    \]
+%  \end{verbatim}
+%  \[
+%    \cramped{x^2}               \leftrightarrow x^2    \quad
+%    \cramped[\scriptstyle]{x^2} \leftrightarrow {\scriptstyle x^2}
+%  \]
+%  You may be surprised how often the cramped style can be
+%  beneficial yo your output. Take a look at this example:
+%  \begin{verbatim}
+%    \begin{quote}
+%      The 2005 Euro\TeX{} conference is held in Abbaye des
+%      Pr\'emontr\'es, France, marking the 16th ($2^{2^2}$) anniversary
+%      of both Dante and GUTenberg (the German and French \TeX{} users
+%      group resp.).
+%    \end{quote}
+%  \end{verbatim}
+%  \begin{quote}
+%    The 2005 Euro\TeX{} conference is held in Abbaye des
+%    Pr\'emontr\'es, France, marking the 16th ($2^{2^2}$) anniversary
+%    of both Dante and GUTenberg (the German and French \TeX{} users
+%    group resp.).
+%  \end{quote}
+%  Typesetting on a grid is generally considered quite desirable, but
+%  as the second line of the example shows, the exponents of $2$
+%  causes the line to be too tall for the normal value of
+%  \cs{baselineskip}, so \TeX{} inserts a \cs{lineskip} (normal value
+%  is \the\lineskip). In order to circumvent the problem, we can
+%  force a cramped style so that the exponents aren't raised as much:
+%  \begin{verbatim}
+%    \begin{quote}
+%      The 2005 Euro\TeX{} ... 16th ($\cramped{2^{2^2}}$) ...
+%    \end{quote}
+%  \end{verbatim}
+%  \begin{quote}
+%    The 2005 Euro\TeX{} conference is held in Abbaye des
+%    Pr\'emontr\'es, France, marking the 16th ($\cramped{2^{2^2}}$)
+%    anniversary of both Dante and GUTenberg (the German and French
+%    \TeX{} users group resp.).
+%  \end{quote}
+%
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\crampedllap}
+%    \cs{crampedllap}\oarg{mathstyle}\marg{math}\texttt{~~}
+%    \SpecialUsageIndex{\crampedclap}
+%    \cs{crampedclap}\oarg{mathstyle}\marg{math}\\
+%    \SpecialUsageIndex{\crampedrlap}
+%    \cs{crampedrlap}\oarg{mathstyle}\marg{math}
+%  \end{codesyntax}
+%  The commands \cs{crampedllap}, \cs{crampedclap}, and
+%  \cs{crampedrlap} are identical to the three \cs{mathXlap} commands
+%  described earlier except the argument is typeset in cramped style.
+%  You need this in order to typeset \eqref{eq:mathclap} correctly
+%  while still faking the width of the limit.
+%  \begin{verbatim}
+%    \begin{equation*}\label{eq:mathclap-b}
+%      \sum_{\crampedclap{a^2<b^2<c}}
+%      \tag{\ref{eq:mathclap}*}
+%    \end{equation*}
+%  \end{verbatim}
+%  \begin{equation*}\label{eq:mathclap-b}
+%    \sum_{\crampedclap{a^2<b^2<c}}
+%    \tag{\ref{eq:mathclap}*}
+%  \end{equation*}
+%  Of course you could just type
+%  \begin{verbatim}
+%    \sum_{\mathclap{\cramped{a^2<b^2<c}}}
+%  \end{verbatim}
+%  but it has one major disadvantage: In order for \cs{mathXlap} and
+%  \cs{cramped} to get the right size, \TeX{} has to process them
+%  four times, meaning that nesting them as shown above will cause
+%  \TeX{} to typeset $4^2$ instances before choosing the right one.
+%  In this situation however, we will of course need the same style
+%  for both commands so it makes sense to combine the commands in
+%  one, thus letting \TeX{} make the choice only once rather than
+%  twice.
+%
+%
+%
+%  \subsubsection{Smashing an operator}
+%
+%
+%
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\smashoperator}
+%    \cs{smashoperator}\oarg{pos}\marg{operator with limits}
+%  \end{codesyntax}
+%  \FeatureRequest{Lars Madsen}{2004/05/04}
+%  Above we shoved how to get \LaTeX{} to ignore the width of the
+%  subscript of an operator. However this approach takes a lot of
+%  extra typing, especially if you have a wide superscript, meaning
+%  you have to put in \cs{crampedclap} in both sub- and superscript.
+%  To make things easier, \pkg{mathtools} provides a
+%  \cs{smashoperator} command, which simply ignores the width of the
+%  sub- and superscript. It also takes an optional argument,
+%  \texttt{l}, \texttt{r}, or \texttt{lr} (default), denoting which
+%  side of the operator should be ignored (smashed).
+%  \begin{verbatim}
+%    \[
+%      V = \sum_{1\le i\le j\le n}^{\infty} V_{ij}                  \quad
+%      X = \smashoperator{\sum_{1\le i\le j\le n}^{3456}} X_{ij}    \quad
+%      Y = \smashoperator[r]{\sum\limits_{1\le i\le j\le n}} Y_{ij} \quad
+%      Z = \smashoperator[l]{\mathop{T}_{1\le i\le j\le n}} Z_{ij}
+%    \]
+%  \end{verbatim}
+%    \[
+%      V = \sum_{1\le i\le j\le n}^{\infty} V_{ij}                  \quad
+%      X = \smashoperator{\sum_{1\le i\le j\le n}^{3456}} X_{ij}    \quad
+%      Y = \smashoperator[r]{\sum\limits_{1\le i\le j\le n}} Y_{ij} \quad
+%      Z = \smashoperator[l]{\mathop{T}_{1\le i\le j\le n}} Z_{ij}
+%    \]
+%  Note that \cs{smashoperator} always sets its argument in display
+%  style and with limits even if you have used the \opt{nosumlimits}
+%  option of \pkg{amsmath}. If you wish, you can use shorthands for
+%  \texttt{\_} and \texttt{\textasciicircum} such as \cs{sb} and
+%  \cs{sp}.
+%
+%
+%  \subsubsection{Adjusting limits of operators}
+%
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\adjustlimits}
+%    \cs{adjustlimits}\marg{operator$\sb1$}\texttt{\_}\marg{limit$\sb1$}
+%                     \marg{operator$\sb2$}\texttt{\_}\marg{limit$\sb2$}
+%  \end{codesyntax}
+%  \FeatureRequest{Lars Madsen}{2004/07/09}
+%  When typesetting two consecutive operators with limits one often
+%  wishes the limits of the operators were better aligned. Look
+%  closely at these examples:
+%  \begin{verbatim}
+%    \[
+%      \text{a)} \lim_{n\to\infty} \max_{p\ge n} \quad
+%      \text{b)} \lim_{n\to\infty} \max_{p^2\ge n} \quad
+%      \text{c)} \lim_{n\to\infty} \sup_{p^2\ge nK} \quad
+%      \text{d)} \limsup_{n\to\infty} \max_{p\ge n}
+%    \]
+%  \end{verbatim}
+%  \[
+%    \text{a)} \lim_{n\to\infty} \max_{p\ge n} \quad
+%    \text{b)} \lim_{n\to\infty} \max_{p^2\ge n} \quad
+%    \text{c)} \lim_{n\to\infty} \sup_{p^2\ge nK} \quad
+%    \text{d)} \limsup_{n\to\infty} \max_{p\ge n}
+%  \]
+%  a) looks okay, but b) is not quite as good because the second
+%  limit ($\cramped{p^2\ge n}$) is significantly taller than the
+%  first ($n\to\infty$). With c)~things begin to look really bad,
+%  because the second operator has a descender while the first
+%  doesn't, and finally we have d)~which looks just as bad as~c). The
+%  command \cs{adjustlimits} is useful in these cases, as you can
+%  just put it in front of these consecutive operators and it'll make
+%  the limits line up.
+%  \begin{verbatim}
+%    \[
+%      \text{a)} \adjustlimits\lim_{n\to\infty} \max_{p\ge n} \quad
+%      \text{b)} \adjustlimits\lim_{n\to\infty} \max_{p^2\ge n} \quad
+%      \text{c)} \adjustlimits\lim_{n\to\infty} \sup_{p^2\ge nK} \quad
+%      \text{d)} \adjustlimits\limsup_{n\to\infty} \max_{p\ge n}
+%    \]
+%  \end{verbatim}
+%    \[
+%      \text{a)} \adjustlimits\lim_{n\to\infty} \max_{p\ge n} \quad
+%      \text{b)} \adjustlimits\lim_{n\to\infty} \max_{p^2\ge n} \quad
+%      \text{c)} \adjustlimits\lim_{n\to\infty} \sup_{p^2\ge nK} \quad
+%      \text{d)} \adjustlimits\limsup_{n\to\infty} \max_{p\ge n}
+%    \]
+%  The use of \cs{sb} instead of \texttt{\_} is allowed.
+%
+%
+%
+%  \subsection{Controlling tags}
+%
+%  In this section various tools for altering the appearance of tags
+%  are shown. All of the tools here can be used at any point in the
+%  document but they should probably be affect the whole document, so
+%  the preamble is the best place to issue them.
+%
+%  \subsubsection{The appearance of tags}
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\newtagform}
+%    \cs{newtagform}\marg{name}\oarg{inner_format}\marg{left}\marg{right}\\
+%    \SpecialUsageIndex{\renewtagform}
+%    \cs{renewtagform}\marg{name}\oarg{inner_format}\marg{left}\marg{right}\\
+%    \SpecialUsageIndex{\usetagform}
+%    \cs{usetagform}\marg{name}
+%  \end{codesyntax}
+%  Altering the layout of equation numbers in \pkg{amsmath} is not
+%  very user friendly (it involves a macro with three \texttt{@}'s in
+%  its name), so \pkg{mathtools} provides an interface somewhat
+%  reminiscent of the page style concept. This way you can define
+%  several different tag forms and then choose the one you prefer.
+%
+%  As an example let's try to define a tag form which puts the
+%  equation number in square brackets. First we define a brand new tag
+%  form:
+%  \begin{verbatim}
+%    \newtagform{brackets}{[}{]}
+%  \end{verbatim}
+%  Then we activate it:
+%  \begin{verbatim}
+%    \usetagform{brackets}
+%  \end{verbatim}
+%  The result is then
+%  \newtagform{brackets}{[}{]}
+%  \usetagform{brackets}
+%   \begin{equation}
+%     E \neq m c^3
+%   \end{equation}
+%
+%  Similarly you could define a second version of the brackets that
+%  prints the equation number in bold face instead
+%  \begin{verbatim}
+%    \newtagform{brackets2}[\textbf]{[}{]}
+%    \usetagform{brackets2}
+%    \begin{equation}
+%      E \neq m c^3
+%    \end{equation}
+%  \end{verbatim}
+%  \newtagform{brackets2}[\textbf]{[}{]}
+%  \usetagform{brackets2}
+%  \begin{equation}
+%    E \neq m c^3
+%  \end{equation}
+%  When you reference an equation with \cs{eqref}, the tag form in
+%  effect at the time of referencing controls the formatting, so be
+%  careful if you use different tag forms throughout your document.
+%
+%  If you want to renew a tag form, then use the command
+%  \cs{renewtagform}. Should you want to
+%  return to the standard setting then choose\usetagform{default}
+%  \begin{verbatim}
+%    \usetagform{default}
+%  \end{verbatim}
+%
+%  \subsubsection{Showing only referenced tags}
+%
+%  \begin{codesyntax}
+%    \SpecialKeyIndex{showonlyrefs}$\key{showonlyrefs}=\texttt{true}\vert\texttt{false}$\\
+%    \SpecialKeyIndex{showmanualtags}$\key{showmanualtags}=\texttt{true}\vert\texttt{false}$\\
+%    \SpecialUsageIndex{\refeq}\cs{refeq}\marg{label}
+%  \end{codesyntax}
+%  An equation where the tag is produced with a manual \cs{tag*}
+%  shouldn't be referenced with the normal \cs{eqref} because that
+%  would format it according to the current tag format. Using just
+%  \cs{ref} on the other hand may not be a good solution either as
+%  the argument of \cs{tag*} is always set in upright shape in the
+%  equation and you may be referencing it in italic text. In the
+%  example below, the command \cs{refeq} is used to avoid what could
+%  possibly lead to confusion in cases where the tag font has very
+%  different form in upright and italic shape (here we switch to
+%  Palatino in the example):
+%    \begin{verbatim}
+%    \begin{quote}\renewcommand*\rmdefault{ppl}\normalfont\itshape
+%    \begin{equation*}
+%      a=b \label{eq:example}\tag*{Q\&A}
+%    \end{equation*}
+%    See \ref{eq:example} or is it better with \refeq{eq:example}?
+%    \end{quote}
+%  \end{verbatim}
+%    \begin{quote}\renewcommand*\rmdefault{ppl}\normalfont\itshape
+%    \begin{equation*}
+%      a=b \label{eq:example}\tag*{Q\&A}
+%    \end{equation*}
+%    See \ref{eq:example} or is it better with \refeq{eq:example}?
+%  \end{quote}
+%
+%
+%  Another problem sometimes faced is the need for showing the
+%  equation numbers for only those equations actually referenced. In
+%  \pkg{mathtools} this can be done by setting the key
+%  \key{showonlyrefs} to either true or false by using
+%  \cs{mathtoolsset}. You can also choose whether or not to show the
+%  manual tags specified with \cs{tag} or \cs{tag*} by setting the
+%  option \key{showmanualtags} to true or false.\footnote{I recommend
+%  setting \key{showmanualtags} to true, else the whole idea of using
+%  \cs{tag} doesn't really make sense, does it?} For both keys just
+%  typing the name of it chooses true as shown in the following
+%  example.
+%
+%  \begin{verbatim}
+%  \mathtoolsset{showonlyrefs,showmanualtags}
+%  \usetagform{brackets}
+%  \begin{gather}
+%    a=a \label{eq:a} \\
+%    b=b \label{eq:b} \tag{**}
+%  \end{gather}
+%  This should refer to the equation containing $a=a$: \eqref{eq:a}.
+%  Then a switch of tag forms.
+%  \usetagform{default}
+%  \begin{align}
+%    c&=c \label{eq:c} \\
+%    d&=d \label{eq:d}
+%  \end{align}
+%  This should refer to the equation containing $d=d$: \eqref{eq:d}.
+%  \begin{equation}
+%    e=e
+%  \end{equation}
+%  Back to normal.\mathtoolsset{showonlyrefs=false}
+%  \begin{equation}
+%    f=f
+%  \end{equation}
+%  \end{verbatim}
+%  \mathtoolsset{showonlyrefs,showmanualtags}
+%  \usetagform{brackets}
+%  \begin{gather}
+%    a=a \label{eq:a} \\
+%    b=b \label{eq:b} \tag{**}
+%  \end{gather}
+%  This should refer to the equation containing $a=a$: \eqref{eq:a}.
+%  Then a switch of tag forms.
+%  \usetagform{default}
+%  \begin{align}
+%    c&=c \label{eq:c} \\
+%    d&=d \label{eq:d}
+%  \end{align}
+%  This should refer to the equation containing $d=d$: \eqref{eq:d}.
+%  \begin{equation}
+%    e=e
+%  \end{equation}
+%  Back to normal.\mathtoolsset{showonlyrefs=false}
+%  \begin{equation}
+%    f=f
+%  \end{equation}
+%
+%  Note that this feature only works if you use \cs{eqref} or
+%  \cs{refeq} to reference your equations.
+%
+%  When using \key{showonlyrefs} it might be usefull to be able to
+%  actually add a few equation numbers without having to actually
+%  refer to them.
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\noeqref}\cs{noeqref}\marg{label,label,\dots}
+%  \end{codesyntax}
+%  \FeatureRequest{Rasmus Villemoes}{2008/03/26}
+%  The syntax is somewhat similar to \cs{nocite}.
+%
+%  \subsection{Extensible symbols}
+%
+%  The number of horizontally extensible symbols in standard \LaTeX{}
+%  and \pkg{amsmath} is somewhat low. This part of the manual
+%  describes what \pkg{mathtools} does to help this situation.
+%
+%  \subsubsection{Arrow-like symbols}
+%
+%
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\xleftrightarrow}
+%    \cs{xleftrightarrow}\oarg{sub}\marg{sup}\texttt{~~~~~~~~~}
+%    \SpecialUsageIndex{\xRightarrow}
+%    \cs{xRightarrow}\oarg{sub}\marg{sup}\\
+%    \SpecialUsageIndex{\xLeftarrow}
+%    \cs{xLeftarrow}\oarg{sub}\marg{sup}\texttt{~~~~~~~~~~~~~~}
+%    \SpecialUsageIndex{\xLeftrightarrow}
+%    \cs{xLeftrightarrow}\oarg{sub}\marg{sup}\\
+%    \SpecialUsageIndex{\xhookleftarrow}
+%    \cs{xhookleftarrow}\oarg{sub}\marg{sup}\texttt{~~~~~~~~~~}
+%    \SpecialUsageIndex{\xhookrightarrow}
+%    \cs{xhookrightarrow}\oarg{sub}\marg{sup}\\
+%    \SpecialUsageIndex{\xmapsto}
+%    \cs{xmapsto}\oarg{sub}\marg{sup}
+%  \end{codesyntax}
+%  Extensible arrows are part of \pkg{amsmath} in the form of the
+%  commands
+%  \begin{quote}
+%    \cs{xrightarrow}\oarg{subscript}\marg{superscript}\quad and\\
+%    \cs{xleftarrow}\oarg{subscript}\marg{superscript}
+%  \end{quote}
+%  But what about extensible versions of say, \cs{leftrightarrow} or
+%  \cs{Longleftarrow}? It turns out that the above mentioned
+%  extensible arrows are the only two of their kind defined by
+%  \pkg{amsmath}, but luckily \pkg{mathtools} helps with that. The
+%  extensible arrow-like symbols in \pkg{mathtools} follow the same
+%  naming scheme as the ones in \pkg{amsmath} so to get an extensible
+%  \cs{Leftarrow} you simply do a
+%  \begin{verbatim}
+%    \[
+%      A \xLeftarrow[under]{over} B
+%    \]
+%  \end{verbatim}
+%    \[
+%      A \xLeftarrow[under]{over} B
+%    \]
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\xrightharpoondown}
+%    \cs{xrightharpoondown}\oarg{sub}\marg{sup}\texttt{~~~~}
+%    \SpecialUsageIndex{\xrightharpoonup}
+%    \cs{xrightharpoonup}\oarg{sub}\marg{sup}\\
+%    \SpecialUsageIndex{\xleftharpoondown}
+%    \cs{xleftharpoondown}\oarg{sub}\marg{sup}\texttt{~~~~~}
+%    \SpecialUsageIndex{\xleftharpoonup}
+%    \cs{xleftharpoonup}\oarg{sub}\marg{sup}\\
+%    \SpecialUsageIndex{\xrightleftharpoons}
+%    \cs{xrightleftharpoons}\oarg{sub}\marg{sup}\texttt{~~~}
+%    \SpecialUsageIndex{\xleftrightharpoons}
+%    \cs{xleftrightharpoons}\oarg{sub}\marg{sup}
+%  \end{codesyntax}
+%  \pkg{mathtools} also provides the extensible harpoons shown above.
+%  They're taken from~\cite{Voss:2004}.
+%
+%  \subsubsection{Braces and brackets}
+%
+%  \LaTeX{} defines other kinds of extensible symbols like
+%  \cs{overbrace} and \cs{underbrace}, but sometimes you may want
+%  another symbol, say, a bracket.
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\underbracket}\cs{underbracket}\oarg{rule thickness}
+%      \oarg{bracket height}\marg{arg}\\
+%    \SpecialUsageIndex{\overbracket}\cs{overbracket}\oarg{rule thickness}
+%      \oarg{bracket height}\marg{arg}
+%  \end{codesyntax}
+%  The commands \cs{underbracket} and \cs{overbracket} are inspired
+%  by \cite{Voss:2004}, although the implementation here is slightly
+%  different.
+%  Used without the optional arguments the bracket commands produce this:
+%  \begin{quote}
+%   |$\underbracket {foo\ bar}_{baz}$|\quad  $\underbracket {foo\ bar}_{baz}$ \\
+%   |$\overbracket {foo\ bar}^{baz}$ |\quad  $\overbracket {foo\ bar}^{baz}$
+%  \end{quote}
+%  The default rule thickness is equal to that of \cs{underbrace}
+%  (app.~$5/18$\,ex) while the default bracket height is equal to
+%  app.~$0.7$\,ex. These values give really pleasing results in all
+%  font sizes, but feel free to use the optional arguments. That way
+%  you may get ``beauties'' like
+%  \begin{verbatim}
+%    \[
+%      \underbracket[3pt]{xxx\  yyy}_{zzz} \quad \text{and} \quad
+%      \underbracket[1pt][7pt]{xxx\  yyy}_{zzz}
+%    \]
+%  \end{verbatim}
+%    \[
+%      \underbracket[3pt]{xxx\  yyy}_{zzz} \quad \text{and} \quad
+%      \underbracket[1pt][7pt]{xxx\  yyy}_{zzz}
+%    \]
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\underbrace}\cs{underbrace}\marg{arg}\texttt{~~}
+%    \SpecialUsageIndex{\LaTeXunderbrace}\cs{LaTeXunderbrace}\marg{arg}\\
+%    \SpecialUsageIndex{\overbrace}\cs{overbrace}\marg{arg}\texttt{~~~}
+%    \SpecialUsageIndex{\LaTeXoverbrace}\cs{LaTeXoverbrace}\marg{arg}
+%  \end{codesyntax}
+%  The standard implementation of the math operators \cs{underbrace}
+%  and \cs{overbrace} in \LaTeX{} has some deficiencies. For example,
+%  all lengths used internally are \emph{fixed} and optimized for
+%  10\,pt typesetting. As a direct consequence thereof, using font
+%  sizes other than 10 will produce less than optimal results.
+%  Another unfortunate feature is the size of the braces. In the
+%  example below, notice how the math operator \cs{sum} places its
+%  limit compared to \cs{underbrace}.
+%  \[
+%    \mathop{\thinboxed[blue]{\sum}}_{n}
+%    \mathop{\thinboxed[blue]{\LaTeXunderbrace{\thinboxed[green]{foof}}}}_{zzz}
+%  \]
+%  The blue lines indicate the dimensions of the math operator and
+%  the green lines the dimensions of $foof$. As you can see, there
+%  seems to be too much space between the brace and the $zzz$ whereas
+%  the space between brace and $foof$ is okay. Let's see what happens
+%  when we use a bigger font size:\par\Huge\vskip-\baselineskip
+%  \[
+%    \mathop{\thinboxed[blue]{\sum}}_{n}
+%    \mathop{\thinboxed[blue]{\LaTeXunderbrace{\thinboxed[green]{foof}}}}_{zzz}
+%  \]
+%  \normalsize Now there's to little space between the brace and the
+%  $zzz$ and also too little space between the brace and the $foof$.
+%  If you use Computer Modern you'll actually see that the $f$
+%  overlaps with the brace! Let's try in \cs{footnotesize}:
+%  \par\footnotesize
+%  \[
+%    \mathop{\thinboxed[blue]{\sum}}_{n}
+%    \mathop{\thinboxed[blue]{\LaTeXunderbrace{\thinboxed[green]{foof}}}}_{zzz}
+%  \]\normalsize
+%  Here the spacing above and below the brace is quite excessive.
+%
+%  As \cs{overbrace} has the exact same problems, there are good
+%  reasons for \pkg{mathtools} to make redefinitions of
+%  \cs{underbrace} and \cs{overbrace}. These new versions work
+%  equally well in all font sizes and fixes the spacing issues and
+%  apart from working with the default Computer Modern fonts, they
+%  also work with the packages \pkg{mathpazo}, \pkg{pamath},
+%  \pkg{fourier}, \pkg{eulervm}, \pkg{cmbright}, and \pkg{mathptmx}.
+%  If you use the \pkg{ccfonts} to get the full Concrete fonts, the
+%  original version saved under the names \cs{LaTeXunderbrace} and
+%  \cs{LaTeXoverbrace} are better, due to of the special design of
+%  the Concrete extensible braces. In that case you should probably
+%  just add the lines
+%  \begin{verbatim}
+%    \let\underbrace\LaTeXunderbrace
+%    \let\overbrace\LaTeXoverbrace
+%  \end{verbatim}
+%  to your preamble after loading \pkg{mathtools} which will restore
+%  the original definitions of \cs{overbrace} and \cs{underbrace}.
+%
+%
+%
+%  \subsection{New mathematical building blocks}
+%
+%  In this part of the manual, various mathematical environments are
+%  described.
+%
+%  \subsubsection{Matrices}\label{subsubsec:matrices}
+%
+%  \begin{codesyntax}
+%    \SpecialEnvIndex{matrix*}\cs{begin}\arg{matrix*}\texttt{ }\oarg{col}
+%        \meta{contents} \cs{end}\arg{matrix*}\\
+%    \SpecialEnvIndex{pmatrix*}\cs{begin}\arg{pmatrix*}\oarg{col}
+%        \meta{contents} \cs{end}\arg{pmatrix*}\\
+%    \SpecialEnvIndex{bmatrix*}\cs{begin}\arg{bmatrix*}\oarg{col}
+%        \meta{contents} \cs{end}\arg{bmatrix*}\\
+%    \SpecialEnvIndex{Bmatrix*}\cs{begin}\arg{Bmatrix*}\oarg{col}
+%        \meta{contents} \cs{end}\arg{Bmatrix*}\\
+%    \SpecialEnvIndex{vmatrix*}\cs{begin}\arg{vmatrix*}\oarg{col}
+%        \meta{contents} \cs{end}\arg{vmatrix*}\\
+%    \SpecialEnvIndex{Vmatrix*}\cs{begin}\arg{Vmatrix*}\oarg{col}
+%        \meta{contents} \cs{end}\arg{Vmatrix*}
+%  \end{codesyntax}
+%  \FeatureRequest{Lars Madsen}{2004/04/05}
+%  All of the \pkg{amsmath} \env{matrix} environments center the
+%  columns by default, which is not always what you want. Thus
+%  \pkg{mathtools} provides a starred version for each of the original
+%  environments. These starred environments take an optional argument
+%  specifying the alignment of the columns, so that
+%  \begin{verbatim}
+%    \[
+%      \begin{pmatrix*}[r]
+%        -1 & 3 \\
+%        2  & -4
+%      \end{pmatrix*}
+%    \]
+%  \end{verbatim}
+%  yields
+%    \[
+%      \begin{pmatrix*}[r]
+%        -1 & 3 \\
+%        2  & -4
+%      \end{pmatrix*}
+%    \]
+%  The optional argument (default is \texttt{[c]}) can be any column
+%  type valid in the usual \env{array} environment.
+%
+%
+%
+%
+%  \subsubsection{The \env{multlined} environment}
+%
+%  \begin{codesyntax}
+%    \SpecialEnvIndex{multlined}\cs{begin}\arg{multlined}\oarg{pos}\oarg{width}
+%        \meta{contents} \cs{end}\arg{multlined}\\
+%    \SpecialUsageIndex{\shoveleft}\cs{shoveleft}\oarg{dimen}\marg{arg}\texttt{~~}
+%    \SpecialUsageIndex{\shoveright}\cs{shoveright}\oarg{dimen}\marg{arg}\\
+%    \makeatletter\settowidth\@tempdimc{\cs{shoveleft}\oarg{dimen}\marg{arg}}\global\@tempdimc\@tempdimc
+%    \SpecialKeyIndex{firstline-afterskip}\makebox[\@tempdimc][l]{$\key{firstline-afterskip}=\meta{dimen}$}\texttt{~~}
+%    \SpecialKeyIndex{lastline-preskip}$\key{lastline-preskip}=\meta{dimen}$\\
+%    \makeatletter\SpecialKeyIndex{multlined-width}\makebox[\@tempdimc][l]{$\key{multlined-width}=\meta{dimen}$}\texttt{~~}
+%    \SpecialKeyIndex{multlined-pos}$\key{multlined-pos}=\texttt{c}\vert\texttt{b}\vert\texttt{t}$
+%  \end{codesyntax}
+%  Some of the \pkg{amsmath} environments exist in two forms: an
+%  outer and an inner environment. One example is the pair
+%  \env{gather} \& \env{gathered}. There is one important omission on
+%  this list however, as there is no inner \env{multlined}
+%  environment, so this is where \pkg{mathtools} steps in.
+%
+%  One might wonder what the sensible behavior should be. We want it
+%  to be an inner environment so that it is not wider than necessary,
+%  but on the other hand we would like to be able to control the
+%  width. The current implementation of \env{multlined} handles both
+%  cases. The idea is this: Set the first line flush left and add a
+%  hard space after it; this space is governed by the
+%  \key{firstline-afterskip} key. The last line should be set flush
+%  right and preceded by a hard space of size \key{lastline-preskip}.
+%  Both these hard spaces have a default value of \cs{multlinegap}.
+%  Here we use a `t' in the first optional argument denoting a
+%  top-aligned building block (the default is `c').
+%  \begin{verbatim}
+%    \[
+%      A = \begin{multlined}[t]
+%            \framebox[4cm]{first} \\
+%            \framebox[4cm]{last}
+%          \end{multlined} B
+%    \]
+%  \end{verbatim}
+%    \[
+%      A = \begin{multlined}[t]
+%            \framebox[4cm]{first} \\
+%            \framebox[4cm]{last}
+%          \end{multlined} B
+%    \]
+%  Note also that \env{multlined} gives you access to an extended
+%  syntax for \cs{shoveleft} and \cs{shoveright} as shown in the
+%  example below.
+%  \begin{verbatim}
+%    \[
+%      \begin{multlined}
+%        \framebox[.65\columnwidth]{First line}        \\
+%        \framebox[.5\columnwidth]{Second line}        \\
+%        \shoveleft{L+E+F+T}                           \\
+%        \shoveright{R+I+G+H+T}                        \\
+%        \shoveleft[1cm]{L+E+F+T}                      \\
+%        \shoveright[\widthof{$R+I+G+H+T$}]{R+I+G+H+T} \\
+%        \framebox[.65\columnwidth]{Last line}
+%      \end{multlined}
+%    \]
+%  \end{verbatim}
+%  \[
+%    \begin{multlined}
+%      \framebox[.65\columnwidth]{First line} \\
+%      \framebox[.5\columnwidth]{Second line} \\
+%      \shoveleft{L+E+F+T}         \\
+%      \shoveright{R+I+G+H+T}         \\
+%      \shoveleft[1cm]{L+E+F+T}         \\
+%      \shoveright[\widthof{$R+I+G+H+T$}]{R+I+G+H+T}         \\
+%      \framebox[.65\columnwidth]{Last line}
+%    \end{multlined}
+%  \]
+%
+%  You can also choose the width yourself by specifying it as an
+%  optional argument:
+%  \begin{verbatim}
+%    \[
+%      \begin{multlined}[b][7cm]
+%        \framebox[4cm]{first} \\
+%        \framebox[4cm]{last}
+%      \end{multlined} = B
+%    \]
+%  \end{verbatim}
+%    \[
+%       \begin{multlined}[b][7cm]
+%            \framebox[4cm]{first} \\
+%            \framebox[4cm]{last}
+%          \end{multlined} = B
+%    \]
+%  There can be two optional arguments (position and width) and
+%  they're interchangeable.
+%
+%  \subsubsection{More \env{cases}-like environments}
+%
+%  \begin{codesyntax}
+%    \SpecialEnvIndex{dcases}
+%    \cs{begin}\arg{dcases}\texttt{~}  \meta{math_column} |&| \meta{math_column}
+%    \cs{end}\arg{dcases}\\
+%    \SpecialEnvIndex{dcases*}
+%    \cs{begin}\arg{dcases*}  \meta{math_column} |&| \makebox[\widthof{\meta{math\_column}}][l]{\meta{text\_column}}
+%    \cs{end}\arg{dcases*}
+%  \end{codesyntax}
+%  \FeatureRequest{Lars Madsen}{2004/07/01}
+%  Anyone who have tried to use an integral in the regular
+%  \env{cases} environment from \pkg{amsmath} will have noticed that
+%  it is set as
+%  \[
+%    a=\begin{cases}
+%      E = m c^2     & \text{Nothing to see here} \\
+%      \int x-3\, dx & \text{Integral is text style}
+%    \end{cases}
+%  \]
+%  \pkg{mathtools} provides two environments similar to \env{cases}.
+%  Using the \env{dcases} environment you get the same output as with
+%  \env{cases} except that the rows are set in display style.
+%  \begin{verbatim}
+%  \[
+%    \begin{dcases}
+%      E = m c^2     & c \approx 3.00\times 10^{8}\,\mathrm{m}/\mathrm{s} \\
+%      \int x-3\, dx & \text{Integral is display style}
+%    \end{dcases}
+%  \]
+%  \end{verbatim}
+%  \[
+%    \begin{dcases}
+%      E = m c^2     & c \approx 3.00\times 10^{8}\,\mathrm{m}/\mathrm{s} \\
+%      \int x-3\, dx & \text{Integral is display style}
+%    \end{dcases}
+%  \]
+%  Additionally the environment \env{dcases*} acts just the same, but
+%  the second column is set in the normal roman font of the
+%  document.\footnote{Or rather: it inherits the font characteristics
+%  active just before the \env{dcases*} environment.}
+%  \begin{verbatim}
+%  \[
+%    a= \begin{dcases*}
+%      E = m c^2     & Nothing to see here \\
+%      \int x-3\, dx & Integral is display style
+%    \end{dcases*}
+%  \]
+%  \end{verbatim}
+%  \[
+%    a= \begin{dcases*}
+%      E = m c^2     & Nothing to see here \\
+%      \int x-3\, dx & Integral is display style
+%    \end{dcases*}
+%  \]
+%
+%
+%  \subsubsection{Emulating indented lines in alignments}
+%  \begin{codesyntax}
+%    \SpecialEnvIndex{\MoveEqLeft}\cs{MoveEqLeft}\oarg{number}
+%  \end{codesyntax}
+%  \ProvidedBy{Lars Madsen}{2008/06/05}
+%  In \cite{Swanson}, Ellen Swanson recommends that when ever one has
+%  a long displayed formula, spannig several lines, and it is
+%  unfeasible to align against a relation within the first line, then
+%  all lines in the display should be aligned at the left most edge of
+%  the first line, and all subsequent lines should be indented by 2em
+%  (or if needed by a smaller amount). That is we are talking about
+%  displayes that end up looking like this
+%  \begin{align*}
+%    \MoveEqLeft \framebox[10cm][c]{Long first line}\\
+%    & = \framebox[6cm][c]{ \hphantom{g} 2nd line}\\ 
+%    & \leq \dots
+%  \end{align*}
+%  Traditionally one could do this by starting subsequent lines by
+%  \verb+&\qquad ...+, but that is tedious. Instead the example above
+%  was made using \cs{MoveEqLeft}:
+%  \begin{verbatim}
+%  \begin{align*}
+%    \MoveEqLeft \framebox[10cm][c]{Long first line}\\
+%    & = \framebox[6cm][c]{ \hphantom{g} 2nd line}\\ 
+%    & \leq \dots
+%  \end{align*}
+%  \end{verbatim}
+%  \cs{MoveEqLeft} is placed instead of the \verb+&+ on the first
+%  line, and will effectively \emph{move} the entire first line
+%  \oarg{number} of ems to the left (default is 2). If you choose to
+%  align to the right of the relation, use \cs{MoveEqLeft}\verb+[3]+
+%  to accommodate the extra distance to the alignment point:
+%  \begin{verbatim}
+%  \begin{align*}
+%    \MoveEqLeft[3] \framebox[10cm][c]{Part 1}\\
+%     = {} & \framebox[8cm][c]{2nd line}\\ 
+%          & + \framebox[4cm][c]{ last part}
+%  \end{align*}
+%  \end{verbatim}
+%  \begin{align*}
+%    \MoveEqLeft[3] \framebox[10cm][c]{Long first line}\\
+%     = {} & \framebox[6cm][c]{  2nd line}\\ 
+%          & + \framebox[4cm][c]{ last part}
+%  \end{align*}
+%
+%  \subsubsection{Adding arrows between lines in an alignment}
+%
+%  \begin{codesyntax}
+%    \SpecialEnvIndex{\ArrowBetweenLines}\cs{ArrowBetweenLines}\oarg{symbol}\\
+%    \SpecialEnvIndex{\ArrowBetweenLines*}\cs{ArrowBetweenLines*}\oarg{symbol}
+%  \end{codesyntax}
+%    \hskip1sp
+%   \marginpar{%
+%    \parbox[b]{\marginparwidth}{\small\sffamily\raggedright
+%      \strut Evolved from a request by\\Christian
+%      Bohr-Halling\\2004/03/31\\on dk.edb.tekst%
+%    }
+%  }%
+%  To add, say $\Updownarrow$ between two lines in an alignment use
+%  \cs{ArrowBetweenLines} and the \env{alignat} environment:
+%  \begin{verbatim}
+%  \begin{alignat*}{2}
+%    && \framebox[1.5cm]{} &= \framebox[3cm]{}\\
+%    \ArrowBetweenLines % \Updownarrow is the default
+%    && \framebox[1.5cm]{} &= \framebox[2cm]{}
+%  \end{alignat*}
+%  \end{verbatim}
+%  resulting in
+%  \begin{alignat*}{2}
+%    && \framebox[1.5cm]{} &= \framebox[3cm]{}\\
+%    \ArrowBetweenLines 
+%    && \framebox[1.5cm]{} &= \framebox[2cm]{}
+%  \end{alignat*}
+%  Note the use of \verb+&&+ starting each \emph{regular} line of
+%  math. For adding the arrow on the right, use
+%  \cs{ArrowBetweenLines*}\oarg{symbol}, and end each line of math
+%  with \verb+&&+.
+%  \begin{verbatim}
+%  \begin{alignat*}{2}
+%    \framebox[1.5cm]{} &= \framebox[3cm]{}  &&\\
+%    \ArrowBetweenLines*[\Downarrow] 
+%    \framebox[1.5cm]{} &= \framebox[2cm]{}  &&
+%  \end{alignat*}
+%  \end{verbatim}
+%  resulting in
+%  \begin{alignat*}{2}
+%    \framebox[1.5cm]{} &= \framebox[3cm]{}  &&\\
+%    \ArrowBetweenLines*[\Downarrow] 
+%    \framebox[1.5cm]{} &= \framebox[2cm]{}  &&
+%  \end{alignat*}
+%
+%  \subsection{Short intertext}
+%
+%
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\shortintertext}\cs{shortintertext}\marg{text}
+%  \end{codesyntax}
+%  \cttPosting{Gabriel Zachmann and Donald Arseneau}{2000/05/12--13}
+%  \pkg{amsmath} provides the command \cs{intertext} for interrupting
+%  a multi line display while still maintaining the alignment points.
+%  However the spacing often seems quite excessive as seen below.
+%  \begin{verbatim}
+%    \begin{align}
+%      a&=b \intertext{Some text}
+%      c&=d
+%    \end{align}
+%  \end{verbatim}
+%    \begin{align}
+%      a&=b \intertext{Some text}
+%      c&=d
+%    \end{align}
+%
+%  Using the command \cs{shortintertext} alleviates this situation
+%  somewhat:
+%  \begin{verbatim}
+%    \begin{align}
+%      a&=b \shortintertext{Some text}
+%      c&=d
+%    \end{align}
+%  \end{verbatim}
+%  \begin{align}
+%    a&=b \shortintertext{Some text}
+%    c&=d
+%  \end{align}
+%
+%
+%
+%
+%
+%  \subsection{Paired delimiters}
+%
+%
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\DeclarePairedDelimiter}
+%    \cs{DeclarePairedDelimiter}\marg{cmd}\marg{left_delim}\marg{right_delim}
+%  \end{codesyntax}
+%  \FeatureRequest{Lars Madsen}{2004/06/25}
+%  In the \pkg{amsmath} documentation it is shown how to define a few
+%  commands for typesetting the absolute value and norm. These
+%  definitions are:
+%  \begin{verbatim}
+%    \newcommand*\abs[1]{\lvert#1\rvert}
+%    \newcommand*\norm[1]{\lVert#1\rVert}
+%  \end{verbatim}
+%  \DeclarePairedDelimiter\abs\lvert\rvert
+%  While they produce correct horizontal spacing you have to be
+%  careful about the vertical spacing if the argument is just a
+%  little taller than usual as in
+%  \[
+%    \abs{\frac{a}{b}}
+%  \]
+%  Here it won't give a nice result, so you have to manually put in
+%  either \cs{left}--\cs{right} pair or a \cs{bigl}--\cs{bigr} pair.
+%  Both methods mean that you have to delete your \cs{abs} command,
+%  which may not sound like an ideal solution.
+%
+%  With the command \cs{DeclarePairedDelimiter} you can combine all
+%  these features in one easy to use command. Let's show an example:
+%  \begin{verbatim}
+%    \DeclarePairedDelimiter\abs{\lvert}{\rvert}
+%  \end{verbatim}
+%  This defines the command \cs{abs} just like in the
+%  \pkg{amsmath} documentation but with a few additions:
+%  \begin{itemize}
+%    \item A starred variant: \cs{abs*} produces delimiters that are preceded
+%  by \cs{left} and \cs{right} resp.:
+%  \begin{verbatim}
+%  \[
+%    \abs*{\frac{a}{b}}
+%  \]
+%  \end{verbatim}
+%      \[
+%        \abs*{\frac{a}{b}}
+%      \]
+%  \item A variant with an optional argument:
+%  \cs{abs}\oarg{size_cmd}, where
+%  \meta{size_cmd} is either \cs{big}, \cs{Big}, \cs{bigg}, or
+%  \cs{Bigg} (if you have any bigggger versions you can use them
+%  too).
+%  \begin{verbatim}
+%  \[
+%    \abs[\Bigg]{\frac{a}{b}}
+%  \]
+%  \end{verbatim}
+%      \[
+%        \abs[\Bigg]{\frac{a}{b}}
+%      \]
+%  \end{itemize}
+%
+%
+%
+%  \subsection{Special symbols}
+%
+%  This part of the manual is about special symbols. So far only one
+%  technique is covered, but more will come.
+%
+%  \subsubsection{Left and right parentheses}
+%
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\lparen}\cs{lparen}\texttt{~~}
+%    \SpecialUsageIndex{\rparen}\cs{rparen}
+%  \end{codesyntax}
+%  When you want a big parenthesis or bracket in a math display you
+%  usually just type
+%  \begin{quote}
+%    |\left( ... \right)|\quad  or\quad |\left[ ... \right]|
+%  \end{quote}
+%  \LaTeX{} also defines the macro names \cs{lbrack} and \cs{rbrack}
+%  to be shorthands for the left and right square bracket resp., but
+%  doesn't provide similar definitions for the parentheses. Some
+%  packages need command names to work with\footnote{The \pkg{empheq}
+%  package needs command names for delimiters in order to make
+%  auto-scaling versions.} so \pkg{mathtools} defines the commands
+%  \cs{lparen} and \cs{rparen} to represent the left and right
+%  parenthesis resp.
+%
+%
+%  \subsubsection{Vertically centered colon}
+%
+%  \begin{codesyntax}
+%    \SpecialKeyIndex{centercolon}$\key{centercolon}=\texttt{true}\vert\texttt{false}$\\
+%    \SpecialUsageIndex{\vcentcolon}\cs{vcentcolon}\texttt{~~}
+%    \SpecialUsageIndex{\ordinarycolon}\cs{ordinarycolon}
+%  \end{codesyntax}
+%  \cttPosting{Donald Arseneau}{2000/12/07}
+%  When trying to show assignment operations as in $ a := b $, one
+%  quickly notices that the colon is not centered on the math axis as
+%  the equal sign, leading to an odd-looking output. The command
+%  \cs{vcentcolon} is a shorthand for such a vertically centered
+%  colon, and can be used as in |$a \vcentcolon= b$| and results in
+%  the desired output: $a \vcentcolon= b$.
+%
+%  Typing \cs{vcentcolon} every time is quite tedious, so one can use
+%  the key \key{centercolon} to make the colon active instead.
+%  \begin{verbatim}
+%  \mathtoolsset{centercolon}
+%  \[
+%    a := b
+%  \]
+%  \mathtoolsset{centercolon=false}
+%  \end{verbatim}
+%  \[\mathtoolsset{centercolon}
+%    a := b
+%  \]
+%  In this case the command \cs{ordinarycolon} typesets an~\ldots\
+%  ordinary colon (what a surprise).
+%
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\coloneqq}\cs{coloneqq}\texttt{~~~~~}
+%    \SpecialUsageIndex{\Coloneqq}\cs{Coloneqq}\texttt{~~~~~}
+%    \SpecialUsageIndex{\coloneq}\cs{coloneq}\texttt{~~~}
+%    \SpecialUsageIndex{\Coloneq}\cs{Coloneqq}\\
+%    \SpecialUsageIndex{\eqqcolon}\cs{eqqcolon}\texttt{~~~~~}
+%    \SpecialUsageIndex{\Eqqcolon}\cs{Eqqcolon}\texttt{~~~~~}
+%    \SpecialUsageIndex{\eqcolon}\cs{eqcolon}\texttt{~~~}
+%    \SpecialUsageIndex{\Eqcolon}\cs{Eqcolon}\\
+%    \SpecialUsageIndex{\colonapprox}\cs{colonapprox}\texttt{~~}
+%    \SpecialUsageIndex{\Colonapprox}\cs{Colonapprox}\texttt{~~}
+%    \SpecialUsageIndex{\colonsim}\cs{colonsim}\texttt{~~}
+%    \SpecialUsageIndex{\Colonsim}\cs{Colonsim}\\
+%    \SpecialUsageIndex{\dblcolon}\cs{dblcolon}
+%  \end{codesyntax}
+%  The font packages \pkg{txfonts} and \pkg{pxfonts} provides various
+%  symbols that include a vertically centered colon but with tighter
+%  spacing. For example, the combination |:=| exists as the symbol
+%  \cs{coloneqq} which typesets as $\coloneqq$ instead of
+%  $\vcentcolon=$. The primary disadvantage of using these fonts are
+%  the support packages' lack of support for \pkg{amsmath} (and thus
+%  \pkg{mathtools}) and worse yet, the side-bearings are way too
+%  tight; see~\cite{A-W:MG04} for examples. If you're not using these
+%  fonts, \pkg{mathtools} provides the symbols for you. Here are a few
+%  examples:
+%  \begin{verbatim}
+%  \[
+%    a \coloneqq b \quad c \Colonapprox d \quad e \dblcolon f
+%  \]
+%  \end{verbatim}
+%  \[
+%    a \coloneqq b \quad c \Colonapprox d \quad e \dblcolon f
+%  \]
+%
+%  \section{A tribute to Michael J.~Downes}
+%
+%  Michael J.~Downes (1958--2003) was one of the major architects
+%  behind \pkg{amsmath} and member of the \LaTeX{} Team. He made many
+%  great contributions to the \TeX{} community; not only by the means
+%  of widely spread macro packages such as \pkg{amsmath} but also in
+%  the form of actively giving advice on newsgroups. Some of
+%  Michael's macro solutions on the newsgroups never made it into
+%  publicly available macro packages although they certainly deserved
+%  it, so \pkg{mathtools} tries to rectify this matter. The macros
+%  described in this section are either straight copies or heavily
+%  inspired by his original postings.
+%
+%  \subsection{Mathematics within italic text}
+%
+%  \begin{codesyntax}
+%    \SpecialKeyIndex{mathic}$\key{mathic}=\texttt{true}\vert\texttt{false}$
+%  \end{codesyntax}
+%  \cttPosting{Michael J.~Downes}{1998/05/14}
+%  \TeX{} usually takes care of italic corrections in text, but fails
+%  when it comes to math. If you use the \LaTeX{} inline math
+%  commands \cs{(} and \cs{)} you can however work around it by
+%  setting the key \key{mathic} to true as shown below.
+%  \begin{verbatim}
+%    \begin{quote}\itshape
+%    Compare these lines: \par
+%    \mathtoolsset{mathic} % or \mathtoolsset{mathic=true}
+%    Subset of \(V\) and subset of \(A\). \par
+%    \mathtoolsset{mathic=false}
+%    Subset of \(V\) and subset of \(A\).
+%    \par
+%    \end{quote}
+%  \end{verbatim}
+%  \begin{quote}\itshape
+%  Compare these lines: \par
+%  \mathtoolsset{mathic}
+%  Subset of \(V\) and subset of \(A\). \par
+%  \mathtoolsset{mathic=false}
+%  Subset of \(V\) and subset of \(A\).
+%  \par
+%  \end{quote}
+%
+%  \subsection{Left sub/superscripts}
+%
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\prescript}
+%        \cs{prescript}\marg{sup}\marg{sub}\marg{arg}\texttt{~~}
+%    \SpecialKeyIndex{prescript-sup-format}
+%        $\key{prescript-sup-format}=\meta{cmd}$\\
+%    \SpecialKeyIndex{prescript-sub-format}
+%        $\key{prescript-sub-format}=\meta{cmd}$\hfill
+%    \SpecialKeyIndex{prescript-arg-format}
+%        \rlap{$\key{prescript-arg-format}=\meta{cmd}$}^^A
+%        \phantom{$\key{prescript-sup-format}=\meta{cmd}$}
+%  \end{codesyntax}
+%  \cttPosting{Michael J.~Downes}{2000/12/20}
+%  Sometimes one wants to put a sub- or superscript on the left of
+%  the argument. The \cs{prescript} command does just that:
+%  \begin{verbatim}
+%    \[
+%      {}^{4}_{12}\mathbf{C}^{5+}_{2}          \quad
+%      \prescript{14}{2}{\mathbf{C}}^{5+}_{2}  \quad
+%      \prescript{4}{12}{\mathbf{C}}^{5+}_{2}  \quad
+%      \prescript{14}{}{\mathbf{C}}^{5+}_{2}   \quad
+%      \prescript{}{2}{\mathbf{C}}^{5+}_{2}
+%    \]
+%  \end{verbatim}
+%  \[
+%    {}^{4}_{12}\mathbf{C}^{5+}_{2}          \quad
+%    \prescript{14}{2}{\mathbf{C}}^{5+}_{2}  \quad
+%    \prescript{4}{12}{\mathbf{C}}^{5+}_{2}  \quad
+%    \prescript{14}{}{\mathbf{C}}^{5+}_{2}   \quad
+%    \prescript{}{2}{\mathbf{C}}^{5+}_{2}
+%  \]
+%
+%  The formatting of the arguments is controlled by three keys. This
+%  silly example shows you how to use them:
+%  \begin{verbatim}
+%  \newcommand*\myisotope[3]{%
+%    \begingroup % to keep changes local. We cannot use a brace group
+%                % as it affects spacing!
+%      \mathtoolsset{
+%        prescript-sup-format=\mathit,
+%        prescript-sub-format=\mathbf,
+%        prescript-arg-format=\mathrm,
+%      }%
+%    \prescript{#1}{#2}{#3}%
+%    \endgroup
+%  }
+%  \[
+%    \myisotope{A}{Z}{X}\to \myisotope{A-4}{Z-2}{Y}+
+%    \myisotope{4}{2}{\alpha}
+%  \]
+%  \end{verbatim}
+%  \newcommand*\myisotope[3]{%
+%    \begingroup
+%      \mathtoolsset{
+%        prescript-sup-format=\mathit,
+%        prescript-sub-format=\mathbf,
+%        prescript-arg-format=\mathrm,
+%      }%
+%    \prescript{#1}{#2}{#3}%
+%    \endgroup
+%  }
+%  \[
+%    \myisotope{A}{Z}{X}\to \myisotope{A-4}{Z-2}{Y}+
+%    \myisotope{4}{2}{\alpha}
+%  \]
+%
+%
+%  \subsection{Declaring math sizes}
+%
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\DeclareMathSizes}
+%    \cs{DeclareMathSizes}\marg{dimen}\marg{dimen}\marg{dimen}\marg{dimen}
+%  \end{codesyntax}
+%  \cttPosting{Michael J.~Downes}{2002/10/17}
+%  If you don't know about \cs{DeclareMathSizes}, then skip the rest
+%  of this text. If you do know, then all that is needed to say is
+%  that with \pkg{mathtools} it is patched so that all regular
+%  dimension suffixes are now valid in the last three arguments. Thus
+%  a declaration such as
+%  \begin{verbatim}
+%    \DeclareMathSize{9.5dd}{9.5dd}{7.5dd}{6.5dd}
+%  \end{verbatim}
+%  will now work (it doesn't in standard \LaTeX). When this bug has
+%  been fixed in \LaTeX, this fix will be removed from
+%  \pkg{mathtools}.
+%
+%  \subsection{Spreading equations}
+%
+%  \begin{codesyntax}
+%    \SpecialEnvIndex{spreadlines}
+%    \cs{begin}\arg{spreadlines}\marg{dimen} \meta{contents}
+%    \cs{end}\arg{spreadlines}
+%  \end{codesyntax}
+%  \cttPosting{Michael J.~Downes}{2002/10/17}
+%  The spacing between lines in a multi line math environment such as
+%  \env{gather} is governed by the dimension \cs{jot}. The
+%  \env{spreadlines} environment takes one argument denoting the
+%  value of \cs{jot} inside the environment:
+%  \begin{verbatim}
+%    \begin{spreadlines}{20pt}
+%    Large spaces between the lines.
+%    \begin{gather}
+%      a=b\\
+%      c=d
+%    \end{gather}
+%    \end{spreadlines}
+%    Back to normal spacing.
+%    \begin{gather}
+%      a=b\\
+%      c=d
+%    \end{gather}
+%  \end{verbatim}
+%    \begin{spreadlines}{20pt}
+%    Large spaces between the lines.
+%    \begin{gather}
+%      a=b\\
+%      c=d
+%    \end{gather}
+%    \end{spreadlines}
+%    Back to normal spacing.
+%    \begin{gather}
+%      a=b\\
+%      c=d
+%    \end{gather}
+%
+%
+%  \subsection{Gathered environments}\label{subsec:gathered}
+%
+%  \begin{codesyntax}
+%    \SpecialEnvIndex{lgathered}\cs{begin}\arg{lgathered}\oarg{pos}
+%    \meta{contents}  \cs{end}\arg{lgathered} \\
+%    \SpecialEnvIndex{rgathered}\cs{begin}\arg{rgathered}\oarg{pos}
+%    \meta{contents}  \cs{end}\arg{rgathered} \\
+%    \SpecialUsageIndex{\newgathered}\cs{newgathered}\marg{name}\marg{pre_line}\marg{post_line}\marg{after}\\
+%    \SpecialUsageIndex{\renewgathered}\cs{renewgathered}\marg{name}\marg{pre_line}\marg{post_line}\marg{after}
+%  \end{codesyntax}
+%  \cttPosting{Michael J.~Downes}{2001/01/17}
+%  In a document set in \opt{fleqn}, you might sometimes want an
+%  inner \env{gathered} environment that doesn't center its lines but
+%  puts them flush left. The \env{lgathered} environment works just
+%  like the standard \env{gathered} except that it flushes its
+%  contents left:
+%  \begin{verbatim}
+%    \begin{equation}
+%      \begin{lgathered}
+%        x=1,\quad x+1=2 \\
+%        y=2
+%      \end{lgathered}
+%    \end{equation}
+%  \end{verbatim}
+%  \begin{equation}
+%    \begin{lgathered}
+%        x=1,\quad x+1=2 \\
+%        y=2
+%    \end{lgathered}
+%  \end{equation}
+%  Similarly the \env{rgathered} puts it contents flush right.
+%
+%  More interesting is probably the command \cs{newgathered}. In this
+%  example we define a gathered version that centers the lines and
+%  also prints a star and a number at the left of each line.
+%  \begin{verbatim}
+%    \newcounter{steplinecnt}
+%    \newcommand\stepline{\stepcounter{steplinecnt}\thesteplinecnt}
+%    \newgathered{stargathered}
+%                {\llap{\stepline}$*$\quad\hfil}% \hfil for centering
+%                {\hfil}%                         \hfil for centering
+%                {\setcounter{steplinecnt}{0}}%   reset counter
+%  \end{verbatim}
+%  \newcounter{steplinecnt}
+%  \newcommand\stepline{\stepcounter{steplinecnt}\thesteplinecnt}
+%  \newgathered{stargathered}{\llap{\stepline}$*$\quad\hfil}{\hfil}{\setcounter{steplinecnt}{0}}
+%  With these definitions we can get something like this:
+%  \begin{verbatim}
+%    \begin{gather}
+%      \begin{stargathered}
+%        x=1,\quad x+1=2 \\
+%        y=2
+%      \end{stargathered}
+%    \end{gather}
+%  \end{verbatim}
+%  \begin{gather}
+%    \begin{stargathered}
+%      x=1,\quad x+1=2 \\
+%      y=2
+%    \end{stargathered}
+%  \end{gather}
+%  \cs{renewgathered} renews a gathered environment of course.
+%
+%  In all fairness it should be stated that the original concept by
+%  Michael has been extended quite a bit in \pkg{mathtools}. Only the
+%  end product of \env{lgathered} is the same.
+%
+%  \subsection{Split fractions}
+%
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\splitfrac}\cs{splitfrac}\marg{numer}\marg{denom}\texttt{~~}
+%    \SpecialUsageIndex{\splitdfrac}\cs{splitdfrac}\marg{numer}\marg{denom}
+%  \end{codesyntax}
+%  \cttPosting{Michael J.~Downes}{2001/12/06}
+%  These commands provide split fractions e.g., multi line fractions:
+%  \begin{verbatim}
+%    \[
+%      a=\frac{
+%          \splitfrac{xy + xy + xy + xy + xy}
+%                    {+ xy + xy + xy + xy}
+%        }
+%        {z}
+%      =\frac{
+%          \splitdfrac{xy + xy + xy + xy + xy}
+%                    {+ xy + xy + xy + xy}
+%        }
+%        {z}
+%  \]
+%  \end{verbatim}
+%  \[
+%  a=\frac{
+%      \splitfrac{xy + xy + xy + xy + xy}
+%                {+ xy + xy + xy + xy}
+%    }
+%    {z}
+%  =\frac{
+%      \splitdfrac{xy + xy + xy + xy + xy}
+%                {+ xy + xy + xy + xy}
+%    }
+%    {z}
+%  \]
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+% \begin{thebibliography}{9}
+%  \bibitem{Perlis01}
+%    Alexander R. Perlis,
+%    \emph{A complement to \cs{smash}, \cs{llap}, and \cs{rlap}},
+%    TUGboat 22(4) (2001).
+%  \bibitem{Ams99}
+%    American Mathematical Society and Michael Downes,
+%    \emph{Technical notes on the \pkg{amsmath} package} Version 2.0,
+%    1999/10/29.
+%    (Available from CTAN as file \texttt{technote.tex}.)
+%  \bibitem{Ams00}
+%    Frank Mittelbach, Rainer Sch\"opf, Michael Downes, and David M.~Jones,
+%    \emph{The \pkg{amsmath} package} Version 2.13,
+%    2000/07/18.
+%    (Available from CTAN as file \texttt{amsmath.dtx}.)
+%  \bibitem{A-W:MG04}
+%    Frank Mittelbach and Michel Goossens.
+%     \emph{The {\LaTeX} Companion}.
+%    Tools and Techniques for Computer Typesetting. Addison-Wesley,
+%    Boston, Massachusetts, 2 edition, 2004.
+%    With Johannes Braams, David Carlisle, and Chris Rowley.
+%
+% \bibitem{Carl99}
+%   David Carlisle,
+%   \emph{The \pkg{keyval} Package},
+%   Version 1.13, 1999/03/16.
+%   (Available from CTAN as file \texttt{keyval.dtx}.)
+%
+%  \bibitem{Voss:2004}
+%    Herbert Vo\ss,
+%    \emph{Math mode}, Version 1.71,
+%    2004/07/06.
+%    (Available from CTAN as file \texttt{Voss-Mathmode.pdf}.)
+%  
+%   \bibitem{Swanson} 
+%     Ellen Swanson,
+%     \emph{Mathematics into type}.
+%     American Mathematical Society, updated edition, 1999.
+%     Updated by Arlene O'Sean and Antoinette Schleyer.
+%  \end{thebibliography}
+%
+%
+%  \StopEventually{}  
+%
+%
+%  \section{Options and package loading}
+%
+%
+%  Lets start the package.
+%    \begin{macrocode}
+%<*package>
+\ProvidesPackage{mathtools}%
+  [2008/08/01 v1.06 mathematical typesetting tools (MH)]
+%    \end{macrocode}
+%    \begin{macrocode}
+\RequirePackage{keyval,calc}
+\RequirePackage{mhsetup}[2007/12/03]
+\MHInternalSyntaxOn
+%    \end{macrocode}
+%
+%  \begin{macro}{\MT_options_name:}
+%  \begin{macro}{\mathtoolsset}
+%  The name for the options and a user interface for setting keys.
+%    \begin{macrocode}
+\def\MT_options_name:{mathtools}
+\newcommand*\mathtoolsset[1]{\setkeys{\MT_options_name:}{#1}}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%
+%  Fix \pkg{amsmath} bugs (strongly recommended!). It requires a
+%  great deal of typing to avoid fixing the bugs. He he.
+%    \begin{macrocode}
+\MH_new_boolean:n {fixamsmath}
+\DeclareOption{fixamsmath}{
+  \MH_set_boolean_T:n {fixamsmath}
+}
+\DeclareOption{donotfixamsmathbugs}{
+  \MH_set_boolean_F:n {fixamsmath}
+}
+%    \end{macrocode}
+%  Disallow spaces before optional arguments in certain \pkg{amsmath}
+%  building blocks.
+%    \begin{macrocode}
+\DeclareOption{allowspaces}{
+  \MH_let:NwN \MaybeMHPrecedingSpacesOff
+              \relax
+    \MH_let:NwN \MH_maybe_nospace_ifnextchar:Nnn \kernel@ifnextchar
+}
+\DeclareOption{disallowspaces}{
+  \MH_let:NwN \MaybeMHPrecedingSpacesOff
+              \MHPrecedingSpacesOff
+  \MH_let:NwN \MH_maybe_nospace_ifnextchar:Nnn \MH_nospace_ifnextchar:Nnn
+}
+%    \end{macrocode}
+%  Pass all other options directly to \pkg{amsmath}.
+%    \begin{macrocode}
+\DeclareOption*{
+  \PassOptionsToPackage{\CurrentOption}{amsmath}
+}
+\ExecuteOptions{fixamsmath,disallowspaces}
+\ProcessOptions\relax
+%    \end{macrocode}
+%  We have to turn off the new syntax when \pkg{amstext} is loaded.
+%    \begin{macrocode}
+\MHInternalSyntaxOff
+\RequirePackage{amsmath}[2000/07/18]
+\MHInternalSyntaxOn
+\AtEndOfPackage{\MHInternalSyntaxOff}
+%    \end{macrocode}
+%  \begin{macro}{\MT_true_false_error:}
+%  Make sure the user selects either `true' or `false' when asked too.
+%    \begin{macrocode}
+\def\MT_true_false_error:{
+  \PackageError{mathtools}
+    {You~ have~ to~ select~ either~ `true'~ or~ `false'}
+    {I'll~ assume~ you~ chose~ `false'~ for~ now.}
+}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \section{Macros I got ideas for myself}
+%
+%
+%
+%  \subsection{Tag forms}
+%  This is quite simple, but why isn't it then a part of some widely
+%  distributed package? Beats me.
+%
+%  \begin{macro}{\MT_define_tagform:nwnn}
+%  We start out by defining a command that will allow us to define
+%  commands similar to \cs{tagform@} only this will give us tag form
+%  \emph{types}. The actual code is very similar to the one in
+%  \pkg{amsmath}.
+%    \begin{macrocode}
+\def\MT_define_tagform:nwnn #1[#2]#3#4{
+  \@namedef{MT_tagform_#1:n}##1
+    {\maketag@@@{#3\ignorespaces#2{##1}\unskip\@@italiccorr#4}}
+}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\newtagform}
+%  Similar to \cs{newcommand}. Check if defined and scan for presence
+%  of optional argument. Then call generic command.
+%    \begin{macrocode}
+\providecommand*\newtagform[1]{%
+  \@ifundefined{MT_tagform_#1:n}
+  {\@ifnextchar[%
+    {\MT_define_tagform:nwnn #1}%
+    {\MT_define_tagform:nwnn #1[]}%
+  }{\PackageError{mathtools}
+  {The~ tag~ form~ `#1'~ is~ already~ defined\MessageBreak
+  You~ probably~ want~ to~ look~ up~ \@backslashchar renewtagform~
+  instead}
+  {I~ will~ just~ ignore~ your~ wish~ for~ now.}}
+}
+%    \end{macrocode}
+%  Provide a default tag form which---surprise, surprise---is
+%  identical to the standard definition.
+%    \begin{macrocode}
+\newtagform{default}{(}{)}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\renewtagform}
+%  Similar to \cs{renewcommand}.
+%    \begin{macrocode}
+\providecommand*\renewtagform[1]{%
+  \@ifundefined{MT_tagform_#1:n}
+  {\PackageError{mathtools}
+  {The~ tag~ form~ `#1'~ is~ not~ defined\MessageBreak
+  You~ probably~ want~ to~ look~ up~ \@backslashchar newtagform~ instead}
+  {I~ will~ just~ ignore~ your~ wish~ for~ now.}}
+  {\@ifnextchar[%
+    {\MT_define_tagform:nwnn #1}%
+    {\MT_define_tagform:nwnn #1[]}%
+  }
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\usetagform}
+%  Then the activator. Test if the tag form is defined and then
+%  activate it by redefining \cs{tagform@}.
+%    \begin{macrocode}
+\providecommand*\usetagform[1]{%
+  \@ifundefined{MT_tagform_#1:n}
+    {
+      \PackageError{mathtools}{%
+        You~ have~ chosen~ the~ tag~ form~ `#1'\MessageBreak
+        but~ it~ appears~ to~ be~ undefined}
+        {I~ will~ use~ the~ default~ tag~ form~ instead.}%
+        \@namedef{tagform@}{\@nameuse{MT_tagform_default:n}}
+      }
+  { \@namedef{tagform@}{\@nameuse{MT_tagform_#1:n}} }
+%    \end{macrocode}
+%  Here we patch if we're using the special ``show only referenced
+%  equations'' feature.
+%    \begin{macrocode}
+  \MH_if_boolean:nT {show_only_refs}{
+    \MH_let:NwN \MT_prev_tagform:n \tagform@
+    \def\tagform@##1{\MT_extended_tagform:n {##1}}
+  }
+}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \subsubsection{Showing only referenced tags}
+%  A little more interesting is the way to print only the equation
+%  numbers that are actually referenced.
+%
+%  A few booleans to help determine which situations we're in.
+%    \begin{macrocode}
+\MH_new_boolean:n {manual_tag}
+\MH_new_boolean:n {raw_maketag}
+%    \end{macrocode}
+%  \begin{macro}{\MT_AmS_tag_in_align:}
+%  \begin{macro}{\tag@in@align}
+%  \begin{macro}{\tag@in@display}
+%  We'll need to know when the user has put in a manual tag, and since
+%  \cs{tag} is \cs{let} to all sorts of things inside the \pkg{amsmath}
+%  code it is safer to provide a small hack to the functions it is copied
+%  from. Note that we can't use \cs{iftag@}.
+%    \begin{macrocode}
+\MH_let:NwN \MT_AmS_tag_in_align: \tag@in@align
+\def\tag@in@align{
+  \global\MH_set_boolean_T:n {manual_tag}
+  \MT_AmS_tag_in_align:
+}
+\def\tag@in@display#1#{
+  \relax
+  \global\MH_set_boolean_T:n {manual_tag}
+  \tag@in@display@a{#1}
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%
+%  \begin{macro}{\MT_extended_tagform:n}
+%  \changes{v1.01}{2004/08/03}{Simplified quite a bit}
+%  The extended version of \cs{tagform@}.
+%    \begin{macrocode}
+\def\MT_extended_tagform:n #1{
+  \MH_set_boolean_F:n {raw_maketag}
+%    \end{macrocode}
+% We test if the equation was labelled. We already know if it was
+% tagged manually. Have to watch out for \TeX\ inserting a blank line
+% so do not let the tag have width zero.
+%    \begin{macrocode}
+  \if_meaning:NN \df@label\@empty
+    \MH_if_boolean:nTF {manual_tag}% this was \MH_if_boolean:nT before
+    { \MH_if_boolean:nTF {show_manual_tags}
+      { \MT_prev_tagform:n {#1} }
+      { \stepcounter{equation}  }
+    }{\kern1sp}% this last {\kern1sp} is new.
+  \else:
+    \MH_if_boolean:nTF {manual_tag}
+      { \MH_if_boolean:nTF {show_manual_tags}
+          { \MT_prev_tagform:n {#1} }
+          { \@ifundefined{MT_r_\df@label}
+              {  }
+              { \MT_prev_tagform:n {#1} }
+          }
+      }
+      { \@ifundefined{MT_r_\df@label}
+          { }
+          { \refstepcounter{equation}\MT_prev_tagform:n {#1} }
+      }
+  \fi:
+  \global\MH_set_boolean_T:n {raw_maketag}
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\MT_extended_maketag:n}
+%  The extended version of \cs{maketag@@@}.
+%    \begin{macrocode}
+\def\MT_extended_maketag:n #1{
+  \ifx\df@label\@empty
+    \MT_maketag:n {#1}
+  \else:
+    \MH_if_boolean:nTF {raw_maketag}
+      {
+        \MH_if_boolean:nTF {show_manual_tags}
+          { \MT_maketag:n {#1} }
+          { \@ifundefined{MT_r_\df@label}
+              { }
+              { \MT_maketag:n {#1}     }
+          }
+      }
+      { \MT_maketag:n {#1} }
+  \fi:
+%    \end{macrocode}
+%  As this function is always called we let it set the marker for a manual
+%  tag false when exiting.
+%    \begin{macrocode}
+  \global\MH_set_boolean_F:n {manual_tag}
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\MT_extended_eqref:n}
+%  \changes{v1.01}{2004/08/03}{Make it robust}
+%  We let \cs{eqref} write the label to the \file{aux} file, which is
+%  read at the beginning of the next run. Then we print the equation
+%  number as usual.
+%    \begin{macrocode}
+\def\MT_extended_eqref:n #1{
+  \protected@write\@auxout{}
+    {\string\MT@newlabel{#1}}
+  \textup{\MT_prev_tagform:n {\ref{#1}}}
+}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\refeq}
+%  \begin{macro}{\MT_extended_refeq:n}
+%  Similar to \cs{eqref} and \cs{MT_extended_eqref:n}.
+%    \begin{macrocode}
+\newcommand*\refeq[1]{
+  \textup{\ref{#1}}
+}
+\def\MT_extended_refeq:n #1{
+  \protected@write\@auxout{}
+    {\string\MT@newlabel{#1}}
+  \textup{\ref{#1}}
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%
+%  \begin{macro}{\MT@newlabel}
+%  We can't use |:| or |_| in the command name (yet). We define the
+%  special labels for the equations that have been referenced in the
+%  previous run.
+%    \begin{macrocode}
+\newcommand*\MT@newlabel[1]{  \global\@namedef{MT_r_#1}{}  }
+%    \end{macrocode}
+%  \end{macro}
+%    \begin{macrocode}
+\MH_new_boolean:n {show_only_refs}
+\MH_new_boolean:n {show_manual_tags}
+\define@key{\MT_options_name:}{showmanualtags}[true]{
+  \@ifundefined{boolean_show_manual_tags_#1:}
+    { \MT_true_false_error:
+      \@nameuse{boolean_show_manual_tags_false:}
+    }
+    { \@nameuse{boolean_show_manual_tags_#1:} }
+}
+%    \end{macrocode}
+%  \begin{macro}{\MT_showonlyrefs_true:}
+%  The implementation is based on the idea that \cs{tagform@} can be
+%  called in two circumstances: when the tag is being printed in the
+%  equation and when it is being printed during a reference.
+%    \begin{macrocode}
+\newcommand*\MT_showonlyrefs_true:{
+  \MH_if_boolean:nF {show_only_refs}{
+    \MH_set_boolean_T:n {show_only_refs}
+%    \end{macrocode}
+%  Save the definitions of the original commands.
+%    \begin{macrocode}
+    \MH_let:NwN \MT_incr_eqnum: \incr@eqnum
+    \MH_let:NwN \incr@eqnum \@empty
+    \MH_let:NwN \MT_array_parbox_restore: \@arrayparboxrestore
+    \@xp\def\@xp\@arrayparboxrestore\@xp{\@arrayparboxrestore
+      \MH_let:NwN \incr@eqnum \@empty
+    }
+    \MH_let:NwN \MT_prev_tagform:n \tagform@
+    \MH_let:NwN \MT_eqref:n \eqref
+    \MH_let:NwN \MT_refeq:n \refeq
+    \MH_let:NwN \MT_maketag:n \maketag@@@
+    \MH_let:NwN \maketag@@@ \MT_extended_maketag:n
+%    \end{macrocode}
+%  We redefine \cs{tagform@}.
+%    \begin{macrocode}
+    \def\tagform@##1{\MT_extended_tagform:n {##1}}
+%    \end{macrocode}
+%  Then \cs{eqref}:
+%    \begin{macrocode}
+    \MH_let:NwN \eqref \MT_extended_eqref:n
+    \MH_let:NwN \refeq \MT_extended_refeq:n
+  }
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\MT_showonlyrefs_false:}
+%  This macro reverts the settings.
+%    \begin{macrocode}
+\def\MT_showonlyrefs_false: {
+  \MH_if_boolean:nT {show_only_refs}{
+    \MH_set_boolean_F:n {show_only_refs}
+    \MH_let:NwN \tagform@  \MT_prev_tagform:n
+    \MH_let:NwN \eqref \MT_eqref:n
+    \MH_let:NwN \refeq \MT_refeq:n
+    \MH_let:NwN \maketag@@@ \MT_maketag:n
+    \MH_let:NwN \incr@eqnum \MT_incr_eqnum:
+    \MH_let:NwN \@arrayparboxrestore \MT_array_parbox_restore:
+  }
+}
+\define@key{\MT_options_name:}{showonlyrefs}[true]{
+  \@nameuse{MT_showonlyrefs_#1:}
+}
+%    \end{macrocode}
+%  \end{macro}
+%
+%
+%  \begin{macro}{\nonumber}
+%  \changes{v1.01}{2004/08/03}{Fixed using \cs{notag} or \cs{nonumber}
+%  with the \key{showonlyrefs} feature}
+%  We have to redefine \cs{nonumber} else it will subtract one from the
+%  equation number where we don't want it. This is probably not needed
+%  since \cs{nonumber} is unnecessary when \key{showonlyrefs} is in
+%  effect, but now you can use it with old documents as well.
+%    \begin{macrocode}
+\renewcommand\nonumber{
+  \if@eqnsw
+    \if_meaning:NN \incr@eqnum\@empty
+%    \end{macrocode}
+%  Only subtract the number if |show_only_refs| is false.
+%    \begin{macrocode}
+      \MH_if_boolean:nF {show_only_refs}
+        {\addtocounter{equation}\m@ne}
+    \fi:
+  \fi:
+  \MH_let:NwN \print@eqnum\@empty \MH_let:NwN \incr@eqnum\@empty
+  \global\@eqnswfalse
+}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\noeqref}
+%   \changes{v1.04}{2008/03/26}{Added \cs{noeqref} (daleif)}
+%   Macro for adding numbers to non-refered equations. Syntax similar
+%   to \cs{nocite}.
+%    \begin{macrocode}
+\MHInternalSyntaxOff
+\newcommand\noeqref[1]{\@bsphack
+  \@for\@tempa:=#1\do{%
+    \edef\@tempa{\expandafter\@firstofone\@tempa}%
+    \if@filesw\protected@write\@auxout{}%
+    {\string\MT@newlabel{\@tempa}}\fi}
+  \@esphack}
+\MHInternalSyntaxOn
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \subsection{Extensible arrows etc.}
+%
+%  \begin{macro}{\xleftrightarrow}
+%  \begin{macro}{\MT_leftrightarrow_fill:}
+%  \begin{macro}{\xLeftarrow}
+%  \begin{macro}{\xRightarrow}
+%  \begin{macro}{\xLeftrightarrow}
+%
+%  These are straight adaptions from \pkg{amsmath}.
+%    \begin{macrocode}
+\providecommand*\xleftrightarrow[2][]{%
+  \ext@arrow 3095\MT_leftrightarrow_fill:{#1}{#2}}
+\def\MT_leftrightarrow_fill:{%
+  \arrowfill@\leftarrow\relbar\rightarrow}
+\providecommand*\xLeftarrow[2][]{%
+  \ext@arrow 0055{\Leftarrowfill@}{#1}{#2}}
+\providecommand*\xRightarrow[2][]{%
+  \ext@arrow 0055{\Rightarrowfill@}{#1}{#2}}
+\providecommand*\xLeftrightarrow[2][]{%
+  \ext@arrow 0055{\Leftrightarrowfill@}{#1}{#2}}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \begin{macro}{\MT_rightharpoondown_fill:}
+%  \begin{macro}{\MT_rightharpoonup_fill:}
+%  \begin{macro}{\MT_leftharpoondown_fill:}
+%  \begin{macro}{\MT_leftharpoonup_fill:}
+%  \begin{macro}{\xrightharpoondown}
+%  \begin{macro}{\xrightharpoonup}
+%  \begin{macro}{\xleftharpoondown}
+%  \begin{macro}{\xleftharpoonup}
+%  \begin{macro}{\xleftrightharpoons}
+%  \begin{macro}{\xrightleftharpoons}
+%  The harpoons.
+%    \begin{macrocode}
+\def\MT_rightharpoondown_fill:{%
+  \arrowfill@\relbar\relbar\rightharpoondown}
+\def\MT_rightharpoonup_fill:{%
+  \arrowfill@\relbar\relbar\rightharpoonup}
+\def\MT_leftharpoondown_fill:{%
+  \arrowfill@\leftharpoondown\relbar\relbar}
+\def\MT_leftharpoonup_fill:{%
+  \arrowfill@\leftharpoonup\relbar\relbar}
+\providecommand*\xrightharpoondown[2][]{%
+  \ext@arrow 0359\MT_rightharpoondown_fill:{#1}{#2}}
+\providecommand*\xrightharpoonup[2][]{%
+  \ext@arrow 0359\MT_rightharpoonup_fill:{#1}{#2}}
+\providecommand*\xleftharpoondown[2][]{%
+  \ext@arrow 3095\MT_leftharpoondown_fill:{#1}{#2}}
+\providecommand*\xleftharpoonup[2][]{%
+  \ext@arrow 3095\MT_leftharpoonup_fill:{#1}{#2}}
+\providecommand*\xleftrightharpoons[2][]{\mathrel{%
+  \raise.22ex\hbox{%
+    $\ext@arrow 3095\MT_leftharpoonup_fill:{\phantom{#1}}{#2}$}%
+  \setbox0=\hbox{%
+    $\ext@arrow 0359\MT_rightharpoondown_fill:{#1}{\phantom{#2}}$}%
+  \kern-\wd0 \lower.22ex\box0}}
+\providecommand*\xrightleftharpoons[2][]{\mathrel{%
+  \raise.22ex\hbox{%
+    $\ext@arrow 0359\MT_rightharpoonup_fill:{\phantom{#1}}{#2}$}%
+  \setbox0=\hbox{%
+    $\ext@arrow 3095\MT_leftharpoondown_fill:{#1}{\phantom{#2}}$}%
+  \kern-\wd0 \lower.22ex\box0}}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \begin{macro}{\xhookleftarrow}
+%  \begin{macro}{\xhookrightarrow}
+%  \begin{macro}{\MT_hookright_fill:}
+%  The hooks.
+%    \begin{macrocode}
+\providecommand*\xhookleftarrow[2][]{%
+  \ext@arrow 3095\MT_hookleft_fill:{#1}{#2}}
+\def\MT_hookleft_fill:{%
+  \arrowfill@\leftarrow\relbar{\relbar\joinrel\rhook}}
+\providecommand*\xhookrightarrow[2][]{%
+  \ext@arrow 3095\MT_hookright_fill:{#1}{#2}}
+\def\MT_hookright_fill:{%
+  \arrowfill@{\lhook\joinrel\relbar}\relbar\rightarrow}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \begin{macro}{\xmapsto}
+%  \begin{macro}{\MT_mapsto_fill:}
+%  The maps-to arrow.
+%    \begin{macrocode}
+\providecommand*\xmapsto[2][]{%
+  \ext@arrow 0395\MT_mapsto_fill:{#1}{#2}}
+\def\MT_mapsto_fill:{%
+  \arrowfill@{\mapstochar\relbar}\relbar\rightarrow}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \subsection{Underbrackets etc.}
+%  \begin{macro}{\underbracket}
+%  \begin{macro}{\MT_underbracket_I:w}
+%  \begin{macro}{\MT_underbracket_II:w}
+%  \begin{macro}{\upbracketfill}
+%  \begin{macro}{\upbracketend}
+%  The \cs{underbracket} macro. Scan for two optional arguments. When
+%  \pkg{xparse} becomes the standard this will be so much easier.
+%    \begin{macrocode}
+\providecommand*\underbracket{
+  \@ifnextchar[
+    {\MT_underbracket_I:w}
+    {\MT_underbracket_I:w[\l_MT_bracketheight_fdim]}}
+\def\MT_underbracket_I:w[#1]{
+  \@ifnextchar[
+    {\MT_underbracket_II:w[#1]}
+    {\MT_underbracket_II:w[#1][.7\fontdimen5\textfont2]}}
+\def\MT_underbracket_II:w[#1][#2]#3{%
+  \mathop{\vtop{\m@th\ialign{##
+    \crcr
+      $\hfil\displaystyle{#3}\hfil$%
+    \crcr
+      \noalign{\kern .2\fontdimen5\textfont2 \nointerlineskip}%
+      \upbracketfill {#1}{#2}%
+    \crcr}}}
+  \limits}
+\def\upbracketfill#1#2{%
+  \sbox\z@{$\braceld$}
+  \edef\l_MT_bracketheight_fdim{\the\ht\z@}%
+  \upbracketend{#1}{#2}
+  \leaders \vrule \@height \z@ \@depth #1 \hfill
+  \upbracketend{#1}{#2}%
+}
+\def\upbracketend#1#2{\vrule \@height #2 \@width #1\relax}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \begin{macro}{\overbracket}
+%  \begin{macro}{\MT_overbracket_I:w}
+%  \begin{macro}{\MT_overbracket_II:w}
+%  \begin{macro}{\downbracketfill}
+%  \begin{macro}{\downbracketend}
+%  The overbracket is quite similar.
+%    \begin{macrocode}
+\providecommand*\overbracket{
+  \@ifnextchar[
+    {\MT_overbracket_I:w}
+    {\MT_overbracket_I:w[\l_MT_bracketheight_fdim]}}
+\def\MT_overbracket_I:w[#1]{
+  \@ifnextchar[
+    {\MT_overbracket_II:w[#1]}
+    {\MT_overbracket_II:w[#1][.7\fontdimen5\textfont2]}}
+\def\MT_overbracket_II:w[#1][#2]#3{%
+  \mathop{\vbox{\m@th\ialign{##
+        \crcr
+          \downbracketfill{#1}{#2}%
+        \crcr
+          \noalign{\kern .2\fontdimen5\textfont2 \nointerlineskip}%
+          $\hfil\displaystyle{#3}\hfil$
+        \crcr}}}%
+  \limits}
+\def\downbracketfill#1#2{%
+  \sbox\z@{$\braceld$}\edef\l_MT_bracketheight_fdim{\the\ht\z@}
+  \downbracketend{#1}{#2}
+  \leaders \vrule \@height #1 \@depth \z@ \hfill
+  \downbracketend{#1}{#2}%
+}
+\def\downbracketend#1#2{\vrule \@width #1\@depth #2\relax}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \begin{macro}{\LaTeXunderbrace}
+%  \begin{macro}{\underbrace}
+%  Redefinition of \cs{underbrace} and \cs{overbrace}.
+%    \begin{macrocode}
+\MH_let:NwN \LaTeXunderbrace \underbrace
+\def\underbrace#1{\mathop{\vtop{\m@th\ialign{##\crcr
+   $\hfil\displaystyle{#1}\hfil$\crcr
+   \noalign{\kern.7\fontdimen5\textfont2\nointerlineskip}%
+%    \end{macrocode}
+%  |.5\fontdimen5\textfont2| is the height of the tip of the brace.
+%  the remaining |.2\fontdimen5\textfont2| is for space between
+%    \begin{macrocode}
+   \upbracefill\crcr\noalign{\kern.5\fontdimen5\textfont2}}}}\limits}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \begin{macro}{\LaTeXoverbrace}
+%  \begin{macro}{\overbrace}
+%  Same technique for \cs{overbrace}.
+%    \begin{macrocode}
+\MH_let:NwN \LaTeXoverbrace \overbrace
+\def\overbrace#1{\mathop{\vbox{\m@th\ialign{##\crcr
+  \noalign{\kern.5\fontdimen5\textfont2}%
+%    \end{macrocode}
+%  Adjust for tip height
+%    \begin{macrocode}
+  \downbracefill\crcr
+  \noalign{\kern.7\fontdimen5\textfont2\nointerlineskip}%
+%    \end{macrocode}
+%  |.5\fontdimen5\textfont2| is the height of the tip of the brace.
+%  The remaining |.2\fontdimen5\textfont2| is for space between
+%    \begin{macrocode}
+  $\hfil\displaystyle{#1}\hfil$\crcr}}}\limits}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%
+%
+%
+%
+%
+%  \subsection{Special symbols}
+%
+%  \subsubsection{Command names for parentheses}
+%  \begin{macro}{\lparen}
+%  \begin{macro}{\rparen}
+%  Just an addition to the \LaTeXe\ kernel.
+%    \begin{macrocode}
+\providecommand*\lparen{(}
+\providecommand*\rparen{)}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+
+%  \subsubsection{Vertically centered colon}
+%
+%  \begin{macro}{\vcentcolon}
+%  \begin{macro}{\ordinarycolon}
+%  \begin{macro}{\MT_active_colon_true:}
+%  \begin{macro}{\MT_active_colon_false:}
+%  This is from the hands of Donald Arseneau. Somehow it is not
+%  distributed, so I include it here. Here's the original text by
+%  Donald:
+%  \begin{verbatim}
+%  centercolon.sty                 Dec 7, 2000
+%  Donald Arseneau                 asnd@triumf.ca
+%  Public domain.
+%  Vertically center colon characters (:) in math mode.
+%  Particularly useful for $ a:=b$, and still correct for
+%  $f : x\to y$.  May be used in any TeX.
+%  \end{verbatim}
+%    \begin{macrocode}
+\def\vcentcolon{\mathrel{\mathop\ordinarycolon}}
+\begingroup
+  \catcode`\:=\active
+  \lowercase{\endgroup
+    \ifnum\mathcode`\:=32768\relax
+      \let\ordinarycolon= :%
+    \else
+      \mathchardef\ordinarycolon\mathcode`\: %
+    \fi
+    \let :\vcentcolon
+  }
+\MH_new_boolean:n {center_colon}
+\define@key{\MT_options_name:}{centercolon}[true]{
+  \@ifundefined{MT_active_colon_#1:}
+    { \MT_true_false_error:n
+      \@nameuse{MT_active_colon_false:}
+    }
+    { \@nameuse{MT_active_colon_#1:} }
+}
+\def\MT_active_colon_true: {
+  \MH_if_boolean:nF {center_colon}{
+    \MH_set_boolean_T:n {center_colon}
+    \edef\MT_active_colon_false:
+      {\mathcode`\noexpand\:=\the\mathcode`\:\relax}
+    \mathcode`\:=32768
+  }
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \begin{macro}{\dblcolon}
+%  \begin{macro}{\coloneqq}
+%  \begin{macro}{\Coloneqq}
+%  \begin{macro}{\coloneq}
+%  \begin{macro}{\Coloneq}
+%  \begin{macro}{\eqqcolon}
+%  \begin{macro}{\Eqqcolon}
+%  \begin{macro}{\eqcolon}
+%  \begin{macro}{\Eqcolon}
+%  \begin{macro}{\colonapprox}
+%  \begin{macro}{\Colonapprox}
+%  \begin{macro}{\colonsim}
+%  \begin{macro}{\Colonsim}
+%  This is just to simulate all the \cs{..colon..} symbols from
+%  \pkg{txfonts} and \pkg{pxfonts}.
+%    \begin{macrocode}
+\AtBeginDocument{
+  \providecommand*\dblcolon{\vcentcolon\mkern-.9mu\vcentcolon}
+  \providecommand*\coloneqq{\vcentcolon\mkern-1.2mu=}
+  \providecommand*\Coloneqq{\dblcolon\mkern-1.2mu=}
+  \providecommand*\coloneq{\vcentcolon\mkern-1.2mu\mathrel{-}}
+  \providecommand*\Coloneq{\dblcolon\mkern-1.2mu\mathrel{-}}
+  \providecommand*\eqqcolon{=\mkern-1.2mu\vcentcolon}
+  \providecommand*\Eqqcolon{=\mkern-1.2mu\dblcolon}
+  \providecommand*\eqcolon{\mathrel{-}\mkern-1.2mu\vcentcolon}
+  \providecommand*\Eqcolon{\mathrel{-}\mkern-1.2mu\dblcolon}
+  \providecommand*\colonapprox{\vcentcolon\mkern-1.2mu\approx}
+  \providecommand*\Colonapprox{\dblcolon\mkern-1.2mu\approx}
+  \providecommand*\colonsim{\vcentcolon\mkern-1.2mu\sim}
+  \providecommand*\Colonsim{\dblcolon\mkern-1.2mu\sim}
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%
+%
+%  \subsection{Multlined}
+%
+%  \begin{macro}{\g_MT_multlinerow_int}
+%  \begin{macro}{\l_MT_multwidth_dim}
+%  Helpers.
+%    \begin{macrocode}
+\let \AMS@math@cr@@ \math@cr@@
+\MH_new_boolean:n {mult_firstline}
+\MH_new_boolean:n {outer_mult}
+\newcount\g_MT_multlinerow_int
+\newdimen\l_MT_multwidth_dim
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \begin{macro}{\MT_test_for_tcb_other:nnnnn}
+%  This tests if the token(s) is/are equal to either t, c, or~b, or
+%  something entirely different.
+%    \begin{macrocode}
+\newcommand*\MT_test_for_tcb_other:nnnnn [1]{
+  \if:w t#1\relax
+    \expandafter\MH_use_choice_i:nnnn
+  \else:
+    \if:w c#1\relax
+      \expandafter\expandafter\expandafter\MH_use_choice_ii:nnnn
+    \else:
+      \if:w b#1\relax
+        \expandafter\expandafter\expandafter
+        \expandafter\expandafter\expandafter\expandafter
+        \MH_use_choice_iii:nnnn
+      \else:
+        \expandafter\expandafter\expandafter
+        \expandafter\expandafter\expandafter\expandafter
+        \MH_use_choice_iv:nnnn
+      \fi:
+    \fi:
+  \fi:
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\MT_mult_invisible_line:}
+%  An invisible line.
+%    \begin{macrocode}
+\def\MT_mult_invisible_line: {
+  \crcr
+  \global\MH_set_boolean_F:n {mult_firstline}
+  \hbox to \l_MT_multwidth_dim{}\crcr
+  \noalign{\vskip-\baselineskip \vskip-\normallineskip}
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\MT_mult_mathcr_atat:w}
+%  The normal \cs{math@cr@@} with our hooks.
+%    \begin{macrocode}
+\def\MT_mult_mathcr_atat:w [#1]{%
+  \if_num:w 0=`{\fi: \iffalse}\fi:
+  \MH_if_boolean:nT {mult_firstline}{
+    \kern\l_MT_mult_left_fdim
+    \MT_mult_invisible_line:
+  }
+  \crcr
+  \noalign{\vskip#1\relax}
+  \global\advance\g_MT_multlinerow_int\@ne
+  \if_num:w \g_MT_multlinerow_int=\l_MT_multline_lastline_fint
+    \MH_let:NwN \math@cr@@\MT_mult_last_mathcr:w
+  \fi:
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\MT_mult_firstandlast_mathcr:w}
+%  The special case where there is a two-line \env{multlined}. We
+%  insert the first kern, then the invisible line of the desired
+%  width, the optional vertical space and then the last kern.
+%    \begin{macrocode}
+\def\MT_mult_firstandlast_mathcr:w [#1]{%
+  \if_num:w 0=`{\fi: \iffalse}\fi:
+  \kern\l_MT_mult_left_fdim
+  \MT_mult_invisible_line:
+  \noalign{\vskip#1\relax}
+  \kern\l_MT_mult_right_fdim
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\MT_mult_last_mathcr:w}
+%  The normal last \cs{math@cr@@} which inserts the last kern.
+%    \begin{macrocode}
+\def\MT_mult_last_mathcr:w [#1]{
+  \if_num:w 0=`{\fi: \iffalse}\fi:\math@cr@@@
+  \noalign{\vskip#1\relax}
+  \kern\l_MT_mult_right_fdim}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\MT_start_mult:N}
+%  Setup for \env{multlined}. Finds the position.
+%    \begin{macrocode}
+\newcommand\MT_start_mult:N [1]{
+  \MT_test_for_tcb_other:nnnnn {#1}
+    { \MH_let:NwN \MT_next:\vtop }
+    { \MH_let:NwN \MT_next:\vcenter }
+    { \MH_let:NwN \MT_next:\vbox }
+    {
+      \PackageError{mathtools}
+        {Invalid~ position~ specifier.~ I'll~ try~ to~ recover~ with~
+        `c'}\@ehc
+    }
+  \collect@body\MT_mult_internal:n
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\MT_shoveright:wn}
+%  \begin{macro}{\MT_shoveleft:wn}
+%  Extended versions of \cs{shoveleft} and \cs{shoveright}.
+%    \begin{macrocode}
+\newcommand*\MT_shoveright:wn [2][0pt]{%
+  #2\hfilneg
+  \setlength\@tempdima{#1}
+  \kern\@tempdima
+}
+\newcommand*\MT_shoveleft:wn [2][0pt]{%
+  \hfilneg
+  \setlength\@tempdima{#1}
+  \kern\@tempdima
+  #2
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \begin{macro}{\MT_mult_internal:n}
+%  \changes{v1.01a}{2004/10/10}{Added Ord atom to beginning of each line}
+%  The real internal \env{multlined}.
+%    \begin{macrocode}
+\newcommand*\MT_mult_internal:n [1]{
+ \MH_if_boolean:nF {outer_mult}{\null\,}
+  \MT_next:
+  \bgroup
+%    \end{macrocode}
+%  Restore the meaning of \cmd{\\} inside \env{multlined}, else it
+%  wouldn't work in the \env{equation} environment. Set the fake row
+%  counter to zero.
+%    \begin{macrocode}
+    \Let@
+    \def\l_MT_multline_lastline_fint{0 }
+    \chardef\dspbrk@context\@ne \restore@math@cr
+%    \end{macrocode}
+%  Use private versions.
+%    \begin{macrocode}
+    \MH_let:NwN \math@cr@@\MT_mult_mathcr_atat:w
+    \MH_let:NwN \shoveleft\MT_shoveleft:wn
+    \MH_let:NwN \shoveright\MT_shoveright:wn
+    \spread@equation
+    \MH_set_boolean_F:n {mult_firstline}
+%    \end{macrocode}
+%  Do some measuring.
+%    \begin{macrocode}
+    \MT_measure_mult:n {#1}
+%    \end{macrocode}
+%  Make sure the box is wide enough.
+%    \begin{macrocode}
+    \if_dim:w \l_MT_multwidth_dim<\l_MT_multline_measure_fdim
+      \MH_setlength:dn \l_MT_multwidth_dim{\l_MT_multline_measure_fdim}
+    \fi
+    \MH_set_boolean_T:n {mult_firstline}
+%    \end{macrocode}
+%  Tricky bit: If we only encountered one \cmd{\\} then use a very
+%  special \cs{math@cr@@} that inserts everything needed.
+%    \begin{macrocode}
+    \if_num:w \l_MT_multline_lastline_fint=\@ne
+      \MH_let:NwN \math@cr@@ \MT_mult_firstandlast_mathcr:w
+    \fi:
+%    \end{macrocode}
+%  Do the typesetting.
+%    \begin{macrocode}
+    \ialign\bgroup
+      \hfil\strut@$\m@th\displaystyle{}##$\hfil
+      \crcr
+      \hfilneg
+      #1
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\MT_measure_mult:n}
+%  \changes{v1.01a}{2004/10/10}{Added Ord atom to beginning of each line}
+%  Measuring. Disable all labelling and check the number of lines.
+%    \begin{macrocode}
+\newcommand\MT_measure_mult:n [1]{
+  \begingroup
+    \g_MT_multlinerow_int\@ne
+    \MH_let:NwN \label\MT_gobblelabel:w
+    \MH_let:NwN \tag\gobble@tag
+    \setbox\z@\vbox{
+      \ialign{\strut@$\m@th\displaystyle{}##$
+        \crcr
+        #1
+        \crcr
+      }
+    }
+    \xdef\l_MT_multline_measure_fdim{\the\wdz@}
+    \advance\g_MT_multlinerow_int\m@ne
+    \xdef\l_MT_multline_lastline_fint{\number\g_MT_multlinerow_int}
+  \endgroup
+  \g_MT_multlinerow_int\@ne
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\MT_multlined_second_arg:w}
+%  Scan for a second optional argument.
+%    \begin{macrocode}
+\MaybeMHPrecedingSpacesOff
+\newcommand*\MT_multlined_second_arg:w [1][\@empty]{
+  \MT_test_for_tcb_other:nnnnn {#1}
+    {\def\MT_mult_default_pos:{#1}}
+    {\def\MT_mult_default_pos:{#1}}
+    {\def\MT_mult_default_pos:{#1}}
+    {
+      \if_meaning:NN \@empty#1\@empty
+      \else:
+        \setlength \l_MT_multwidth_dim{#1}
+      \fi:
+    }
+  \MT_start_mult:N \MT_mult_default_pos:
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{environment}{multlined}
+%  The user environment. Scan for an optional argument.
+%    \begin{macrocode}
+\newenvironment{multlined}[1][]
+  {\MH_group_align_safe_begin:
+  \MT_test_for_tcb_other:nnnnn {#1}
+    {\def\MT_mult_default_pos:{#1}}
+    {\def\MT_mult_default_pos:{#1}}
+    {\def\MT_mult_default_pos:{#1}}
+    {
+      \if_meaning:NN \@empty#1\@empty
+      \else:
+        \setlength \l_MT_multwidth_dim{#1}
+      \fi:
+    }
+    \MT_multlined_second_arg:w
+  }
+  {
+    \hfilneg  \endaligned \MH_group_align_safe_end:
+  }
+\MHPrecedingSpacesOn
+%    \end{macrocode}
+%  \end{environment}
+%  The keys needed.
+%    \begin{macrocode}
+\define@key{\MT_options_name:}
+  {firstline-afterskip}{\def\l_MT_mult_left_fdim{#1}}
+\define@key{\MT_options_name:}
+  {lastline-preskip}{\def\l_MT_mult_right_fdim{#1}}
+\define@key{\MT_options_name:}
+  {multlined-width}{\setlength \l_MT_multwidth_dim{#1}}
+\define@key{\MT_options_name:}
+  {multlined-pos}{\def\MT_mult_default_pos:{#1}}
+\setkeys{\MT_options_name:}{
+  firstline-afterskip=\multlinegap,
+  lastline-preskip=\multlinegap,
+  multlined-width=0pt,
+  multlined-pos=c,
+}
+%    \end{macrocode}
+%  \begin{macro}{\MT_gobblelabel:w}
+%  Better than to assume that \cs{label} has exactly one mandatory
+%  argument, hence the \texttt{w} specifier.
+%    \begin{macrocode}
+\def\MT_gobblelabel:w #1{}
+%    \end{macrocode}
+%  \end{macro}
+%
+%
+%
+%
+%  \section{Macros suggested/requested by Lars Madsen}
+%
+%  The macros in this section are all requests made by Lars Madsen.
+%
+%  \subsection{Paired delimiters}
+%
+%  \begin{macro}{\DeclarePairedDelimiter}
+%  \changes{v1.06}{2008/08/01}{Made user command robust}
+%  This macro defines |#1| to be a control sequence that takes either
+%  a star or an optional argument.
+%    \begin{macrocode}
+\newcommand*\DeclarePairedDelimiter[3]{%
+  \@ifdefinable{#1}{
+%    \end{macrocode}
+%  Define the starred command to just put \cs{left} and \cs{right}
+%  before the delimiters.
+%    \begin{macrocode}
+    \@namedef{MT_delim_\MH_cs_to_str:N #1 _star:}##1
+        {\left#2 ##1 \right #3}%
+%    \end{macrocode}
+%  The command with optional argument. It should be \cs{bigg} or
+%  alike.
+%    \begin{macrocode}
+    \@xp\@xp\@xp
+      \newcommand
+        \@xp\csname MT_delim_\MH_cs_to_str:N #1 _nostar:\endcsname
+        [2][\\@gobble]
+        { 
+%    \end{macrocode}
+%  With the default optional argument we wind up with \cs{relax},
+%  else we get \cs{biggr} and \cs{biggl} etc.
+%    \begin{macrocode}
+          \mathopen{\@nameuse {\MH_cs_to_str:N ##1 l} #2} ##2 
+          \mathclose{\@nameuse {\MH_cs_to_str:N ##1 r} #3}}
+%    \end{macrocode}
+%  The user command comes here. Just check for the star and choose
+%  the right internal command.
+%    \begin{macrocode}
+    \DeclareRobustCommand{#1}{
+      \@ifstar
+        {\@nameuse{MT_delim_\MH_cs_to_str:N #1 _star:}}
+        {\@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostar:}}
+    }
+  }
+}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \subsection{A \texttt{\textbackslash displaystyle} \env{cases} environment}
+%
+%  \begin{macro}{\MT_start_cases:nnn}
+%  We define a single command that does all the hard work.
+%    \begin{macrocode}
+\def\MT_start_cases:nnn #1#2#3{ % #1=sep,#2=preamble,#3=delim
+ \RIfM@\else
+   \nonmatherr@{\begin{\@currenvir}}
+ \fi
+ \MH_group_align_safe_begin:
+ \left#3
+ \vcenter \bgroup
+     \Let@ \chardef\dspbrk@context\@ne \restore@math@cr
+     \let  \math@cr@@\AMS@math@cr@@
+     \spread@equation
+     \ialign\bgroup
+%    \end{macrocode}
+%  Set the first column flush left in \cs{displaystyle} math and the
+%  second as specified by the second argument. The first argument is
+%  the separation between the columns. It could be a \cs{quad} or
+%  something entirely different.
+%    \begin{macrocode}
+       \strut@$\m@th \displaystyle{##}$\hfil &#1\strut@
+       #2
+       \crcr
+}
+%    \end{macrocode}
+%  \end{macro}
+% \begin{macro}{\MH_end_cases:}
+%    \begin{macrocode}
+\def\MH_end_cases:{\crcr\egroup
+ \restorecolumn@
+ \egroup
+ \MH_group_align_safe_end:
+}
+%    \end{macrocode}
+% \end{macro}
+%  \begin{macro}{\newcases}
+%  \begin{macro}{\renewcases}
+%  Easy creation of new \env{cases}-like environments.
+%    \begin{macrocode}
+\newcommand*\newcases[5]{% #1=name, #2=sep, #3=preamble, #4=left, #5=right
+ \newenvironment{#1}
+   {\MT_start_cases:nnn {#2}{#3}{#4}}
+   {\MH_end_cases:\right#5}
+}
+\newcommand*\renewcases[5]{
+ \renewenvironment{#1}
+   {\MT_start_cases:nnn {#2}{#3}{#4}}
+   {\MH_end_cases:\right#5}
+}
+%    \end{macrocode}
+%  \begin{environment}{dcases}
+%  \begin{environment}{dcases*}
+%  \env{dcases} is a traditional cases with display style math in
+%  both columns, while \env{dcases*} has text in the second column.
+%    \begin{macrocode}
+\newcases{dcases}{\quad}{$\m@th\displaystyle{##}$\hfil}{\lbrace}{.}
+\newcases{dcases*}{\quad}{{##}\hfil}{\lbrace}{.}
+%    \end{macrocode}
+%  \end{environment}
+%  \end{environment}
+%  \end{macro}
+%  \end{macro}
+%
+%  \subsection{New matrix environments}
+%  \begin{macro}{\MT_matrix_begin:N}
+%  \begin{macro}{\MT_matrix_end:}
+%  Here are a few helpers for the matrices. \cs{MT_matrix_begin:N}
+%  takes one argument specifying the column type for the array inside
+%  the matrix. and \cs{MT_matrix_end:} inserts the correct ending.
+%    \begin{macrocode}
+\def\MT_matrix_begin:N #1{%
+  \hskip -\arraycolsep
+  \MH_let:NwN \@ifnextchar \MH_nospace_ifnextchar:Nnn
+  \array{*\c@MaxMatrixCols #1}}
+\def\MT_matrix_end:{\endarray \hskip -\arraycolsep}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  Before we define the environments we better make sure that spaces
+%  before the optional argument is disallowed. Else a user who types
+%  \begin{verbatim}
+%  \[
+%    \begin{pmatrix*}
+%      [c] & a \\
+%       b  & d
+%    \end{pmatrix*}
+%  \]
+%  \end{verbatim}
+%  will lose the \texttt{[c]}!
+%    \begin{macrocode}
+\MaybeMHPrecedingSpacesOff
+%    \end{macrocode}
+%  \begin{environment}{matrix*}
+%  This environment is just like \env{matrix} only it takes an
+%  optional argument specifying the column type.
+%    \begin{macrocode}
+\newenvironment{matrix*}[1][c]
+  {\MT_matrix_begin:N #1}
+  {\MT_matrix_end:}
+%    \end{macrocode}
+%  \end{environment}
+%  \begin{environment}{pmatrix*}
+%  \begin{environment}{bmatrix*}
+%  \begin{environment}{Bmatrix*}
+%  \begin{environment}{vmatrix*}
+%  \begin{environment}{Vmatrix*}
+%  Then starred versions of the other \AmS{} matrices.
+%    \begin{macrocode}
+\newenvironment{pmatrix*}[1][c]
+  {\left(\MT_matrix_begin:N #1}
+  {\MT_matrix_end:\right)}
+\newenvironment{bmatrix*}[1][c]
+  {\left[\MT_matrix_begin:N #1}
+  {\MT_matrix_end:\right]}
+\newenvironment{Bmatrix*}[1][c]
+  {\left\lbrace\MT_matrix_begin:N #1}
+  {\MT_matrix_end:\right\rbrace}
+\newenvironment{vmatrix*}[1][c]
+  {\left\lvert\MT_matrix_begin:N #1}
+  {\MT_matrix_end:\right\rvert}
+\newenvironment{Vmatrix*}[1][c]
+  {\left\lVert\MT_matrix_begin:N #1}
+  {\MT_matrix_end:\right\lVert}
+%    \end{macrocode}
+%  Restore the usual behavior.
+%    \begin{macrocode}
+\MHPrecedingSpacesOn
+%    \end{macrocode}
+%  \end{environment}
+%  \end{environment}
+%  \end{environment}
+%  \end{environment}
+%  \end{environment}
+%
+%
+%  \subsection{Smashing an operator with limits}
+%
+%  \begin{macro}{\smashoperator}
+%  The user command. Define \cs{MT_smop_use:NNNNN} to be one of the
+%  specialized commands \cs{MT_smop_smash_l:NNNNN},
+%  \cs{MT_smop_smash_r:NNNNN}, or the default
+%  \cs{MT_smop_smash_lr:NNNNN}.
+%    \begin{macrocode}
+\newcommand*\smashoperator[2][lr]{
+  \def\MT_smop_use:NNNNN {\@nameuse{MT_smop_smash_#1:NNNNN}}
+  \toks@{#2}
+  \expandafter\MT_smop_get_args:wwwNnNn
+    \the\toks@\@nil\@nil\@nil\@nil\@nil\@nil\@@nil
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\MT_smop_remove_nil_vi:N}
+%  \begin{macro}{\MT_smop_mathop:n}
+%  \begin{macro}{\MT_smop_limits:}
+%  Some helper functions.
+%    \begin{macrocode}
+\def\MT_smop_remove_nil_vi:N #1\@nil\@nil\@nil\@nil\@nil\@nil{#1}
+\def\MT_smop_mathop:n {\mathop}
+\def\MT_smop_limits: {\limits}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  Some conditionals.
+%    \begin{macrocode}
+\MH_new_boolean:n {smop_one}
+\MH_new_boolean:n {smop_two}
+%    \end{macrocode}
+%  \begin{macro}{\MT_smop_get_args:wwwNnNn}
+%  The argument stripping. There are three different valid types of
+%  input:
+%  \begin{enumerate}
+%    \item An operator with neither subscript nor superscript.
+%    \item An operator with one subscript or superscript.
+%    \item An operator with both subscript and superscript.
+%  \end{enumerate}
+%  Additionally an operator can be either a single macro as in
+%  \cs{sum} or in \cs{mathop}\arg{A} and people might be tempted to
+%  put a \cs{limits} after the operator, even though it's not
+%  necessary. Thus the input with most tokens would be something like
+%  \begin{verbatim}
+%    \mathop{TTT}\limits_{sub}^{sup}
+%  \end{verbatim}
+%  Therefore we have to scan for seven arguments, but there might
+%  only be one actually. So let's list the possible situations:
+%  \begin{enumerate}
+%    \item \verb|\mathop{TTT}\limits_{subsub}^{supsup}|
+%    \item \verb|\mathop{TTT}_{subsub}^{supsup}|
+%    \item \verb|\sum\limits_{subsub}^{supsup}|
+%    \item \verb|\sum_{subsub}^{supsup}|
+%  \end{enumerate}
+%  Furthermore the |_{subsub}^{supsup}| part can also just be
+%  |_{subsub}| or empty.
+%    \begin{macrocode}
+\def\MT_smop_get_args:wwwNnNn #1#2#3#4#5#6#7\@@nil{%
+  \begingroup
+    \def\MT_smop_arg_A: {#1} \def\MT_smop_arg_B: {#2}
+    \def\MT_smop_arg_C: {#3} \def\MT_smop_arg_D: {#4}
+    \def\MT_smop_arg_E: {#5} \def\MT_smop_arg_F: {#6}
+    \def\MT_smop_arg_G: {#7}
+%    \end{macrocode}
+%  Check if A is \cs{mathop}. If it is, we know that B is the argument
+%  of the \cs{mathop}.
+%    \begin{macrocode}
+    \if_meaning:NN \MT_smop_arg_A: \MT_smop_mathop:n
+%    \end{macrocode}
+%  If A was \cs{mathop} we check if C is \cs{limits}
+%    \begin{macrocode}
+      \if_meaning:NN \MT_smop_arg_C:\MT_smop_limits:
+        \def\MT_smop_final_arg_A:{#1{#2}}%
+%    \end{macrocode}
+%  Now we have something like \verb|\mathop{TTT}\limits|. Then check
+%  if D is \cs{@nil}.
+%    \begin{macrocode}
+        \if_meaning:NN \MT_smop_arg_D: \@nnil
+        \else:
+          \MH_set_boolean_T:n {smop_one}
+          \MH_let:NwN \MT_smop_final_arg_B: \MT_smop_arg_D:
+          \MH_let:NwN \MT_smop_final_arg_C: \MT_smop_arg_E:
+          \if_meaning:NN \MT_smop_arg_F: \@nnil
+          \else:
+            \MH_set_boolean_T:n {smop_two}
+            \MH_let:NwN \MT_smop_final_arg_D: \MT_smop_arg_F:
+            \edef\MT_smop_final_arg_E:
+              {\expandafter\MT_smop_remove_nil_vi:N \MT_smop_arg_G: }
+          \fi:
+        \fi:
+      \else:
+%    \end{macrocode}
+%  Here we have something like \verb|\mathop{TTT}|. Still check
+%  if D is \cs{@nil}.
+%    \begin{macrocode}
+        \def\MT_smop_final_arg_A:{#1{#2}}%
+        \if_meaning:NN \MT_smop_arg_D: \@nnil
+        \else:
+          \MH_set_boolean_T:n {smop_one}
+          \MH_let:NwN \MT_smop_final_arg_B: \MT_smop_arg_C:
+          \MH_let:NwN \MT_smop_final_arg_C: \MT_smop_arg_D:
+          \if_meaning:NN \MT_smop_arg_F: \@nnil
+          \else:
+            \MH_set_boolean_T:n {smop_two}
+            \MH_let:NwN \MT_smop_final_arg_D: \MT_smop_arg_E:
+            \MH_let:NwN \MT_smop_final_arg_E: \MT_smop_arg_F:
+          \fi:
+        \fi:
+      \fi:
+%    \end{macrocode}
+%  If A was not \cs{mathop}, it is an operator in itself, so we check
+%  if B is \cs{limits}
+%    \begin{macrocode}
+    \else:
+      \if_meaning:NN \MT_smop_arg_B:\MT_smop_limits:
+        \def\MT_smop_final_arg_A:{#1}%
+        \if_meaning:NN \MT_smop_arg_D: \@nnil
+        \else:
+          \MH_set_boolean_T:n {smop_one}
+          \MH_let:NwN \MT_smop_final_arg_B: \MT_smop_arg_C:
+          \MH_let:NwN \MT_smop_final_arg_C: \MT_smop_arg_D:
+          \if_meaning:NN \MT_smop_arg_F: \@nnil
+          \else:
+            \MH_set_boolean_T:n {smop_two}
+            \MH_let:NwN \MT_smop_final_arg_D: \MT_smop_arg_E:
+            \MH_let:NwN \MT_smop_final_arg_E: \MT_smop_arg_F:
+          \fi:
+        \fi:
+      \else:
+%    \end{macrocode}
+%  No \cs{limits} was found, so we already have the right input. Just
+%  forget about the last two arguments.
+%    \begin{macrocode}
+        \def\MT_smop_final_arg_A:{#1}%
+        \if_meaning:NN \MT_smop_arg_C: \@nnil
+        \else:
+          \MH_set_boolean_T:n {smop_one}
+          \MH_let:NwN \MT_smop_final_arg_B: \MT_smop_arg_B:
+          \MH_let:NwN \MT_smop_final_arg_C: \MT_smop_arg_C:
+          \if_meaning:NN \MT_smop_arg_D: \@nnil
+          \else:
+            \MH_set_boolean_T:n {smop_two}
+            \MH_let:NwN \MT_smop_final_arg_D: \MT_smop_arg_D:
+            \MH_let:NwN \MT_smop_final_arg_E: \MT_smop_arg_E:
+          \fi:
+        \fi:
+      \fi:
+    \fi:
+%    \end{macrocode}
+%  No reason to measure if there's no sub or sup.
+%    \begin{macrocode}
+    \MH_if_boolean:nT {smop_one}{
+      \MT_smop_measure:NNNNN
+      \MT_smop_final_arg_A: \MT_smop_final_arg_B: \MT_smop_final_arg_C:
+      \MT_smop_final_arg_D: \MT_smop_final_arg_E:
+    }
+    \MT_smop_use:NNNNN
+      \MT_smop_final_arg_A: \MT_smop_final_arg_B: \MT_smop_final_arg_C:
+      \MT_smop_final_arg_D: \MT_smop_final_arg_E:
+  \endgroup
+}
+%    \end{macrocode}
+%  \end{macro}
+%  Typeset what is necessary and ignore width of sub and sup:
+%    \begin{macrocode}
+\def\MT_smop_needed_args:NNNNN #1#2#3#4#5{%
+  \displaystyle #1
+  \MH_if_boolean:nT {smop_one}{
+%    \end{macrocode}
+%  Let's use the internal versions of \cs{crampedclap} now that we now
+%  it is set in \cs{scriptstyle}.
+%    \begin{macrocode}
+    \limits#2{\MT_cramped_clap_internal:Nn \scriptstyle{#3}}
+    \MH_if_boolean:nT {smop_two}{
+      #4{\MT_cramped_clap_internal:Nn \scriptstyle{#5}}
+    }
+  }
+}
+%    \end{macrocode}
+%  Measure the natural width. \cs{@tempdima} holds the dimen we need to
+%  adjust it all with.
+%    \begin{macrocode}
+\def\MT_smop_measure:NNNNN #1#2#3#4#5{%
+  \MH_let:NwN \MT_saved_mathclap:Nn \MT_cramped_clap_internal:Nn
+  \MH_let:NwN \MT_cramped_clap_internal:Nn \@secondoftwo
+  \sbox\z@{$\m@th\MT_smop_needed_args:NNNNN #1#2#3#4#5$}
+  \MH_let:NwN \MT_cramped_clap_internal:Nn \MT_saved_mathclap:Nn
+  \sbox\tw@{$\m@th\displaystyle#1$}
+  \@tempdima=.5\wd0
+  \advance\@tempdima-.5\wd2
+}
+%    \end{macrocode}
+%  The `l' variant
+%    \begin{macrocode}
+\def\MT_smop_smash_l:NNNNN #1#2#3#4#5{
+  \MT_smop_needed_args:NNNNN #1#2#3#4#5\kern\@tempdima
+}
+%    \end{macrocode}
+%  The `r' variant
+%    \begin{macrocode}
+\def\MT_smop_smash_r:NNNNN #1#2#3#4#5{
+  \kern\@tempdima\MT_smop_needed_args:NNNNN #1#2#3#4#5
+}
+%    \end{macrocode}
+%  The `lr' variant
+%    \begin{macrocode}
+\def\MT_smop_smash_lr:NNNNN #1#2#3#4#5{
+  \MT_smop_needed_args:NNNNN #1#2#3#4#5
+}
+%    \end{macrocode}
+%
+%
+%  \subsection{Adjusting limits}
+%
+%
+%  \begin{macro}{\MT_vphantom:Nn}
+%  \begin{macro}{\MT_hphantom:Nn}
+%  \begin{macro}{\MT_phantom:Nn}
+%  \begin{macro}{\MT_internal_phantom:N}
+%  The main advantage of \cs{phantom} et al., is the ability to
+%  choose the right size automatically, but it requires the input to
+%  be typeset four times. Since we will need to have a \cs{cramped}
+%  inside a \cs{vphantom} it is much, much faster to choose the style
+%  ourselves (we already know it). These macros make it possible.
+%    \begin{macrocode}
+\def\MT_vphantom:Nn {\v@true\h@false\MT_internal_phantom:N}
+\def\MT_hphantom:Nn {\v@false\h@true\MT_internal_phantom:N}
+\def\MT_phantom:Nn {\v@true\h@true\MT_internal_phantom:N}
+\def\MT_internal_phantom:N #1{
+  \ifmmode
+    \expandafter\mathph@nt\expandafter#1
+  \else
+    \expandafter\makeph@nt
+  \fi
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%
+%  \begin{macro}{\adjustlimits}
+%  This is for making sure limits line up on two consecutive
+%  operators.
+%    \begin{macrocode}
+\newcommand*\adjustlimits[6]{
+%    \end{macrocode}
+%  We measure the two operators and save the difference of their
+%  depths.
+%    \begin{macrocode}
+  \sbox\z@{$\m@th \displaystyle #1$}
+  \sbox\tw@{$\m@th \displaystyle #4$}
+  \@tempdima=\dp\z@ \advance\@tempdima-\dp\tw@
+%    \end{macrocode}
+%  We force \cs{displaystyle} for the operator and \cs{scripstyle}
+%  for the limit. If we make use of the regular \cs{smash},
+%  \cs{vphantom}, and \cs{cramped} macros, and let \TeX{} choose the
+%  right style for each one of them, we get a lot of redundant code
+%  as we have no need for the combination
+%  $(\cs{displaystyle},\cs{textstyle})$ etc. Only
+%  $(\cs{scriptstyle},\cs{scriptstyle})$ is useful.
+%    \begin{macrocode}
+  \if_dim:w \@tempdima>\z@
+    \mathop{#1}\limits#2{#3}
+  \else:
+    \mathop{#1\MT_vphantom:Nn \displaystyle{#4}}\limits
+    #2{
+        \def\finsm@sh{\ht\z@\z@ \box\z@}
+        \mathsm@sh\scriptstyle{\MT_cramped_internal:Nn \scriptstyle{#3}}
+        \MT_vphantom:Nn \scriptstyle
+          {\MT_cramped_internal:Nn \scriptstyle{#6}}
+    }
+  \fi:
+  \if_dim:w \@tempdima>\z@
+    \mathop{#4\MT_vphantom:Nn \displaystyle{#1}}\limits
+    #5
+    {
+      \MT_vphantom:Nn \scriptstyle
+        {\MT_cramped_internal:Nn \scriptstyle{#3}}
+      \def\finsm@sh{\ht\z@\z@ \box\z@}
+      \mathsm@sh\scriptstyle{\MT_cramped_internal:Nn \scriptstyle{#6}}
+    }
+  \else:
+    \mathop{#4}\limits#5{#6}
+  \fi:
+}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \subsection{An aid to alignment}
+%
+% \begin{macro}{\MoveEqLeft}
+%   \changes{v1.05}{2008/06/05}{Added \cs{MoveEqLeft} (daleif)}
+%   \changes{v1.05b}{2008/06/18}{We don't need \cs{setlength} here
+%   (daleif), after discussion about \cs{global} and \cs{setlength} on
+%   ctt}
+%   This is a very simple macro, we `pull' a line in an alignment
+%   backwards in order to simulate that all subsequent lines have been
+%   indented. Note that simply using \verb+\kern-2m+ after the
+%   \verb+&+ is not enough, then the alignemnt environment never
+%   detects that there are anything in the cell before the \verb+&+.
+%    \begin{macrocode}
+\newcommand\MoveEqLeft[1][2]{%
+  \global\@tempdima=#1em%
+  \kern\@tempdima%
+  & 
+  \kern-\@tempdima}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\ArrowBetweenLines}
+%   \changes{v1.05}{2008/06/05}{Added \cs{ArrowBetweenLines} as it
+%   belongs here and not just in my \LaTeX book (daleif)}
+%   ????Implementation notes are needed????
+%    \begin{macrocode}
+\MHInternalSyntaxOff
+\def\ArrowBetweenLines{\relax
+  \iffalse{\fi\ifnum0=`}\fi
+  \@ifstar{\ArrowBetweenLines@auxI{00}}{\ArrowBetweenLines@auxI{01}}}
+\def\ArrowBetweenLines@auxI#1{%
+  \@ifnextchar[%
+  {\ArrowBetweenLines@auxII{#1}}%
+  {\ArrowBetweenLines@auxII{#1}[\Updownarrow]}}
+\def\ArrowBetweenLines@auxII#1[#2]{%
+  \ifnum0=`{\fi \iffalse}\fi
+  \crcr
+  \noalign{\nobreak\vskip-\baselineskip\vskip-\lineskip}%
+  \noalign{\expandafter\in@\expandafter{\@currenvir}%
+      {alignedat,aligned,gathered}%
+      \ifin@ \else\notag\fi%
+  }%
+  \if#1 &&\quad #2\else #2\quad\fi
+  \\\noalign{\nobreak\vskip-\lineskip}}
+\MHInternalSyntaxOn
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
+%  \section{Macros by other people}
+%
+%  \subsection{Short intertext}
+%
+%  Gabriel Zachmann, Donald Arseneau on comp.text.tex 2000/05/12-13
+%  \begin{macro}{\shortintertext}
+%  This is like \cs{intertext} but uses shorter skips betweeb the math.
+%    \begin{macrocode}
+\def\shortintertext#1{%
+  \ifvmode\else\\\@empty\fi
+  \noalign{%
+    \penalty\postdisplaypenalty\vskip\abovedisplayshortskip
+    \vbox{\normalbaselines
+      \if_dim:w \linewidth=\columnwidth
+      \else:
+        \parshape\@ne \@totalleftmargin \linewidth
+      \fi:
+      \noindent#1\par}%
+    \penalty\predisplaypenalty\vskip\abovedisplayshortskip%
+  }%
+}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \subsection{Fine-tuning mathematical layout}
+%
+%  \subsubsection{A complement to \texttt{\textbackslash smash},
+%  \texttt{\textbackslash llap}, and \texttt{\textbackslash rlap}}
+%  \begin{macro}{\clap}
+%  \begin{macro}{\mathllap}
+%  \begin{macro}{\mathrlap}
+%  \begin{macro}{\mathclap}
+%  \begin{macro}{\MT_mathllap:Nn}
+%  \begin{macro}{\MT_mathrlap:Nn}
+%  \begin{macro}{\MT_mathclap:Nn}
+%  First we'll \cs{provide} those macros (they are so simple that I
+%  think other packages might define them as well).
+%    \begin{macrocode}
+\providecommand*\clap[1]{\hb@xt@\z@{\hss#1\hss}}
+\providecommand*\mathllap[1][\@empty]{
+  \ifx\@empty#1\@empty
+    \expandafter \mathpalette \expandafter \MT_mathllap:Nn
+  \else
+    \expandafter \MT_mathllap:Nn \expandafter #1
+  \fi
+}
+\providecommand*\mathrlap[1][\@empty]{
+  \ifx\@empty#1\@empty
+    \expandafter \mathpalette \expandafter \MT_mathrlap:Nn
+  \else
+    \expandafter \MT_mathrlap:Nn \expandafter #1
+  \fi
+}
+\providecommand*\mathclap[1][\@empty]{
+  \ifx\@empty#1\@empty
+    \expandafter \mathpalette \expandafter \MT_mathclap:Nn
+  \else
+    \expandafter \MT_mathclap:Nn \expandafter #1
+  \fi
+}
+%    \end{macrocode}
+%  We have to insert |{}| because we otherwise risk triggering a
+%  ``feature'' in \TeX.
+%    \begin{macrocode}
+\def\MT_mathllap:Nn #1#2{{}\llap{$\m@th#1{#2}$}}
+\def\MT_mathrlap:Nn #1#2{{}\rlap{$\m@th#1{#2}$}}
+\def\MT_mathclap:Nn #1#2{{}\clap{$\m@th#1{#2}$}}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \begin{macro}{\mathmbox}
+%  \begin{macro}{\MT_mathmbox:nn}
+%  \begin{macro}{\mathmakebox}
+%  \begin{macro}{\MT_mathmakebox_I:w}
+%  \begin{macro}{\MT_mathmakebox_II:w}
+%  \begin{macro}{\MT_mathmakebox_III:w}
+%  Then the \cs{mathmbox}\marg{arg} and
+%  \cs{mathmakebox}\oarg{width}\oarg{pos}\marg{arg} macros which are
+%  very similar to \cs{mbox} and \cs{makebox}. The differences are:
+%  \begin{itemize}
+%    \item \meta{arg} is set in math mode of course.
+%    \item No need for \cs{leavevmode} as we're in math mode.
+%    \item No need to make them \cs{long} (we're still in math mode).
+%    \item No need to support a picture version.
+%  \end{itemize}
+%  The first is easy.
+%    \begin{macrocode}
+\providecommand*\mathmbox{\mathpalette\MT_mathmbox:nn}
+\def\MT_mathmbox:nn #1#2{\mbox{$\m@th#1#2$}}
+%    \end{macrocode}
+%  We scan for the optional arguments first.
+%    \begin{macrocode}
+\providecommand*\mathmakebox{
+  \@ifnextchar[  \MT_mathmakebox_I:w
+                 \mathmbox}
+\def\MT_mathmakebox_I:w[#1]{%
+  \@ifnextchar[  {\MT_mathmakebox_II:w[#1]}
+                 {\MT_mathmakebox_II:w[#1][c]}}
+%    \end{macrocode}
+%  We had to get the optional arguments out of the way before calling
+%  upon the powers of \cs{mathpalette}.
+%    \begin{macrocode}
+\def\MT_mathmakebox_II:w[#1][#2]{
+  \mathpalette{\MT_mathmakebox_III:w[#1][#2]}}
+\def\MT_mathmakebox_III:w[#1][#2]#3#4{%
+  \@begin@tempboxa\hbox{$\m@th#3#4$}%
+    \setlength\@tempdima{#1}%
+    \hbox{\hb@xt@\@tempdima{\csname bm@#2\endcsname}}%
+  \@end@tempboxa}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \begin{macro}{\mathsm@sh}
+%  Fix \cs{smash}.
+%    \begin{macrocode}
+\def\mathsm@sh#1#2{%
+  \setbox\z@\hbox{$\m@th#1{#2}$}{}\finsm@sh}
+%    \end{macrocode}
+%  \end{macro}
+%
+%
+%  \subsubsection{A cramped style}
+%
+%  comp.text.tex on 1992/07/21 by Michael Herschorn.
+%  With speed-ups by the Grand Wizard himself as shown on
+%  \begin{quote}\rightskip-\leftmargini
+%  \url{http://www.tug.org/tex-archive/digests/tex-implementors/042}
+%  \end{quote}
+%  The (better) user interface by the author.
+%
+%  \begin{macro}{\cramped}
+%  Make sure the expansion is timed correctly.
+%    \begin{macrocode}
+\providecommand*\cramped[1][\@empty]{
+  \ifx\@empty#1\@empty
+    \expandafter \mathpalette \expandafter \MT_cramped_internal:Nn
+  \else
+    \expandafter \MT_cramped_internal:Nn \expandafter #1
+  \fi
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\MT_cramped_internal:Nn}
+%  The internal command.
+%    \begin{macrocode}
+\def\MT_cramped_internal:Nn #1#2{
+%    \end{macrocode}
+%  Create a box containing the math and force a cramped style by
+%  issuing a non-existing radical.
+%    \begin{macrocode}
+  \sbox\z@{$\m@th#1\nulldelimiterspace=\z@\radical\z@{#2}$}
+%    \end{macrocode}
+%  Then make sure the height is correct.
+%    \begin{macrocode}
+    \ifx#1\displaystyle
+      \dimen@=\fontdimen8\textfont3
+      \advance\dimen@ .25\fontdimen5\textfont2
+    \else
+      \dimen@=1.25\fontdimen8
+      \ifx#1\textstyle\textfont
+      \else
+        \ifx#1\scriptstyle
+          \scriptfont
+        \else
+          \scriptscriptfont
+        \fi
+      \fi
+      3
+    \fi
+    \advance\dimen@-\ht\z@ \ht\z@=-\dimen@
+    \box\z@
+}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \subsubsection{Cramped versions of \texttt{\textbackslash
+%  mathllap}, \texttt{\textbackslash mathclap}, and
+%  \texttt{\textbackslash mathrlap}}
+%  \begin{macro}{\crampedllap}
+%  \begin{macro}{\MT_cramped_llap_internal:Nn}
+%  \begin{macro}{\crampedclap}
+%  \begin{macro}{\MT_cramped_clap_internal:Nn}
+%  \begin{macro}{\crampedrlap}
+%  \begin{macro}{\MT_cramped_rlap_internal:Nn}
+%  Cramped versions of \cs{mathXlap} (for speed). Made by the author.
+%    \begin{macrocode}
+\providecommand*\crampedllap[1][\@empty]{
+  \ifx\@empty#1\@empty
+    \expandafter \mathpalette \expandafter \MT_cramped_llap_internal:Nn
+  \else
+    \expandafter \MT_cramped_llap_internal:Nn \expandafter #1
+  \fi
+}
+\def\MT_cramped_llap_internal:Nn #1#2{
+  {}\llap{\MT_cramped_internal:Nn #1{#2}}
+}
+\providecommand*\crampedclap[1][\@empty]{
+  \ifx\@empty#1\@empty
+    \expandafter \mathpalette \expandafter \MT_cramped_clap_internal:Nn
+  \else
+    \expandafter \MT_cramped_clap_internal:Nn \expandafter #1
+  \fi
+}
+\def\MT_cramped_clap_internal:Nn #1#2{
+  {}\clap{\MT_cramped_internal:Nn #1{#2}}
+}
+\providecommand*\crampedrlap[1][\@empty]{
+  \ifx\@empty#1\@empty
+    \expandafter \mathpalette \expandafter \MT_cramped_rlap_internal:Nn
+  \else
+    \expandafter \MT_cramped_rlap_internal:Nn \expandafter #1
+  \fi
+}
+\def\MT_cramped_rlap_internal:Nn #1#2{
+  {}\rlap{\MT_cramped_internal:Nn #1{#2}}
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%
+%
+%  \section{Macros by Michael J.~Downes}
+%
+%  The macros in this section are all by Michael J.~Downes. Either
+%  they are straight copies of his original macros or inspired and
+%  extended here.
+%
+%
+%  \subsection{Prescript}
+%  \begin{macro}{\prescript}
+%  This command is taken from a posting to comp.text.tex on
+%  December~20th 2000 by Michael J.~Downes. The comments are his. I
+%  have added some formatting options to the arguments so that a user
+%  can emulate the \pkg{isotope} package.
+%    \begin{macrocode}
+\DeclareRobustCommand{\prescript}[3]{
+%    \end{macrocode}
+%  Put the sup in box 0 and the sub in box 2.
+%    \begin{macrocode}
+  \@mathmeasure\z@\scriptstyle{\MT_prescript_sup:{#1}}
+  \@mathmeasure\tw@\scriptstyle{\MT_prescript_sub:{#2}}
+  \if_dim:w \wd\tw@>\wd\z@
+    \setbox\z@\hbox to\wd\tw@{\hfil\unhbox\z@}
+  \else:
+    \setbox\tw@\hbox to\wd\z@{\hfil\unhbox\tw@}
+  \fi:
+%    \end{macrocode}
+%  Do not let a preceding mathord symbol approach without any
+%  intervening space.
+%    \begin{macrocode}
+  \mathop{}
+%    \end{macrocode}
+%  Use \cs{mathopen} to suppress space between the prescripts and the
+%  base object even when the latter is not of type ord.
+%    \begin{macrocode}
+  \mathopen{\vphantom{\MT_prescript_arg:{#3}}}^{\box\z@}\sb{\box\tw@}
+  \MT_prescript_arg:{#3}
+}
+%    \end{macrocode}
+%  \end{macro}
+%  Then the named arguments. Can you see I'm preparing for templates?
+%    \begin{macrocode}
+\define@key{\MT_options_name:}
+  {prescript-sup-format}{\def\MT_prescript_sup:{#1}}
+\define@key{\MT_options_name:}
+  {prescript-sub-format}{\def\MT_prescript_sub:{#1}}
+\define@key{\MT_options_name:}
+  {prescript-arg-format}{\def\MT_prescript_arg:{#1}}
+\setkeys{\MT_options_name:}{
+  prescript-sup-format={},
+  prescript-sub-format={},
+  prescript-arg-format={},
+}
+%    \end{macrocode}
+%
+%  \subsection{Math sizes}
+%  \begin{macro}{\@DeclareMathSizes}
+%  This command is taken from a posting to comp.text.tex on
+%  October~17th 2002 by Michael J.~Downes. The purpose is to be able
+%  to put dimensions on the last three arguments of
+%  \cs{DeclareMathSizes}.
+%    \begin{macrocode}
+\def\@DeclareMathSizes #1#2#3#4#5{%
+  \@defaultunits\dimen@ #2pt\relax\@nnil
+  \if:w $#3$%
+    \MH_let:cN {S@\strip@pt\dimen@}\math@fontsfalse
+  \else:
+    \@defaultunits\dimen@ii #3pt\relax\@nnil
+    \@defaultunits\@tempdima #4pt\relax\@nnil
+    \@defaultunits\@tempdimb #5pt\relax\@nnil
+    \toks@{#1}%
+    \expandafter\xdef\csname S@\strip@pt\dimen@\endcsname{%
+      \gdef\noexpand\tf@size{\strip@pt\dimen@ii}%
+      \gdef\noexpand\sf@size{\strip@pt\@tempdima}%
+      \gdef\noexpand\ssf@size{\strip@pt\@tempdimb}%
+      \the\toks@
+    }%
+  \fi:
+}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \subsection{Mathematics within italic text}
+%  mathic: Michael J.~Downes on comp.text.tex, 1998/05/14.
+%  \begin{macro}{\MT_mathic_true:}
+%  \begin{macro}{\MT_mathic_false:}
+%  Renew \cs{(} so that it detects the slant of the font and inserts
+%  an italic correction.
+%    \begin{macrocode}
+\def\MT_mathic_true: {
+  \MH_if_boolean:nF {math_italic_corr}{
+    \MH_set_boolean_T:n {math_italic_corr}
+%    \end{macrocode}
+%  Save the original meaning if you need to go back.
+%    \begin{macrocode}
+    \MH_let:NwN \MT_begin_inlinemath: \(
+    \renewcommand*\({\relax\ifmmode\@badmath\else
+      \ifhmode
+        \if_dim:w \fontdimen\@ne\font>\z@
+          \if_dim:w \lastskip>\z@
+            \skip@\lastskip\unskip
+            \@@italiccorr
+            \hskip\skip@
+          \else:
+            \@@italiccorr
+          \fi:
+        \fi:
+      \fi:
+      $\fi:
+    }
+  }
+}
+%    \end{macrocode}
+%  Just for restoring the old behavior.
+%    \begin{macrocode}
+\def\MT_mathic_false: {
+  \MH_if_boolean:nT {math_italic_corr}{
+    \MH_set_boolean_F:n {math_italic_corr}
+    \MH_let:NwN \( \MT_begin_inlinemath:
+  }
+}
+\MH_new_boolean:n {math_italic_corr}
+\define@key{\MT_options_name:}{mathic}[true]{
+  \@ifundefined{MT_mathic_#1:}
+    { \MT_true_false_error:
+      \@nameuse{MT_mathic_false:}
+    }
+    { \@nameuse{MT_mathic_#1:} }
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%
+%  \subsection{Spreading equations}
+%
+%  Michael J.~Downes on comp.text.tex 1999/08/25
+%  \begin{environment}{spreadlines}
+%  This is meant to be used outside math, just like
+%  \env{subequations}.
+%    \begin{macrocode}
+\newenvironment{spreadlines}[1]{
+  \setlength{\jot}{#1}
+  \ignorespaces
+}{ \ignorespacesafterend }
+%    \end{macrocode}
+%  \end{environment}
+%
+%  \subsection{Gathered}
+%
+%  Inspired by Michael J.~Downes on comp.text.tex 2002/01/17.
+%  \begin{environment}{MT_gathered_env}
+%  Just like the normal \env{gathered}, only here we're allowed to
+%  specify actions before and after each line.
+%    \begin{macrocode}
+\MaybeMHPrecedingSpacesOff
+\newenvironment{MT_gathered_env}[1][c]{%
+    \RIfM@\else
+        \nonmatherr@{\begin{\@currenvir}}%
+    \fi
+    \null\,%
+    \if #1t\vtop \else \if#1b\vbox \else \vcenter \fi\fi \bgroup
+        \Let@ \chardef\dspbrk@context\@ne \restore@math@cr
+        \spread@equation
+        \ialign\bgroup
+            \MT_gathered_pre:
+            \strut@$\m@th\displaystyle##$
+            \MT_gathered_post:
+            \crcr
+}{%
+  \endaligned
+  \MT_gathered_env_end:
+}
+\MHPrecedingSpacesOn
+%    \end{macrocode}
+%  \end{environment}
+%  \begin{macro}{\newgathered}
+%  \begin{macro}{\renewgathered}
+%  \begin{environment}{lgathered}
+%  \begin{environment}{rgathered}
+%  \begin{environment}{gathered}
+%  An easier interface.
+%    \begin{macrocode}
+\newcommand*\newgathered[4]{
+  \newenvironment{#1}
+    { \def\MT_gathered_pre:{#2}
+      \def\MT_gathered_post:{#3}
+      \def\MT_gathered_env_end:{#4}
+      \MT_gathered_env
+    }{\endMT_gathered_env}
+}
+\newcommand*\renewgathered[4]{
+  \renewenvironment{#1}
+    { \def\MT_gathered_pre:{#2}
+      \def\MT_gathered_post:{#3}
+      \def\MT_gathered_env_end:{#4}
+      \MT_gathered_env
+    }{\endMT_gathered_env}
+}
+\newgathered{lgathered}{}{\hfil}{}
+\newgathered{rgathered}{\hfil}{}{}
+\renewgathered{gathered}{\hfil}{\hfil}{}
+%    \end{macrocode}
+%  \end{environment}
+%  \end{environment}
+%  \end{environment}
+%  \end{macro}
+%  \end{macro}
+%
+%  \subsection{Split fractions}
+%
+%  Michael J.~Downes on comp.text.tex 2001/12/06.
+%  \begin{macro}{\splitfrac}
+%  \begin{macro}{\splitdfrac}
+%  These commands use \cs{genfrac} to typeset a split fraction. The
+%  thickness of the fraction rule is simply set to zero.
+%    \begin{macrocode}
+\newcommand*\splitfrac[2]{%
+  \genfrac{}{}{0pt}{1}%
+    {\textstyle#1\quad\hfill}%
+    {\textstyle\hfill\quad\mathstrut#2}%
+}
+\newcommand*\splitdfrac[2]{%
+  \genfrac{}{}{0pt}{0}{#1\quad\hfill}{\hfill\quad\mathstrut #2}%
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%
+%
+%  \section{Bug fixes for \pkg{amsmath}}
+%  The following fixes some bugs in \pkg{amsmath}, but only if the
+%  switch is true.
+%    \begin{macrocode}
+\MH_if_boolean:nT {fixamsmath}{
+%    \end{macrocode}
+%  \begin{macro}{\place@tag}
+%  This corrects a bug in \pkg{amsmath} affecting tag placement in
+%  \env{flalign}.\footnote{See
+%  \url{http://www.latex-project.org/cgi-bin/ltxbugs2html?pr=amslatex/3591}}
+%    \begin{macrocode}
+\def\place@tag{%
+  \iftagsleft@
+    \kern-\tagshift@
+%    \end{macrocode}
+%  The addition. If we're in \env{flalign} (meaning
+%  $\cs{xatlevel@}=\cs{tw@}$) we skip back by an amount of
+%  \cs{@mathmargin}. This test is also true for the \env{xxalignat}
+%  environment, but it doesn't matter because a)~it's not
+%  supported/described in the documentation anymore so new users
+%  won't know about it and b)~it forbids the use of \cs{tag}
+%  anyway.
+%    \begin{macrocode}
+    \if@fleqn
+      \if_num:w \xatlevel@=\tw@
+        \kern-\@mathmargin
+      \fi:
+    \fi:
+%    \end{macrocode}
+%  End of additions.
+%    \begin{macrocode}
+    \if:w 1\shift@tag\row@\relax
+      \rlap{\vbox{%
+        \normalbaselines
+        \boxz@
+        \vbox to\lineht@{}%
+        \raise@tag
+      }}%
+    \else:
+      \rlap{\boxz@}%
+    \fi:
+    \kern\displaywidth@
+  \else:
+    \kern-\tagshift@
+    \if:w 1\shift@tag\row@\relax
+      \llap{\vtop{%
+        \raise@tag
+        \normalbaselines
+        \setbox\@ne\null
+        \dp\@ne\lineht@
+        \box\@ne
+        \boxz@
+      }}%
+    \else:
+      \llap{\boxz@}%
+    \fi:
+  \fi:
+}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\x@calc@shift@lf}
+%  This corrects a bug\footnote{See
+%  \url{http://www.latex-project.org/cgi-bin/ltxbugs2html?pr=amslatex/3614}}
+%  in \pkg{amsmath} that could cause a non-positive value of the dimension
+%  \cs{@mathmargin} to cause an
+%  \begin{verbatim}
+%  ! Arithmetic overflow.
+%  <recently read> \@tempcntb
+%  \end{verbatim}
+%  when in \mode{fleqn,leqno} mode. Not very comprehensible for the user.
+%    \begin{macrocode}
+\def\x@calc@shift@lf{%
+  \if_dim:w \eqnshift@=\z@
+    \global\eqnshift@\@mathmargin\relax
+      \alignsep@\displaywidth
+      \advance\alignsep@-\totwidth@
+%    \end{macrocode}
+%  The addition: If \cs{@tempcntb} is zero we avoid division.
+%    \begin{macrocode}
+      \if_num:w \@tempcntb=0
+      \else:
+        \global\divide\alignsep@\@tempcntb % original line
+      \fi:
+%    \end{macrocode}
+%  Addition end.
+%    \begin{macrocode}
+      \if_dim:w \alignsep@<\minalignsep\relax
+        \global\alignsep@\minalignsep\relax
+      \fi:
+  \fi:
+  \if_dim:w \tag@width\row@>\@tempdima
+    \saveshift@1%
+  \else:
+    \saveshift@0%
+  \fi:}%
+%    \end{macrocode}
+%  \end{macro}
+%    \begin{macrocode}
+}
+%    \end{macrocode}
+%  End of bug fixing.
+%
+%  \subsection{Making environments safer}
+%
+%  \begin{macro}
+%  Here we make the \pkg{amsmath} inner environments disallow spaces
+%  before their optional positioning specifier.
+%    \begin{macrocode}{\aligned@a}
+\MaybeMHPrecedingSpacesOff
+\renewcommand\aligned@a[1][c]{\start@aligned{#1}\m@ne}
+\MHPrecedingSpacesOn
+%    \end{macrocode}
+%  \end{macro}
+%
+%  This is the end of the \pkg{mathtools} package.
+%    \begin{macrocode}
+%</package>
+%    \end{macrocode}
+%
+%  \Finale
+\endinput

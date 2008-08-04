@@ -1,0 +1,646 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2002-2007 by Morten Hoegholm <mh.ctan@gmail.com>
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either
+% version 1.3 of this license or (at your option) any later
+% version. The latest version of this license is in
+%    http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of
+% LaTeX version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status "maintained".
+%
+% This Current Maintainer of this work is Morten Hoegholm.
+%
+% This work consists of the main source file mhsetup.dtx
+% and the derived files
+%    mhsetup.sty, mhsetup.pdf, mhsetup.ins, mhsetup.drv.
+%
+% Distribution:
+%    CTAN:macros/latex/contrib/mh/mhsetup.dtx
+%    CTAN:macros/latex/contrib/mh/mhsetup.pdf
+%
+% Unpacking:
+%    (a) If mhsetup.ins is present:
+%           tex mhsetup.ins
+%    (b) Without mhsetup.ins:
+%           tex mhsetup.dtx
+%    (c) If you insist on using LaTeX
+%           latex \let\install=y\input{mhsetup.dtx}
+%        (quote the arguments according to the demands of your shell)
+%
+% Documentation:
+%    (a) If mhsetup.drv is present:
+%           latex mhsetup.drv
+%    (b) Without mhsetup.drv:
+%           latex mhsetup.dtx; ...
+%    The class ltxdoc loads the configuration file ltxdoc.cfg
+%    if available. Here you can specify further options, e.g.
+%    use A4 as paper format:
+%       \PassOptionsToClass{a4paper}{article}
+%
+%    Programm calls to get the documentation (example):
+%       pdflatex mhsetup.dtx
+%       makeindex -s gind.ist mhsetup.idx
+%       pdflatex mhsetup.dtx
+%       makeindex -s gind.ist mhsetup.idx
+%       pdflatex mhsetup.dtx
+%
+% Installation:
+%    TDS:tex/latex/mh/mhsetup.sty
+%    TDS:doc/latex/mh/mhsetup.pdf
+%    TDS:source/latex/mh/mhsetup.dtx
+%
+%<*ignore>
+\begingroup
+  \def\x{LaTeX2e}
+\expandafter\endgroup
+\ifcase 0\ifx\install y1\fi\expandafter
+         \ifx\csname processbatchFile\endcsname\relax\else1\fi
+         \ifx\fmtname\x\else 1\fi\relax
+\else\csname fi\endcsname
+%</ignore>
+%<*install>
+\input docstrip.tex
+\Msg{************************************************************************}
+\Msg{* Installation}
+\Msg{* Package: mhsetup 2007/12/03 v1.2 mhsetup (MH)}
+\Msg{************************************************************************}
+
+\keepsilent
+\askforoverwritefalse
+
+\preamble
+
+This is a generated file.
+
+Copyright (C) 2002-2007 by Morten Hoegholm <mh.ctan@gmail.com>
+
+This work may be distributed and/or modified under the
+conditions of the LaTeX Project Public License, either
+version 1.3 of this license or (at your option) any later
+version. The latest version of this license is in
+   http://www.latex-project.org/lppl.txt
+and version 1.3 or later is part of all distributions of
+LaTeX version 2005/12/01 or later.
+
+This work has the LPPL maintenance status "maintained".
+
+This Current Maintainer of this work is Morten Hoegholm.
+
+This work consists of the main source file mhsetup.dtx
+and the derived files
+   mhsetup.sty, mhsetup.pdf, mhsetup.ins, mhsetup.drv.
+
+\endpreamble
+
+\generate{%
+  \file{mhsetup.ins}{\from{mhsetup.dtx}{install}}%
+  \file{mhsetup.drv}{\from{mhsetup.dtx}{driver}}%
+  \usedir{tex/latex/mh}%
+  \file{mhsetup.sty}{\from{mhsetup.dtx}{package}}%
+}
+
+\obeyspaces
+\Msg{************************************************************************}
+\Msg{*}
+\Msg{* To finish the installation you have to move the following}
+\Msg{* file into a directory searched by TeX:}
+\Msg{*}
+\Msg{*     mhsetup.sty}
+\Msg{*}
+\Msg{* To produce the documentation run the file `mhsetup.drv'}
+\Msg{* through LaTeX.}
+\Msg{*}
+\Msg{* Happy TeXing!}
+\Msg{*}
+\Msg{************************************************************************}
+
+\endbatchfile
+%</install>
+%<*ignore>
+\fi
+%</ignore>
+%<*driver>
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesFile{mhsetup.drv}%
+  [2007/12/03 v1.2 programming setup (MH)]
+\documentclass{ltxdoc}
+\usepackage{mhsetup}
+
+\addtolength\oddsidemargin{30pt}
+\providecommand*\pkg[1]{\textsf{#1}}
+\providecommand*\env[1]{\texttt{#1}}
+\providecommand*\opt[1]{\texttt{#1}}
+\def\MakePrivateLetters{%
+  \makeatletter\catcode`\_=11\relax \catcode`\:=11\relax
+}
+
+
+
+\def\MHmarg#1{{\ttfamily\char`\{}\meta{#1}{\ttfamily\char`\}}\endgroup}
+\DeclareRobustCommand\marg{\begingroup\MakePrivateLetters\MHmarg}%
+\def\MHarg#1{{\ttfamily\char`\{#1\ttfamily\char`\}}\endgroup}
+\DeclareRobustCommand\arg{\begingroup\MakePrivateLetters\MHarg}%
+\def\MHcs#1{\texttt{\char`\\#1}\endgroup}
+\DeclareRobustCommand\cs{\begingroup\MakePrivateLetters\MHcs}
+\makeatletter
+\providecommand*\eTeX{$\m@th\varepsilon$-\TeX}
+\makeatother
+\begin{document}
+  \DocInput{mhsetup.dtx}
+\end{document}
+%</driver>
+%  \fi
+%
+%  \CheckSum{297}
+%
+%  \GetFileInfo{mhsetup.drv}
+%
+%  \title{The \pkg{mhsetup} package\thanks{This package has version
+%  number \fileversion, last revised on \filedate.}}
+%  \author{Morten H\o gholm}
+%  \date{\filedate}
+%  \maketitle
+%
+%  \begin{abstract}
+%    The \pkg{mhsetup} package provides tools for a \LaTeX{}
+%    programming environment similar to the one described in
+%    \texttt{expl3} on \textsc{ctan} although not as extensive. It is
+%    a required part of both the \pkg{mathtools} and \pkg{empheq}
+%    packages.
+%  \end{abstract}
+%
+%  The description below was made before the extensive changes made to
+%  the expl3 code available from the LaTeX Project website.
+%
+%  \section{The new internal syntax}
+%
+%  
+%  The \LaTeX3 package \pkg{ldcsetup} defines the command
+%  \cs{InternalSyntaxOn} which makes |_| and |:| letters and then
+%  automatically restores the category codes at the end of the
+%  package. This usually works fine but when you try to load
+%  \pkg{amstext} you will experience that \TeX{} goes into an
+%  infinite loop. Packages containing code like
+%  |\@for\@tempa:=\@tempb\do{...}| will not work correctly either,
+%  thus we provide an alternative version here with the pair of
+%  commands
+%  \DescribeMacro{\MHInternalSyntaxOn}\cs{MHInternalSyntaxOn} and
+%  \DescribeMacro{\MHInternalSyntaxOff}\cs{MHInternalSyntaxOff}. They
+%  are to be used only as a pair, because \cs{MHInternalSyntaxOn}
+%  defines \cs{MHInternalSyntaxOff} so that it restores the category
+%  codes correctly.
+%
+%
+%  \section{Handling optional arguments}
+%
+%  The standard behavior of scanning for optional arguments in
+%  \LaTeX{} allows any number of spaces preceding the optional
+%  argument and that is not always good in math. For that reason
+%  \pkg{amsmath} makes sure that commands like |\\| disallows spaces
+%  before the optional argument but at the same time it fails to
+%  provide ``safe'' environments. What would you expect from the
+%  following input?
+%  \begin{verbatim}
+%  \[
+%    \begin{gathered}
+%      [v] = 100 \\
+%      [t] = 200
+%    \end{gathered}
+%  \]
+%  \end{verbatim}
+%  \LaTeX{} will see the \texttt{[v]} as an optional argument of
+%  \env{gathered} and use it. In this case the test inside
+%  \env{gathered} checks if it's a \texttt{t} or \texttt{b} and if
+%  it's neither it'll choose \cs{vcenter} internally. So you get no
+%  warning, only missing output. Another example, this time from the
+%  \pkg{empheq} package used with its \opt{overload} option: If
+%  preceding spaces are allowed, the input
+%  \begin{verbatim}
+%    \begin{gather}
+%      [a] = [b]
+%    \end{gather}
+%  \end{verbatim}
+%  results in the rather strange error message
+%  \begin{verbatim}
+%    ! Package keyval Error: a undefined.
+%  \end{verbatim}
+%
+%  When using \cs{newcommand} etc.\ for defining commands and
+%  environments with optional arguments, the peek ahead is done by
+%  \cs{kernel@ifnextchar} (since \LaTeX{} release 2003/12/01, else
+%  \cs{@ifnextchar}) and it is \emph{hardwired at definition time} by
+%  \cs{@xargdef}. With the commands
+%  \DescribeMacro{\MHPrecedingSpacesOff}\cs{MHPrecedingSpacesOff} and
+%  \DescribeMacro{\MHPrecedingSpacesOn}\cs{MHPrecedingSpacesOn}
+%  \pkg{mhsetup} provides an interface to define commands and
+%  environments where the optional argument cannot have preceding
+%  spaces. You simply wrap them around the definitions:
+%  \begin{verbatim}
+%  \MHPrecedingSpacesOff
+%  \newenvironment*{test}[1][default]{Start, arg: (#1)}{Ending.}
+%  \MHPrecedingSpacesOn
+%  \begin{test}
+%    [text]
+%  \end{test}
+%  \begin{test}[text]
+%  \end{test}
+%  \end{verbatim}
+%  \MHPrecedingSpacesOff
+%  \newenvironment*{test}[1][default]{Start, arg: (#1)}{Ending.}
+%  \MHPrecedingSpacesOn
+%  \begin{quote}
+%  \begin{test}
+%    [text]
+%  \end{test}
+%  \begin{test}[text]
+%  \end{test}
+%  \end{quote}
+%  It is of somewhat limited use in commands (control words in \TeX{}
+%  terminology), because \TeX{} discards the spaces. The exception is
+%  \emph{control symbols} where \TeX{} obeys following spaces but
+%  there are rather few of them available. All is not lost however.
+%  In the \env{aligned} environment from \pkg{amsmath} (shown below)
+%  a command is used as argument grabber.
+%  \begin{verbatim}
+%  \newenvironment{aligned}{%
+%    \let\@testopt\alignsafe@testopt
+%    \aligned@a
+%  }{%
+%    \crcr\egroup
+%    \restorecolumn@
+%    \egroup
+%  }
+%  \newcommand{\aligned@a}[1][c]{\start@aligned{#1}\m@ne}
+%  \end{verbatim}
+%  By applying our trick on the grabber function, we get a space
+%  obeying version:
+%  \begin{verbatim}
+%  \MHPrecedingSpacesOff
+%  \renewcommand*\aligned@a[1][c]{\start@aligned{#1}\m@ne}
+%  \MHPrecedingSpacesOn
+%  \end{verbatim}
+%  This way a nested \env{aligned} environment is still safe from
+%  empty first cells.
+%
+%  \StopEventually{}
+%
+%
+%  \section{First bits of a new programming environment}
+%
+%
+%    \begin{macrocode}
+%<*package>
+\ProvidesPackage{mhsetup}%
+  [2007/12/03 v1.2 programming setup (MH)]
+%    \end{macrocode}
+%  \subsection{The new internal syntax}
+%  \begin{macro}{\MHInternalSyntaxOn}
+%  \begin{macro}{\MHInternalSyntaxOff}
+%  Almost copy of \cs{InternalSyntaxOn}.
+%    \begin{macrocode}
+\def\MHInternalSyntaxOn{
+  \edef\MHInternalSyntaxOff{%
+  \catcode`\noexpand\~=\the\catcode`\~\relax
+  \catcode`\noexpand\ =\the\catcode`\ \relax
+  \catcode`\noexpand\^^I=\the\catcode`\^^I\relax
+  \catcode`\noexpand\@=\the\catcode`\@\relax
+  \catcode`\noexpand\:=\the\catcode`\:\relax
+  \catcode`\noexpand\_=\the\catcode`\_\relax
+  \endlinechar=\the\endlinechar\relax
+  }%
+  \catcode`\~=10\relax
+  \catcode`\ =9\relax
+  \catcode`\^^I=9\relax
+  \makeatletter
+  \catcode`\_=11\relax
+  \catcode`\:=11\relax
+  \endlinechar=` %
+  \relax
+}
+\MHInternalSyntaxOn
+\AtEndOfPackage{\MHInternalSyntaxOff}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \subsection{Programming tools}
+%
+%  The whole idea is to provide programming tools that are convenient
+%  but not yet widely available. I hope this'll be obsolete soon!
+%
+%  Firstly we setup a few helper functions.
+%  \begin{macro}{\MH_let:NwN}
+%  An alias for \cs{let}.
+%    \begin{macrocode}
+\let\MH_let:NwN \let
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\MH_let:cN}
+%  This one takes a \cs{csname}-\cs{endcsname} name and \cs{let}s it
+%  to a single macro. We'll use this to setup our conditionals.
+%    \begin{macrocode}
+\def\MH_let:cN #1#2{
+  \expandafter\MH_let:NwN \csname#1\endcsname#2}
+%    \end{macrocode}
+%  \end{macro}
+%  \begin{macro}{\MH_let:cc}
+%  This one has takes a \cs{csname}-\cs{endcsname} name and \cs{let}s
+%  it to a another \cs{csname}-\cs{endcsname} name. To be used in
+%  constructions with weird characters like \texttt{*} or alike in
+%  them and can take a \cs{global} prefix if wanted (we want that
+%  later on).
+%    \begin{macrocode}
+\def\MH_let:cc #1#2{
+  \expandafter\MH_let:NwN\csname#1\expandafter\endcsname
+  \csname#2\endcsname}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\MH_new_boolean:n}
+%  \begin{macro}{\MH_set_boolean_F:n}
+%  \begin{macro}{\MH_set_boolean_T:n}
+%  \begin{macro}{\MH_if_boolean:nTF}
+%  \begin{macro}{\MH_if_boolean:nT}
+%  \begin{macro}{\MH_if_boolean:nF}
+%  Sets up conditionals. For instance
+%  \begin{quote}
+%    \cs{MH_new_boolean:n} \marg{name}
+%  \end{quote}
+%  defines the boolean \meta{name} but also the conditional
+%  \cs{if_boolean_\meta{name}:} to be used in the ordinary
+%  \begin{tabbing}
+%    \mbox{}\quad\= \kill
+%    \cs{if_boolean_\meta{name}:}\\
+%    \> \meta{true code} \\
+%    \cs{else:} \\
+%    \> \meta{false code} \\
+%    \cs{fi:}
+%  \end{tabbing}
+%  There is also a more ``\LaTeX-like'' interface available by using
+%  the commands
+%  \begin{quote}
+%    \cs{MH_if_boolean:nT}\marg{name}\marg{arg}
+%  \end{quote}
+%  which will execute the argument if the current value of the
+%  boolean is `true' while
+%  \begin{quote}
+%  \cs{MH_if_boolean:nF}\marg{name}\marg{arg}
+%  \end{quote}
+%  is the equivalent with `false'. Finally we have
+%  \begin{quote}
+%  \cs{MH_if_boolean:nTF}\marg{name}\marg{true code}\marg{false code}.
+%  \end{quote}
+%  This is the interface I have used in this package.
+%
+%  Initially \cs{if_boolean_\meta{name}:} is `false'. This can be
+%  changed by saying
+%  \begin{tabbing}
+%    \quad \= \LaTeX:\quad \= \kill
+%    \> \TeX: \>   \cs{boolean_\meta{name}_true:} \quad \emph{or}\\
+%    \> \LaTeX: \> \cs{MH_set_boolean_T:n}\marg{name}
+%  \end{tabbing}
+%  and changed back again by
+%  \begin{tabbing}
+%    \quad \= \LaTeX:\quad \= \kill
+%    \> \TeX: \>   \cs{boolean_\meta{name}_false:} \quad \emph{or}\\
+%    \> \LaTeX: \> \cs{MH_set_boolean_F:n}\marg{name}
+%  \end{tabbing}
+%
+%  And yes, we're also using alternative names for \cs{else} and
+%  \cs{fi} now. That way a simple search and replace will be all that
+%  is needed for this package to be a certified \LaTeX3 package (well,
+%  maybe a little more is needed, but not much).
+%    \begin{macrocode}
+\def\MH_new_boolean:n #1{
+  \expandafter\@ifdefinable\csname if_boolean_#1:\endcsname{
+    \@namedef{boolean_#1_true:}
+      {\MH_let:cN{if_boolean_#1:}\iftrue}
+    \@namedef{boolean_#1_false:}
+      {\MH_let:cN{if_boolean_#1:}\iffalse}
+    \@nameuse{boolean_#1_false:}%
+  }
+}
+\def\MH_set_boolean_F:n #1{ \@nameuse{boolean_#1_false:} }
+\def\MH_set_boolean_T:n #1{ \@nameuse{boolean_#1_true:} }
+\def\MH_if_boolean:nTF #1{
+  \@nameuse{if_boolean_#1:}
+    \expandafter\@firstoftwo
+  \else:
+    \expandafter\@secondoftwo
+  \fi:
+}
+\def\MH_if_boolean:nT #1{
+  \@nameuse{if_boolean_#1:}
+    \expandafter\@firstofone
+  \else:
+    \expandafter\@gobble
+  \fi:
+}
+\def\MH_if_boolean:nF #1{
+  \@nameuse{if_boolean_#1:}
+    \expandafter\@gobble
+  \else:
+    \expandafter\@firstofone
+  \fi:
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%
+%  \begin{macro}{\if:w}
+%  \changes{v1.0b}{2004/10/10}{Use different test}
+%  \begin{macro}{\if_meaning:NN}
+%  \changes{v1.0b}{2004/10/10}{Use different test}
+%  \begin{macro}{\else:}
+%  \changes{v1.0b}{2004/10/10}{Use different test}
+%  \begin{macro}{\fi:}
+%  \changes{v1.0b}{2004/10/10}{Use different test}
+%  \begin{macro}{\if_num:w}
+%  \changes{v1.0b}{2004/10/10}{Use different test}
+%  \begin{macro}{\if_dim:w}
+%  \changes{v1.0b}{2004/10/10}{Use different test}
+%  \begin{macro}{\if_case:w}
+%  \changes{v1.0b}{2004/10/10}{Use different test}
+%  \begin{macro}{\or:}
+%  \changes{v1.0b}{2004/10/10}{Use different test}
+%  Copies of \TeX{} primitives.
+%    \begin{macrocode}
+\@ifundefined{if:w}{\MH_let:NwN \if:w =\if}{}
+\@ifundefined{if_meaning:NN}{\MH_let:NwN \if_meaning:NN =\ifx}{}
+\@ifundefined{else:}{\MH_let:NwN \else:=\else}{}
+\@ifundefined{fi:}{\MH_let:NwN \fi:=\fi}{}
+\@ifundefined{if_num:w}{\MH_let:NwN \if_num:w =\ifnum}{}
+\@ifundefined{if_dim:w}{\MH_let:NwN \if_dim:w =\ifdim}{}
+\@ifundefined{if_case:w}{\MH_let:NwN \if_case:w =\ifcase}{}
+\@ifundefined{or:}{\MH_let:NwN \or:=\or}{}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \begin{macro}{\MH_cs_to_str:N}
+%  Strip off the backslash of a macro name.
+%    \begin{macrocode}
+\def\MH_cs_to_str:N {\expandafter\@gobble\string}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\MH_protected:}
+%  \begin{macro}{\MH_setlength:dn}
+%  \changes{v1.0a}{2004/08/23}{Fixed bug in \cs{MH_setlength:dn} so that
+%  it now uses the \pkg{calc} definition of \cs{setlength}}
+%  \begin{macro}{\MH_addtolength:dn}
+%  \changes{v1.0a}{2004/08/23}{Fixed bug in \cs{MH_addtolength:dn} so that
+%  it now uses the \pkg{calc} definition of \cs{addtolength}}
+%  We might as well make use of some of the extended features from
+%  \eTeX. We use \cs{dimexpr} for some simple calculations as it
+%  saves a lot of the scanning that goes on inside \pkg{calc}. The
+%  \cs{protected} primitive comes in handy when we want to declare a
+%  robust command, that cannot be `robustified' with
+%  \cs{DeclareRobustCommand}. If we don't have \eTeX{} we'll just let
+%  our private macros be aliases for the less effective alternatives.
+%    \begin{macrocode}
+\@ifundefined{eTeXversion}
+  {
+    \MH_let:NwN \MH_protected:\relax
+    \def\MH_setlength:dn{\setlength}
+    \def\MH_addtolength:dn{\addtolength}
+  }
+  {
+    \MH_let:NwN \MH_protected:\protected
+    \def\MH_setlength:dn #1#2{#1=\dimexpr#2\relax\relax}
+    \def\MH_addtolength:dn #1#2{\advance#1 \dimexpr#2\relax\relax}
+  }
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+
+%  \begin{macro}{\MH_keyval_alias_with_addon:nnnn}
+%  \begin{macro}{\MH_keyval_alias:nnn}
+%  A way to make aliases with \pkg{keyval}. This will come in
+%  handy later.
+%    \begin{macrocode}
+\def\MH_keyval_alias_with_addon:nnnn #1#2#3#4{
+  \@namedef{KV@#1@#2}{\@nameuse{KV@#1@#3}#4}
+  \@namedef{KV@#1@#2@default}{\@nameuse{KV@#1@#3@default}#4}}
+\def\MH_keyval_alias:nnn #1#2#3{
+  \MH_keyval_alias_with_addon:nnnn {#1}{#2}{#3}{}}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \begin{macro}{\MH_use_choice_i:nnnn}
+%  \begin{macro}{\MH_use_choice_ii:nnnn}
+%  \begin{macro}{\MH_use_choice_iii:nnnn}
+%  \begin{macro}{\MH_use_choice_iv:nnnn}
+%  I need to be able to pick up individual arguments in a list of
+%  four (similar to \cs{@secondoftwo}).
+%    \begin{macrocode}
+\def\MH_use_choice_i:nnnn #1#2#3#4{#1}
+\def\MH_use_choice_ii:nnnn #1#2#3#4{#2}
+\def\MH_use_choice_iii:nnnn #1#2#3#4{#3}
+\def\MH_use_choice_iv:nnnn #1#2#3#4{#4}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \begin{macro}{\MH_nospace_ifnextchar:Nnn}
+%  \begin{macro}{\MH_nospace_nextchar:}
+%  \begin{macro}{\MH_nospace_testopt:nn}
+%  \begin{macro}{\MH_nospace_protected_testopt:n}
+%  Scanning for the next character but disallow spaces.
+%    \begin{macrocode}
+\long\def\MH_nospace_ifnextchar:Nnn #1#2#3{
+  \MH_let:NwN\reserved@d=~#1
+  \def\reserved@a{#2}
+  \def\reserved@b{#3}
+  \futurelet\@let@token\MH_nospace_nextchar:
+}
+\def\MH_nospace_nextchar:{
+  \if_meaning:NN \@let@token\reserved@d
+    \MH_let:NwN \reserved@b\reserved@a
+  \fi:
+  \reserved@b
+}
+\long\def\MH_nospace_testopt:nn #1#2{
+  \MH_nospace_ifnextchar:Nnn[
+    {#1}
+    {#1[{#2}]}
+}
+\def\MH_nospace_protected_testopt:n #1{
+  \if_meaning:NN \protect\@typeset@protect
+    \expandafter\MH_nospace_testopt:nn
+  \else:
+    \@x@protect#1
+  \fi:
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \begin{macro}{\kernel@ifnextchar}
+%  \begin{macro}{\MH_kernel_xargdef:nwwn}
+%  \begin{macro}{\MH_nospace_xargdef:nwwn}
+%  \begin{macro}{\MHPrecedingSpacesOff}
+%  \begin{macro}{\MHPrecedingSpacesOn}
+%  The code for the space sensitive peek ahead.
+%    \begin{macrocode}
+\@ifundefined{kernel@ifnextchar}
+  {\MH_let:NwN \kernel@ifnextchar \@ifnextchar}
+  {}
+\MH_let:NwN \MH_kernel_xargdef:nwwn \@xargdef
+\long\def\MH_nospace_xargdef:nwwn #1[#2][#3]#4{
+  \@ifdefinable#1{
+     \expandafter\def\expandafter#1\expandafter{
+          \expandafter
+          \MH_nospace_protected_testopt:n
+          \expandafter
+          #1
+          \csname\string#1\endcsname
+          {#3}}
+       \expandafter\@yargdef
+          \csname\string#1\endcsname
+           \tw@
+           {#2}
+           {#4}}}
+\providecommand*\MHPrecedingSpacesOff{
+  \MH_let:NwN \@xargdef \MH_nospace_xargdef:nwwn
+}
+\providecommand*\MHPrecedingSpacesOn{
+  \MH_let:NwN \@xargdef \MH_kernel_xargdef:nwwn
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%
+%  \begin{macro}{\MH_group_align_safe_begin:}
+%  \begin{macro}{\MH_group_align_safe_end:}
+%    \begin{macrocode}
+\def \MH_group_align_safe_begin: {\iffalse{\fi\ifnum0=`}\fi}
+\def \MH_group_align_safe_end:   {\ifnum0=`{}\fi}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%
+%    \begin{macrocode}
+%</package>
+%    \end{macrocode}
+%
+%  \Finale
+\endinput
