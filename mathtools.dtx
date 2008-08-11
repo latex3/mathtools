@@ -139,7 +139,7 @@ and the derived files
 \providecommand*\email[1]{\href{mailto:#1}{\texttt{#1}}}
 \providecommand*\mode[1]{\texttt{[#1]}}
 \providecommand*\file[1]{\texttt{#1}}
-\usepackage{xcolor,varioref}
+\usepackage{xcolor,varioref,amssymb}
 \makeatletter
 \newcommand*\thinfbox[2][black]{\fboxsep0pt\textcolor{#1}{\rulebox{{\normalcolor#2}}}}
 \newcommand*\thinboxed[2][black]{\thinfbox[#1]{\ensuremath{\displaystyle#2}}}
@@ -826,8 +826,8 @@ and the derived files
 %  \cs{refeq} to reference your equations.
 %
 %  When using \key{showonlyrefs} it might be usefull to be able to
-%  actually add a few equation numbers without having to actually
-%  refer to them.
+%  actually add a few equation numbers without directly refering to
+%  them.
 %  \begin{codesyntax}
 %    \SpecialUsageIndex{\noeqref}\cs{noeqref}\marg{label,label,\dots}
 %  \end{codesyntax}
@@ -989,6 +989,40 @@ and the derived files
 %  the original definitions of \cs{overbrace} and \cs{underbrace}.
 %
 %
+%  \subsection{A few extra symbols}
+%
+%  Most provided math font sets are missing the symbols \cs{nuparrow}
+%  and \cs{ndownarrow} (i.e.\ negated up- and downarrow) plus a `big'
+%  version of \cs{times}. Therefore we will provide constructed
+%  versions of these whenever they are not already available.
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\nuparrow}\cs{nuparrow}\\
+%    \SpecialUsageIndex{\ndownarrow}\cs{ndownarrow}\\
+%    \SpecialUsageIndex{\bigtimes}\cs{bigtimes}
+%  \end{codesyntax}
+%
+%  \emph{Note:} that these symbols are constructed via
+%  features from the \pkg{graphicx} package, and thus may not display
+%  correctly in most DVI previewers. Also note that \cs{nuparrow} and
+%  \cs{ndownarrow} are constructed via \cs{nrightarrow} and
+%  \cs{nleftarrrow} respectively, so these needs to be
+%  present. Usually this is done via \pkg{amssymb}, but some packages
+%  may be incompatible with \pkg{amssymb} so the user will have to
+%  load \pkg{amssymb} or a similar package, that provides
+%  \cs{nrightarrow} and \cs{nleftarrow}, themselves. 
+%
+%  With those requirements in place, we have
+%  \begin{verbatim}
+%    \[
+%       \lim_{a\ndownarrow 0} f(a) \neq \bigtimes_n X_n
+%    \]
+%    $\bigtimes_{k=1}^7 B_k \nuparrow \Omega$
+%  \end{verbatim}
+%    \[
+%       \lim_{a\ndownarrow 0} f(a) \neq \bigtimes_n X_n
+%    \]
+%    $\bigtimes_{k=1}^7 B_k \nuparrow \Omega$
+%  
 %
 %  \subsection{New mathematical building blocks}
 %
@@ -1877,7 +1911,7 @@ and the derived files
   [2008/08/01 v1.06 mathematical typesetting tools (MH)]
 %    \end{macrocode}
 %    \begin{macrocode}
-\RequirePackage{keyval,calc}
+\RequirePackage{keyval,calc,graphicx}
 \RequirePackage{mhsetup}[2007/12/03]
 \MHInternalSyntaxOn
 %    \end{macrocode}
@@ -3353,13 +3387,13 @@ and the derived files
 % \begin{macro}{\MoveEqLeft}
 %   \changes{v1.05}{2008/06/05}{Added \cs{MoveEqLeft} (daleif)}
 %   \changes{v1.05b}{2008/06/18}{We don't need \cs{setlength} here
-%   (daleif), after discussion about \cs{global} and \cs{setlength} on
-%   ctt}
-%   This is a very simple macro, we `pull' a line in an alignment
-%   backwards in order to simulate that all subsequent lines have been
-%   indented. Note that simply using \verb+\kern-2m+ after the
-%   \verb+&+ is not enough, then the alignemnt environment never
-%   detects that there are anything in the cell before the \verb+&+.
+%     (daleif), after discussion about \cs{global} and \cs{setlength}
+%     on ctt} This is a very simple macro, we `move' a line in an
+%   alignment backwards in order to simulate that all subsequent lines
+%   have been indented. Note that simply using \verb+\kern-2m+ after
+%   the \verb+&+ is not enough, then the alignemnt environment never
+%   detects that there is anything (though simulated) in the cell
+%   before the \verb+&+.
 %    \begin{macrocode}
 \newcommand\MoveEqLeft[1][2]{%
   \global\@tempdima=#1em%
@@ -3396,7 +3430,109 @@ and the derived files
 %    \end{macrocode}
 % \end{macro}
 %
+%  \section{A few extra symbols}
 %
+%  Most math font sets are missing three symbols: \cs{nuparrow},
+%  \cs{ndownarrow} and \cs{bigtimes}. We provide \emph{simulated}
+%  versions of these symbols in case they are missing. 
+%
+%  \subsection{Negated up- and down arrows} 
+%
+%  Note that the \cs{nuparrow} and the \cs{ndownarrow} are made from
+%  \cs{nrightarrow} and \cs{nleftarrow}, so these have to be
+%  present. If they are not, we throw an error at use. The
+%  implementation details are due to Enrico Gregorio
+%  (\url{http://groups.google.com/group/comp.text.tex/msg/689cc8bd604fdb51}),
+%  the basic idea is to reflect and rotate existing negated
+%  arrows. Note that the reflection and rotation will not show up i
+%  most DVI previewers.
+% \begin{macro}{\MH_nrotarrow:NN}
+%  First a common construction macro.
+%    \begin{macrocode}
+\def\MH_nrotarrow:NN #1#2{%
+  \setbox0=\hbox{$\m@th#1\uparrow$}\dimen0=\dp0
+  \setbox0=\hbox{%
+    \reflectbox{\rotatebox[origin=c]{90}{$\m@th#1\mkern2.22mu #2$}}}%
+  \dp0=\dimen0 \box0 \mkern2.3965mu
+}
+%    \end{macrocode}
+% \end{macro}
+% The negated arrows are then made using this macro on respectively
+% \cs{nrightarrow} and \cs{nleftarrow}
+% \begin{macro}{\MH_nuparrow:}
+% \begin{macro}{\MH_ndownarrow:}
+%    \begin{macrocode}
+\def\MH_nuparrow: {%
+  \mathrel{\mathpalette\MH_nrotarrow:NN\nrightarrow} }
+\def\MH_ndownarrow: {%
+  \mathrel{\mathpalette\MH_nrotarrow:NN\nleftarrow} }
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \begin{macro}{\nuparrow}
+% \begin{macro}{\ndownarrow}
+%   Next we provide \cs{nuparrow} and \cs{ndownarrow} at begin
+%   document. Since they depend on \cs{nrightarrow} and
+%   \cs{nleftarrow} we test for these and let the macros throw an
+%   error if they are missing.
+%    \begin{macrocode}
+\AtBeginDocument{%
+  \@ifundefined{nrightarrow}{%
+    \providecommand\nuparrow{%
+      \PackageError{mathtools}{\string\nuparrow\space~ is~
+        constructed~ from~ \string\nrightarrow,~ which~ is~ not~
+        provided.~ Please~ load~ the~ amssymb~ package~ or~ similar}{}
+    }}{ \providecommand\nuparrow{\MH_nuparrow:}}
+  \@ifundefined{nleftarrow}{%
+    \providecommand\ndownarrow{%
+      \PackageError{mathtools}{\string\ndownarrow\space~ is~
+        constructed~ from~ \string\nleftarrow,~ which~ is~ not~
+        provided.~ Please~ load~ the~ amssymb~ package~ or~ similar}{}
+    }}{ \providecommand\ndownarrow{\MH_ndownarrow:}} }
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% 
+%
+%  \subsection{Providing bigtimes}
+%
+%  The idea is to use the original \cs{times} and then scale it
+%  accordingly. Again the implementation details have been improved by
+%  Enrico Gregorio
+%  (\url{http://groups.google.com/group/comp.text.tex/msg/9685c9405df2ff94}). 
+%
+% \begin{macro}{\MH_bigtimes_scaler:N}
+% \begin{macro}{\MH_bigtimes_inner:}
+% \begin{macro}{\MH_csym_bigtimes:}
+%    \begin{macrocode}
+\def\MH_bigtimes_scaler:N #1{%
+  \vcenter{\hbox{#1$\m@th\mkern-2mu\times\mkern-2mu$}}}
+%    \end{macrocode}
+%  This is then combined with \cs{mathchoice} to form the inner parts
+%  of the macro
+%    \begin{macrocode}
+\def\MH_bigtimes_inner: {
+  \mathchoice{\MH_bigtimes_scaler:N \huge}         % display style
+             {\MH_bigtimes_scaler:N \LARGE}        % text style
+             {\MH_bigtimes_scaler:N {}}            % script style
+             {\MH_bigtimes_scaler:N \footnotesize} % script script style
+}
+%    \end{macrocode}
+%  And thus the internal prepresentaion of the \cs{bigtimes} macro.
+%    \begin{macrocode}
+\def\MH_csym_bigtimes: {\mathop{\MH_bigtimes_inner:}\displaylimits}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \begin{macro}{\bigtimes}
+%   In the end we provide \cs{bigtimes} if otherwise not defined.
+%    \begin{macrocode}
+\AtBeginDocument{
+  \providecommand\bigtimes{\MH_csym_bigtimes:}
+}
+%    \end{macrocode}
+% \end{macro}
 %
 %  \section{Macros by other people}
 %
