@@ -66,7 +66,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: mathtools 2008/08/11 v1.07 (MH)}
+\Msg{* Package: mathtools 2008/08/12 v1.07b (MH)}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -126,7 +126,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{mathtools.drv}%
-  [2008/08/11 v1.07 mathematical typesetting tools (MH)]
+  [2008/08/12 v1.07b mathematical typesetting tools (MH)]
 \documentclass{ltxdoc}
 \IfFileExists{fourier.sty}{\usepackage{fourier}}{}
 \addtolength\marginparwidth{-25pt}
@@ -989,39 +989,6 @@ and the derived files
 %  the original definitions of \cs{overbrace} and \cs{underbrace}.
 %
 %
-%  \subsection{A few extra symbols}
-%
-%  Most provided math font sets are missing the symbols \cs{nuparrow}
-%  and \cs{ndownarrow} (i.e.\ negated up- and downarrow) plus a `big'
-%  version of \cs{times}. Therefore we will provide constructed
-%  versions of these whenever they are not already available.
-%  \begin{codesyntax}
-%    \SpecialUsageIndex{\nuparrow}\cs{nuparrow}\\
-%    \SpecialUsageIndex{\ndownarrow}\cs{ndownarrow}\\
-%    \SpecialUsageIndex{\bigtimes}\cs{bigtimes}
-%  \end{codesyntax}
-%
-%  \emph{Note:} that these symbols are constructed via
-%  features from the \pkg{graphicx} package, and thus may not display
-%  correctly in most DVI previewers. Also note that \cs{nuparrow} and
-%  \cs{ndownarrow} are constructed via \cs{nrightarrow} and
-%  \cs{nleftarrrow} respectively, so these needs to be
-%  present. Usually this is done via \pkg{amssymb}, but some packages
-%  may be incompatible with \pkg{amssymb} so the user will have to
-%  load \pkg{amssymb} or a similar package, that provides
-%  \cs{nrightarrow} and \cs{nleftarrow}, themselves. 
-%
-%  With those requirements in place, we have
-%  \begin{verbatim}
-%    \[
-%       \lim_{a\ndownarrow 0} f(a) \neq \bigtimes_n X_n
-%    \]
-%    $\bigtimes_{k=1}^7 B_k \nuparrow \Omega$
-%  \end{verbatim}
-%    \[
-%       \lim_{a\ndownarrow 0} f(a) \neq \bigtimes_n X_n
-%    \]
-%    $\bigtimes_{k=1}^7 B_k \nuparrow \Omega$
 %  
 %
 %  \subsection{New mathematical building blocks}
@@ -1500,6 +1467,45 @@ and the derived files
 %  \[
 %    a \coloneqq b \quad c \Colonapprox d \quad e \dblcolon f
 %  \]
+%
+%
+%
+%  \subsubsection{A few missing symbols}
+%
+%  Most provided math font sets are missing the symbols \cs{nuparrow}
+%  and \cs{ndownarrow} (i.e.\ negated up- and downarrow) plus a `big'
+%  version of \cs{times}. Therefore we will provide constructed
+%  versions of these whenever they are not already available.
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\nuparrow}\cs{nuparrow}\\
+%    \SpecialUsageIndex{\ndownarrow}\cs{ndownarrow}\\
+%    \SpecialUsageIndex{\bigtimes}\cs{bigtimes}
+%  \end{codesyntax}
+%
+%  \emph{Note:} that these symbols are constructed via
+%  features from the \pkg{graphicx} package, and thus may not display
+%  correctly in most DVI previewers. Also note that \cs{nuparrow} and
+%  \cs{ndownarrow} are constructed via \cs{nrightarrow} and
+%  \cs{nleftarrrow} respectively, so these needs to be
+%  present. Usually this is done via \pkg{amssymb}, but some packages
+%  may be incompatible with \pkg{amssymb} so the user will have to
+%  load \pkg{amssymb} or a similar package, that provides
+%  \cs{nrightarrow} and \cs{nleftarrow}, themselves. 
+%
+%  With those requirements in place, we have
+%  \begin{verbatim}
+%    \[
+%       \lim_{a\ndownarrow 0} f(a) \neq \bigtimes_n X_n \qquad
+%       \frac{ \bigtimes_{k=1}^7 B_k \nuparrow \Omega }{2}     
+%    \]
+%  \end{verbatim}
+%    \[
+%       \lim_{a\ndownarrow 0} f(a) \neq \bigtimes_n X_n \qquad
+%       \frac{ \bigtimes_{k=1}^7 B_k \nuparrow \Omega }{2}     
+%    \]
+%
+%
+%
 %
 %  \section{A tribute to Michael J.~Downes}
 %
@@ -3437,7 +3443,7 @@ and the derived files
 %  versions of these symbols in case they are missing. 
 %
 %  \subsection{Negated up- and down arrows} 
-%
+%  
 %  Note that the \cs{nuparrow} and the \cs{ndownarrow} are made from
 %  \cs{nrightarrow} and \cs{nleftarrow}, so these have to be
 %  present. If they are not, we throw an error at use. The
@@ -3447,6 +3453,7 @@ and the derived files
 %  arrows. Note that the reflection and rotation will not show up i
 %  most DVI previewers.
 % \begin{macro}{\MH_nrotarrow:NN}
+% \changes{v1.07}{2008/08/11}{Added support for \cs{nuparrow} and \cs{ndownaddow}}
 %  First a common construction macro.
 %    \begin{macrocode}
 \def\MH_nrotarrow:NN #1#2{%
@@ -3504,6 +3511,7 @@ and the derived files
 % \begin{macro}{\MH_bigtimes_scaler:N}
 % \begin{macro}{\MH_bigtimes_inner:}
 % \begin{macro}{\MH_csym_bigtimes:}
+% \changes{v1.07}{2008/08/11}{Added support for \cs{bigtimes}}
 %    \begin{macrocode}
 \def\MH_bigtimes_scaler:N #1{%
   \vcenter{\hbox{#1$\m@th\mkern-2mu\times\mkern-2mu$}}}
