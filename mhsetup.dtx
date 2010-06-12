@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %
-% Copyright (C) 2002-2007 by Morten Hoegholm <mh.ctan@gmail.com>
+% Copyright (C) 2002-2007,2010 by Morten Hoegholm <mh.ctan@gmail.com>
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -66,7 +66,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: mhsetup 2007/12/03 v1.2 mhsetup (MH)}
+\Msg{* Package: mhsetup 2010/01/21 v1.2a mhsetup (MH)}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -76,7 +76,7 @@
 
 This is a generated file.
 
-Copyright (C) 2002-2007 by Morten Hoegholm <mh.ctan@gmail.com>
+Copyright (C) 2002-2007,2010 by Morten Hoegholm <mh.ctan@gmail.com>
 
 This work may be distributed and/or modified under the
 conditions of the LaTeX Project Public License, either
@@ -126,7 +126,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{mhsetup.drv}%
-  [2007/12/03 v1.2 programming setup (MH)]
+  [2010/01/21 v1.2a programming setup (MH)]
 \documentclass{ltxdoc}
 \usepackage{mhsetup}
 
@@ -155,7 +155,7 @@ and the derived files
 %</driver>
 %  \fi
 %
-%  \CheckSum{297}
+%  \CheckSum{298}
 %
 %  \GetFileInfo{mhsetup.drv}
 %
@@ -295,7 +295,7 @@ and the derived files
 %    \begin{macrocode}
 %<*package>
 \ProvidesPackage{mhsetup}%
-  [2007/12/03 v1.2 programming setup (MH)]
+  [2010/01/21 v1.2a programming setup (MH)]
 %    \end{macrocode}
 %  \subsection{The new internal syntax}
 %  \begin{macro}{\MHInternalSyntaxOn}
@@ -464,10 +464,13 @@ and the derived files
 %  \changes{v1.0b}{2004/10/10}{Use different test}
 %  \begin{macro}{\if_num:w}
 %  \changes{v1.0b}{2004/10/10}{Use different test}
+%  \changes{v1.2a}{2010/01/21}{Define at start of document}
 %  \begin{macro}{\if_dim:w}
 %  \changes{v1.0b}{2004/10/10}{Use different test}
+%  \changes{v1.2a}{2010/01/21}{Define at start of document}
 %  \begin{macro}{\if_case:w}
 %  \changes{v1.0b}{2004/10/10}{Use different test}
+%  \changes{v1.2a}{2010/01/21}{Define at start of document}
 %  \begin{macro}{\or:}
 %  \changes{v1.0b}{2004/10/10}{Use different test}
 %  Copies of \TeX{} primitives.
@@ -476,9 +479,11 @@ and the derived files
 \@ifundefined{if_meaning:NN}{\MH_let:NwN \if_meaning:NN =\ifx}{}
 \@ifundefined{else:}{\MH_let:NwN \else:=\else}{}
 \@ifundefined{fi:}{\MH_let:NwN \fi:=\fi}{}
-\@ifundefined{if_num:w}{\MH_let:NwN \if_num:w =\ifnum}{}
-\@ifundefined{if_dim:w}{\MH_let:NwN \if_dim:w =\ifdim}{}
-\@ifundefined{if_case:w}{\MH_let:NwN \if_case:w =\ifcase}{}
+\AtBeginDocument{
+  \@ifundefined{if_num:w}{\MH_let:NwN \if_num:w =\ifnum}{}
+  \@ifundefined{if_dim:w}{\MH_let:NwN \if_dim:w =\ifdim}{}
+  \@ifundefined{if_case:w}{\MH_let:NwN \if_case:w =\ifcase}{}
+}
 \@ifundefined{or:}{\MH_let:NwN \or:=\or}{}
 %    \end{macrocode}
 %  \end{macro}
