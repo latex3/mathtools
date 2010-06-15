@@ -259,7 +259,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{2004}
+%  \CheckSum{2239}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -1376,7 +1376,43 @@ and the derived files
 %      \]
 %  \end{itemize}
 %
-%
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\DeclarePairedDelimiterX}
+%    \cs{DeclarePairedDelimiterX}\marg{cmd}\oarg{num args}\marg{left_delim}\marg{right_delim}\texttt{\%}\\
+%    \marg{normal replacement code}\marg{starred replacement code}
+%  \end{codesyntax}
+%  \ProvidedBy{Lars Madsen}{2010/06/15}
+%  Sometimes \cs{DeclarePairedDelimiter} just is not enough,
+%  especially if one wants to hide syntax inside the macro. For
+%  example one might want to implement an inner product taking two
+%  arguments such that the separator symbol can be hidden inside the
+%  macro itself (e.g.\ if a journal style require a semi-colon instead
+%  of a comma). Therefore we have the generalized
+%  \cs{DeclarePairedDelimiterX}. 
+%  In this setting \verb|\DeclarePairedDelimiter\abs\lvert\rvert| is
+%  the same as
+% \begin{verbatim}
+% \DeclarePairedDelimiterX\abs[1]\lvert\rvert{#2}{#1}
+% \end{verbatim}
+%  OK, this need some explanation: \oarg{num args} is required, and
+%  should be 1--8 arguments. The starred and non-starred replacement
+%  code is a bit special. The starred macro takes \meta{num args},
+%  mandatory arguments, so \texttt{\#1}\dots refers to these
+%  arguments. But the non-starred version also have the optional
+%  argument which corresponds to \texttt{\#1}, so the mandatory
+%  arguments start at \texttt{\#2} and stops at \meta{num args} plus one.
+% \begin{verbatim}
+% \DeclarePairedDelimiterX\innerp[2]{\langle}{\rangle}{#2,#3}{#1,#2}
+% \end{verbatim}
+% Inside the starred replacement one can use \cs{middle} to scale and
+% inner delimiter to the same height as the outer. In the non-starred,
+% we get the optional argument in \texttt{\#1} so we can use that if
+% needed. As an example let us define a bra-ket:
+% \begin{verbatim}
+% \DeclarePairedDelimiterX\braket[2]{\langle}{\rangle}%
+% {#2\,#1\vert\,#3}{#1\,\middle\vert\,#2}
+% \end{verbatim}
+% 
 %
 %  \subsection{Special symbols}
 %
@@ -2959,6 +2995,70 @@ and the derived files
 }
 %    \end{macrocode}
 %  \end{macro}
+%
+% \begin{macro}{\DeclarePairedDelimiterX}
+%  \changes{v1.07}{2010/06/10}{Added \cs{DeclarePairedDelimiterX}}
+%  It has turned out that it is convenient to have a more general
+%  version of \cs{DeclarePairedDelimiter}. In this version the user
+%  can specify the number of arguments the created macro has, and they
+%  can specify the code for the inner part of the macro. Other than
+%  that the code is fairly similar to \cs{DeclarePairedDelimiter}
+%    \begin{macrocode}
+\def\MHempty{}
+\def\DeclarePairedDelimiterX#1[#2]#3#4#5#6{%
+  \@ifdefinable{#1}{
+%    \end{macrocode}
+% The constructor takes six arguments, the name of the macro, the
+% number of arguments (1-8), the left and right delimiter, the inner
+% code for the `normal' macro, and the inner code for the starred
+% macro. First we verify that the number of arguments fit.
+%    \begin{macrocode}
+    \ifnum#2>8\relax
+      \PackageError{mathtools}{No~ more~ than~ 8~ arguments}{}
+    \else
+      \ifnum#2<1\relax
+        \PackageError{mathtools}{Macro~ need~ 1~ or~ more~ arguments}{}
+      \fi
+    \fi
+%    \end{macrocode}
+% We store the number of arguments in a temp counter. The starred
+% macro has this exact number of arguments, whereas the un-starred
+% also have the optional argument.
+%    \begin{macrocode}
+    % store the argument number in a temp counter
+    \@tempcnta=#2
+    \@xp\@xp\@xp
+      \newcommand
+        \@xp\csname MT_delim_\MH_cs_to_str:N #1 _star:\endcsname
+        [\@tempcnta]
+        {
+          \left#3 #6 \right#4
+        }
+    \advance\@tempcnta by 1
+    \@xp\@xp\@xp
+      \newcommand
+        \@xp\csname MT_delim_\MH_cs_to_str:N #1 _nostar:\endcsname
+%    \end{macrocode}
+% Here we do things a little differently than with
+% \cs{DeclarePairedDelimiter}. The optional argument have \cs{MHempty}
+% as the default. This is locally changed when we scale the
+% delimiters, such that it can eat the l/r if needed.
+%    \begin{macrocode}
+        [\@tempcnta][\MHempty]
+        {
+          \mathopen{\let\MHempty\@gobble\@nameuse {\MH_cs_to_str:N ##1 l} #3} 
+          #5
+          \mathclose{\let\MHempty\@gobble\@nameuse {\MH_cs_to_str:N ##1 r} #4}
+        }
+    \DeclareRobustCommand{#1}{
+      \@ifstar
+        {\@nameuse{MT_delim_\MH_cs_to_str:N #1 _star:}}
+        {\@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostar:}}
+    }
+  }
+}
+%    \end{macrocode}
+% \end{macro}
 %
 %  \subsection{A \texttt{\textbackslash displaystyle} \env{cases} environment}
 %
