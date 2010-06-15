@@ -3524,7 +3524,19 @@ and the derived files
   {\ArrowBetweenLines@auxII{#1}[\Updownarrow]}}
 \def\ArrowBetweenLines@auxII#1[#2]{%
   \ifnum0=`{\fi \iffalse}\fi
-  \crcr
+%    \end{macrocode}
+% It turns out that for some reason the \cs{crcr} (next) removes the
+% automatic equation number replacement. The replacement hack seems to
+% the trick, though I have no idea why \cs{crcr} broke things (/daleif).
+% \changes{v1.07}{2010/06/15}{fixed eq num replacement bug}
+%    \begin{macrocode}
+%  \crcr
+    \expandafter\in@\expandafter{\@currenvir}%
+      {alignedat,aligned,gathered}%
+      \ifin@ \else
+      \notag
+      \fi%
+   \\
   \noalign{\nobreak\vskip-\baselineskip\vskip-\lineskip}%
   \noalign{\expandafter\in@\expandafter{\@currenvir}%
       {alignedat,aligned,gathered}%
