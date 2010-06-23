@@ -259,7 +259,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{2249}
+%  \CheckSum{2287}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -1138,7 +1138,22 @@ and the derived files
 %    \cs{end}\arg{dcases}\\
 %    \SpecialEnvIndex{dcases*}
 %    \cs{begin}\arg{dcases*}  \meta{math_column} |&| \makebox[\widthof{\meta{math\_column}}][l]{\meta{text\_column}}
-%    \cs{end}\arg{dcases*}
+%    \cs{end}\arg{dcases*}\\
+%    \SpecialEnvIndex{sesac}
+%    \cs{begin}\arg{sesac}\texttt{~~}  \meta{math_column} |&| \makebox[\widthof{\meta{math\_column}}][l]{\meta{math\_column}}
+%    \cs{end}\arg{sesac}\\
+%    \SpecialEnvIndex{sesac*}
+%    \cs{begin}\arg{sesac*}\texttt{~}  \meta{math_column} |&| \makebox[\widthof{\meta{math\_column}}][l]{\meta{text\_column}}
+%    \cs{end}\arg{sesac*}\\
+%    \SpecialEnvIndex{dsesac}
+%    \cs{begin}\arg{dsesac}\texttt{~}  \meta{math_column} |&| \makebox[\widthof{\meta{math\_column}}][l]{\meta{math\_column}}
+%    \cs{end}\arg{dsesac}\\
+%    \SpecialEnvIndex{dsesac*}
+%    \cs{begin}\arg{dsesac*}  \meta{math_column} |&| \makebox[\widthof{\meta{math\_column}}][l]{\meta{text\_column}}
+%    \cs{end}\arg{dsesac*}\\
+%    \SpecialEnvIndex{cases*}
+%    \cs{begin}\arg{cases*}\texttt{~}  \meta{math_column} |&| \makebox[\widthof{\meta{math\_column}}][l]{\meta{text\_column}}
+%    \cs{end}\arg{cases*}
 %  \end{codesyntax}
 %  \FeatureRequest{Lars Madsen}{2004/07/01}
 %  Anyone who have tried to use an integral in the regular
@@ -1171,6 +1186,7 @@ and the derived files
 %  the second column is set in the normal roman font of the
 %  document.\footnote{Or rather: it inherits the font characteristics
 %  active just before the \env{dcases*} environment.}
+%  \newpage
 %  \begin{verbatim}
 %  \[
 %    a= \begin{dcases*}
@@ -1185,7 +1201,9 @@ and the derived files
 %      \int x-3\, dx & Integral is display style
 %    \end{dcases*}
 %  \]
-%
+%  The environments \env{sesac}, \env{sesac*}, \env{dsesac} and
+%  \env{dsesac*} are equivalent to \env{cases} and \env{dcases}, but
+%  here the brace is placed on the right instead of on the left.
 %
 %  \subsubsection{Emulating indented lines in alignments}
 %  \begin{codesyntax}
@@ -3064,13 +3082,14 @@ and the derived files
 %
 %  \begin{macro}{\MT_start_cases:nnn}
 %  We define a single command that does all the hard work.
+%  \changes{v1.07}{2010/06/10}{made \cs{MT_start_cases:nnnn} more general}
 %    \begin{macrocode}
-\def\MT_start_cases:nnn #1#2#3{ % #1=sep,#2=preamble,#3=delim
+\def\MT_start_cases:nnnn #1#2#3#4{ % #1=sep,#2=lpreamble,#3=rpreamble,#4=delim
  \RIfM@\else
    \nonmatherr@{\begin{\@currenvir}}
  \fi
  \MH_group_align_safe_begin:
- \left#3
+ \left#4
  \vcenter \bgroup
      \Let@ \chardef\dspbrk@context\@ne \restore@math@cr
      \let  \math@cr@@\AMS@math@cr@@
@@ -3082,8 +3101,8 @@ and the derived files
 %  the separation between the columns. It could be a \cs{quad} or
 %  something entirely different.
 %    \begin{macrocode}
-       \strut@$\m@th \displaystyle{##}$\hfil &#1\strut@
-       #2
+       \strut@#2 &#1\strut@
+       #3
        \crcr
 }
 %    \end{macrocode}
@@ -3100,26 +3119,44 @@ and the derived files
 %  \begin{macro}{\newcases}
 %  \begin{macro}{\renewcases}
 %  Easy creation of new \env{cases}-like environments.
+%  \changes{v1.07}{2010/06/10}{changed to match the change in \cs{MT_start_cases:nnnn}}
 %    \begin{macrocode}
-\newcommand*\newcases[5]{% #1=name, #2=sep, #3=preamble, #4=left, #5=right
+\newcommand*\newcases[6]{% #1=name, #2=sep, #3=preamble, #4=left, #5=right
  \newenvironment{#1}
-   {\MT_start_cases:nnn {#2}{#3}{#4}}
-   {\MH_end_cases:\right#5}
+   {\MT_start_cases:nnnn {#2}{#3}{#4}{#5}}
+   {\MH_end_cases:\right#6}
 }
-\newcommand*\renewcases[5]{
+\newcommand*\renewcases[6]{
  \renewenvironment{#1}
-   {\MT_start_cases:nnn {#2}{#3}{#4}}
-   {\MH_end_cases:\right#5}
+   {\MT_start_cases:nnnn {#2}{#3}{#4}{#5}}
+   {\MH_end_cases:\right#6}
 }
 %    \end{macrocode}
 %  \begin{environment}{dcases}
 %  \begin{environment}{dcases*}
+%  \begin{environment}{sesac}
+%  \begin{environment}{sesac*}
+%  \begin{environment}{dsesac}
+%  \begin{environment}{dsesac*}
+%  \begin{environment}{cases*}
 %  \env{dcases} is a traditional cases with display style math in
 %  both columns, while \env{dcases*} has text in the second column.
+%  \changes{v1.07}{2010/06/10}{changed to match the change in
+%  \cs{newcases} plus added sesac and dsesac}
 %    \begin{macrocode}
-\newcases{dcases}{\quad}{$\m@th\displaystyle{##}$\hfil}{\lbrace}{.}
-\newcases{dcases*}{\quad}{{##}\hfil}{\lbrace}{.}
+\newcases{dcases}{\quad}{$\m@th\displaystyle{##}$\hfil}{$\m@th\displaystyle{##}$\hfil}{\lbrace}{.}
+\newcases{dcases*}{\quad}{$\m@th\displaystyle{##}$\hfil}{{##}\hfil}{\lbrace}{.}
+\newcases{sesac}{\quad}{$\m@th{##}$\hfil}{$\m@th{##}$\hfil}{.}{\rbrace}
+\newcases{sesac*}{\quad}{$\m@th{##}$\hfil}{{##}\hfil}{.}{\rbrace}
+\newcases{dsesac}{\quad}{$\m@th\displaystyle{##}$\hfil}{$\m@th\displaystyle{##}$\hfil}{.}{\rbrace}
+\newcases{dsesac*}{\quad}{$\m@th\displaystyle{##}$\hfil}{{##}\hfil}{.}{\rbrace}
+\newcases{cases*}{\quad}{$\m@th{##}$\hfil}{{##}\hfil}{\lbrace}{.}
 %    \end{macrocode}
+%  \end{environment}
+%  \end{environment}
+%  \end{environment}
+%  \end{environment}
+%  \end{environment}
 %  \end{environment}
 %  \end{environment}
 %  \end{macro}
