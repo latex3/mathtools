@@ -1139,18 +1139,18 @@ and the derived files
 %    \SpecialEnvIndex{dcases*}
 %    \cs{begin}\arg{dcases*}  \meta{math_column} |&| \makebox[\widthof{\meta{math\_column}}][l]{\meta{text\_column}}
 %    \cs{end}\arg{dcases*}\\
-%    \SpecialEnvIndex{sesac}
-%    \cs{begin}\arg{sesac}\texttt{~~}  \meta{math_column} |&| \makebox[\widthof{\meta{math\_column}}][l]{\meta{math\_column}}
-%    \cs{end}\arg{sesac}\\
-%    \SpecialEnvIndex{sesac*}
-%    \cs{begin}\arg{sesac*}\texttt{~}  \meta{math_column} |&| \makebox[\widthof{\meta{math\_column}}][l]{\meta{text\_column}}
-%    \cs{end}\arg{sesac*}\\
-%    \SpecialEnvIndex{dsesac}
-%    \cs{begin}\arg{dsesac}\texttt{~}  \meta{math_column} |&| \makebox[\widthof{\meta{math\_column}}][l]{\meta{math\_column}}
-%    \cs{end}\arg{dsesac}\\
-%    \SpecialEnvIndex{dsesac*}
-%    \cs{begin}\arg{dsesac*}  \meta{math_column} |&| \makebox[\widthof{\meta{math\_column}}][l]{\meta{text\_column}}
-%    \cs{end}\arg{dsesac*}\\
+%    \SpecialEnvIndex{rcases}
+%    \cs{begin}\arg{rcases}\texttt{~~}  \meta{math_column} |&| \makebox[\widthof{\meta{math\_column}}][l]{\meta{math\_column}}
+%    \cs{end}\arg{rcases}\\
+%    \SpecialEnvIndex{rcases*}
+%    \cs{begin}\arg{rcases*}\texttt{~}  \meta{math_column} |&| \makebox[\widthof{\meta{math\_column}}][l]{\meta{text\_column}}
+%    \cs{end}\arg{rcases*}\\
+%    \SpecialEnvIndex{drcases}
+%    \cs{begin}\arg{drcases}\texttt{~}  \meta{math_column} |&| \makebox[\widthof{\meta{math\_column}}][l]{\meta{math\_column}}
+%    \cs{end}\arg{drcases}\\
+%    \SpecialEnvIndex{drcases*}
+%    \cs{begin}\arg{drcases*}  \meta{math_column} |&| \makebox[\widthof{\meta{math\_column}}][l]{\meta{text\_column}}
+%    \cs{end}\arg{drcases*}\\
 %    \SpecialEnvIndex{cases*}
 %    \cs{begin}\arg{cases*}\texttt{~}  \meta{math_column} |&| \makebox[\widthof{\meta{math\_column}}][l]{\meta{text\_column}}
 %    \cs{end}\arg{cases*}
@@ -1201,8 +1201,8 @@ and the derived files
 %      \int x-3\, dx & Integral is display style
 %    \end{dcases*}
 %  \]
-%  The environments \env{sesac}, \env{sesac*}, \env{dsesac} and
-%  \env{dsesac*} are equivalent to \env{cases} and \env{dcases}, but
+%  The environments \env{rcases}, \env{rcases*}, \env{drcases} and
+%  \env{drcases*} are equivalent to \env{cases} and \env{dcases}, but
 %  here the brace is placed on the right instead of on the left.
 %
 %  \subsubsection{Emulating indented lines in alignments}
@@ -3134,22 +3134,22 @@ and the derived files
 %    \end{macrocode}
 %  \begin{environment}{dcases}
 %  \begin{environment}{dcases*}
-%  \begin{environment}{sesac}
-%  \begin{environment}{sesac*}
-%  \begin{environment}{dsesac}
-%  \begin{environment}{dsesac*}
+%  \begin{environment}{rcases}
+%  \begin{environment}{rcases*}
+%  \begin{environment}{drcases}
+%  \begin{environment}{drcases*}
 %  \begin{environment}{cases*}
 %  \env{dcases} is a traditional cases with display style math in
 %  both columns, while \env{dcases*} has text in the second column.
 %  \changes{v1.07}{2010/06/10}{changed to match the change in
-%  \cs{newcases} plus added sesac and dsesac}
+%  \cs{newcases} plus added rcases and drcases}
 %    \begin{macrocode}
 \newcases{dcases}{\quad}{$\m@th\displaystyle{##}$\hfil}{$\m@th\displaystyle{##}$\hfil}{\lbrace}{.}
 \newcases{dcases*}{\quad}{$\m@th\displaystyle{##}$\hfil}{{##}\hfil}{\lbrace}{.}
-\newcases{sesac}{\quad}{$\m@th{##}$\hfil}{$\m@th{##}$\hfil}{.}{\rbrace}
-\newcases{sesac*}{\quad}{$\m@th{##}$\hfil}{{##}\hfil}{.}{\rbrace}
-\newcases{dsesac}{\quad}{$\m@th\displaystyle{##}$\hfil}{$\m@th\displaystyle{##}$\hfil}{.}{\rbrace}
-\newcases{dsesac*}{\quad}{$\m@th\displaystyle{##}$\hfil}{{##}\hfil}{.}{\rbrace}
+\newcases{rcases}{\quad}{$\m@th{##}$\hfil}{$\m@th{##}$\hfil}{.}{\rbrace}
+\newcases{rcases*}{\quad}{$\m@th{##}$\hfil}{{##}\hfil}{.}{\rbrace}
+\newcases{drcases}{\quad}{$\m@th\displaystyle{##}$\hfil}{$\m@th\displaystyle{##}$\hfil}{.}{\rbrace}
+\newcases{drcases*}{\quad}{$\m@th\displaystyle{##}$\hfil}{{##}\hfil}{.}{\rbrace}
 \newcases{cases*}{\quad}{$\m@th{##}$\hfil}{{##}\hfil}{\lbrace}{.}
 %    \end{macrocode}
 %  \end{environment}
