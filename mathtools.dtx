@@ -1488,6 +1488,14 @@ and the derived files
 %  In this case the command \cs{ordinarycolon} typesets an~\ldots\
 %  ordinary colon (what a surprise).
 %
+%  \medskip
+%  \noindent\textbf{Warning:} \texttt{centercolon} \emph{does not}
+%  work with languages that make use of an active colon, most notably
+%  French. Sadly the \texttt{babel} package does not distinguish
+%  between text and math when it comes to active characters. Nor does
+%  it provide any hooks to deal with math. So currently no general
+%  solution exists for this problem.
+%
 %  \begin{codesyntax}
 %    \SpecialUsageIndex{\coloneqq}\cs{coloneqq}\texttt{~~~~~}
 %    \SpecialUsageIndex{\Coloneqq}\cs{Coloneqq}\texttt{~~~~~}
