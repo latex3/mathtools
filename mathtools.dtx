@@ -259,7 +259,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{2287}
+%  \CheckSum{2311}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -1186,7 +1186,6 @@ and the derived files
 %  the second column is set in the normal roman font of the
 %  document.\footnote{Or rather: it inherits the font characteristics
 %  active just before the \env{dcases*} environment.}
-%  \newpage
 %  \begin{verbatim}
 %  \[
 %    a= \begin{dcases*}
@@ -1249,6 +1248,36 @@ and the derived files
 %     = {} & \framebox[6cm][c]{  2nd line}\\ 
 %          & + \framebox[4cm][c]{ last part}
 %  \end{align*}
+%
+%  \subsubsection{Boxing a single line in an alignment}
+%  
+%  The \texttt{amsmath} package provie the \cs{boxed} macro to box
+%  material in math mode. But this of course will not work if the box
+%  should cross an alignment point. We provide a macro that can.
+%    \hskip1sp
+%   \marginpar{%
+%    \parbox[b]{\marginparwidth}{\small\sffamily\raggedright
+%      \strut Evolved from a request by\\Merciadri Luca\\
+%       2010/06/28\\on comp.text.tex%
+%    }
+%  }%
+%  \begin{codesyntax}
+%    \SpecialEnvIndex{\Aboxed}\cs{Aboxed}\marg{left hand side 
+%     \quad\texttt{\textnormal{\&}}\quad right hand side}
+%  \end{codesyntax}
+%  Example
+% \begin{verbatim}
+% \begin{align*}
+%   \Aboxed{ f(x) & = \int h(x)\, dx} \\
+%                 & = g(x)
+% \end{align*}
+% \end{verbatim}
+% Resulting in:
+% \begin{align*}
+%   \Aboxed{ f(x) & = \int h(x)\, dx} \\
+%                 & = g(x)
+% \end{align*}
+%  
 %
 %  \subsubsection{Adding arrows between lines in an alignment}
 %
@@ -3552,6 +3581,34 @@ and the derived files
   & 
   \kern-\@tempdima}
 %    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Aboxed}
+% \changes{v1.07}{2010/06/29}{Added \cs{Aboxed}}
+% The idea from \cs{MoveEqLeft} can be used for other things. Here we
+% create a macro that will allow a user to box a single line in an
+% alignment.
+%    \begin{macrocode}
+\newcommand\Aboxed[1]{\@Aboxed#1\ENDDNE}
+%    \end{macrocode}
+% Idea: get the left and right part
+% typeset them in a \cs{boxed} AFTER an \& and pull it backwards
+% but in order to get the horizontal placement to work. As with
+% \cs{MoveEqLeft}  we need to set some appropriate space to the left
+% of the \& 
+%    \begin{macrocode}
+\def\@Aboxed#1&#2\ENDDNE{%
+  \settowidth\@tempdima{$\displaystyle#1{}$}%
+  \addtolength\@tempdima{\fboxsep}%
+  \addtolength\@tempdima{\fboxrule}%
+  \global\@tempdima=\@tempdima
+  \kern\@tempdima
+  &
+  \kern-\@tempdima
+  \boxed{#1#2}
+} 
+%    \end{macrocode}
+% 
 % \end{macro}
 %
 % \begin{macro}{\ArrowBetweenLines}
