@@ -66,7 +66,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: mathtools 2008/08/12 v1.07b (MH)}
+\Msg{* Package: mathtools 20010/07/11 v1.08 (MH)}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -76,7 +76,7 @@
 
 This is a generated file.
 
-Copyright (C) 2002-2008 by Morten Hoegholm <mh.ctan@gmail.com>
+Copyright (C) 2002-2010 by Morten Hoegholm <mh.ctan@gmail.com>
 
 This work may be distributed and/or modified under the
 conditions of the LaTeX Project Public License, either
@@ -126,7 +126,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{mathtools.drv}%
-  [2008/08/12 v1.07b mathematical typesetting tools (MH)]
+  [2010/07/11 v1.08 mathematical typesetting tools (MH)]
 \documentclass{ltxdoc}
 \IfFileExists{fourier.sty}{\usepackage{fourier}}{}
 \addtolength\marginparwidth{-25pt}
@@ -2005,7 +2005,7 @@ and the derived files
 %    \begin{macrocode}
 %<*package>
 \ProvidesPackage{mathtools}%
-  [2008/08/01 v1.06 mathematical typesetting tools (MH)]
+  [2010/07/11 v1.08 mathematical typesetting tools (MH)]
 %    \end{macrocode}
 %    \begin{macrocode}
 \RequirePackage{keyval,calc,graphicx}
@@ -3052,7 +3052,7 @@ and the derived files
 %  \end{macro}
 %
 % \begin{macro}{\DeclarePairedDelimiterX}
-%  \changes{v1.07}{2010/06/10}{Added \cs{DeclarePairedDelimiterX}}
+%  \changes{v1.08}{2010/06/10}{Added \cs{DeclarePairedDelimiterX}}
 %  It has turned out that it is convenient to have a more general
 %  version of \cs{DeclarePairedDelimiter}. In this version the user
 %  can specify the number of arguments the created macro has, and they
@@ -3119,7 +3119,7 @@ and the derived files
 %
 %  \begin{macro}{\MT_start_cases:nnn}
 %  We define a single command that does all the hard work.
-%  \changes{v1.07}{2010/06/10}{made \cs{MT_start_cases:nnnn} more general}
+%  \changes{v1.08}{2010/06/10}{made \cs{MT_start_cases:nnnn} more general}
 %    \begin{macrocode}
 \def\MT_start_cases:nnnn #1#2#3#4{ % #1=sep,#2=lpreamble,#3=rpreamble,#4=delim
  \RIfM@\else
@@ -3156,7 +3156,7 @@ and the derived files
 %  \begin{macro}{\newcases}
 %  \begin{macro}{\renewcases}
 %  Easy creation of new \env{cases}-like environments.
-%  \changes{v1.07}{2010/06/10}{changed to match the change in \cs{MT_start_cases:nnnn}}
+%  \changes{v1.08}{2010/06/10}{changed to match the change in \cs{MT_start_cases:nnnn}}
 %    \begin{macrocode}
 \newcommand*\newcases[6]{% #1=name, #2=sep, #3=preamble, #4=left, #5=right
  \newenvironment{#1}
@@ -3178,7 +3178,7 @@ and the derived files
 %  \begin{environment}{cases*}
 %  \env{dcases} is a traditional cases with display style math in
 %  both columns, while \env{dcases*} has text in the second column.
-%  \changes{v1.07}{2010/06/10}{changed to match the change in
+%  \changes{v1.08}{2010/06/10}{changed to match the change in
 %  \cs{newcases} plus added rcases and drcases}
 %    \begin{macrocode}
 \newcases{dcases}{\quad}{$\m@th\displaystyle{##}$\hfil}{$\m@th\displaystyle{##}$\hfil}{\lbrace}{.}
@@ -3584,7 +3584,7 @@ and the derived files
 % \end{macro}
 %
 % \begin{macro}{\Aboxed}
-% \changes{v1.07}{2010/06/29}{Added \cs{Aboxed}}
+% \changes{v1.08}{2010/06/29}{Added \cs{Aboxed}}
 % The idea from \cs{MoveEqLeft} can be used for other things. Here we
 % create a macro that will allow a user to box a single line in an
 % alignment.
@@ -3630,7 +3630,7 @@ and the derived files
 % It turns out that for some reason the \cs{crcr} (next) removes the
 % automatic equation number replacement. The replacement hack seems to
 % the trick, though I have no idea why \cs{crcr} broke things (/daleif).
-% \changes{v1.07}{2010/06/15}{fixed eq num replacement bug}
+% \changes{v1.08}{2010/06/15}{fixed eq num replacement bug}
 %    \begin{macrocode}
 %  \crcr
     \expandafter\in@\expandafter{\@currenvir}%
