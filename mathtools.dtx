@@ -834,6 +834,18 @@ and the derived files
 %  \FeatureRequest{Rasmus Villemoes}{2008/03/26}
 %  The syntax is somewhat similar to \cs{nocite}.
 %
+% \medskip\noindent\textbf{BUG:} Currently there is a bug between
+% \key{showonlyrefs} and the \pkg{ntheorem} package, then the
+% \pkg{ntheorem} option \key{thmmarks} is active. The shown equation
+% numbers may come out wrong (seems to be multiplied by 2). The
+% easiest fix is to add the following line
+% \begin{verbatim}
+% \usepackage[overload,ntheorem]{empheq}
+% \end{verbatim}
+% before loading \pkg{ntheorem}. The \pkg{empheq} package fixes some
+% problems with \pkg{ntheorem} and lets \pkg{mathtools} get correct
+% access to the equation numbers again.
+% 
 %  \subsection{Extensible symbols}
 %
 %  The number of horizontally extensible symbols in standard \LaTeX{}
