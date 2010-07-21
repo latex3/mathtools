@@ -2020,7 +2020,7 @@ and the derived files
   [2010/07/11 v1.08 mathematical typesetting tools (MH)]
 %    \end{macrocode}
 %    \begin{macrocode}
-\RequirePackage{keyval,calc,graphicx}
+\RequirePackage{keyval,calc}
 \RequirePackage{mhsetup}[2007/12/03]
 \MHInternalSyntaxOn
 %    \end{macrocode}
@@ -3708,8 +3708,11 @@ and the derived files
 %   document. Since they depend on \cs{nrightarrow} and
 %   \cs{nleftarrow} we test for these and let the macros throw an
 %   error if they are missing.
+% \changes{v1.08b}{2010/07/21}{Moved graphicx loading down here such
+% that we do not get into option clash problems}
 %    \begin{macrocode}
 \AtBeginDocument{%
+  \RequirePackage{graphicx}%
   \@ifundefined{nrightarrow}{%
     \providecommand\nuparrow{%
       \PackageError{mathtools}{\string\nuparrow\space~ is~
