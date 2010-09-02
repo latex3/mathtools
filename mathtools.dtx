@@ -259,7 +259,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{2311}
+%  \CheckSum{2342}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -1437,41 +1437,78 @@ and the derived files
 %
 %  \begin{codesyntax}
 %    \SpecialUsageIndex{\DeclarePairedDelimiterX}
-%    \cs{DeclarePairedDelimiterX}\marg{cmd}\oarg{num args}\marg{left_delim}\marg{right_delim}\texttt{\%}\\
-%    \marg{normal replacement code}\marg{starred replacement code}
+%    \cs{DeclarePairedDelimiterX}\marg{cmd}\oarg{num args}\marg{left_delim}\marg{right_delim}\marg{code}\\
+%     \cs{delimsize}
 %  \end{codesyntax}
-%  \ProvidedBy{Lars Madsen}{2010/06/15}
-%  Sometimes \cs{DeclarePairedDelimiter} just is not enough,
-%  especially if one wants to hide syntax inside the macro. For
-%  example one might want to implement an inner product taking two
-%  arguments such that the separator symbol can be hidden inside the
-%  macro itself (e.g.\ if a journal style require a semi-colon instead
-%  of a comma). Therefore we have the generalized
-%  \cs{DeclarePairedDelimiterX}. 
-%  In this setting \verb|\DeclarePairedDelimiter\abs\lvert\rvert| is
-%  the same as
+%  \ProvidedBy{Lars Madsen}{2010/06/15} 
+%  Sometimes \cs{DeclarePairedDelimiter} just is not enough.  One
+%  might want to have the capabilities of \cs{DeclarePairedDelimiter},
+%  but also want a macro the takes more than one argument.
+%
+%  \cs{DeclarePairedDelimiterX} extends the features of
+%  \cs{DeclarePairedDelimiter} such that the user will get a macro
+%  which is fenced off at either end, plus the capability to provide
+%  the code for what ever the macro should do within these fences. 
+%
+%  Inside the \meta{code} part, the macro \cs{delimsize} refer to the
+%  size of the outer fences. It can then be used inside \meta{code} to
+%  scale any inner fences.
+%
+%  In this setting
+%  \cs{DeclarePairedDelimiter}\marg{cmd}\marg{left_delim}\marg{right_delim} is the same thing as 
+%  \begin{center}
+%    \cs{DeclarePairedDelimiterX}\marg{cmd}\verb|[1]|\marg{left_delim}\marg{right_delim}\verb|{#1}|
+%  \end{center}
+%  %
+%  Let us do some examples. First we want to prepare a macro for inner
+%  products, with two arguments such that we can hide the character
+%  separating the arguments (a journal style might require a
+%  semi-colon, so we will save a lot of hand editing). This can be
+%  done via
 % \begin{verbatim}
-% \DeclarePairedDelimiterX\abs[1]\lvert\rvert{#2}{#1}
+% \DeclarePairedDelimiterX\innerp[2]{\langle}{\rangle}{#1,#2}
 % \end{verbatim}
-%  OK, this need some explanation: \oarg{num args} is required, and
-%  should be 1--8 arguments. The starred and non-starred replacement
-%  code is a bit special. The starred macro takes \meta{num args},
-%  mandatory arguments, so \texttt{\#1}\dots refers to these
-%  arguments. But the non-starred version also have the optional
-%  argument which corresponds to \texttt{\#1}, so the mandatory
-%  arguments start at \texttt{\#2} and stops at \meta{num args} plus one.
+% More interestingly we can refer to the size inside the
+% \meta{code}. Here we do a weird three argument `braket'
 % \begin{verbatim}
-% \DeclarePairedDelimiterX\innerp[2]{\langle}{\rangle}{#2,#3}{#1,#2}
+% \DeclarePairedDelimiterX\brakket[3]{\langle}{\rangle}%
+% {#1\,\delimsize\vert\,#2\,\delimsize\vert\,#3}
 % \end{verbatim}
-% Inside the starred replacement one can use \cs{middle} to scale and
-% inner delimiter to the same height as the outer. In the non-starred,
-% we get the optional argument in \texttt{\#1} so we can use that if
-% needed. As an example let us define a bra-ket:
+% Then we can get
+% \DeclarePairedDelimiterX\innerp[2]{\langle}{\rangle}{#1,#2}
+% \DeclarePairedDelimiterX\brakket[3]{\langle}{\rangle}%
+% {#1\,\delimsize\vert\,#2\,\delimsize\vert\,#3}
 % \begin{verbatim}
-% \DeclarePairedDelimiterX\braket[2]{\langle}{\rangle}%
-% {#2\,#1\vert\,#3}{#1\,\middle\vert\,#2}
+% \[
+% \innerp*{A}{ \frac{1}{2} } \quad
+% \brakket[\Big]{B}{\sum_{k} f_k}{C}
+% \]
 % \end{verbatim}
+% \[
+% \innerp*{A}{ \frac{1}{2} } \quad
+% \brakket[\Big]{B}{\sum_{k}}{C}
+% \]
+% \iffalse
+% \bigskip
 % 
+% \noindent
+% \textbf{\textit{Side note:}} We have changed the internal code of
+% \cs{DeclarePairedDelimiter} and \cs{DeclarePairedDelimiterX} such
+% that the starred version does no longer give the odd spacings that
+% \cs{left}\dots\cs{right} sometimes give. Compare this
+% \begin{verbatim}
+% \[
+% 2\innerp{A}{B} \quad  2\innerp*{A}{B} \quad 2\left\langle A,B \right\rangle
+% \]
+% \end{verbatim}
+% \[
+% \sin\innerp{A}{B} \quad
+% \sin\innerp*{A}{B} \quad
+% \sin\left\langle A,B \right\rangle
+% \]
+% The spacing in the last one does not behave like other fences (this
+% is a feature of the \cs{left}\dots\cs{right} construction).
+% \fi
 %
 %  \subsection{Special symbols}
 %
@@ -3031,9 +3068,10 @@ and the derived files
 %    \end{macrocode}
 %  Define the starred command to just put \cs{left} and \cs{right}
 %  before the delimiters.
+%  \changes{1.08e}{2010/09/02}{`Fixed' \cs{left}\dots\cs{right} bad spacing}
 %    \begin{macrocode}
     \@namedef{MT_delim_\MH_cs_to_str:N #1 _star:}##1
-        {\left#2 ##1 \right #3}%
+        {\mathopen{}\left#2 ##1 \right #3\mathclose{}}%
 %    \end{macrocode}
 %  The command with optional argument. It should be \cs{bigg} or
 %  alike.
@@ -3070,52 +3108,84 @@ and the derived files
 %  can specify the number of arguments the created macro has, and they
 %  can specify the code for the inner part of the macro. Other than
 %  that the code is fairly similar to \cs{DeclarePairedDelimiter}
+% \changes{v1.08e}{2010/09/02}{Provided better implementation of \cs{DeclarePairedDelimiterX}}
 %    \begin{macrocode}
 \def\MHempty{}
-\def\DeclarePairedDelimiterX#1[#2]#3#4#5#6{%
+\def\DeclarePairedDelimiterX#1[#2]#3#4#5{%
   \@ifdefinable{#1}{
 %    \end{macrocode}
-% The constructor takes six arguments, the name of the macro, the
-% number of arguments (1-8), the left and right delimiter, the inner
-% code for the `normal' macro, and the inner code for the starred
-% macro. First we verify that the number of arguments fit.
+% The constructor takes five arguments, the name of the macro, the
+% number of arguments (1-9), the left and right delimiter, the inner
+% code for the two macros. First we verify that the number of arguments fit.
 %    \begin{macrocode}
-    \ifnum#2>8\relax
-      \PackageError{mathtools}{No~ more~ than~ 8~ arguments}{}
+    \ifnum#2>9\relax
+      \PackageError{mathtools}{No~ more~ than~ 9~ arguments}{}
     \else
       \ifnum#2<1\relax
         \PackageError{mathtools}{Macro~ need~ 1~ or~ more~ arguments}{}
       \fi
     \fi
 %    \end{macrocode}
-% We store the number of arguments in a temp counter. The starred
-% macro has this exact number of arguments, whereas the un-starred
-% also have the optional argument.
+% We make sure to store the delimiter size in the local variable
+% \cs{delimsize}. Then users can refer to the size in the fifth
+% argument. In the starred version it will refer to \cs{middle} and in
+% the normal version it will hold the provided optional argument.
 %    \begin{macrocode}
-    % store the argument number in a temp counter
-    \@tempcnta=#2
     \@xp\@xp\@xp
       \newcommand
         \@xp\csname MT_delim_\MH_cs_to_str:N #1 _star:\endcsname
-        [\@tempcnta]
+        [#2]
         {
-          \left#3 #6 \right#4
-        }
-    \advance\@tempcnta by 1
-    \@xp\@xp\@xp
-      \newcommand
-        \@xp\csname MT_delim_\MH_cs_to_str:N #1 _nostar:\endcsname
+          \begingroup
+          \def\delimsize{\middle}
 %    \end{macrocode}
+% This is slightly controversial, \cs{left}\dots\cs{right} are known
+% to produce an inner atom, thus may cause different spacing than
+% normal delimiters. We `fix' this by introducing \cs{mathopen} and \cs{mathclose}:
+%    \begin{macrocode}
+            \mathopen{}\left#3 #5 \right#4\mathclose{}
+          \endgroup
+        }
+%    \end{macrocode}
+% In order for the starred and non-starred version to have the same
+% arguments, we need to introduce an extra macro to catch the optional
+% argument (this means that the non-starred version can actually
+% support ten arguments!).
 % Here we do things a little differently than with
 % \cs{DeclarePairedDelimiter}. The optional argument have \cs{MHempty}
 % as the default. This is locally changed when we scale the
 % delimiters, such that it can eat the l/r if needed.
 %    \begin{macrocode}
-        [\@tempcnta][\MHempty]
+    \@xp\@xp\@xp
+      \newcommand
+        \@xp\csname MT_delim_\MH_cs_to_str:N #1 _nostar:\endcsname
+        [1][\MHempty]
+      {
+%    \end{macrocode}
+% We need to introduce a local group in order to support nesting. It
+% is ended inside \verb|\MT_delim_\MH_cs_to_str:N #1 _nostar_inner:|
+%    \begin{macrocode}
+        \begingroup
+        \def\delimsize{##1}
+        \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostar_inner:}
+      } 
+%    \end{macrocode}
+% Next we provide the inner workhorse. We need a bit of expansion
+% magic to get \cs{delimsize} to work.
+%    \begin{macrocode}
+    \@xp\@xp\@xp
+      \newcommand
+        \@xp\csname MT_delim_\MH_cs_to_str:N #1 _nostar_inner:\endcsname
+        [#2]
         {
-          \mathopen{\let\MHempty\@gobble\@nameuse {\MH_cs_to_str:N ##1 l} #3} 
+          \mathopen{%
+            \let\MHempty\@gobble
+            \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize l\endcsname #3} 
           #5
-          \mathclose{\let\MHempty\@gobble\@nameuse {\MH_cs_to_str:N ##1 r} #4}
+          \mathclose{%
+            \let\MHempty\@gobble
+            \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize r\endcsname #4}
+          \endgroup
         }
     \DeclareRobustCommand{#1}{
       \@ifstar
