@@ -3069,9 +3069,10 @@ and the derived files
 %  Define the starred command to just put \cs{left} and \cs{right}
 %  before the delimiters.
 %  \changes{1.08e}{2010/09/02}{`Fixed' \cs{left}\dots\cs{right} bad spacing}
+%  \changes{1.08e}{2010/09/13}{removed it again, needs a lot thinking}
 %    \begin{macrocode}
     \@namedef{MT_delim_\MH_cs_to_str:N #1 _star:}##1
-        {\mathopen{}\left#2 ##1 \right #3\mathclose{}}%
+        {\left#2 ##1 \right #3}%
 %    \end{macrocode}
 %  The command with optional argument. It should be \cs{bigg} or
 %  alike.
@@ -3109,6 +3110,7 @@ and the derived files
 %  can specify the code for the inner part of the macro. Other than
 %  that the code is fairly similar to \cs{DeclarePairedDelimiter}
 % \changes{v1.08e}{2010/09/02}{Provided better implementation of \cs{DeclarePairedDelimiterX}}
+% \changes{v1.08e}{2010/09/13}{removed the left/right fix for now}
 %    \begin{macrocode}
 \def\MHempty{}
 \def\DeclarePairedDelimiterX#1[#2]#3#4#5{%
@@ -3143,7 +3145,7 @@ and the derived files
 % to produce an inner atom, thus may cause different spacing than
 % normal delimiters. We `fix' this by introducing \cs{mathopen} and \cs{mathclose}:
 %    \begin{macrocode}
-            \mathopen{}\left#3 #5 \right#4\mathclose{}
+            \left#3 #5 \right#4
           \endgroup
         }
 %    \end{macrocode}
