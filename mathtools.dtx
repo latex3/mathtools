@@ -259,7 +259,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{2342}
+%  \CheckSum{2348}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -446,7 +446,7 @@ and the derived files
 %  these macros I find it better to read the article; an online
 %  version can be found at
 %  \begin{quote}
-%    \url{http://www.tug.org/TUGboat/Articles/tb22-4/tb72perlS.pdf}
+%    \url{http://www.tug.org/TUboat/Articles/tb22-4/tb72perlS.pdf}
 %  \end{quote}
 %  Note that the definitions shown in the article do not exactly
 %  match the definitions in \pkg{mathtools}. Besides providing an
@@ -834,7 +834,28 @@ and the derived files
 %  \FeatureRequest{Rasmus Villemoes}{2008/03/26}
 %  The syntax is somewhat similar to \cs{nocite}.
 %
-% \medskip\noindent\textbf{BUG:} Currently there is a bug between
+%  \medskip\noindent\textbf{BUG 1:} Unfortunately the use of the
+%  \key{showonlyref} introduce a bug within amsmath's typesetting
+%  of formula versus equation number. This bug manifest itself by
+%  allowing formulas to be typeset close to or over the equation
+%  number.  Currently no general fix is known, other than making sure
+%  that ones formulas are not long enough to touch the equation
+%  number.
+%
+%  To make a long story stort, amsmath typesets its math environments
+%  twice, one time for measuring and one time for the actual
+%  typesetting. In the measuring part, the width of the equation
+%  number is recorded such that the formula or the equation number can
+%  be moved (if necessary) in the typesetting part. When
+%  \key{showonlyref} is enabled, the width of the equation number
+%  depend on whether or not this number is refered~to. To determine
+%  this, we need to know the current label. But the current label is
+%  \emph{not} known in the measuring phase. Thus the measured width is
+%  always zero (because no label equals not refered to) and therefore
+%  the typesetting phase does not take the equation number into
+%  account.
+%
+% \medskip\noindent\textbf{BUG 2:} Currently there is a bug between
 % \key{showonlyrefs} and the \pkg{ntheorem} package, then the
 % \pkg{ntheorem} option \key{thmmarks} is active. The shown equation
 % numbers may come out wrong (seems to be multiplied by 2). The
