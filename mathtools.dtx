@@ -2768,21 +2768,22 @@ and the derived files
 %  \begin{macro}{\Colonsim}
 %  This is just to simulate all the \cs{..colon..} symbols from
 %  \pkg{txfonts} and \pkg{pxfonts}.
+% \changes{v1.08c}{2010/11/17}{Enclosed all in \cs{mathrel}}
 %    \begin{macrocode}
 \AtBeginDocument{
-  \providecommand*\dblcolon{\vcentcolon\mkern-.9mu\vcentcolon}
-  \providecommand*\coloneqq{\vcentcolon\mkern-1.2mu=}
-  \providecommand*\Coloneqq{\dblcolon\mkern-1.2mu=}
-  \providecommand*\coloneq{\vcentcolon\mkern-1.2mu\mathrel{-}}
-  \providecommand*\Coloneq{\dblcolon\mkern-1.2mu\mathrel{-}}
-  \providecommand*\eqqcolon{=\mkern-1.2mu\vcentcolon}
-  \providecommand*\Eqqcolon{=\mkern-1.2mu\dblcolon}
-  \providecommand*\eqcolon{\mathrel{-}\mkern-1.2mu\vcentcolon}
-  \providecommand*\Eqcolon{\mathrel{-}\mkern-1.2mu\dblcolon}
-  \providecommand*\colonapprox{\vcentcolon\mkern-1.2mu\approx}
-  \providecommand*\Colonapprox{\dblcolon\mkern-1.2mu\approx}
-  \providecommand*\colonsim{\vcentcolon\mkern-1.2mu\sim}
-  \providecommand*\Colonsim{\dblcolon\mkern-1.2mu\sim}
+  \providecommand*\dblcolon{\mathrel{\vcentcolon\mkern-.9mu\vcentcolon}}
+  \providecommand*\coloneqq{\mathrel{\vcentcolon\mkern-1.2mu=}}
+  \providecommand*\Coloneqq{\mathrel{\dblcolon\mkern-1.2mu=}}
+  \providecommand*\coloneq{\mathrel{\vcentcolon\mkern-1.2mu\mathrel{-}}}
+  \providecommand*\Coloneq{\mathrel{\dblcolon\mkern-1.2mu\mathrel{-}}}
+  \providecommand*\eqqcolon{\mathrel{=\mkern-1.2mu\vcentcolon}}
+  \providecommand*\Eqqcolon{\mathrel{=\mkern-1.2mu\dblcolon}}
+  \providecommand*\eqcolon{\mathrel{\mathrel{-}\mkern-1.2mu\vcentcolon}}
+  \providecommand*\Eqcolon{\mathrel{\mathrel{-}\mkern-1.2mu\dblcolon}}
+  \providecommand*\colonapprox{\mathrel{\vcentcolon\mkern-1.2mu\approx}}
+  \providecommand*\Colonapprox{\mathrel{\dblcolon\mkern-1.2mu\approx}}
+  \providecommand*\colonsim{\mathrel{\vcentcolon\mkern-1.2mu\sim}}
+  \providecommand*\Colonsim{\mathrel{\dblcolon\mkern-1.2mu\sim}}
 }
 %    \end{macrocode}
 %  \end{macro}
