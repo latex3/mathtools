@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %
-% Copyright (C) 2004-2008 by Morten Hoegholm <mh.ctan@gmail.com>
+% Copyright (C) 2004-2011 by Morten Hoegholm <mh.ctan@gmail.com>
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -66,7 +66,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: mathtools 20010/07/11 v1.08 (MH)}
+\Msg{* Package: mathtools 20011/01/17 v1.10 (MH)}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -76,7 +76,7 @@
 
 This is a generated file.
 
-Copyright (C) 2002-2010 by Morten Hoegholm <mh.ctan@gmail.com>
+Copyright (C) 2002-2011 by Morten Hoegholm <mh.ctan@gmail.com>
 
 This work may be distributed and/or modified under the
 conditions of the LaTeX Project Public License, either
@@ -126,7 +126,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{mathtools.drv}%
-  [2010/07/11 v1.08 mathematical typesetting tools (MH)]
+  [2011/01/17 v1.10 mathematical typesetting tools (MH)]
 \documentclass{ltxdoc}
 \IfFileExists{fourier.sty}{\usepackage{fourier}}{}
 \addtolength\marginparwidth{-25pt}
@@ -259,7 +259,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{2348}
+%  \CheckSum{2474}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -1069,8 +1069,41 @@ and the derived files
 %  The optional argument (default is \texttt{[c]}) can be any column
 %  type valid in the usual \env{array} environment.
 %
-%
-%
+% While we are at it, we also provide fenced versions of the
+% \env{smallmatrix} environment, though only as starred versions
+% supporting and extra argument specifying the column alignment. Since
+% \env{smallmatrix} is defined in a different manner than the
+% \env{matrix} environment, the option to say \env{smallmatrix*}
+% \emph{has} to be either \texttt{c}, \texttt{l} \emph{or}
+% \texttt{r}. The default is \texttt{c}, which can be changed globally
+% using the \key{smallmatrix-align}=\meta{c,l or r}.
+%  \begin{codesyntax}
+%    \SpecialEnvIndex{smallmatrix*}\cs{begin}\arg{smallmatrix*}\texttt{ }\oarg{col}
+%        \meta{contents} \cs{end}\arg{smallmatrix*}\\
+%    \SpecialEnvIndex{psmallmatrix*}\cs{begin}\arg{psmallmatrix*}\oarg{col}
+%        \meta{contents} \cs{end}\arg{psmallmatrix*}\\
+%    \SpecialEnvIndex{bsmallmatrix*}\cs{begin}\arg{bsmallmatrix*}\oarg{col}
+%        \meta{contents} \cs{end}\arg{bsmallmatrix*}\\
+%    \SpecialEnvIndex{Bsmallmatrix*}\cs{begin}\arg{Bsmallmatrix*}\oarg{col}
+%        \meta{contents} \cs{end}\arg{Bsmallmatrix*}\\
+%    \SpecialEnvIndex{vsmallmatrix*}\cs{begin}\arg{vsmallmatrix*}\oarg{col}
+%        \meta{contents} \cs{end}\arg{vsmallmatrix*}\\
+%    \SpecialEnvIndex{Vsmallmatrix*}\cs{begin}\arg{Vsmallmatrix*}\oarg{col}
+%        \meta{contents} \cs{end}\arg{Vsmallmatrix*}\\
+%    \SpecialKeyIndex{smallmatrix-align}\makebox{$\key{smallmatrix-align}=\meta{c,l or r}$}
+%  \end{codesyntax}
+%  \ProvidedBy{Rasmus Villemoes}{2011/01/17}
+% \begin{verbatim}
+% \[
+% \begin{bsmallmatrix*}    a & -b \\ -c & d \end{bsmallmatrix*}
+% \begin{bsmallmatrix*}[r] a & -b \\ -c & d \end{bsmallmatrix*}
+% \]
+% \end{verbatim}
+%  yields
+% \[
+% \begin{bsmallmatrix*} a & -b \\ -c & d \end{bsmallmatrix*}
+% \begin{bsmallmatrix*}[r] a & -b \\ -c & d \end{bsmallmatrix*}
+% \]
 %
 %  \subsubsection{The \env{multlined} environment}
 %
@@ -3047,6 +3080,7 @@ and the derived files
 %    \end{macrocode}
 %  \end{environment}
 %  The keys needed.
+% \changes{v1.10}{2011/01/17}{Added small matrix option}
 %    \begin{macrocode}
 \define@key{\MT_options_name:}
   {firstline-afterskip}{\def\l_MT_mult_left_fdim{#1}}
@@ -3056,11 +3090,14 @@ and the derived files
   {multlined-width}{\setlength \l_MT_multwidth_dim{#1}}
 \define@key{\MT_options_name:}
   {multlined-pos}{\def\MT_mult_default_pos:{#1}}
+\define@key{\MT_options_name:}
+  {smallmatrix-align}{\def\MT_smallmatrix_default_align:{#1}}
 \setkeys{\MT_options_name:}{
   firstline-afterskip=\multlinegap,
   lastline-preskip=\multlinegap,
   multlined-width=0pt,
   multlined-pos=c,
+  smallmatrix-align=c,
 }
 %    \end{macrocode}
 %  \begin{macro}{\MT_gobblelabel:w}
@@ -3369,16 +3406,70 @@ and the derived files
   {\left\lVert\MT_matrix_begin:N #1}
   {\MT_matrix_end:\right\lVert}
 %    \end{macrocode}
-%  Restore the usual behavior.
-%    \begin{macrocode}
-\MHPrecedingSpacesOn
-%    \end{macrocode}
 %  \end{environment}
 %  \end{environment}
 %  \end{environment}
 %  \end{environment}
 %  \end{environment}
 %
+% \changes{v1.10}{2011/01/17}{Added the code below, courtesy of Rasmus Villemoes}
+% Now we are at it why not provide fenced versions of the
+% \env{smallmatrix} construction as well. We will only provide a
+% version that can be adjusted as \env{matrix*} above, thus we keep
+% the * in the name. The implementation is courtesy of Rasmus
+% Villemoes. Rasmus also suggested making the default alignment in
+% these environments globally adjustable, so we did
+% (\texttt{smallmatrix-align=c} by default). It \emph{is} possible to
+% do something similar with the large matrix environments, but that
+% might cause problems with the \texttt{array} package, thus for now
+% we lease that feature alone.
+% 
+% TODO: make the code check that the optional argument is either
+% \texttt{c}, \texttt{l} or \texttt{r}.
+%    \begin{macrocode}
+\def\MT_smallmatrix_begin:N #1{%
+  \Let@\restore@math@cr\default@tag
+  \baselineskip6\ex@ \lineskip1.5\ex@ \lineskiplimit\lineskip
+  \csname MT_smallmatrix_#1_begin:\endcsname
+}
+\def\MT_smallmatrix_end:{\crcr\egroup\egroup\,}
+\def\MT_smallmatrix_l_begin:{\null\,\vcenter\bgroup
+  \ialign\bgroup$\m@th\scriptstyle##$\hfil&&\thickspace
+  $\m@th\scriptstyle##$\hfil\crcr
+}
+\def\MT_smallmatrix_c_begin:{\null\,\vcenter\bgroup
+  \ialign\bgroup\hfil$\m@th\scriptstyle##$\hfil&&\thickspace\hfil
+  $\m@th\scriptstyle##$\hfil\crcr
+}
+\def\MT_smallmatrix_r_begin:{\null\,\vcenter\bgroup
+  \ialign\bgroup\hfil$\m@th\scriptstyle##$&&\thickspace\hfil
+  $\m@th\scriptstyle##$\crcr
+}
+\newenvironment{smallmatrix*}[1][\MT_smallmatrix_default_align:]
+  {\MT_smallmatrix_begin:N #1}
+  {\MT_smallmatrix_end:}
+\newenvironment{psmallmatrix*}[1][\MT_smallmatrix_default_align:]
+  {\left(\MT_smallmatrix_begin:N #1}
+  {\MT_smallmatrix_end:\right)}
+\newenvironment{bsmallmatrix*}[1][\MT_smallmatrix_default_align:]
+  {\left[\MT_smallmatrix_begin:N #1}
+  {\MT_smallmatrix_end:\right]}
+\newenvironment{Bsmallmatrix*}[1][\MT_smallmatrix_default_align:]
+  {\left\lbrace\MT_smallmatrix_begin:N #1}
+  {\MT_smallmatrix_end:\right\rbrace}
+\newenvironment{vsmallmatrix*}[1][\MT_smallmatrix_default_align:]
+  {\left\lvert\MT_smallmatrix_begin:N #1}
+  {\MT_smallmatrix_end:\right\rvert}
+\newenvironment{Vsmallmatrix*}[1][\MT_smallmatrix_default_align:]
+  {\left\lVert\MT_smallmatrix_begin:N #1}
+  {\MT_smallmatrix_end:\right\rVert}
+%    \end{macrocode}
+%
+%
+%  Restore the usual behavior.
+%    \begin{macrocode}
+\MHPrecedingSpacesOn
+%    \end{macrocode}
 %
 %  \subsection{Smashing an operator with limits}
 %
