@@ -66,7 +66,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: mathtools 20011/01/17 v1.10 (MH)}
+\Msg{* Package: mathtools 20011/02/12 v1.10}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -88,7 +88,8 @@ LaTeX version 2005/12/01 or later.
 
 This work has the LPPL maintenance status "maintained".
 
-This Current Maintainer of this work is Morten Hoegholm.
+This Current Maintainer of this work is Morten Hoegholm, 
+Lars Madsen, Will Robertson and Joseph Wright.
 
 This work consists of the main source file mathtools.dtx
 and the derived files
@@ -126,7 +127,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{mathtools.drv}%
-  [2011/01/17 v1.10 mathematical typesetting tools (MH)]
+  [2011/02/12 v1.10 mathematical typesetting tools]
 \documentclass{ltxdoc}
 \IfFileExists{fourier.sty}{\usepackage{fourier}}{}
 \addtolength\marginparwidth{-25pt}
@@ -179,8 +180,6 @@ and the derived files
     }
   }%
 }
-
-
 
 \newcommand*\cttPosting[2]{%
   \hskip1sp
@@ -259,12 +258,13 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{2474}
+%  \CheckSum{2557}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
 %
-%  \author{Morten H\o gholm}
+%  \author{Morten H\o gholm, Lars Madsen,\\ Will Robertson and Joseph
+%  Wright\\ (maintainers)}
 %  \date{\filedate}
 %
 %  \maketitle
@@ -295,14 +295,14 @@ and the derived files
 %  released as stand-alone packages.
 %
 %
-%  The \pkg{mathtools} package is exactly what its name implies:
-%  tools for mathematical typesetting. It is a collection of many of
-%  these often needed small tweaks---with some big tweaks added as
-%  well. It can only do so by having me harvesting newsgroups for
-%  code and/or you writing me with wishes for code to be included, so
-%  if you have any good macros or just macros that help you when
-%  writing mathematics, then don't hesitate to report them to me. I
-%  can be reached at
+%  The \pkg{mathtools} package is exactly what its name implies: tools
+%  for mathematical typesetting. It is a collection of many of these
+%  often needed small tweaks---with some big tweaks added as well. It
+%  can only do so by having harvesting newsgroups for code and/or you
+%  writing the maintainers with wishes for code to be included, so if
+%  you have any good macros or just macros that help you when writing
+%  mathematics, then don't hesitate to report them to us. We can be
+%  reached at
 %  \begin{quote}\email{mh.ctan@gmail.com}\end{quote}
 %  This is of course also the address to use in case of bug reports.
 %
@@ -1413,6 +1413,89 @@ and the derived files
 %    \framebox[1.5cm]{} &= \framebox[2cm]{}  &&
 %  \end{alignat*}
 %
+%
+% \subsubsection{Centered \cs{vdots}}
+%
+%  If one want to mark a vertical continuation, there is
+%  the \verb?\vdots? command, but combine this with an alignment and
+%  we get something rather suboptimal
+% \FeatureRequest{Bruno Le Floch \\(and many others)}{2011/01/25}
+%  \begin{align*}
+%    \framebox[1.5cm]{} &= \framebox[3cm]{}\\
+%                       & \vdots\\
+%                       &= \framebox[3cm]{} 
+%  \end{align*}
+%  It would be nice to have (1) a \verb?\vdots? centered within the
+%  width of another symbol, and (2) a construction similar to
+%  \verb?\ArrowBetweenLines? that does not take up so much space. 
+%  We provide both.
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\vdotswithin}\cs{vdotswithin}\marg{symbol}\\
+%    \SpecialUsageIndex{\shortvdotswithin}\cs{shortvdotswithin}\marg{symbol}\\
+%    \SpecialUsageIndex{\shortvdotswithin*}\cs{shortvdotswithin*}\marg{symbol}\\
+%    \SpecialUsageIndex{\MTFlushSpaceAbove}\cs{MTFlushSpaceAbove}\\
+%    \SpecialUsageIndex{\MTFlushSpaceBelow}\cs{MTFlushSpaceBelow}\\
+%    \SpecialKeyIndex{shortvdotsadjustabove}\makebox{$\key{shortvdotsadjustabove}=\meta{length}$}\\
+%    \SpecialKeyIndex{shortvdotsadjustbelow}\makebox{$\key{shortvdotsadjustbelow}=\meta{length}$}
+%  \end{codesyntax}
+%  Two examples in one
+% \begin{verbatim}
+% \begin{align*}
+%   a &= b              \\
+%     & \vdotswithin{=} \\
+%     & = c             \\
+%     \shortvdotswithin{=}
+%     & = d
+% \end{align*}
+% \end{verbatim}
+% yielding
+% \begin{align*}
+%   a &= b              \\
+%     & \vdotswithin{=} \\
+%     & = c             \\
+%     \shortvdotswithin{=}
+%     & = d
+% \end{align*}
+% Thus \verb?\vdotswithin{=}? create a box corersponding to
+% \verb?{}={}? and typeset a $\vdots$ centered inside it. When doing
+% this as a normal line in an alignment leaves us with excessive space
+% which \verb?\shortvdotswithin{=}? takes care with for us.
+%
+% \verb?\shortvdotswithin{=}? corresponds to
+% \begin{verbatim}
+% \MTFlushSpaceAbove
+% & \vdotswithin{=} \\
+% \MTFlushSpaceBelow
+% \end{verbatim}
+% whereas \verb?\shortvdotswithin*{=}? is the case with 
+% \verb?\vdotswithin{=} & \\?. This also means one cannot write more
+% on the line when using \verb?\shortvdotswithin? or the starred
+% version. But one can de-construct the macro and arrive at
+% \begin{verbatim}
+% \begin{alignat*}{3}
+%   A&+ B &&= C &&+ D \\
+%   \MTFlushSpaceAbove
+%   &\vdotswithin{+} &&&& \vdotswithin{+}
+%   \MTFlushSpaceBelow
+%   C &+ D &&= Y &&+K
+% \end{alignat*}
+% \end{verbatim}
+% yielding
+% \begin{alignat*}{3}
+%   A&+ B &&= C &&+ D \\
+%   \MTFlushSpaceAbove
+%   &\vdotswithin{+} &&&& \vdotswithin{+}
+%   \MTFlushSpaceBelow
+%   C &+ D &&= Y &&+K
+% \end{alignat*}
+% If one has the need for such a construction.
+%
+% The de-spaced version does support the \env{spreadlines}
+% environment. The actual amount of space being \emph{flushed} above
+% and below can be controlled by the user using the two options
+% indicated. Their original values are \verb?2.15\origjot? and
+% \verb?\origjot? respectively (\verb?\origjot? is usually 3pt). 
+%
 %  \subsection{Short intertext}
 %
 %
@@ -2130,11 +2213,13 @@ and the derived files
 %    \begin{macrocode}
 %<*package>
 \ProvidesPackage{mathtools}%
-  [2010/07/21 v1.08b mathematical typesetting tools (MH)]
+  [2011/02/12 v1.10 mathematical typesetting tools]
 %    \end{macrocode}
+% \changes{v1.10}{2011/02/12}{Might as well make sure that we need the
+% latest version of \textt{mhsetup}}
 %    \begin{macrocode}
 \RequirePackage{keyval,calc}
-\RequirePackage{mhsetup}[2007/12/03]
+\RequirePackage{mhsetup}[2010/01/21]
 \MHInternalSyntaxOn
 %    \end{macrocode}
 %
@@ -3116,7 +3201,6 @@ and the derived files
 %    \end{macrocode}
 %  \end{environment}
 %  The keys needed.
-% \changes{v1.10}{2011/01/17}{Added small matrix option}
 %    \begin{macrocode}
 \define@key{\MT_options_name:}
   {firstline-afterskip}{\def\l_MT_mult_left_fdim{#1}}
@@ -3126,17 +3210,11 @@ and the derived files
   {multlined-width}{\setlength \l_MT_multwidth_dim{#1}}
 \define@key{\MT_options_name:}
   {multlined-pos}{\def\MT_mult_default_pos:{#1}}
-\define@key{\MT_options_name:}
-  {smallmatrix-align}{\def\MT_smallmatrix_default_align:{#1}}
-\define@key{\MT_options_name:}
-  {smallmatrix-inner-space}{\def\MT_smallmatrix_inner_space:{#1}}
 \setkeys{\MT_options_name:}{
   firstline-afterskip=\multlinegap,
   lastline-preskip=\multlinegap,
   multlined-width=0pt,
   multlined-pos=c,
-  smallmatrix-align=c,
-  smallmatrix-inner-space=\,
 }
 %    \end{macrocode}
 %  \begin{macro}{\MT_gobblelabel:w}
@@ -3366,13 +3444,20 @@ and the derived files
 %  \changes{v1.08}{2010/06/10}{changed to match the change in
 %  \cs{newcases} plus added rcases and drcases}
 %    \begin{macrocode}
-\newcases{dcases}{\quad}{$\m@th\displaystyle{##}$\hfil}{$\m@th\displaystyle{##}$\hfil}{\lbrace}{.}
-\newcases{dcases*}{\quad}{$\m@th\displaystyle{##}$\hfil}{{##}\hfil}{\lbrace}{.}
-\newcases{rcases}{\quad}{$\m@th{##}$\hfil}{$\m@th{##}$\hfil}{.}{\rbrace}
-\newcases{rcases*}{\quad}{$\m@th{##}$\hfil}{{##}\hfil}{.}{\rbrace}
-\newcases{drcases}{\quad}{$\m@th\displaystyle{##}$\hfil}{$\m@th\displaystyle{##}$\hfil}{.}{\rbrace}
-\newcases{drcases*}{\quad}{$\m@th\displaystyle{##}$\hfil}{{##}\hfil}{.}{\rbrace}
-\newcases{cases*}{\quad}{$\m@th{##}$\hfil}{{##}\hfil}{\lbrace}{.}
+\newcases{dcases}{\quad}{%
+  $\m@th\displaystyle{##}$\hfil}{$\m@th\displaystyle{##}$\hfil}{\lbrace}{.}
+\newcases{dcases*}{\quad}{%
+  $\m@th\displaystyle{##}$\hfil}{{##}\hfil}{\lbrace}{.}
+\newcases{rcases}{\quad}{%
+  $\m@th{##}$\hfil}{$\m@th{##}$\hfil}{.}{\rbrace}
+\newcases{rcases*}{\quad}{%
+  $\m@th{##}$\hfil}{{##}\hfil}{.}{\rbrace}
+\newcases{drcases}{\quad}{%
+  $\m@th\displaystyle{##}$\hfil}{$\m@th\displaystyle{##}$\hfil}{.}{\rbrace}
+\newcases{drcases*}{\quad}{%
+  $\m@th\displaystyle{##}$\hfil}{{##}\hfil}{.}{\rbrace}
+\newcases{cases*}{\quad}{%
+  $\m@th{##}$\hfil}{{##}\hfil}{\lbrace}{.}
 %    \end{macrocode}
 %  \end{environment}
 %  \end{environment}
@@ -3462,6 +3547,9 @@ and the derived files
 % do something similar with the large matrix environments, but that
 % might cause problems with the \texttt{array} package, thus for now
 % we lease that feature alone.
+%
+% The base code is a variation over the original \env{smallmatrix}
+% environmetn fround in \texttt{amsmath}, thus we will not comment it further.
 % 
 % TODO: make the code check that the optional argument is either
 % \texttt{c}, \texttt{l} or \texttt{r}.
@@ -3487,14 +3575,14 @@ and the derived files
 \newenvironment{smallmatrix*}[1][\MT_smallmatrix_default_align:]
   {\MT_smallmatrix_begin:N #1}
   {\MT_smallmatrix_end:}
-%    \begin{macrocode}
+%    \end{macrocode}
 % We would like to keep to the tradition of the \verb?Xmatrix? and
 % \verb?Xmatrix*? macros we added earlier, since most code is similar
 % we define them using a constructor macro. We also apply the trick
 % used within \verb?\DeclarePairedDelimiter(X)? such that \verb?\left?
 % \verb?\right?  constructions produce spacings corresponding to
 % \verb?\mathopen? and \verb?\mathclose?.
-%    \end{macrocode}
+%    \begin{macrocode}
 \def\MT_fenced_sm_generator:nnn #1#2#3{%
   \@ifundefined{#1}{%
     \newenvironment{#1}
@@ -3513,9 +3601,20 @@ and the derived files
 \MT_fenced_sm_generator:nnn{vsmallmatrix}\lvert\rvert
 \MT_fenced_sm_generator:nnn{Vsmallmatrix}\lVert\rVert
 %    \end{macrocode}
-%
-%
-%  Restore the usual behavior.
+% 
+% The options associated with this.
+%    \begin{macrocode}
+\define@key{\MT_options_name:}
+  {smallmatrix-align}{\def\MT_smallmatrix_default_align:{#1}}
+\define@key{\MT_options_name:}
+  {smallmatrix-inner-space}{\def\MT_smallmatrix_inner_space:{#1}}
+\setkeys{\MT_options_name:}{
+  smallmatrix-align=c,
+  smallmatrix-inner-space=\,
+}
+
+%    \end{macrocode}
+%  Restore the usual spacing behavior.
 %    \begin{macrocode}
 \MHPrecedingSpacesOn
 %    \end{macrocode}
@@ -3895,9 +3994,86 @@ and the derived files
   }%
   \if#1 &&\quad #2\else #2\quad\fi
   \\\noalign{\nobreak\vskip-\lineskip}}
+
 \MHInternalSyntaxOn
 %    \end{macrocode}
 % \end{macro}
+%
+%
+% \subsection{Centered vertical dots}
+% 
+% Doing a \verb?\vdots? centered within a different sized box, is
+% rather easy with the tools available. Note that it does \emph{not}
+% check for the style we are running in, thus do not expect this to
+% work well within \verb?\scriptstyle? and smaller. Basically we
+% create a box of a width corresponding to \verb?{}#1{}? and center
+% the \verb?\vdots? within it.
+%    \begin{macrocode}
+\newcommand\vdotswithin[1]{%
+  {\mathmakebox[\widthof{\ensuremath{{}#1{}}}][c]{{\vdots}}}}
+%    \end{macrocode}
+% Next we are inspired by \verb?\ArrowBetweenLines? and provide a
+% costruction to be used within alignments with much less vertical
+% space above and below. 
+%
+% First in order to support \env{spreadlines} we need to store the
+% original value of \verb?\jot? (and hope the user does not mess with it).
+%    \begin{macrocode}
+\newlength\origjot
+\setlength\origjot{\jot}
+%    \end{macrocode}
+% Next define how much we spacing we flush out, and make this user adjustable.
+%    \begin{macrocode}
+\newdimen\l_MT_shortvdotswithinadjustabove_dim
+\newdimen\l_MT_shortvdotswithinadjustbelow_dim
+\define@key{\MT_options_name:}
+  {shortvdotsadjustabove}{\setlength\l_MT_shortvdotswithinadjustabove_dim{#1}}
+\define@key{\MT_options_name:}
+  {shortvdotsadjustbelow}{\setlength\l_MT_shortvdotswithinadjustbelow_dim{#1}}
+%    \end{macrocode}
+% The actual defaults we found by trail and error.
+%    \begin{macrocode}
+\setkeys{\MT_options_name:}{
+  shortvdotsadjustabove=2.15\origjot,
+  shortvdotsadjustbelow=\origjot
+}
+%    \end{macrocode}
+% The user macro comes in two versions, starred version corresponding
+% to alignment \emph{before} and \verb?&? and a non-starred version
+% with alignment \emph{after} \verb?&?.
+%    \begin{macrocode}
+\def\shortvdotswithin{\relax
+  \@ifstar{\MT_svwi_aux:nn{00}}{\MT_svwi_aux:nn{01}}}
+\def\MT_svwi_aux:nn #1#2{
+  \MTFlushSpaceAbove
+  \if#1 \vdotswithin{#2}& \else &\vdotswithin{#2}  \fi
+  \MTFlushSpaceBelow
+}
+%    \end{macrocode}
+% These macros take care of removing the space above or below. Since
+% these may be useful for the user in very special cases, we provide
+% them as separate macros.
+%    \begin{macrocode}
+\newcommand\MTFlushSpaceAbove{  
+  \\
+  \noalign{%
+    \nobreak\vskip-\baselineskip\vskip-\lineskip%
+      \vskip-\l_MT_shortvdotswithinadjustabove_dim 
+      \vskip-\origjot
+      \vskip\jot
+  }%
+}
+\newcommand\MTFlushSpaceBelow{
+  \\\noalign{%
+    \nobreak\vskip-\lineskip
+    \vskip-\l_MT_shortvdotswithinadjustbelow_dim
+    \vskip-\origjot
+    \vskip\jot
+  }
+}
+
+%    \end{macrocode}
+%
 %
 %  \section{A few extra symbols}
 %
@@ -4353,6 +4529,7 @@ and the derived files
     }
   }
 }
+%$ for emacs coloring ;-)
 %    \end{macrocode}
 %  Just for restoring the old behavior.
 %    \begin{macrocode}
@@ -4575,10 +4752,10 @@ and the derived files
 %
 %  \subsection{Making environments safer}
 %
-%  \begin{macro}
+%  \begin{macro}{\aligned@a}
 %  Here we make the \pkg{amsmath} inner environments disallow spaces
 %  before their optional positioning specifier.
-%    \begin{macrocode}{\aligned@a}
+%    \begin{macrocode}
 \MaybeMHPrecedingSpacesOff
 \renewcommand\aligned@a[1][c]{\start@aligned{#1}\m@ne}
 \MHPrecedingSpacesOn
