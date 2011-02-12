@@ -1069,42 +1069,64 @@ and the derived files
 %  The optional argument (default is \texttt{[c]}) can be any column
 %  type valid in the usual \env{array} environment.
 %
-% While we are at it, we also provide fenced versions of the
-% \env{smallmatrix} environment, though only as starred versions
-% supporting and extra argument specifying the column alignment. Since
-% \env{smallmatrix} is defined in a different manner than the
-% \env{matrix} environment, the option to say \env{smallmatrix*}
-% \emph{has} to be either \texttt{c}, \texttt{l} \emph{or}
-% \texttt{r}. The default is \texttt{c}, which can be changed globally
-% using the \key{smallmatrix-align}=\meta{c,l or r}.
+%  While we are at it, we also provide fenced versions of the
+%  \env{smallmatrix} environment, To keep up with the naming of the
+%  large matrix environments, we provide both a starred and a
+%  non-starred version. Since \env{smallmatrix} is defined in a
+%  different manner than the \env{matrix} environment, the option to
+%  say \env{smallmatrix*} \emph{has} to be either \texttt{c},
+%  \texttt{l} \emph{or}~\texttt{r}. The default is \texttt{c}, which
+%  can be changed globally using the \key{smallmatrix-align}=\meta{c,l
+%    or r}.
 %  \begin{codesyntax}
 %    \SpecialEnvIndex{smallmatrix*}\cs{begin}\arg{smallmatrix*}\texttt{ }\oarg{col}
 %        \meta{contents} \cs{end}\arg{smallmatrix*}\\
+%    \SpecialEnvIndex{psmallmatrix}\cs{begin}\arg{psmallmatrix}
+%        \meta{contents} \cs{end}\arg{psmallmatrix}\\
 %    \SpecialEnvIndex{psmallmatrix*}\cs{begin}\arg{psmallmatrix*}\oarg{col}
 %        \meta{contents} \cs{end}\arg{psmallmatrix*}\\
+%    \SpecialEnvIndex{bsmallmatrix}\cs{begin}\arg{bsmallmatrix}
+%        \meta{contents} \cs{end}\arg{bsmallmatrix}\\
 %    \SpecialEnvIndex{bsmallmatrix*}\cs{begin}\arg{bsmallmatrix*}\oarg{col}
 %        \meta{contents} \cs{end}\arg{bsmallmatrix*}\\
+%    \SpecialEnvIndex{Bsmallmatrix}\cs{begin}\arg{Bsmallmatrix}
+%        \meta{contents} \cs{end}\arg{Bsmallmatrix}\\
 %    \SpecialEnvIndex{Bsmallmatrix*}\cs{begin}\arg{Bsmallmatrix*}\oarg{col}
 %        \meta{contents} \cs{end}\arg{Bsmallmatrix*}\\
+%    \SpecialEnvIndex{vsmallmatrix}\cs{begin}\arg{vsmallmatrix}
+%        \meta{contents} \cs{end}\arg{vsmallmatrix}\\
 %    \SpecialEnvIndex{vsmallmatrix*}\cs{begin}\arg{vsmallmatrix*}\oarg{col}
 %        \meta{contents} \cs{end}\arg{vsmallmatrix*}\\
+%    \SpecialEnvIndex{Vsmallmatrix}\cs{begin}\arg{Vsmallmatrix}
+%        \meta{contents} \cs{end}\arg{Vsmallmatrix}\\
 %    \SpecialEnvIndex{Vsmallmatrix*}\cs{begin}\arg{Vsmallmatrix*}\oarg{col}
 %        \meta{contents} \cs{end}\arg{Vsmallmatrix*}\\
-%    \SpecialKeyIndex{smallmatrix-align}\makebox{$\key{smallmatrix-align}=\meta{c,l or r}$}
+%    \SpecialKeyIndex{smallmatrix-align}\makebox{$\key{smallmatrix-align}=\meta{c,l or r}$}\\
+%    \SpecialKeyIndex{smallmatrix-inner-space}\makebox{$\key{smallmatrix-inner-space}=\cs{,}$}
 %  \end{codesyntax}
 %  \ProvidedBy{Rasmus Villemoes}{2011/01/17}
 % \begin{verbatim}
 % \[
-% \begin{bsmallmatrix*}    a & -b \\ -c & d \end{bsmallmatrix*}
+% \begin{bsmallmatrix}    a & -b \\ -c & d \end{bsmallmatrix}
 % \begin{bsmallmatrix*}[r] a & -b \\ -c & d \end{bsmallmatrix*}
 % \]
 % \end{verbatim}
 %  yields
 % \[
-% \begin{bsmallmatrix*} a & -b \\ -c & d \end{bsmallmatrix*}
+% \begin{bsmallmatrix} a & -b \\ -c & d \end{bsmallmatrix}
 % \begin{bsmallmatrix*}[r] a & -b \\ -c & d \end{bsmallmatrix*}
 % \]
+% Inside the \verb?Xsmallmatrix? construction a small space is
+% inserted between the fences and the contents, the size of it can be
+% changed using \key{smallmatrix-align}=\meta{some spacing command},
+% the default is \cs{,}.
 %
+% As an extra trick the fences will behave as open and closing fences
+% inconstract to their auto-scaling nature.\footnote{\cs{left} and
+%   \cs{right} does \emph{not} produce open an closing fences, thus
+%   the space before or after may be too large. Inside this
+%   construction they behave.}
+% 
 %  \subsubsection{The \env{multlined} environment}
 %
 %  \begin{codesyntax}
@@ -1603,7 +1625,7 @@ and the derived files
 %  the equal sign, leading to an odd-looking output. The command
 %  \cs{vcentcolon} is a shorthand for such a vertically centered
 %  colon, and can be used as in |$a \vcentcolon= b$| and results in
-%  the desired output: $a \vcentcolon= b$.
+%  the desired output:  $a \vcentcolon= b$. % for now
 %
 %  Typing \cs{vcentcolon} every time is quite tedious, so one can use
 %  the key \key{centercolon} to make the colon active instead.
@@ -2760,6 +2782,7 @@ and the derived files
 % that also make colon active.
 %    \begin{macrocode}
 \def\vcentcolon{\mathrel{\mathop\ordinarycolon}}
+\providecommand\ordinarycolon{:}
 \begingroup
   \catcode`\:=\active
   \lowercase{\endgroup
@@ -2768,7 +2791,7 @@ and the derived files
       \let\ordinarycolon= :%
     \else
       \mathchardef\ordinarycolon\mathcode`\: %
-    \fi
+    \fi 
     \let :\vcentcolon
   }
 }
@@ -3105,12 +3128,15 @@ and the derived files
   {multlined-pos}{\def\MT_mult_default_pos:{#1}}
 \define@key{\MT_options_name:}
   {smallmatrix-align}{\def\MT_smallmatrix_default_align:{#1}}
+\define@key{\MT_options_name:}
+  {smallmatrix-inner-space}{\def\MT_smallmatrix_inner_space:{#1}}
 \setkeys{\MT_options_name:}{
   firstline-afterskip=\multlinegap,
   lastline-preskip=\multlinegap,
   multlined-width=0pt,
   multlined-pos=c,
   smallmatrix-align=c,
+  smallmatrix-inner-space=\,
 }
 %    \end{macrocode}
 %  \begin{macro}{\MT_gobblelabel:w}
@@ -3425,7 +3451,7 @@ and the derived files
 %  \end{environment}
 %  \end{environment}
 %
-% \changes{v1.10}{2011/01/17}{Added the code below, courtesy of Rasmus Villemoes}
+% \changes{v1.10}{2011/02/12}{Added the code below, courtesy of Rasmus Villemoes}
 % Now we are at it why not provide fenced versions of the
 % \env{smallmatrix} construction as well. We will only provide a
 % version that can be adjusted as \env{matrix*} above, thus we keep
@@ -3445,37 +3471,47 @@ and the derived files
   \baselineskip6\ex@ \lineskip1.5\ex@ \lineskiplimit\lineskip
   \csname MT_smallmatrix_#1_begin:\endcsname
 }
-\def\MT_smallmatrix_end:{\crcr\egroup\egroup\,}
-\def\MT_smallmatrix_l_begin:{\null\,\vcenter\bgroup
+\def\MT_smallmatrix_end:{\crcr\egroup\egroup\MT_smallmatrix_inner_space:}
+\def\MT_smallmatrix_l_begin:{\null\MT_smallmatrix_inner_space:\vcenter\bgroup
   \ialign\bgroup$\m@th\scriptstyle##$\hfil&&\thickspace
   $\m@th\scriptstyle##$\hfil\crcr
 }
-\def\MT_smallmatrix_c_begin:{\null\,\vcenter\bgroup
+\def\MT_smallmatrix_c_begin:{\null\MT_smallmatrix_inner_space:\vcenter\bgroup
   \ialign\bgroup\hfil$\m@th\scriptstyle##$\hfil&&\thickspace\hfil
   $\m@th\scriptstyle##$\hfil\crcr
 }
-\def\MT_smallmatrix_r_begin:{\null\,\vcenter\bgroup
+\def\MT_smallmatrix_r_begin:{\null\MT_smallmatrix_inner_space:\vcenter\bgroup
   \ialign\bgroup\hfil$\m@th\scriptstyle##$&&\thickspace\hfil
   $\m@th\scriptstyle##$\crcr
 }
 \newenvironment{smallmatrix*}[1][\MT_smallmatrix_default_align:]
   {\MT_smallmatrix_begin:N #1}
   {\MT_smallmatrix_end:}
-\newenvironment{psmallmatrix*}[1][\MT_smallmatrix_default_align:]
-  {\left(\MT_smallmatrix_begin:N #1}
-  {\MT_smallmatrix_end:\right)}
-\newenvironment{bsmallmatrix*}[1][\MT_smallmatrix_default_align:]
-  {\left[\MT_smallmatrix_begin:N #1}
-  {\MT_smallmatrix_end:\right]}
-\newenvironment{Bsmallmatrix*}[1][\MT_smallmatrix_default_align:]
-  {\left\lbrace\MT_smallmatrix_begin:N #1}
-  {\MT_smallmatrix_end:\right\rbrace}
-\newenvironment{vsmallmatrix*}[1][\MT_smallmatrix_default_align:]
-  {\left\lvert\MT_smallmatrix_begin:N #1}
-  {\MT_smallmatrix_end:\right\rvert}
-\newenvironment{Vsmallmatrix*}[1][\MT_smallmatrix_default_align:]
-  {\left\lVert\MT_smallmatrix_begin:N #1}
-  {\MT_smallmatrix_end:\right\rVert}
+%    \begin{macrocode}
+% We would like to keep to the tradition of the \verb?Xmatrix? and
+% \verb?Xmatrix*? macros we added earlier, since most code is similar
+% we define them using a constructor macro. We also apply the trick
+% used within \verb?\DeclarePairedDelimiter(X)? such that \verb?\left?
+% \verb?\right?  constructions produce spacings corresponding to
+% \verb?\mathopen? and \verb?\mathclose?.
+%    \end{macrocode}
+\def\MT_fenced_sm_generator:nnn #1#2#3{%
+  \@ifundefined{#1}{%
+    \newenvironment{#1}
+    {\mathopen{}\mathclose\bgroup\left#2\MT_smallmatrix_begin:N c}%
+      {\MT_smallmatrix_end:\aftergroup\egroup\right#3}%
+  }{}%
+  \@ifundefined{#1*}{%
+    \newenvironment{#1*}[1][\MT_smallmatrix_default_align:]%
+    {\mathopen{}\mathclose\bgroup\left#2\MT_smallmatrix_begin:N ##1}%
+      {\MT_smallmatrix_end:\aftergroup\egroup\right#3}%
+  }{}%
+}
+\MT_fenced_sm_generator:nnn{psmallmatrix}()
+\MT_fenced_sm_generator:nnn{bsmallmatrix}[]
+\MT_fenced_sm_generator:nnn{Bsmallmatrix}\lbrace\rbrace
+\MT_fenced_sm_generator:nnn{vsmallmatrix}\lvert\rvert
+\MT_fenced_sm_generator:nnn{Vsmallmatrix}\lVert\rVert
 %    \end{macrocode}
 %
 %
