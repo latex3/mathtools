@@ -2753,11 +2753,17 @@ and the derived files
 %  Particularly useful for $ a:=b$, and still correct for
 %  $f : x\to y$.  May be used in any TeX.
 %  \end{verbatim}
+%
+% Slight change: the colon meaning is given only if \verb|centercolon|
+% is explicitly requested (before it was always assigned even if : remained
+% catcode 12). This allows better interaction with packages like babel
+% that also make colon active.
 %    \begin{macrocode}
 \def\vcentcolon{\mathrel{\mathop\ordinarycolon}}
 \begingroup
   \catcode`\:=\active
   \lowercase{\endgroup
+\def\MT_activate_colon{%
     \ifnum\mathcode`\:=32768\relax
       \let\ordinarycolon= :%
     \else
@@ -2765,6 +2771,12 @@ and the derived files
     \fi
     \let :\vcentcolon
   }
+}
+%    \end{macrocode}
+% Option processing.
+% The `false' branch can only be requested if the option has previously been set `true'.
+% (By default neither are set.)
+%    \begin{macrocode}
 \MH_new_boolean:n {center_colon}
 \define@key{\MT_options_name:}{centercolon}[true]{
   \@ifundefined{MT_active_colon_#1:}
@@ -2774,6 +2786,7 @@ and the derived files
     { \@nameuse{MT_active_colon_#1:} }
 }
 \def\MT_active_colon_true: {
+  \MT_activate_colon
   \MH_if_boolean:nF {center_colon}{
     \MH_set_boolean_T:n {center_colon}
     \edef\MT_active_colon_false:
