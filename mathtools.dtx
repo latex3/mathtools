@@ -4050,11 +4050,23 @@ and the derived files
   \MTFlushSpaceBelow
 }
 %    \end{macrocode}
+% We will need a way to remove any tags (eq. numbers) on the
+% \verb?\vdots? line. We cannot use the method used by
+% \verb?\ArrowBetweenLines? so we use inspiration from
+% \texttt{etoolbox}.  
+%    \begin{macrocode}
+\def\MT_remove_tag_unless_inner:n #1{%
+  \begingroup
+  \def\etb@tempa##1|#1|##2\MT@END{\endgroup
+    \ifx\@empty##2\@empty\notag\fi}%
+  \expandafter\etb@tempa\expandafter|alignedat|aligned|split|#1|\MT@END}
+%    \end{macrocode}
 % These macros take care of removing the space above or below. Since
 % these may be useful for the user in very special cases, we provide
 % them as separate macros.
 %    \begin{macrocode}
 \newcommand\MTFlushSpaceAbove{  
+  \expandafter\MT_remove_tag_unless_inner:n\expandafter{\@currenvir}
   \\
   \noalign{%
     \nobreak\vskip-\baselineskip\vskip-\lineskip%
@@ -4062,6 +4074,9 @@ and the derived files
       \vskip-\origjot
       \vskip\jot
   }%
+  \noalign{
+    \expandafter\MT_remove_tag_unless_inner:n\expandafter{\@currenvir}
+  }
 }
 \newcommand\MTFlushSpaceBelow{
   \\\noalign{%
