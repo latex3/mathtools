@@ -3586,12 +3586,12 @@ and the derived files
 \def\MT_fenced_sm_generator:nnn #1#2#3{%
   \@ifundefined{#1}{%
     \newenvironment{#1}
-    {\mathopen{}\mathclose\bgroup\left#2\MT_smallmatrix_begin:N c}%
+    {\@nameuse{#1hook}\mathopen{}\mathclose\bgroup\left#2\MT_smallmatrix_begin:N c}%
       {\MT_smallmatrix_end:\aftergroup\egroup\right#3}%
   }{}%
   \@ifundefined{#1*}{%
     \newenvironment{#1*}[1][\MT_smallmatrix_default_align:]%
-    {\mathopen{}\mathclose\bgroup\left#2\MT_smallmatrix_begin:N ##1}%
+    {\@nameuse{#1hook}\mathopen{}\mathclose\bgroup\left#2\MT_smallmatrix_begin:N ##1}%
       {\MT_smallmatrix_end:\aftergroup\egroup\right#3}%
   }{}%
 }
