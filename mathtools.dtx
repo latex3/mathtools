@@ -3943,10 +3943,11 @@ and the derived files
 % typeset them in a \cs{boxed} AFTER an \& and pull it backwards
 % but in order to get the horizontal placement to work. As with
 % \cs{MoveEqLeft}  we need to set some appropriate space to the left
-% of the \& 
+% of the \& .
+% \changes{v1.11}{2011/04/06}{Removed unnessary \{\} pair}
 %    \begin{macrocode}
 \def\@Aboxed#1&#2\ENDDNE{%
-  \settowidth\@tempdima{$\displaystyle#1{}$}%
+  \settowidth\@tempdima{$\displaystyle#1$}%
   \addtolength\@tempdima{\fboxsep}%
   \addtolength\@tempdima{\fboxrule}%
   \global\@tempdima=\@tempdima
