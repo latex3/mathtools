@@ -258,7 +258,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{2584}
+%  \CheckSum{2586}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -2423,7 +2423,15 @@ and the derived files
       { \MH_if_boolean:nTF {show_manual_tags}
           { \MT_prev_tagform:n {#1} }
           { \@ifundefined{MT_r_\df@label}
-              {  }
+%    \end{macrocode}
+% Next we need to remember to deactivate the manual tags switch. This
+% is usually done using \verb|\MT_extended_maketag:n|, but this is not
+% the case if the show manual tags is false and the manual tag is not
+% refered to. 
+% \changes{v1.12}{2011/06/08}{Added the falsification of manual tag
+% when show manual tags is off and maual tag is not refered to}
+%    \begin{macrocode}
+              { \global\MH_set_boolean_F:n {manual_tag} }
               { \MT_prev_tagform:n {#1} }
           }
       }
@@ -2456,7 +2464,7 @@ and the derived files
   \fi:
 %    \end{macrocode}
 %  As this function is always called we let it set the marker for a manual
-%  tag false when exiting.
+%  tag false when exiting (well actually not true, see above).
 %    \begin{macrocode}
   \global\MH_set_boolean_F:n {manual_tag}
 }
