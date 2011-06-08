@@ -258,7 +258,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{2586}
+%  \CheckSum{2645}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -4210,11 +4210,79 @@ and the derived files
 %
 %  \section{Macros by other people}
 %
-%  \subsection{Short intertext}
+%  \subsection{Intertext and short intertext}
+%
+%  It turns out that \cs{intertext} use a bit too much
+%  space. Especially noticable if combined with the \env{spreadlines}
+%  environment, the extra space is also applied above and below
+%  \cs{intertext}, which ends up looking unproffesional.  Chung-chieh
+%  Shan
+%  (\url{http://conway.rutgers.edu/~ccshan/wiki/blog/posts/Beyond_amsmath/})
+%  via Tobias Weh suggested a fix. We apply it here, but also keep the
+%  original \cs{intertext} in case a user would rather want it.
+% \begin{macro}{\MT_orig_intertext:}
+% \begin{macro}{\MT_intertext:}
+%    \begin{macrocode}
+\MH_let:NwN \MT_orig_intertext: \intertext@
+%    \end{macrocode}
+% And then for some reconfiguration. First a few lengths
+%    \begin{macrocode}
+\newdimen\l_MT_above_intertext_dim
+\newdimen\l_MT_below_intertext_dim
+\define@key{\MT_options_name:}
+  {aboveintertextdim}{\setlength\l_MT_above_interetext_dim{#1}}
+\define@key{\MT_options_name:}
+  {belowintertextdim}{\setlength\l_MT_below_intertext_dim{#1}}
+%    \end{macrocode}
+% Their default values are zero. Now for our extended version of
+% CCShan's solution.  
+%    \begin{macrocode}
+\def\MT_intertext: {%
+  \def\intertext##1{%
+    \ifvmode\else\\\@empty\fi
+    \noalign{%
+      \penalty\postdisplaypenalty\vskip\belowdisplayskip
+      \vskip-\lineskiplimit      
+      \vskip\normallineskiplimit 
+      \vskip\l_MT_above_intertext_dim
+       \vbox{\normalbaselines
+        \ifdim\linewidth=\columnwidth
+        \else \parshape\@ne \@totalleftmargin \linewidth
+        \fi
+        \noindent##1\par}%
+      \penalty\predisplaypenalty\vskip\abovedisplayskip%
+      \vskip-\lineskiplimit      
+      \vskip\normallineskiplimit 
+      \vskip\l_MT_above_intertext_dim
+   }%
+}}
+%    \end{macrocode}
+% And provide a key to switch
+%    \begin{macrocode}
+\def\MT_orig_intertext_true: {
+  \MH_let:NwN \intertext@ \MT_orig_intertext:
+}
+\def\MT_orig_intertext_false: {
+  \MH_let:NwN \intertext@ \MT_intertext:
+}
+\define@key{\MT_options_name:}{originalintertext}[true]{
+  \@nameuse{MT_orig_intertext_#1:}
+}
+%    \end{macrocode}
+% And use the new version as default.
+%    \begin{macrocode}
+\setkeys{\MT_options_name:}{
+  originalintertext=false
+}
+%    \end{macrocode}
+% 
+% \end{macro}
+% \end{macro}
 %
 %  Gabriel Zachmann, Donald Arseneau on comp.text.tex 2000/05/12-13
 %  \begin{macro}{\shortintertext}
-%  This is like \cs{intertext} but uses shorter skips betweeb the math.
+%  This is like \cs{intertext} but uses shorter skips between the
+%  math. 
 %    \begin{macrocode}
 \def\shortintertext#1{%
   \ifvmode\else\\\@empty\fi
@@ -4791,5 +4859,5 @@ and the derived files
 %</package>
 %    \end{macrocode}
 %
-%  \Finale
+%  \ Finale
 \endinput
