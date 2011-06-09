@@ -172,6 +172,7 @@ and the derived files
   }%
 }
 
+
 \newcommand*\ProvidedBy[2]{%
   \hskip1sp
   \marginpar{%
@@ -189,6 +190,16 @@ and the derived files
     }%
   }%
 }
+
+\newcommand*\tsxPosting[2]{%
+  \hskip1sp
+  \marginpar{%
+    \parbox[b]{\marginparwidth}{\small\sffamily\raggedright
+     \strut Posted on \texttt{\small tex.stackexchange.com} \\#1\\#2%
+    }%
+  }%
+}
+
 
 \expandafter\def\expandafter\MakePrivateLetters\expandafter{%
   \MakePrivateLetters  \catcode`\_=11\relax
@@ -258,7 +269,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{2645}
+%  \CheckSum{2731}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -1496,7 +1507,7 @@ and the derived files
 % indicated. Their original values are \verb?2.15\origjot? and
 % \verb?\origjot? respectively (\verb?\origjot? is usually 3pt). 
 %
-%  \subsection{Short intertext}
+%  \subsection{Intertext and short intertext}
 %
 %
 %  \begin{codesyntax}
@@ -1530,9 +1541,53 @@ and the derived files
 %    c&=d
 %  \end{align}
 %
+%  \noindent
+%  It turns out that both \cs{shortintertext} and the original
+%  \cs{intertext} from \pkg{amsmath} has a slight problem. If we use
+%  the \env{spreadequations} (see section~\ref{sec:spread}) to open up
+%  the equations in a multiline calculation, then this opening up
+%  value also applies to the spacing above and below the original
+%  \cs{shortintertext} and \cs{intertext}.  \tsxPosting{Tobias Weh
+%    \\(refering to a suggestion by Chung-chieh Shan)}{2011/05/29}
+% It can be illustrated using the following example, an interested
+% reader, can apply it with and with out the original \cs{intertext}
+% and \cs{shortintertext}.
+% \begin{verbatim}
+% % the original \intertext and \shortintertext
+% \mathtoolsset{original-intertext,original-shortintertext}
+% \newcommand\myline{\par\noindent\rule{\textwidth}{1mm}} 
+% \myline
+% \begin{spreadlines}{1em}
+%   \begin{align*}
+%     AA\\  BB\\  \intertext{\myline}
+%     AA\\  BB\\  \shortintertext{\myline}
+%     AA\\  BB
+%   \end{align*}
+% \end{spreadlines}
+% \myline
+% \end{verbatim}
 %
-%
-%
+%  We now fix this internaly for both \cs{intertext} and
+%  \cs{shortintertext}, plus we add the posibility to fine tune
+%  spacing around these constructions. The original versions can be
+%  brought back using the \texttt{original-x} keys below.
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\intertext}\cs{intertext}\marg{text}\\
+%    \SpecialUsageIndex{\shortintertext}\cs{shortintertext}\marg{text}\\
+%    \SpecialKeyIndex{original-intertext}$\key{original-intertext}=\texttt{true}\vert\texttt{false}$ \quad(default: \texttt{false})\\
+%    \SpecialKeyIndex{original-shortintertext}$\key{original-shortintertext}=\texttt{true}\vert\texttt{false}$ 
+%    \quad(default: \texttt{false})\\ 
+%    \SpecialKeyIndex{above-intertext-dim}$\key{above-intertext-dim}=\meta{dimen}$ \quad(default: 0pt)\\
+%    \SpecialKeyIndex{below-intertext-dim}$\key{below-intertext-dim}=\meta{dimen}$ \quad(default: 0pt)\\
+%    \SpecialKeyIndex{above-shortintertext-dim}$\key{above-shortintertext-dim}=\meta{dimen}$ \quad(default: 3pt)\\
+%    \SpecialKeyIndex{below-shortintertext-dim}$\key{below-shortintertext-dim}=\meta{dimen}$ \quad(default: 3pt)
+%  \end{codesyntax}
+%  The updated \cs{shortintertext} will look like the original version
+%  unless for areas with an enlarged \cs{jot} value. Whereas
+%  \cs{intertext} will have a slightly smaller value above and below
+%  (corresponding to about 3pt less space above and below), the
+%  spacing around \cs{intertext} should now match the normal spacing
+%  going into and out of an \env{align}. 
 %
 %  \subsection{Paired delimiters}
 %
@@ -1935,7 +1990,7 @@ and the derived files
 %  been fixed in \LaTeX, this fix will be removed from
 %  \pkg{mathtools}.
 %
-%  \subsection{Spreading equations}
+%  \subsection{Spreading equations}\label{sec:spread}
 %
 %  \begin{codesyntax}
 %    \SpecialEnvIndex{spreadlines}
@@ -4222,6 +4277,9 @@ and the derived files
 %  original \cs{intertext} in case a user would rather want it.
 % \begin{macro}{\MT_orig_intertext:}
 % \begin{macro}{\MT_intertext:}
+% \begin{macro}{\l_MT_above_intertext_dim}
+% \begin{macro}{\l_MT_below_intertext_dim}
+%  First store the originam Ams version.
 %    \begin{macrocode}
 \MH_let:NwN \MT_orig_intertext: \intertext@
 %    \end{macrocode}
@@ -4242,8 +4300,8 @@ and the derived files
     \ifvmode\else\\\@empty\fi
     \noalign{%
       \penalty\postdisplaypenalty\vskip\belowdisplayskip
-      \vskip-\lineskiplimit      
-      \vskip\normallineskiplimit 
+      \vskip-\lineskiplimit      % CCS
+      \vskip\normallineskiplimit % CCS
       \vskip\l_MT_above_intertext_dim
        \vbox{\normalbaselines
         \ifdim\linewidth=\columnwidth
@@ -4251,40 +4309,43 @@ and the derived files
         \fi
         \noindent##1\par}%
       \penalty\predisplaypenalty\vskip\abovedisplayskip%
-      \vskip-\lineskiplimit      
-      \vskip\normallineskiplimit 
+      \vskip-\lineskiplimit      % CCS
+      \vskip\normallineskiplimit % CCS
       \vskip\l_MT_above_intertext_dim
    }%
 }}
 %    \end{macrocode}
 % And provide a key to switch
 %    \begin{macrocode}
-\def\MT_orig_intertext_true: {
-  \MH_let:NwN \intertext@ \MT_orig_intertext:
-}
-\def\MT_orig_intertext_false: {
-  \MH_let:NwN \intertext@ \MT_intertext:
-}
-\define@key{\MT_options_name:}{originalintertext}[true]{
+\def\MT_orig_intertext_true:  { \MH_let:NwN \intertext@ \MT_orig_intertext: }
+\def\MT_orig_intertext_false: { \MH_let:NwN \intertext@ \MT_intertext: }
+\define@key{\MT_options_name:}{original-intertext}[true]{
   \@nameuse{MT_orig_intertext_#1:}
 }
 %    \end{macrocode}
 % And use the new version as default.
 %    \begin{macrocode}
 \setkeys{\MT_options_name:}{
-  originalintertext=false
+  original-intertext=false
 }
 %    \end{macrocode}
 % 
 % \end{macro}
 % \end{macro}
+% \end{macro}
+% \end{macro}
 %
 %  Gabriel Zachmann, Donald Arseneau on comp.text.tex 2000/05/12-13
 %  \begin{macro}{\shortintertext}
+%  \begin{macro}{\MT_orig_shortintertext}
+%  \begin{macro}{\MT_shortintertext}
+%  \begin{macro}{\l_above_shortintertext_dim}
+%  \begin{macro}{\l_below_shortintertext_dim}
 %  This is like \cs{intertext} but uses shorter skips between the
-%  math. 
+%  math. Again this turned out to have the same problem as
+%  \cs{intertext}, so we provide two versions.
 %    \begin{macrocode}
-\def\shortintertext#1{%
+\def\MT_orig_shortintertext:n #1{%
   \ifvmode\else\\\@empty\fi
   \noalign{%
     \penalty\postdisplaypenalty\vskip\abovedisplayshortskip
@@ -4298,6 +4359,63 @@ and the derived files
   }%
 }
 %    \end{macrocode}
+% Lengths like above
+%    \begin{macrocode}
+\newdimen\l_MT_above_shortintertext_dim
+\newdimen\l_MT_below_shortintertext_dim
+\define@key{\MT_options_name:}
+  {aboveshortintertextdim}{\setlength \l_MT_above_shortintertext_dim{#1}}
+\define@key{\MT_options_name:}
+  {belowshortintertextdim}{\setlength \l_MT_below_shortintertext_dim{#1}}
+%    \end{macrocode}
+% Looks best with the `old' values of the original \cs{jot}
+% setting. So we set them to 3pt each.
+%    \begin{macrocode}
+\setkeys{\MT_options_name:}{
+  aboveshortintertextdim=3pt,
+  belowshortintertextdim=3pt
+}
+%    \end{macrocode}
+%  Next, just add the same as we did for \cs{intertext}
+%    \begin{macrocode}
+\def\MT_shortintertext:n #1{%
+  \ifvmode\else\\\@empty\fi
+  \noalign{%
+    \penalty\postdisplaypenalty\vskip\abovedisplayshortskip
+    \vskip-\lineskiplimit      
+    \vskip\normallineskiplimit 
+    \vskip\l_MT_above_shortintertext_dim
+    \vbox{\normalbaselines
+      \if_dim:w \linewidth=\columnwidth
+      \else:
+        \parshape\@ne \@totalleftmargin \linewidth
+      \fi:
+      \noindent#1\par}%
+    \penalty\predisplaypenalty\vskip\abovedisplayshortskip%
+    \vskip-\lineskiplimit      
+    \vskip\normallineskiplimit 
+    \vskip\l_MT_below_shortintertext_dim
+  }%
+}
+%    \end{macrocode}
+% Next we need to be able to switch.
+%    \begin{macrocode}
+\def\MT_orig_shortintertext_true:  { \MH_let:NwN \shortintertext \MT_orig_shortintertext:n }
+\def\MT_orig_shortintertext_false: { \MH_let:NwN \shortintertext \MT_shortintertext:n }
+\define@key{\MT_options_name:}{original-shortintertext}[true]{
+  \@nameuse{MT_orig_shortintertext_#1:}
+}
+%    \end{macrocode}
+% With the updated one as the default.
+%    \begin{macrocode}
+\setkeys{\MT_options_name:}{
+  original-shortintertext=false
+}
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
 %  \end{macro}
 %
 %  \subsection{Fine-tuning mathematical layout}
@@ -4859,5 +4977,5 @@ and the derived files
 %</package>
 %    \end{macrocode}
 %
-%  \ Finale
+%  \Finale
 \endinput
