@@ -269,7 +269,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{2731}
+%  \CheckSum{2727}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -3979,18 +3979,17 @@ and the derived files
 %   \changes{v1.05}{2008/06/05}{Added \cs{MoveEqLeft} (daleif)}
 %   \changes{v1.05b}{2008/06/18}{We don't need \cs{setlength} here
 %     (daleif), after discussion about \cs{global} and \cs{setlength}
-%     on ctt} This is a very simple macro, we `move' a line in an
+%     on ctt} 
+%   \changes{v1.12}{2011/06/12}{We don't even need lengths. GL
+%   suggested on ctt to just apply them directly.}
+%   This is a very simple macro, we `move' a line in an
 %   alignment backwards in order to simulate that all subsequent lines
 %   have been indented. Note that simply using \verb+\kern-2m+ after
 %   the \verb+&+ is not enough, then the alignemnt environment never
 %   detects that there is anything (though simulated) in the cell
 %   before the \verb+&+.
 %    \begin{macrocode}
-\newcommand\MoveEqLeft[1][2]{%
-  \global\@tempdima=#1em%
-  \kern\@tempdima%
-  & 
-  \kern-\@tempdima}
+\newcommand\MoveEqLeft[1][2]{\kern #1em  &   \kern -#1em}
 %    \end{macrocode}
 % \end{macro}
 %
