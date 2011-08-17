@@ -269,7 +269,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{2727}
+%  \CheckSum{2741}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -1352,13 +1352,20 @@ and the derived files
 %  
 %  The \texttt{amsmath} package provie the \cs{boxed} macro to box
 %  material in math mode. But this of course will not work if the box
-%  should cross an alignment point. We provide a macro that can.
+%  should cross an alignment point. We provide a macro that
+%  can.\footnote{Note that internally \cs{Aboxed} does use \cs{boxed}.}
 %    \hskip1sp
 %   \marginpar{%
 %    \parbox[b]{\marginparwidth}{\small\sffamily\raggedright
 %      \strut Evolved from a request by\\Merciadri Luca\\
 %       2010/06/28\\on comp.text.tex%
-%    }
+%    }\strut
+%  }%
+%   \marginpar{\strut\\%
+%    \parbox[b]{\marginparwidth}{\small\sffamily\raggedright
+%      \strut Reimplemented by\\Florent Chervet (GL) \\
+%       2011/06/11\\on comp.text.tex%
+%    }\strut
 %  }%
 %  \begin{codesyntax}
 %    \SpecialEnvIndex{\Aboxed}\cs{Aboxed}\marg{left hand side 
@@ -1376,10 +1383,28 @@ and the derived files
 %   \Aboxed{ f(x) & = \int h(x)\, dx} \\
 %                 & = g(x)
 % \end{align*}
-%  
+% One can have multiple boxes on each line, and the
+% >>\texttt{\textnormal{\&}}\quad right hand side<< can even be
+% missing. Here is an example of how the padding in the box can be changed
+% \begin{verbatim}
+% \begin{align*}
+%   \setlength\fboxsep{1em}
+%   \Aboxed{ f(x) &= 0 } & \Aboxed{ g(x) &= b} \\
+%   \Aboxed{ h(x) }      & \Aboxed{ i(x) }   
+% \end{align*}
+% \end{verbatim}
+% \begin{align*}
+%   \setlength\fboxsep{1em}
+%   \Aboxed{ f(x) &= 0 } & \Aboxed{ g(x) &= b} \\
+%   \Aboxed{ h(x) }      & \Aboxed{ i(x) }   
+% \end{align*}
+% Note how the \cs{fboxsep} change only affect the box coming
+% immediately after it.  
 %
 %  \subsubsection{Adding arrows between lines in an alignment}
 %
+%  This first macro is a bit misleading, it is only intended to be
+%  used in combination with the \env{alignat(*)} environment.
 %  \begin{codesyntax}
 %    \SpecialEnvIndex{\ArrowBetweenLines}\cs{ArrowBetweenLines}\oarg{symbol}\\
 %    \SpecialEnvIndex{\ArrowBetweenLines*}\cs{ArrowBetweenLines*}\oarg{symbol}
@@ -1392,20 +1417,21 @@ and the derived files
 %    }
 %  }%
 %  To add, say $\Updownarrow$ between two lines in an alignment use
-%  \cs{ArrowBetweenLines} and the \env{alignat} environment:
+%  \cs{ArrowBetweenLines} and the \env{alignat} environment (note the
+%  extra pair of  \texttt{\&}'s in front):
 %  \begin{verbatim}
-%  \begin{alignat*}{2}
+%  \begin{alignat}{2}
 %    && \framebox[1.5cm]{} &= \framebox[3cm]{}\\
 %    \ArrowBetweenLines % \Updownarrow is the default
 %    && \framebox[1.5cm]{} &= \framebox[2cm]{}
-%  \end{alignat*}
+%  \end{alignat}
 %  \end{verbatim}
 %  resulting in
-%  \begin{alignat*}{2}
+%  \begin{alignat}{2}
 %    && \framebox[1.5cm]{} &= \framebox[3cm]{}\\
 %    \ArrowBetweenLines 
 %    && \framebox[1.5cm]{} &= \framebox[2cm]{}
-%  \end{alignat*}
+%  \end{alignat}
 %  Note the use of \verb+&&+ starting each \emph{regular} line of
 %  math. For adding the arrow on the right, use
 %  \cs{ArrowBetweenLines*}\oarg{symbol}, and end each line of math
@@ -1468,7 +1494,7 @@ and the derived files
 %     & = d
 % \end{align*}
 % Thus \verb?\vdotswithin{=}? create a box corersponding to
-% \verb?{}={}? and typeset a $\vdots$ centered inside it. When doing
+% \verb?{}={}? and typeset a >>$\vdots$<< centered inside it. When doing
 % this as a normal line in an alignment leaves us with excessive space
 % which \verb?\shortvdotswithin{=}? takes care with for us.
 %
@@ -1544,7 +1570,7 @@ and the derived files
 %  \noindent
 %  It turns out that both \cs{shortintertext} and the original
 %  \cs{intertext} from \pkg{amsmath} has a slight problem. If we use
-%  the \env{spreadequations} (see section~\ref{sec:spread}) to open up
+%  the \env{spreadlines} (see section~\ref{sec:spread}) to open up
 %  the equations in a multiline calculation, then this opening up
 %  value also applies to the spacing above and below the original
 %  \cs{shortintertext} and \cs{intertext}.  \tsxPosting{Tobias Weh
@@ -1583,11 +1609,12 @@ and the derived files
 %    \SpecialKeyIndex{below-shortintertext-dim}$\key{below-shortintertext-dim}=\meta{dimen}$ \quad(default: 3pt)
 %  \end{codesyntax}
 %  The updated \cs{shortintertext} will look like the original version
-%  unless for areas with an enlarged \cs{jot} value. Whereas
-%  \cs{intertext} will have a slightly smaller value above and below
-%  (corresponding to about 3pt less space above and below), the
-%  spacing around \cs{intertext} should now match the normal spacing
-%  going into and out of an \env{align}. 
+%  unless for areas with an enlarged \cs{jot} value (see for example
+%  the \env{spreadlines}, section~\ref{sec:spread}). Whereas \cs{intertext}
+%  will have a slightly smaller value above and below (corresponding
+%  to about 3pt less space above and below), the spacing around
+%  \cs{intertext} should now match the normal spacing going into and
+%  out of an \env{align}.
 %
 %  \subsection{Paired delimiters}
 %
@@ -1783,7 +1810,7 @@ and the derived files
 %  \medskip
 %  \noindent\textbf{Warning:} \texttt{centercolon} \emph{does not}
 %  work with languages that make use of an active colon, most notably
-%  French. Sadly the \texttt{babel} package does not distinguish
+%  \emph{French}. Sadly the \texttt{babel} package does not distinguish
 %  between text and math when it comes to active characters. Nor does
 %  it provide any hooks to deal with math. So currently no general
 %  solution exists for this problem.
@@ -1836,7 +1863,8 @@ and the derived files
 %    \SpecialUsageIndex{\bigtimes}\cs{bigtimes}
 %  \end{codesyntax}
 %
-%  \emph{Note:} that these symbols are constructed via
+%  \noindent
+%  \textbf{Note:} that these symbols are constructed via
 %  features from the \pkg{graphicx} package, and thus may not display
 %  correctly in most DVI previewers. Also note that \cs{nuparrow} and
 %  \cs{ndownarrow} are constructed via \cs{nrightarrow} and
@@ -1969,7 +1997,8 @@ and the derived files
 %    \myisotope{A}{Z}{X}\to \myisotope{A-4}{Z-2}{Y}+
 %    \myisotope{4}{2}{\alpha}
 %  \]
-%
+% (Though a package like \pkg{mhchem} might be more suitable for this
+% type of material.)
 %
 %  \subsection{Declaring math sizes}
 %
@@ -3996,30 +4025,22 @@ and the derived files
 % \begin{macro}{\Aboxed}
 % \changes{v1.08}{2010/06/29}{Added \cs{Aboxed}}
 % The idea from \cs{MoveEqLeft} can be used for other things. Here we
-% create a macro that will allow a user to box a single line in an
+% create a macro that will allow a user to box an equation inside an
 % alignment.
+% \changes{v1.12}{2011/08/17}{\cs{Aboxed} reimplemented, cudos to GL}
 %    \begin{macrocode}
-\newcommand\Aboxed[1]{\@Aboxed#1\ENDDNE}
+\newcommand\Aboxed[1]{\let\bgroup{\romannumeral-`}\@Aboxed#1&&\ENDDNE}
 %    \end{macrocode}
-% Idea: get the left and right part
-% typeset them in a \cs{boxed} AFTER an \& and pull it backwards
-% but in order to get the horizontal placement to work. As with
-% \cs{MoveEqLeft}  we need to set some appropriate space to the left
-% of the \& .
-% \changes{v1.11}{2011/04/06}{Removed unnessary \{\} pair}
+% The macro has been reimplemented courtesy of Florent Chervet out of
+% a posting on ctt, \url{https://groups.google.com/group/comp.text.tex/browse_thread/thread/5d66395f2a1b5134/93fd9661484bd8d8?#93fd9661484bd8d8}
 %    \begin{macrocode}
-\def\@Aboxed#1&#2\ENDDNE{%
-  \settowidth\@tempdima{$\displaystyle#1$}%
-  \addtolength\@tempdima{\fboxsep}%
-  \addtolength\@tempdima{\fboxrule}%
-  \global\@tempdima=\@tempdima
-  \kern\@tempdima
-  &
-  \kern-\@tempdima
-  \boxed{#1#2}
+\def\@Aboxed#1&#2&#3\ENDDNE{%
+  \ifnum0=`{}\fi \setbox \z@
+    \hbox{$\displaystyle#1{}\m@th$\kern\fboxsep \kern\fboxrule }%
+    \edef\@tempa {\kern  \wd\z@ &\kern -\the\wd\z@ \fboxsep
+        \the\fboxsep \fboxrule \the\fboxrule }\@tempa \boxed {#1#2}%
 } 
 %    \end{macrocode}
-% 
 % \end{macro}
 %
 % \begin{macro}{\ArrowBetweenLines}
