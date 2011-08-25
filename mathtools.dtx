@@ -269,7 +269,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{2741}
+%  \CheckSum{2748}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -678,6 +678,42 @@ and the derived files
 %  The use of \cs{sb} instead of \texttt{\_} is allowed.
 %
 %
+%  \subsubsection{Swapping space above \texorpdfstring{\AmS}{AMS} display math environments }
+%  \label{sec:swapping}
+%
+%  One feature that the plain old \env{equation} environment has that
+%  the \AmS\ environments does not (because of thechnical reasons), is
+%  the feature of using less space above the equation if the situation
+%  presents itself. The \AmS\ environments cannot do this, but one can
+%  manually, using  
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\SwapAboveDisplaySkip}
+%    \cs{SwapAboveDisplaySkip}
+%  \end{codesyntax}
+%  as the very first content within an \AmS\ display math
+%  environment. It will then issue an \cs{abovedisplayshortskip}
+%  instead of the normal \cs{abovedisplayskip}.
+%
+%  Note it will not work with the \env{equation} or \env{multline} environments.
+%  
+%  Here is an example of the effect
+% \begin{verbatim}
+%  \noindent\rule\textwidth{1pt}
+%  \begin{align*}  A &= B \end{align*}
+%  \noindent\rule\textwidth{1pt}
+%  \begin{align*}  
+%  \SwapAboveDisplaySkip
+%  A &= B 
+%  \end{align*}
+% \end{verbatim}
+%  \noindent\rule\textwidth{1pt}
+%  \begin{align*}  A &= B \end{align*}
+%  \noindent\rule\textwidth{1pt}
+%  \begin{align*}  
+%  \SwapAboveDisplaySkip
+%  A &= B 
+%  \end{align*}
+%  
 %
 %  \subsection{Controlling tags}
 %
@@ -4001,6 +4037,23 @@ and the derived files
 }
 %    \end{macrocode}
 %  \end{macro}
+%
+%  \subsection{Swapping above display skip}
+%
+% \begin{macro}{\SwapAboveDisplaySkip}
+%   This macro is intended to be used at the start of \AmS\
+%   environments, in order to force it to use
+%   \cs{abovedisplayshortskip} instead of \cs{abovedisplayskip} above
+%   the displayed math. Because of the use of \cs{noalign} it will not
+%   work inside \env{equation} or \env{multline}.
+%    \begin{macrocode}
+\newcommand\SwapAboveDisplaySkip{%
+  \noalign{\vskip-\abovedisplayskip\vskip\abovedisplayshortskip}
+}
+
+%    \end{macrocode}
+%   
+% \end{macro}
 %
 %  \subsection{An aid to alignment}
 %
