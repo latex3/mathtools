@@ -286,7 +286,7 @@ and the derived files
 %    1)~correct various bugs/defeciencies in \pkg{amsmath} until
 %    these are fixed by the \AmS{} and 2)~provide useful tools
 %    for mathematical typesetting, be it a small macro for
-%    typesetting a prescript or an underbraket, or entirely new
+%    typesetting a prescript or an underbracket, or entirely new
 %    display math constructs such as a \env{multlined} environment.
 %  \end{abstract}
 %
@@ -1748,22 +1748,22 @@ and the derived files
 % More interestingly we can refer to the size inside the
 % \meta{code}. Here we do a weird three argument `braket'
 % \begin{verbatim}
-% \DeclarePairedDelimiterX\brakket[3]{\langle}{\rangle}%
+% \DeclarePairedDelimiterX\braket[3]{\langle}{\rangle}%
 % {#1\,\delimsize\vert\,#2\,\delimsize\vert\,#3}
 % \end{verbatim}
 % Then we can get
 % \DeclarePairedDelimiterX\innerp[2]{\langle}{\rangle}{#1,#2}
-% \DeclarePairedDelimiterX\brakket[3]{\langle}{\rangle}%
+% \DeclarePairedDelimiterX\braket[3]{\langle}{\rangle}%
 % {#1\,\delimsize\vert\,#2\,\delimsize\vert\,#3}
 % \begin{verbatim}
 % \[
 % \innerp*{A}{ \frac{1}{2} } \quad
-% \brakket[\Big]{B}{\sum_{k} f_k}{C}
+% \braket[\Big]{B}{\sum_{k} f_k}{C}
 % \]
 % \end{verbatim}
 % \[
 % \innerp*{A}{ \frac{1}{2} } \quad
-% \brakket[\Big]{B}{\sum_{k}}{C}
+% \braket[\Big]{B}{\sum_{k}}{C}
 % \]
 % \iffalse
 % \bigskip
