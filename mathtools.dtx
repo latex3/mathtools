@@ -369,7 +369,7 @@ and the derived files
 %        [v] = 200
 %      \end{gathered}
 %  \]
-%  Yes, the \texttt[p] has been gobbled without any warning
+%  Yes, the \texttt{[p]} has been gobbled without any warning
 %  whatsoever.\footnote{\pkg{amsmath} thought the \texttt[p] was an
 %  optional argument, checked if it was \texttt{t} or \texttt{b} and
 %  when both tests failed, assumed it was a \texttt{c}.} This is
@@ -397,7 +397,7 @@ and the derived files
 %  \begin{codesyntax}
 %    \SpecialUsageIndex{\mathtoolsset}\cs{mathtoolsset}\marg{key val list}
 %  \end{codesyntax}
-%  Many of the tools shown in this manual can be turned on and off be
+%  Many of the tools shown in this manual can be turned on and off by
 %  setting a switch to either true or false. In all cases it is done
 %  with the command \cs{mathtoolsset}. A typical use could be something like
 %  \begin{verbatim}
@@ -661,6 +661,8 @@ and the derived files
 %  command \cs{adjustlimits} is useful in these cases, as you can
 %  just put it in front of these consecutive operators and it'll make
 %  the limits line up.
+%  \medskip\par\noindent
+%  \begin{minipage}{\textwidth}
 %  \begin{verbatim}
 %    \[
 %      \text{a)} \adjustlimits\lim_{n\to\infty} \max_{p\ge n} \quad
@@ -669,7 +671,8 @@ and the derived files
 %      \text{d)} \adjustlimits\limsup_{n\to\infty} \max_{p\ge n}
 %    \]
 %  \end{verbatim}
-%    \[
+%  \end{minipage}
+%  \[
 %      \text{a)} \adjustlimits\lim_{n\to\infty} \max_{p\ge n} \quad
 %      \text{b)} \adjustlimits\lim_{n\to\infty} \max_{p^2\ge n} \quad
 %      \text{c)} \adjustlimits\lim_{n\to\infty} \sup_{p^2\ge nK} \quad
@@ -872,8 +875,8 @@ and the derived files
 %  Note that this feature only works if you use \cs{eqref} or
 %  \cs{refeq} to reference your equations.
 %
-%  When using \key{showonlyrefs} it might be usefull to be able to
-%  actually add a few equation numbers without directly refering to
+%  When using \key{showonlyrefs} it might be useful to be able to
+%  actually add a few equation numbers without directly referring to
 %  them.
 %  \begin{codesyntax}
 %    \SpecialUsageIndex{\noeqref}\cs{noeqref}\marg{label,label,\dots}
@@ -886,7 +889,7 @@ and the derived files
 %  of formula versus equation number. This bug manifest itself by
 %  allowing formulas to be typeset close to or over the equation
 %  number.  Currently no general fix is known, other than making sure
-%  that ones formulas are not long enough to touch the equation
+%  that one's formulas are not long enough to touch the equation
 %  number.
 %
 %  To make a long story stort, amsmath typesets its math environments
@@ -895,15 +898,15 @@ and the derived files
 %  number is recorded such that the formula or the equation number can
 %  be moved (if necessary) in the typesetting part. When
 %  \key{showonlyref} is enabled, the width of the equation number
-%  depend on whether or not this number is refered~to. To determine
+%  depend on whether or not this number is referred~to. To determine
 %  this, we need to know the current label. But the current label is
 %  \emph{not} known in the measuring phase. Thus the measured width is
-%  always zero (because no label equals not refered to) and therefore
+%  always zero (because no label equals not referred to) and therefore
 %  the typesetting phase does not take the equation number into
 %  account.
 %
 % \medskip\noindent\textbf{BUG 2:} Currently there is a bug between
-% \key{showonlyrefs} and the \pkg{ntheorem} package, then the
+% \key{showonlyrefs} and the \pkg{ntheorem} package, when the
 % \pkg{ntheorem} option \key{thmmarks} is active. The shown equation
 % numbers may come out wrong (seems to be multiplied by 2). The
 % easiest fix is to add the following line
@@ -950,7 +953,7 @@ and the derived files
 %  extensible arrows are the only two of their kind defined by
 %  \pkg{amsmath}, but luckily \pkg{mathtools} helps with that. The
 %  extensible arrow-like symbols in \pkg{mathtools} follow the same
-%  naming scheme as the ones in \pkg{amsmath} so to get an extensible
+%  naming scheme as the one's in \pkg{amsmath} so to get an extensible
 %  \cs{Leftarrow} you simply do a
 %  \begin{verbatim}
 %    \[
@@ -1169,8 +1172,8 @@ and the derived files
 % the default is \cs{,}.
 %
 % As an extra trick the fences will behave as open and closing fences
-% inconstract to their auto-scaling nature.\footnote{\cs{left} and
-%   \cs{right} does \emph{not} produce open an closing fences, thus
+% in constract to their auto-scaling nature.\footnote{\cs{left} and
+%   \cs{right} do \emph{not} produce open and closing fences, thus
 %   the space before or after may be too large. Inside this
 %   construction they behave.}
 % 
@@ -1345,7 +1348,7 @@ and the derived files
 %  \end{codesyntax}
 %  \ProvidedBy{Lars Madsen}{2008/06/05}
 %  In \cite{Swanson}, Ellen Swanson recommends that when ever one has
-%  a long displayed formula, spannig several lines, and it is
+%  a long displayed formula, spanning several lines, and it is
 %  unfeasible to align against a relation within the first line, then
 %  all lines in the display should be aligned at the left most edge of
 %  the first line, and all subsequent lines should be indented by 2em
@@ -1577,7 +1580,7 @@ and the derived files
 %  \end{codesyntax}
 %  \cttPosting{Gabriel Zachmann and Donald Arseneau}{2000/05/12--13}
 %  \pkg{amsmath} provides the command \cs{intertext} for interrupting
-%  a multi line display while still maintaining the alignment points.
+%  a multiline display while still maintaining the alignment points.
 %  However the spacing often seems quite excessive as seen below.
 %  \begin{verbatim}
 %    \begin{align}
@@ -1610,7 +1613,7 @@ and the derived files
 %  the equations in a multiline calculation, then this opening up
 %  value also applies to the spacing above and below the original
 %  \cs{shortintertext} and \cs{intertext}.  \tsxPosting{Tobias Weh
-%    \\(refering to a suggestion by Chung-chieh Shan)}{2011/05/29}
+%    \\(referring to a suggestion by Chung-chieh Shan)}{2011/05/29}
 % It can be illustrated using the following example, an interested
 % reader, can apply it with and with out the original \cs{intertext}
 % and \cs{shortintertext}.
@@ -2063,7 +2066,7 @@ and the derived files
 %    \cs{end}\arg{spreadlines}
 %  \end{codesyntax}
 %  \cttPosting{Michael J.~Downes}{2002/10/17}
-%  The spacing between lines in a multi line math environment such as
+%  The spacing between lines in a multiline math environment such as
 %  \env{gather} is governed by the dimension \cs{jot}. The
 %  \env{spreadlines} environment takes one argument denoting the
 %  value of \cs{jot} inside the environment:
@@ -2169,7 +2172,7 @@ and the derived files
 %    \SpecialUsageIndex{\splitdfrac}\cs{splitdfrac}\marg{numer}\marg{denom}
 %  \end{codesyntax}
 %  \cttPosting{Michael J.~Downes}{2001/12/06}
-%  These commands provide split fractions e.g., multi line fractions:
+%  These commands provide split fractions e.g., multiline fractions:
 %  \begin{verbatim}
 %    \[
 %      a=\frac{
@@ -2547,9 +2550,9 @@ and the derived files
 % Next we need to remember to deactivate the manual tags switch. This
 % is usually done using \verb|\MT_extended_maketag:n|, but this is not
 % the case if the show manual tags is false and the manual tag is not
-% refered to. 
+% referred to. 
 % \changes{v1.12}{2011/06/08}{Added the falsification of manual tag
-% when show manual tags is off and maual tag is not refered to}
+% when show manual tags is off and maual tag is not referred to}
 %    \begin{macrocode}
               { \global\MH_set_boolean_F:n {manual_tag} }
               { \MT_prev_tagform:n {#1} }
@@ -2721,7 +2724,7 @@ and the derived files
 %
 %  \begin{macro}{\noeqref}
 %   \changes{v1.04}{2008/03/26}{Added \cs{noeqref} (daleif)}
-%   Macro for adding numbers to non-refered equations. Syntax similar
+%   Macro for adding numbers to non-referred equations. Syntax similar
 %   to \cs{nocite}.
 %    \begin{macrocode}
 \MHInternalSyntaxOff
@@ -4037,7 +4040,7 @@ and the derived files
 }
 %    \end{macrocode}
 %  \end{macro}
-%
+% 
 %  \subsection{Swapping above display skip}
 %
 % \begin{macro}{\SwapAboveDisplaySkip}
