@@ -1341,6 +1341,21 @@ and the derived files
 %  The environments \env{rcases}, \env{rcases*}, \env{drcases} and
 %  \env{drcases*} are equivalent to \env{cases} and \env{dcases}, but
 %  here the brace is placed on the right instead of on the left.
+% \begin{verbatim}
+% \[
+% \begin{rcases*}
+%   x^2 & for $x>0$\\ 
+%   x^3 & else
+% \end{rcases*} \quad \Rightarrow \cdots
+% \]
+% \end{verbatim}
+% \[
+% \begin{rcases*}
+%   x^2 & for $x>0$\\ 
+%   x^3 & else
+% \end{rcases*} \quad \Rightarrow\cdots
+% \]
+%
 %
 %  \subsubsection{Emulating indented lines in alignments}
 %  \begin{codesyntax}
@@ -1654,6 +1669,9 @@ and the derived files
 %  to about 3pt less space above and below), the spacing around
 %  \cs{intertext} should now match the normal spacing going into and
 %  out of an \env{align}.
+%
+% \textbf{Tip:} \cs{intertext} and \cs{shortintertext} also works
+% within \env{gather}.
 %
 %  \subsection{Paired delimiters}
 %
