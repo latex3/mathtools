@@ -269,7 +269,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{2748}
+%  \CheckSum{2757}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -4717,13 +4717,24 @@ and the derived files
 %  December~20th 2000 by Michael J.~Downes. The comments are his. I
 %  have added some formatting options to the arguments so that a user
 %  can emulate the \pkg{isotope} package.
+%
+% \changes{v.1.12}{2012/04/19}{Extended \cs{prescript} to change style
+% if used in say S context. Requestd by Oliver Buerschaper.}
+%  Update 2012: One drawback from MJD's original implementation, is
+%  that the math style is hardwired, such that if used in say
+%  \cs{scriptstyle} context, then the style/size of the prescript
+%  remain the same size. A slightly expensive fix, is to use the
+%  \cs{mathchoice} construction. First exdent MJD's code a little
+%  (keeping his comments)
+% \begin{macro}{\MT_prescript_inner:}
+% We make the style an extra forth argument
 %    \begin{macrocode}
-\DeclareRobustCommand{\prescript}[3]{
+\newcommand{\MT_prescript_inner:}[4]{
 %    \end{macrocode}
 %  Put the sup in box 0 and the sub in box 2.
 %    \begin{macrocode}
-  \@mathmeasure\z@\scriptstyle{\MT_prescript_sup:{#1}}
-  \@mathmeasure\tw@\scriptstyle{\MT_prescript_sub:{#2}}
+  \@mathmeasure\z@#4{\MT_prescript_sup:{#1}}
+  \@mathmeasure\tw@#4{\MT_prescript_sub:{#2}}
   \if_dim:w \wd\tw@>\wd\z@
     \setbox\z@\hbox to\wd\tw@{\hfil\unhbox\z@}
   \else:
@@ -4740,6 +4751,24 @@ and the derived files
 %    \begin{macrocode}
   \mathopen{\vphantom{\MT_prescript_arg:{#3}}}^{\box\z@}\sb{\box\tw@}
   \MT_prescript_arg:{#3}
+}
+%    \end{macrocode}
+% \end{macro}
+% Next create \cs{prescript} using \cs{mathchoice} 
+%    \begin{macrocode}
+\DeclareRobustCommand{\prescript}[3]{
+  \mathchoice
+%    \end{macrocode}
+%  In D and T style, we use MJD's default:
+%    \begin{macrocode}
+    {\MT_prescript_inner:{#1}{#2}{#3}{\scriptstyle}}
+    {\MT_prescript_inner:{#1}{#2}{#3}{\scriptstyle}}
+%    \end{macrocode}
+%  In the others we step one style down. Of couse in SS style, using
+%  \cs{scriptscript} may seem wrong, but there is no lower style.
+%    \begin{macrocode}
+    {\MT_prescript_inner:{#1}{#2}{#3}{\scriptscriptstyle}}
+    {\MT_prescript_inner:{#1}{#2}{#3}{\scriptscriptstyle}}
 }
 %    \end{macrocode}
 %  \end{macro}
