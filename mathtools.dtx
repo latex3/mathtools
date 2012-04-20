@@ -2750,7 +2750,7 @@ and the derived files
 \MHInternalSyntaxOff
 \newcommand\noeqref[1]{\@bsphack
   \@for\@tempa:=#1\do{%
-    \@safe@activestrue&
+    \@safe@activestrue%
     \edef\@tempa{\expandafter\@firstofone\@tempa}%
     \if@filesw\protected@write\@auxout{}%
     {\string\MT@newlabel{\@tempa}}\fi%
