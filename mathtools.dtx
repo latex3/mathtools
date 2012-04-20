@@ -269,7 +269,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{2757}
+%  \CheckSum{2763}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -2742,19 +2742,37 @@ and the derived files
 %
 %  \begin{macro}{\noeqref}
 %   \changes{v1.04}{2008/03/26}{Added \cs{noeqref} (daleif)}
+%   \changes{v1.12}{2012/04/20}{Labels containing active chars (babel)
+%   are now allowed}
 %   Macro for adding numbers to non-referred equations. Syntax similar
 %   to \cs{nocite}.
 %    \begin{macrocode}
 \MHInternalSyntaxOff
 \newcommand\noeqref[1]{\@bsphack
   \@for\@tempa:=#1\do{%
+    \@safe@activestrue&
     \edef\@tempa{\expandafter\@firstofone\@tempa}%
     \if@filesw\protected@write\@auxout{}%
-    {\string\MT@newlabel{\@tempa}}\fi}
+    {\string\MT@newlabel{\@tempa}}\fi%
+  \@safe@activesfalse}
   \@esphack}
-\MHInternalSyntaxOn
+
 %    \end{macrocode}
 %  \end{macro}
+%    
+% \begin{macro}{\@safe@activestrue}
+% \begin{macro}{\@safe@activesfalse}
+%   These macros are provided by babel. We \emph{provide} them here,
+%   just to make sure they exist.
+%    \begin{macrocode}
+\providecommand\@safe@activestrue{}%
+\providecommand\@safe@activesfalse{}%
+
+\MHInternalSyntaxOn
+%    \end{macrocode}
+%   
+% \end{macro}
+% \end{macro}
 %
 %  \subsection{Extensible arrows etc.}
 %
