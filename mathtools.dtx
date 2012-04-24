@@ -2354,7 +2354,7 @@ and the derived files
 %    \begin{macrocode}
 %<*package>
 \ProvidesPackage{mathtools}%
-  [2011/04/06 v1.11 mathematical typesetting tools]
+  [2012/04/24 v1.12 mathematical typesetting tools]
 %    \end{macrocode}
 % \changes{v1.10}{2011/02/12}{Might as well make sure that we need the
 % latest version of \texttt{mhsetup}}
@@ -2551,7 +2551,9 @@ and the derived files
 %    \end{macrocode}
 % We test if the equation was labelled. We already know if it was
 % tagged manually. Have to watch out for \TeX\ inserting a blank line
-% so do not let the tag have width zero.
+% so do not let the tag have width zero. Rememeber
+% \cs{@safe@activestrue/false} in order to handle active chars in labels.
+% \changes{v1.12}{2012/04/24}{Added \cs{@safe@activestrue/false}}
 %    \begin{macrocode}
   \if_meaning:NN \df@label\@empty
     \MH_if_boolean:nTF {manual_tag}% this was \MH_if_boolean:nT before
@@ -2563,7 +2565,8 @@ and the derived files
     \MH_if_boolean:nTF {manual_tag}
       { \MH_if_boolean:nTF {show_manual_tags}
           { \MT_prev_tagform:n {#1} }
-          { \@ifundefined{MT_r_\df@label}
+          { \@safe@activestrue
+            \@ifundefined{MT_r_\df@label}
 %    \end{macrocode}
 % Next we need to remember to deactivate the manual tags switch. This
 % is usually done using \verb|\MT_extended_maketag:n|, but this is not
@@ -2574,11 +2577,15 @@ and the derived files
 %    \begin{macrocode}
               { \global\MH_set_boolean_F:n {manual_tag} }
               { \MT_prev_tagform:n {#1} }
+              \@safe@activesfalse
           }
       }
-      { \@ifundefined{MT_r_\df@label}
+      { 
+        \@safe@activestrue
+        \@ifundefined{MT_r_\df@label}
           { }
           { \refstepcounter{equation}\MT_prev_tagform:n {#1} }
+        \@safe@activesfalse
       }
   \fi:
   \global\MH_set_boolean_T:n {raw_maketag}
@@ -2587,6 +2594,7 @@ and the derived files
 %  \end{macro}
 %  \begin{macro}{\MT_extended_maketag:n}
 %  The extended version of \cs{maketag@@@}.
+% \changes{v1.12}{2012/04/24}{Added \cs{@safe@activestrue/false}}
 %    \begin{macrocode}
 \def\MT_extended_maketag:n #1{
   \ifx\df@label\@empty
@@ -2596,9 +2604,11 @@ and the derived files
       {
         \MH_if_boolean:nTF {show_manual_tags}
           { \MT_maketag:n {#1} }
-          { \@ifundefined{MT_r_\df@label}
+          { \@safe@activestrue
+            \@ifundefined{MT_r_\df@label}
               { }
               { \MT_maketag:n {#1}     }
+            \@safe@activesfalse
           }
       }
       { \MT_maketag:n {#1} }
@@ -2744,6 +2754,9 @@ and the derived files
 %   \changes{v1.04}{2008/03/26}{Added \cs{noeqref} (daleif)}
 %   \changes{v1.12}{2012/04/20}{Labels containing active chars (babel)
 %   are now allowed}
+%   \changes{v1.12}{2012/04/24}{\cs{noeqref} will now make a reference
+%   warning if users use undefined labels in \cs{noeqref}, requested
+%   by Tue Christensen}
 %   Macro for adding numbers to non-referred equations. Syntax similar
 %   to \cs{nocite}.
 %    \begin{macrocode}
@@ -2752,6 +2765,11 @@ and the derived files
   \@for\@tempa:=#1\do{%
     \@safe@activestrue%
     \edef\@tempa{\expandafter\@firstofone\@tempa}%
+    \@ifundefined{r@\@tempa}{%
+      \protect\G@refundefinedtrue%
+      \@latex@warning{Reference `\@tempa' on page \thepage \space
+        undefined (\string\noeqref)}%
+    }{}%
     \if@filesw\protected@write\@auxout{}%
     {\string\MT@newlabel{\@tempa}}\fi%
   \@safe@activesfalse}
