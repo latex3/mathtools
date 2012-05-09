@@ -66,7 +66,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: mathtools 2011/04/06 v1.11}
+\Msg{* Package: mathtools 2012/05/09 v1.12}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -127,7 +127,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{mathtools.drv}%
-  [2011/04/06 v1.11 mathematical typesetting tools]
+  [2012/05/09 v1.12 mathematical typesetting tools]
 \documentclass{ltxdoc}
 \IfFileExists{fourier.sty}{\usepackage{fourier}}{}
 \addtolength\marginparwidth{-25pt}
@@ -274,8 +274,9 @@ and the derived files
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
 %
-%  \author{Morten H\o gholm, Lars Madsen,\\ Will Robertson and Joseph
-%  Wright\\ (maintainers)}
+%  \author{Lars Madsen, Will Robertson and Joseph
+%  Wright\\ (maintainers)\thanks{The maintainers would like to thank
+%  Morten H\o gholm for his contributions to this package}}
 %  \date{\filedate}
 %
 %  \maketitle
@@ -782,6 +783,13 @@ and the derived files
 %    \usetagform{default}
 %  \end{verbatim}
 %
+%  \changes{v1.12}{2012/05/09}{Added caveat}
+%  \noindent\textbf{Caveat regarding \pkg{ntheorem}}: If you like to
+%  change the appearence of the tags \emph{and} you are also using the
+%  \pkg{ntheorem} package, then please postpone the change of
+%  appearance until \emph{after} loading \pkg{ntheorem}. (In order to
+%  do its thing \pkg{ntheorem} has to mess with the tags\dots)
+%
 %  \subsubsection{Showing only referenced tags}
 %
 %  \begin{codesyntax}
@@ -882,7 +890,9 @@ and the derived files
 %    \SpecialUsageIndex{\noeqref}\cs{noeqref}\marg{label,label,\dots}
 %  \end{codesyntax}
 %  \FeatureRequest{Rasmus Villemoes}{2008/03/26}
-%  The syntax is somewhat similar to \cs{nocite}.
+%  The syntax is somewhat similar to \cs{nocite}. If a label in the
+%  list is undefined we will throw a warning in the same manner as
+%  \cs{ref}. 
 %
 %  \medskip\noindent\textbf{BUG 1:} Unfortunately the use of the
 %  \key{showonlyref} introduce a bug within amsmath's typesetting
