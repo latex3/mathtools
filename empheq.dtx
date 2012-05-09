@@ -126,7 +126,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{empheq.drv}%
-  [2007/12/03 v2.12 Emphasizing equations (MH)]
+  [2012/05/09 v2.13 Emphasizing equations]
 \documentclass{ltxdoc}
 \usepackage{mathpazo}
 \usepackage[overload]{empheq}
@@ -356,7 +356,10 @@ and the derived files
 %  \title{The \pkg{empheq} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}\\
 %  Emphasizing equations in \LaTeXe}
-%  \author{Morten H\o gholm}
+%  \author{Lars Madsen, Will Robertson and Joseph
+%  Wright\\ (maintainers)\thanks{The maintainers would like to thank
+%  Morten H\o gholm for all of his work on this package}}
+%  
 %  \date{\filedate}
 %
 %  \maketitle
@@ -1141,6 +1144,23 @@ and the derived files
 %
 %  \subsection{Support for \pkg{ntheorem}}\label{sec:ntheorem-support}
 %
+% \changes{v2.13}{2012/05/09}{Added caveat}
+%  \textbf{Caveat:} Due to an unfortunate interaction between \pkg{empheq} and
+%  \pkg{ntheorem}, users may want to add
+% \begin{verbatim}
+% \usetagform{default}
+% \end{verbatim}
+%  \emph{after} loading \pkg{ntheorem} otherwise the tags may be
+%  placed wrong and any labels within the \env{empheq} environment may
+%  be lost. In the future \pkg{ntheorem} should be able to test for
+%  this and add \verb|\usetagform{default}| automatically.
+%
+%  Users who use \verb|\usetagform| to get another tag design, should
+%  make sure to postpone this configuration until \emph{after} loading
+%  \pkg{ntheorem}. 
+%
+% \bigskip
+%
 %  \changes{v2.00}{2004/04/14}{Added description of the
 %  \opt{ntheorem} option}
 %  \changes{v1.05}{2004/02/16}{Added support for the end-of-theorem
@@ -1545,7 +1565,7 @@ and the derived files
 %  \section{Contact information}
 %
 %  Should you have any feature request, suggestions, or bug reports
-%  then feel free to contact me at
+%  then feel free to contact us at
 %  \begin{quote}
 %    \email{mh.ctan@gmail.com}
 %  \end{quote}
