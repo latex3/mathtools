@@ -66,7 +66,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: mathtools 2012/05/09 v1.12}
+\Msg{* Package: mathtools 2012/05/10 v1.12}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -127,7 +127,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{mathtools.drv}%
-  [2012/05/09 v1.12 mathematical typesetting tools]
+  [2012/05/10 v1.12 mathematical typesetting tools]
 \documentclass{ltxdoc}
 \IfFileExists{fourier.sty}{\usepackage{fourier}}{}
 \addtolength\marginparwidth{-25pt}
@@ -269,7 +269,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{2763}
+%  \CheckSum{2836}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -1817,6 +1817,38 @@ and the derived files
 % The spacing in the last one does not behave like other fences (this
 % is a feature of the \cs{left}\dots\cs{right} construction).
 % \fi
+%
+%
+%  \subsubsection{Expert use}
+%
+%  Within the starred version of \cs{DeclarePairedDelimiter} and
+%  \cs{DeclarePairedDelimiterX} we make a few changes such that the
+%  auto scaled \cs{left} and \cs{right} fences behave as opening and
+%  closing fences, i.e.\ $\sin(x)$ vs. $\sin\left(x\right)$ (the later
+%  made via \verb|$\sin\left(x\right)$|), notice the gab between
+%  '$\sin$' and '('.  In some special cases it may be useful to be
+%  able to tinker with the behavior.
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\reDeclarePairedDelimiterInnerWrapper}\cs{reDeclarePairedDelimiterInnerWrapper}\marg{macro name}\marg{\textnormal{\texttt{star}} or \textnormal{\texttt{nostar}}}\marg{code}
+%  \end{codesyntax}
+%  Internally several macros are created, including two call backs
+%  that take care of the formatting. There is one internal macro for
+%  the starred version, labeled \texttt{star}, the other one is
+%  labeled \texttt{nostar}. Within \meta{code}, \texttt{\#1} will be
+%  replaced by the scaled left fence, \texttt{\#3} the corresponding
+%  scaled right fence, and \texttt{\#2} the stuff in between. For
+%  example, here is how one might turn the content into \cs{mathinner}:
+% \begin{verbatim}
+% \DeclarePairedDelimiter\abs\lvert\rvert
+% \reDeclarePairedDelimiterInnerWrapper\abs{star}{#1#2#3}
+% \reDeclarePairedDelimiterInnerWrapper\abs{nostar}{\mathinner{#1#2#3}}
+% \end{verbatim}
+%  The default values for the call backs corresponds to
+% \begin{verbatim}
+% star:   \mathopen{}\mathclose\bgroup #1#2\aftergroup\egroup #3
+% nostar: \mathopen{#1}#2\mathclose{#3}
+% \end{verbatim}
+%
 %
 %  \subsection{Special symbols}
 %
@@ -3429,6 +3461,41 @@ and the derived files
 %
 %  \subsection{Paired delimiters}
 %
+%  \changes{v1.13}{2012/05/10}{Extended \cs{DeclarePairedDelimiter(X)}}
+%  \begin{macro}{\MT_delim_default_inner_wrappers:n}
+%  In some cases users may want to control the internals a bit more. We
+%  therefore create two call back macros each time the
+%  \cs{DeclarePaired...} macro is issued. The default value of these
+%  call backs are provided by |\MT_delim_default_inner_wrappers:n|
+%    \begin{macrocode}
+\newcommand\MT_delim_default_inner_wrappers:n [1]{
+   \@namedef{MT_delim_\MH_cs_to_str:N #1 _star_wrapper:nnn}##1##2##3{
+      \mathopen{}\mathclose\bgroup ##1 ##2 \aftergroup\egroup ##3
+    }
+    \@namedef{MT_delim_\MH_cs_to_str:N #1 _nostar_wrapper:nnn}##1##2##3{
+      \mathopen{##1}##2\mathclose{##3}
+    }
+  }
+
+%    \end{macrocode}
+% \begin{macro}{\reDeclarePairedDelimiterInnerWrapper}
+%   Macro enabling the user to alter an existing call back. Note that
+%   currently no checks are performed. First argument is the name of
+%   the macro we are altering (as defined via \cs{DeclarePaired...}),
+%   the second is \texttt{star} or \texttt{nostar}. In the last
+%   argument \texttt{\#1} and \texttt{\#3} respectively refer to the
+%   scaled fences and \texttt{\#3} refer to whatever come between.
+%    \begin{macrocode}
+\newcommand\reDeclarePairedDelimiterInnerWrapper[3]{
+  \@namedef{MT_delim_\MH_cs_to_str:N #1 _ #2 _wrapper:nnn}##1##2##3{
+    #3
+  }
+}
+
+%    \end{macrocode}
+%   
+% \end{macro}
+%  \end{macro}
 %  \begin{macro}{\DeclarePairedDelimiter}
 %  \changes{v1.06}{2008/08/01}{Made user command robust}
 %  This macro defines |#1| to be a control sequence that takes either
@@ -3442,9 +3509,13 @@ and the derived files
 %  \changes{1.08e}{2010/09/02}{`Fixed' \cs{left}\dots\cs{right} bad spacing}
 %  \changes{1.08e}{2010/09/14}{redid the \cs{left}\dots\cs{right} fix,
 %  see \cs{DeclarePairedDelimiterX} for details.}
+%  \changes{v1.13}{2012/05/10}{Using call back instead}
 %    \begin{macrocode}
+    \MT_delim_default_inner_wrappers:n{#1}
     \@namedef{MT_delim_\MH_cs_to_str:N #1 _star:}##1
-        {\mathopen{}\mathclose\bgroup\left#2 ##1 \aftergroup\egroup\right #3}%
+      %{\mathopen{}\mathclose\bgroup\left#2 ##1 \aftergroup\egroup\right #3}%
+      { \@nameuse{MT_delim_\MH_cs_to_str:N #1 _star_wrapper:nnn}%
+           {\left#2}{##1}{\right#3} }%
 %    \end{macrocode}
 %  The command with optional argument. It should be \cs{bigg} or
 %  alike.
@@ -3457,9 +3528,15 @@ and the derived files
 %    \end{macrocode}
 %  With the default optional argument we wind up with \cs{relax},
 %  else we get \cs{biggr} and \cs{biggl} etc.
+%  \changes{v1.13}{2012/05/10}{Using call back instead}
 %    \begin{macrocode}
-          \mathopen{\@nameuse {\MH_cs_to_str:N ##1 l} #2} ##2 
-          \mathclose{\@nameuse {\MH_cs_to_str:N ##1 r} #3}}
+          %\mathopen{\@nameuse {\MH_cs_to_str:N ##1 l} #2} ##2 
+          %\mathclose{\@nameuse {\MH_cs_to_str:N ##1 r} #3}}
+          \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostar_wrapper:nnn}%
+             {\@nameuse {\MH_cs_to_str:N ##1 l} #2}
+             {##2}
+             {\@nameuse {\MH_cs_to_str:N ##1 r} #3}
+        }
 %    \end{macrocode}
 %  The user command comes here. Just check for the star and choose
 %  the right internal command.
@@ -3481,7 +3558,8 @@ and the derived files
 %  can specify the number of arguments the created macro has, and they
 %  can specify the code for the inner part of the macro. Other than
 %  that the code is fairly similar to \cs{DeclarePairedDelimiter}
-% \changes{v1.08e}{2010/09/02}{Provided better implementation of \cs{DeclarePairedDelimiterX}}
+%  \changes{v1.08e}{2010/09/02}{Provided better implementation of 
+%  \cs{DeclarePairedDelimiterX}}
 %    \begin{macrocode}
 \def\MHempty{}
 \def\DeclarePairedDelimiterX#1[#2]#3#4#5{%
@@ -3499,6 +3577,11 @@ and the derived files
       \fi
     \fi
 %    \end{macrocode}
+%  \changes{v1.13}{2012/05/10}{Using call back instead}
+%  Initiate the default call backs.
+%    \begin{macrocode}
+    \MT_delim_default_inner_wrappers:n{#1}
+%    \end{macrocode}
 % We make sure to store the delimiter size in the local variable
 % \cs{delimsize}. Then users can refer to the size in the fifth
 % argument. In the starred version it will refer to \cs{middle} and in
@@ -3510,16 +3593,20 @@ and the derived files
         [#2]
         {
           \begingroup
-          \def\delimsize{\middle}
+            \def\delimsize{\middle}
 %    \end{macrocode}
 % This is slightly controversial, \cs{left}\dots\cs{right} are known
 % to produce an inner atom, thus may cause different spacing than
-% normal delimiters. We `fix' this by introducing \cs{mathopen} and \cs{mathclose}:
+% normal delimiters. We `fix' this by introducing \cs{mathopen} and
+% \cs{mathclose}. This change is now factored out into call backs. 
 % \changes{v1.08e}{2010/09/14}{redid the left/right fix, inspired by
 % ctt thread named `spacing after \cs{right}) and before \cs{left})'
 % started 2010-08-12.}
+% \changes{v1.13}{2012/05/10}{Using call back instead}
 %    \begin{macrocode}
-            \mathopen{}\mathclose\bgroup\left#3 #5 \aftergroup\egroup\right#4
+            %\mathopen{}\mathclose\bgroup\left#3 #5 \aftergroup\egroup\right#4
+            \@nameuse{MT_delim_\MH_cs_to_str:N #1 _star_wrapper:nnn}
+              {\left#3}{#5}{\right#4}
           \endgroup
         }
 %    \end{macrocode}
@@ -3548,19 +3635,30 @@ and the derived files
 %    \end{macrocode}
 % Next we provide the inner workhorse. We need a bit of expansion
 % magic to get \cs{delimsize} to work.
+% \changes{v1.13}{2012/05/10}{Using call back instead}
 %    \begin{macrocode}
     \@xp\@xp\@xp
       \newcommand
         \@xp\csname MT_delim_\MH_cs_to_str:N #1 _nostar_inner:\endcsname
         [#2]
         {
-          \mathopen{%
+          %\mathopen{%
+          %  \let\MHempty\@gobble
+          %  \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize l\endcsname #3} 
+          %#5
+          %\mathclose{%
+          %  \let\MHempty\@gobble
+          %  \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize r\endcsname #4}
+          \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostar_wrapper:nnn}
+          {
             \let\MHempty\@gobble
-            \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize l\endcsname #3} 
-          #5
-          \mathclose{%
+            \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize l\endcsname #3
+          }
+          {#5}
+          {
             \let\MHempty\@gobble
-            \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize r\endcsname #4}
+            \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize r\endcsname #4
+          }
           \endgroup
         }
     \DeclareRobustCommand{#1}{
