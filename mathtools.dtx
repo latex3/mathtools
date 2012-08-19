@@ -1,6 +1,7 @@
 % \iffalse meta-comment
 %
 % Copyright (C) 2004-2011 by Morten Hoegholm
+% Copyright (C) 2012      by Lars Madsen
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -1668,10 +1669,10 @@ and the derived files
 %    \SpecialKeyIndex{original-intertext}$\key{original-intertext}=\texttt{true}\vert\texttt{false}$ \quad(default: \texttt{false})\\
 %    \SpecialKeyIndex{original-shortintertext}$\key{original-shortintertext}=\texttt{true}\vert\texttt{false}$ 
 %    \quad(default: \texttt{false})\\ 
-%    \SpecialKeyIndex{above-intertext-dim}$\key{above-intertext-dim}=\meta{dimen}$ \quad(default: 0pt)\\
-%    \SpecialKeyIndex{below-intertext-dim}$\key{below-intertext-dim}=\meta{dimen}$ \quad(default: 0pt)\\
-%    \SpecialKeyIndex{above-shortintertext-dim}$\key{above-shortintertext-dim}=\meta{dimen}$ \quad(default: 3pt)\\
-%    \SpecialKeyIndex{below-shortintertext-dim}$\key{below-shortintertext-dim}=\meta{dimen}$ \quad(default: 3pt)
+%    \SpecialKeyIndex{above-intertext-sep}$\key{above-intertext-sep}=\meta{dimen}$ \quad(default: 0pt)\\
+%    \SpecialKeyIndex{below-intertext-sep}$\key{below-intertext-sep}=\meta{dimen}$ \quad(default: 0pt)\\
+%    \SpecialKeyIndex{above-shortintertext-sep}$\key{above-shortintertext-sep}=\meta{dimen}$ \quad(default: 3pt)\\
+%    \SpecialKeyIndex{below-shortintertext-sep}$\key{below-shortintertext-sep}=\meta{dimen}$ \quad(default: 3pt)
 %  \end{codesyntax}
 %  The updated \cs{shortintertext} will look like the original version
 %  unless for areas with an enlarged \cs{jot} value (see for example
@@ -4516,20 +4517,31 @@ and the derived files
 %  original \cs{intertext} in case a user would rather want it.
 % \begin{macro}{\MT_orig_intertext:}
 % \begin{macro}{\MT_intertext:}
-% \begin{macro}{\l_MT_above_intertext_dim}
-% \begin{macro}{\l_MT_below_intertext_dim}
+% \changes{v1.13}{2012/08/19}{\cs{l_MT_X_intertext_dim} renamed to 
+% \cs{l_MT_X_intertext_sep}}
+% \begin{macro}{\l_MT_above_intertext_sep}
+% \begin{macro}{\l_MT_below_intertext_sep}
 %  First store the originam Ams version.
 %    \begin{macrocode}
 \MH_let:NwN \MT_orig_intertext: \intertext@
 %    \end{macrocode}
 % And then for some reconfiguration. First a few lengths
+% \changes{v1.13}{2012/08/19}{Fixed typos and changed the names}
 %    \begin{macrocode}
-\newdimen\l_MT_above_intertext_dim
-\newdimen\l_MT_below_intertext_dim
+\newdimen\l_MT_above_intertext_sep
+\newdimen\l_MT_below_intertext_sep
 \define@key{\MT_options_name:}
-  {aboveintertextdim}{\setlength\l_MT_above_interetext_dim{#1}}
+  {aboveintertextdim}{\setlength\l_MT_above_intertext_sep{#1}}
 \define@key{\MT_options_name:}
-  {belowintertextdim}{\setlength\l_MT_below_intertext_dim{#1}}
+  {belowintertextdim}{\setlength\l_MT_below_intertext_sep{#1}}
+\define@key{\MT_options_name:}
+  {above-intertext-dim}{\setlength\l_MT_above_intertext_sep{#1}}
+\define@key{\MT_options_name:}
+  {below-intertext-dim}{\setlength\l_MT_below_intertext_sep{#1}}
+\define@key{\MT_options_name:}
+  {above-intertext-sep}{\setlength\l_MT_above_intertext_sep{#1}}
+\define@key{\MT_options_name:}
+  {below-intertext-sep}{\setlength\l_MT_below_intertext_sep{#1}}
 %    \end{macrocode}
 % Their default values are zero. Now for our extended version of
 % CCShan's solution.  
@@ -4541,7 +4553,7 @@ and the derived files
       \penalty\postdisplaypenalty\vskip\belowdisplayskip
       \vskip-\lineskiplimit      % CCS
       \vskip\normallineskiplimit % CCS
-      \vskip\l_MT_above_intertext_dim
+      \vskip\l_MT_above_intertext_sep
        \vbox{\normalbaselines
         \ifdim\linewidth=\columnwidth
         \else \parshape\@ne \@totalleftmargin \linewidth
@@ -4550,7 +4562,7 @@ and the derived files
       \penalty\predisplaypenalty\vskip\abovedisplayskip%
       \vskip-\lineskiplimit      % CCS
       \vskip\normallineskiplimit % CCS
-      \vskip\l_MT_above_intertext_dim
+      \vskip\l_MT_above_intertext_sep
    }%
 }}
 %    \end{macrocode}
@@ -4578,8 +4590,8 @@ and the derived files
 %  \begin{macro}{\shortintertext}
 %  \begin{macro}{\MT_orig_shortintertext}
 %  \begin{macro}{\MT_shortintertext}
-%  \begin{macro}{\l_above_shortintertext_dim}
-%  \begin{macro}{\l_below_shortintertext_dim}
+%  \begin{macro}{\l_above_shortintertext_sep}
+%  \begin{macro}{\l_below_shortintertext_sep}
 %  This is like \cs{intertext} but uses shorter skips between the
 %  math. Again this turned out to have the same problem as
 %  \cs{intertext}, so we provide two versions.
@@ -4599,13 +4611,24 @@ and the derived files
 }
 %    \end{macrocode}
 % Lengths like above
+% \changes{v1.13}{2012/08/19}{The option was named differently in the
+% manual. Also renamed to use the postfix \emph{sep} instead. Though
+% the old names remain for compatibility.}
 %    \begin{macrocode}
-\newdimen\l_MT_above_shortintertext_dim
-\newdimen\l_MT_below_shortintertext_dim
+\newdimen\l_MT_above_shortintertext_sep
+\newdimen\l_MT_below_shortintertext_sep
 \define@key{\MT_options_name:}
-  {aboveshortintertextdim}{\setlength \l_MT_above_shortintertext_dim{#1}}
+  {aboveshortintertextdim}{\setlength \l_MT_above_shortintertext_sep{#1}}
 \define@key{\MT_options_name:}
-  {belowshortintertextdim}{\setlength \l_MT_below_shortintertext_dim{#1}}
+  {belowshortintertextdim}{\setlength \l_MT_below_shortintertext_sep{#1}}
+\define@key{\MT_options_name:}
+  {above-short-intertext-dim}{\setlength \l_MT_above_shortintertext_sep{#1}}
+\define@key{\MT_options_name:}
+  {below-short-intertext-dim}{\setlength \l_MT_below_shortintertext_sep{#1}}
+\define@key{\MT_options_name:}
+  {above-short-intertext-sep}{\setlength \l_MT_above_shortintertext_sep{#1}}
+\define@key{\MT_options_name:}
+  {below-short-intertext-sep}{\setlength \l_MT_below_shortintertext_sep{#1}}
 %    \end{macrocode}
 % Looks best with the `old' values of the original \cs{jot}
 % setting. So we set them to 3pt each.
@@ -4623,7 +4646,7 @@ and the derived files
     \penalty\postdisplaypenalty\vskip\abovedisplayshortskip
     \vskip-\lineskiplimit      
     \vskip\normallineskiplimit 
-    \vskip\l_MT_above_shortintertext_dim
+    \vskip\l_MT_above_shortintertext_sep
     \vbox{\normalbaselines
       \if_dim:w \linewidth=\columnwidth
       \else:
@@ -4633,7 +4656,7 @@ and the derived files
     \penalty\predisplaypenalty\vskip\abovedisplayshortskip%
     \vskip-\lineskiplimit      
     \vskip\normallineskiplimit 
-    \vskip\l_MT_below_shortintertext_dim
+    \vskip\l_MT_below_shortintertext_sep
   }%
 }
 %    \end{macrocode}
