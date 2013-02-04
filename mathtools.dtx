@@ -790,7 +790,7 @@ and the derived files
 %  change the appearence of the tags \emph{and} you are also using the
 %  \pkg{ntheorem} package, then please postpone the change of
 %  appearance until \emph{after} loading \pkg{ntheorem}. (In order to
-%  do its thing \pkg{ntheorem} has to mess with the tags\dots)
+%  do its thing, \pkg{ntheorem} has to mess with the tags\dots)
 %
 %  \subsubsection{Showing only referenced tags}
 %
@@ -1373,14 +1373,14 @@ and the derived files
 %  \begin{codesyntax}
 %    \SpecialEnvIndex{\MoveEqLeft}\cs{MoveEqLeft}\oarg{number}
 %  \end{codesyntax}
-%  \ProvidedBy{Lars Madsen}{2008/06/05}
-%  In \cite{Swanson}, Ellen Swanson recommends that when ever one has
-%  a long displayed formula, spanning several lines, and it is
-%  unfeasible to align against a relation within the first line, then
-%  all lines in the display should be aligned at the left most edge of
-%  the first line, and all subsequent lines should be indented by 2em
-%  (or if needed by a smaller amount). That is we are talking about
-%  displayes that end up looking like this
+%  \ProvidedBy{Lars Madsen}{2008/06/05} In \cite{Swanson}, Ellen
+%  Swanson recommends that when ever one has a long displayed formula,
+%  spanning several lines, and it is unfeasible to align against a
+%  relation within the first line, then all lines in the display
+%  should be aligned at the left most edge of the first line, and all
+%  subsequent lines should be indented by 2\,em (or if needed by a
+%  smaller amount). That is we are talking about displayes that end up
+%  looking like this
 %  \begin{align*}
 %    \MoveEqLeft \framebox[10cm][c]{Long first line}\\
 %    & = \framebox[6cm][c]{ \hphantom{g} 2nd line}\\ 
@@ -2031,6 +2031,12 @@ and the derived files
 %  Subset of \(V\) and subset of \(A\).
 %  \par
 %  \end{quote}
+%
+%  \noindent
+%  It is recommended to load the \pkg{fixltx2e} package \emph{after}
+%  \pkg{mathtools} and the \verb|\mathtoolsset{mathic=true}| option,
+%  as it will make \verb|\(...\)| robust, while maintaining the added
+%  italic correction.
 %
 %  \subsection{Left sub/superscripts}
 %
