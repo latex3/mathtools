@@ -68,7 +68,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: mathtools 2012/05/10 v1.12}
+\Msg{* Package: mathtools 2013/02/11 v1.13}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -79,6 +79,8 @@
 This is a generated file.
 
 Copyright (C) 2002-2011 by Morten Hoegholm
+Copyright (C) 2012      by Lars Madsen
+
 
 This work may be distributed and/or modified under the
 conditions of the LaTeX Project Public License, either
@@ -129,7 +131,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{mathtools.drv}%
-  [2012/05/10 v1.12 mathematical typesetting tools]
+  [2013/02/11 v1.13 mathematical typesetting tools]
 \documentclass{ltxdoc}
 \IfFileExists{fourier.sty}{\usepackage{fourier}}{}
 \addtolength\marginparwidth{-25pt}
@@ -278,7 +280,7 @@ and the derived files
 %
 %  \author{Lars Madsen, Will Robertson and Joseph
 %  Wright\\ (maintainers)\thanks{The maintainers would like to thank
-%  Morten H\o gholm for his contributions to this package}}
+%  Morten H\o gholm for his contributions to this package over the years}}
 %  \date{\filedate}
 %
 %  \maketitle
@@ -320,6 +322,11 @@ and the derived files
 %  \begin{quote}\email{mh.ctan@gmail.com}\end{quote}
 %  This is of course also the address to use in case of bug reports.
 %
+%
+% \medskip\noindent
+% Update 2013: We now makes \cs{(}\cs{)} and \cs[\cs]
+% robust (can be disabled via \texttt{nonrobust} package option).
+% 
 %  \section{Package loading}
 %
 %
@@ -2032,11 +2039,7 @@ and the derived files
 %  \par
 %  \end{quote}
 %
-%  \noindent
-%  It is recommended to load the \pkg{fixltx2e} package \emph{after}
-%  \pkg{mathtools} and the \verb|\mathtoolsset{mathic=true}| option,
-%  as it will make \verb|\(...\)| robust, while maintaining the added
-%  italic correction.
+%  As of 2013, \cs(\cs) are robust, as is the italic corrected versions.
 %
 %  \subsection{Left sub/superscripts}
 %
@@ -2404,7 +2407,7 @@ and the derived files
 %    \begin{macrocode}
 %<*package>
 \ProvidesPackage{mathtools}%
-  [2012/04/24 v1.12 mathematical typesetting tools]
+  [2013/02/11 v1.13 mathematical typesetting tools]
 %    \end{macrocode}
 % \changes{v1.10}{2011/02/12}{Might as well make sure that we need the
 % latest version of \texttt{mhsetup}}
@@ -2413,8 +2416,71 @@ and the derived files
 \RequirePackage{mhsetup}[2010/01/21]
 \MHInternalSyntaxOn
 %    \end{macrocode}
-%
-%  \begin{macro}{\MT_options_name:}
+% \changes{v1.13}{2013/02/11}{Robustifying \cs{(}\cs{)}\cs{[}\cs{]}}
+% We'd like to make \cs{(}\cs{)} and \cs{[}\cs{]} robust. This can
+% easily be done via the \pkg{fixltx2e} package, but auto loading that
+% package may cause problems for some. We make copies instead.
+% \begin{macro}{\EQ_MakeRobust}
+% \begin{macro}{\forced_EQ_MakeRobust}
+%    \begin{macrocode}
+ % borrowed from fixltx2e
+\def\EQ_MakeRobust#1{%
+  \@ifundefined{\expandafter\@gobble\string#1}{%
+    \@latex@error{The control sequence `\string#1' is undefined!%
+      \MessageBreak There is nothing here to make robust}%
+    \@eha
+  }%
+  {%
+    \@ifundefined{\expandafter\@gobble\string#1\space}%
+    {%
+      \expandafter\let\csname
+      \expandafter\@gobble\string#1\space\endcsname=#1%
+      \edef\reserved@a{\string#1}%
+      \def\reserved@b{#1}%
+      \edef\reserved@b{\expandafter\strip@prefix\meaning\reserved@b}%
+      \edef#1{%
+        \ifx\reserved@a\reserved@b
+          \noexpand\x@protect\noexpand#1%
+        \fi
+        \noexpand\protect\expandafter\noexpand
+        \csname\expandafter\@gobble\string#1\space\endcsname}%
+    }%
+    {\@latex@info{The control sequence `\string#1' is already robust}}%
+   }%
+}
+%    \end{macrocode}
+% We also provide a handy alternativ version, that will robustify no
+% matter what. Useful for the \texttt{mathic} option.
+%    \begin{macrocode}
+\def\forced_EQ_MakeRobust#1{%
+  \@ifundefined{\expandafter\@gobble\string#1}{%
+    \@latex@error{The control sequence `\string#1' is undefined!%
+      \MessageBreak There is nothing here to make robust}%
+    \@eha
+  }%
+  {%
+    % \@ifundefined{\expandafter\@gobble\string#1\space}%
+    % {%
+      \expandafter\let\csname
+      \expandafter\@gobble\string#1\space\endcsname=#1%
+      \edef\reserved@a{\string#1}%
+      \def\reserved@b{#1}%
+      \edef\reserved@b{\expandafter\strip@prefix\meaning\reserved@b}%
+      \edef#1{%
+        \ifx\reserved@a\reserved@b
+          \noexpand\x@protect\noexpand#1%
+        \fi
+        \noexpand\protect\expandafter\noexpand
+        \csname\expandafter\@gobble\string#1\space\endcsname}%
+ %    }%
+ %    {\@latex@info{The control sequence `\string#1' is already robust}}%
+   }%
+}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% 
+% \begin{macro}{\MT_options_name:}
 %  \begin{macro}{\mathtoolsset}
 %  The name for the options and a user interface for setting keys.
 %    \begin{macrocode}
@@ -2449,11 +2515,24 @@ and the derived files
   \MH_let:NwN \MH_maybe_nospace_ifnextchar:Nnn \MH_nospace_ifnextchar:Nnn
 }
 %    \end{macrocode}
+% \changes{v1.13}{2013/02/11}{Option to disable robustifying
+% \cs{(}\cs{)} and \cs{[}\cs{]}}
+% Option to disallow robustifying \cs{(}\cs{)} and \cs{[}\cs{]}.
+%    \begin{macrocode}
+\MH_new_boolean:n {robustify}
+\MH_set_boolean_T:n {robustify} 
+\DeclareOption{nonrobust}{
+  \MH_set_boolean_F:n {robustify} 
+}
+%    \end{macrocode}
 %  Pass all other options directly to \pkg{amsmath}.
 %    \begin{macrocode}
 \DeclareOption*{
   \PassOptionsToPackage{\CurrentOption}{amsmath}
 }
+%    \end{macrocode}
+% Executing options
+%    \begin{macrocode}
 \ExecuteOptions{fixamsmath,disallowspaces}
 \ProcessOptions\relax
 %    \end{macrocode}
@@ -2474,6 +2553,19 @@ and the derived files
 }
 %    \end{macrocode}
 %  \end{macro}
+% \changes{v1.13}{2013/02/11}{Make \cs{(}\cs{)} and \cs{[}\cs{]}
+% robust}
+% We start of with making \cs{(}\cs{)} and \cs{[}\cs{]} robust,
+% unless the user explicitly asked us not to.
+%    \begin{macrocode}
+\MH_if_boolean:nT {robustify}{
+  \EQ_MakeRobust\(
+  \EQ_MakeRobust\)
+  \EQ_MakeRobust\[
+  \EQ_MakeRobust\]
+}
+%    \end{macrocode}
+%
 %
 %  \section{Macros I got ideas for myself}
 %
@@ -5011,16 +5103,28 @@ and the derived files
 %  \begin{macro}{\MT_mathic_true:}
 %  \begin{macro}{\MT_mathic_false:}
 %  Renew \cs{(} so that it detects the slant of the font and inserts
-%  an italic correction.
+%  an italic correction. In January 2013 Andrew Swann suggested that
+%  this should be made robust. It is a little tricky, but seems to
+%  work.
+% \changes{v1.13}{2013/02/11}{Added robustness code}
 %    \begin{macrocode}
 \def\MT_mathic_true: {
   \MH_if_boolean:nF {math_italic_corr}{
     \MH_set_boolean_T:n {math_italic_corr}
 %    \end{macrocode}
-%  Save the original meaning if you need to go back.
+%  Save the original meaning if you need to go back (note that this
+%  does not save the robust part of the macro, we fix this later on by
+%  rerobustifying).
 %    \begin{macrocode}
+    \MH_if_boolean:nTF {robustify}{
+      \MH_let:NwN \MT_mathic_redeffer: \DeclareRobustCommand
+    }{
+      \MH_let:NwN \MT_mathic_redeffer: \renewcommand
+    }
     \MH_let:NwN \MT_begin_inlinemath: \(
-    \renewcommand*\({\relax\ifmmode\@badmath\else
+    %\renewcommand*\({
+    \MT_mathic_redeffer:*\({
+      \relax\ifmmode\@badmath\else
       \ifhmode
         \if_dim:w \fontdimen\@ne\font>\z@
           \if_dim:w \lastskip>\z@
@@ -5043,7 +5147,17 @@ and the derived files
 \def\MT_mathic_false: {
   \MH_if_boolean:nT {math_italic_corr}{
     \MH_set_boolean_F:n {math_italic_corr}
-    \MH_let:NwN \( \MT_begin_inlinemath:
+%    \end{macrocode}
+% When \cs{(} is robust, we cannot simply relet it to the old value,
+% as all the robust macro is not saved. Instead we redefined partly
+% and force robustness.
+%    \begin{macrocode}
+    \MH_if_boolean:nTF {robustify}{
+      \edef\({\MT_begin_inlinemath:}%
+      \forced_EQ_MakeRobust\(%
+    }{
+      \MH_let:NwN \( \MT_begin_inlinemath:
+    }
   }
 }
 \MH_new_boolean:n {math_italic_corr}
