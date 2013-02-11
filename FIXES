@@ -1,0 +1,9 @@
+ <= Febuary 2013
+
+Mathtools:
+* robust \(\) and \[\], maintained when mathic is active
+
+
+empheq:
+* typos in doc
+* \eqref is now working again inside the empheq environment including when running under overload

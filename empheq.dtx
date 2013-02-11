@@ -1,6 +1,7 @@
 % \iffalse meta-comment
 %
 % Copyright (C) 2002-2007 by Morten Hoegholm
+% Copyright (C) 2012      by Lars Madsen
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -78,6 +79,8 @@
 This is a generated file.
 
 Copyright (C) 2002-2007 by Morten Hoegholm
+Copyright (C) 2012      by Lars Madsen
+
 
 This work may be distributed and/or modified under the
 conditions of the LaTeX Project Public License, either
@@ -128,7 +131,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{empheq.drv}%
-  [2012/05/09 v2.13 Emphasizing equations]
+  [2013/02/11 v2.13 Emphasizing equations]
 \documentclass{ltxdoc}
 \usepackage{mathpazo}
 \usepackage[overload]{empheq}
@@ -1673,7 +1676,7 @@ and the derived files
 %
 %  \end{thebibliography}
 %
-%  \ StopEventually{}
+%  \StopEventually{}
 %
 %  \EmphEqpart{Implementation}
 %
@@ -1682,7 +1685,7 @@ and the derived files
 %    \begin{macrocode}
 %<*package>
 \ProvidesPackage{empheq}%
-  [2007/12/03 v2.12 Emphasizing equations (MH)]
+  [2013/02/11 v2.13 Emphasizing equations]
 %    \end{macrocode}
 %    \begin{macrocode}
 \RequirePackage{mhsetup}[2004/10/10]
@@ -3188,14 +3191,38 @@ and the derived files
 \define@key{\EQ_options_name:}{Left}{\EQ_upgrade_error:}
 \define@key{\EQ_options_name:}{Right}{\EQ_upgrade_error:}
 %    \end{macrocode}
+% \begin{macro}{\empheqeqrefbase}
+%   This macro is used to locally redefine \cs{eqref}, it will just
+%   point at \cs{textup}, the user can then redefine it if nessary.
+%    \begin{macrocode}
+\let\empheqeqrefbase\textup
+%    \end{macrocode}
+%   
+% \end{macro}
 %  \begin{environment}{empheq}
 %  The environment.
 %    \begin{macrocode}
 \newenvironment{empheq}[2][]{%
+%    \end{macrocode}
+% \begin{macro}{\EQ_saved_maketag}
+% \changes{v2.13}{2013/02/11}{Fixing \cs{eqref}}
+% We start with a small caveat: During processing \cs{maketag@@@} is
+% redefined, enabling us to separate math and eqn numbers. But the
+% user may have used \cs{eqref} in a comment in the math, and
+% \cs{eqref} use \cs{maketag@@@}\dots{} First save the original \cs{maketag@@@}:
+%    \begin{macrocode}
+  \MH_let:NwN\EQ_saved_maketag: \maketag@@@%
+%    \end{macrocode}
+% Next redefine \cs{eqref} to locally bring back the original:
+%    \begin{macrocode}
+  \renewcommand\eqref[1]{\empheqeqrefbase{%
+       \let\maketag@@@\EQ_saved_maketag:%
+       \tagform@{\ref{##1}}}}
   \setkeys{EmphEqEnv}{#2}\setkeys{\EQ_options_name:}{#1}%
   \EmphEqMainEnv}{\endEmphEqMainEnv}
 %    \end{macrocode}
-%  \end{environment}
+%  \end{macro}
+% \end{environment}
 %  \begin{macro}{\DeclareLeftDelimiter}
 %  \begin{macro}{\EQ_declare_left_delimiter:nnnn}
 %  \begin{macro}{\DeclareRightDelimiter}
@@ -3452,6 +3479,14 @@ and the derived files
     \def\EQ_renew_ams_environment:n #1{%
       \MaybeMHPrecedingSpacesOff
       \renewenvironment{#1}[1][]{%
+%    \end{macrocode}
+% \changes{v2.13}{2013/02/11}{Adding \cs{eqref} fix}
+% Remember to add \cs{eqref} fix to the overloaded envs as well.
+%    \begin{macrocode}
+        \MH_let:NwN\EQ_saved_maketag: \maketag@@@%
+        \renewcommand\eqref[1]{\empheqeqrefbase{%
+            \let\maketag@@@\EQ_saved_maketag:%
+            \tagform@{\ref{####1}}}}
         \setkeys{\EQ_options_name:}{##1}%
         \setkeys{EmphEqEnv}{AmS#1}%
         \EmphEqMainEnv
@@ -3527,11 +3562,23 @@ and the derived files
       \setkeys{\EQ_options_name:}{#1}
       \EmphEqMainEnv}
     \MHPrecedingSpacesOn
+%    \end{macrocode}
+% \changes{v2.13}{2013/02/11}{Adding \cs{eqref} fix}
+% Remember to add \cs{eqref} fix to the overloaded envs as well.
+%    \begin{macrocode}
     \renewenvironment{alignat}[1]{
+      \MH_let:NwN\EQ_saved_maketag: \maketag@@@%
+      \renewcommand\eqref[1]{\empheqeqrefbase{%
+          \let\maketag@@@\EQ_saved_maketag:%
+          \tagform@{\ref{##1}}}}
       \setkeys{EmphEqEnv}{AmSalignat=#1}
       \EQ_alignat_optional:w}
       {\endEmphEqMainEnv}
     \renewenvironment{alignat*}[1]{%
+      \MH_let:NwN\EQ_saved_maketag: \maketag@@@%
+      \renewcommand\eqref[1]{\empheqeqrefbase{%
+          \let\maketag@@@\EQ_saved_maketag:%
+          \tagform@{\ref{##1}}}}
       \setkeys{EmphEqEnv}{AmSalignat*=#1}%
       \EQ_alignat_optional:w}%
       {\endEmphEqMainEnv}
