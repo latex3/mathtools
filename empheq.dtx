@@ -131,11 +131,12 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{empheq.drv}%
-  [2013/02/11 v2.13 Emphasizing equations]
+  [2013/02/12 v2.13 Emphasizing equations]
 \documentclass{ltxdoc}
 \usepackage{mathpazo}
 \usepackage[overload]{empheq}
 \usepackage{xcolor,varioref,booktabs,fancybox}
+\usepackage[overload]{textcase}
 
 \pagestyle{headings}
 \hyphenation{emph-eq}
@@ -1408,6 +1409,50 @@ and the derived files
 %    E&= mc^2
 %  \end{empheq}
 %
+%
+%  \section{A few short notes}
+%
+%  \subsection{About $\cs{eqref}$}
+%
+%  Internally \env{empheq} separate the displayed math from
+%  the corresponding equation numbers such that we can add special
+%  delimiters or boxes. This is done by nullifying (or rather
+%  conveniently redefining) an internal command called
+%  \cs{maketag@@@}. Unfortunately, this component is also used by
+%  \cs{eqref} to typeset a reference to an equation number, so in
+%  earlier versions, \cs{eqref} would not work inside an \env{empheq}
+%  environment.  
+%
+% In the current version this should now be working, but if you ever
+% need to mess with \cs{eqref} it may be handy to know what is being
+% done. In essence we do something similar to this:
+% \begin{verbatim}
+%  \let\empheqeqrefbase\textup
+%   ... % next go inside empheq env
+%  \renewcommand\eqref[1]{\empheqeqrefbase{%
+%       \let\maketag@@@\EQsavedmaketag%
+%       \tagform@{\ref{##1}}}}
+% \end{verbatim}
+% Thus if you need to alter things inside \cs{eqref} and need that to
+% work within \env{empheq} as well, you may get away with redefining
+% \cs{empheqeqrefbase}.
+%
+%
+%
+%  \subsection{About changes to $\cs{baselineskip}$}
+%
+%  Users should never mess with \cs{baselineskip} directly, it is not
+%  the correct manner to get double spacing. Have a look at say the
+%  \pkg{setspace} package or similar, or play with
+%  \cs{baselinestretch} followed by \cs{normalsize} to initiate. 
+%
+%  Explanation: We use \cs{parbox} inside to place the display box and
+%  the box containing the eqn numbers. To do its stuff \cs{parbox}
+%  resets some internal settings, in this case, \cs{baselineskip} is
+%  reset to \cs{normalbaselineskip}. So if you don't remember to reset
+%  that one as well\dots
+%
+%
 %  \section{Creating something new}
 %
 %  You can create your own environments and boxes to go with
@@ -1685,7 +1730,7 @@ and the derived files
 %    \begin{macrocode}
 %<*package>
 \ProvidesPackage{empheq}%
-  [2013/02/11 v2.13 Emphasizing equations]
+  [2013/02/12 v2.13 Emphasizing equations]
 %    \end{macrocode}
 %    \begin{macrocode}
 \RequirePackage{mhsetup}[2004/10/10]

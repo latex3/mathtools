@@ -68,7 +68,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: mathtools 2013/02/11 v1.13}
+\Msg{* Package: mathtools 2013/02/12 v1.13}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -131,7 +131,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{mathtools.drv}%
-  [2013/02/11 v1.13 mathematical typesetting tools]
+  [2013/02/12 v1.13 mathematical typesetting tools]
 \documentclass{ltxdoc}
 \IfFileExists{fourier.sty}{\usepackage{fourier}}{}
 \addtolength\marginparwidth{-25pt}
@@ -927,12 +927,29 @@ and the derived files
 % \medskip\noindent\textbf{BUG 2:} Currently there is a bug between
 % \key{showonlyrefs} and the \pkg{ntheorem} package, when the
 % \pkg{ntheorem} option \key{thmmarks} is active. The shown equation
-% numbers may come out wrong (seems to be multiplied by 2). The
-% easiest fix is to add the following line
+% numbers may come out wrong (seems to be multiplied by 2). Or the end
+% marker may be placed in the wrong place if a proof ends with a
+% displayed formula, and that formula is not refered to.
+%
+% There are two possible solutions to this both involving \pkg{empheq}.  
+% The easiest fix is to add the following line
 % \begin{verbatim}
 % \usepackage[overload,ntheorem]{empheq}
 % \end{verbatim}
-% before loading \pkg{ntheorem}. The \pkg{empheq} package fixes some
+% before loading \pkg{ntheorem}. But the \texttt{overload} option of
+% course disables things like \cs{intertext} and \cs{shotintertext}.
+%
+% The other thing to try is to use drop the \texttt{overload} option
+% and use \env{empheq} on the very last expression, as in
+% \begin{verbatim}
+%   \begin{empheq}{align}
+%     A &= B \label {eq:32}\\
+%       & = 1. \label{eq:31}
+%   \end{empheq}
+% \end{proof}
+% \end{verbatim}
+% 
+% The \pkg{empheq} package fixes some
 % problems with \pkg{ntheorem} and lets \pkg{mathtools} get correct
 % access to the equation numbers again.
 % 
@@ -997,7 +1014,25 @@ and the derived files
 %    \cs{xleftrightharpoons}\oarg{sub}\marg{sup}
 %  \end{codesyntax}
 %  \pkg{mathtools} also provides the extensible harpoons shown above.
-%  They're taken from~\cite{Voss:2004}.
+%  They're taken from~\cite{Voss:2004}. For those liking visuals, here
+%  are the macros in use in the order listed in the two boxes above.
+%  \begin{align*}
+%    A &\xleftrightarrow[below]{above} B &
+%    A &\xRightarrow[below]{above} B \\
+%    A &\xLeftarrow[below]{above} B &
+%    A &\xLeftrightarrow[below]{above} B \\
+%    A &\xhookleftarrow[below]{above} B &
+%    A &\xhookrightarrow[below]{above} B \\
+%    A &\xmapsto[below]{above} B \\
+%    A &\xrightharpoondown[below]{above} B &
+%    A &\xrightharpoonup[below]{above} B \\
+%    A &\xleftharpoondown[below]{above} B &
+%    A &\xleftharpoonup[below]{above} B \\
+%    A &\xrightleftharpoons[below]{above} B &
+%    A &\xleftrightharpoons[below]{above} B \\
+%  \end{align*}
+%
+%
 %
 %  \subsubsection{Braces and brackets}
 %
@@ -2407,7 +2442,7 @@ and the derived files
 %    \begin{macrocode}
 %<*package>
 \ProvidesPackage{mathtools}%
-  [2013/02/11 v1.13 mathematical typesetting tools]
+  [2013/02/12 v1.13 mathematical typesetting tools]
 %    \end{macrocode}
 % \changes{v1.10}{2011/02/12}{Might as well make sure that we need the
 % latest version of \texttt{mhsetup}}
