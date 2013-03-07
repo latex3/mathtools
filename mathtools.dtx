@@ -2803,12 +2803,14 @@ and the derived files
 %  We let \cs{eqref} write the label to the \file{aux} file, which is
 %  read at the beginning of the next run. Then we print the equation
 %  number as usual.
+% \changes{v1.14}{2013/03/07}{It was not really robust}
 %    \begin{macrocode}
 \def\MT_extended_eqref:n #1{
   \protected@write\@auxout{}
     {\string\MT@newlabel{#1}}
   \textup{\MT_prev_tagform:n {\ref{#1}}}
 }
+\EQ_makerobust\MT_extended_eqref:n
 %    \end{macrocode}
 %  \end{macro}
 %
