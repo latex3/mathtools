@@ -1509,6 +1509,16 @@ and the derived files
 % Note how the \cs{fboxsep} change only affect the box coming
 % immediately after it.  
 %
+%  \marginpar{\strut\\%
+%    \parbox[b]{\marginparwidth}{\small\sffamily\raggedright
+%      \strut Comment by Qrrbrbirlbel on \url{tex.stackexchange.com}, 2013/05/20.
+%    }\strut
+%  }%
+% As \cs{Aboxed} looks for the alignment \texttt{\&} it may be
+% necessary to \emph{hide} constructions like matrices that also make
+% use of \texttt{\&}. Just add a set of braces around the construction
+% you want to hide. 
+%
 %  \subsubsection{Adding arrows between lines in an alignment}
 %
 %  This first macro is a bit misleading, it is only intended to be
