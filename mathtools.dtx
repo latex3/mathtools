@@ -4759,6 +4759,8 @@ and the derived files
 % \changes{v1.13}{2012/08/19}{The option was named differently in the
 % manual. Also renamed to use the postfix \emph{sep} instead. Though
 % the old names remain for compatibility.}
+% \changes{v1.14}{2014/01/20}{Apparently did not check it good enough,
+% the option should have shortintertext not short-intertext}
 %    \begin{macrocode}
 \newdimen\l_MT_above_shortintertext_sep
 \newdimen\l_MT_below_shortintertext_sep
@@ -4768,12 +4770,18 @@ and the derived files
   {belowshortintertextdim}{\setlength \l_MT_below_shortintertext_sep{#1}}
 \define@key{\MT_options_name:}
   {above-short-intertext-dim}{\setlength \l_MT_above_shortintertext_sep{#1}}
+% old typo in manual
 \define@key{\MT_options_name:}
   {below-short-intertext-dim}{\setlength \l_MT_below_shortintertext_sep{#1}}
 \define@key{\MT_options_name:}
   {above-short-intertext-sep}{\setlength \l_MT_above_shortintertext_sep{#1}}
+% old typo in manual
 \define@key{\MT_options_name:}
   {below-short-intertext-sep}{\setlength \l_MT_below_shortintertext_sep{#1}}
+\define@key{\MT_options_name:}
+  {above-shortintertext-sep}{\setlength \l_MT_above_shortintertext_sep{#1}}
+\define@key{\MT_options_name:}
+  {below-shortintertext-sep}{\setlength \l_MT_below_shortintertext_sep{#1}}
 %    \end{macrocode}
 % Looks best with the `old' values of the original \cs{jot}
 % setting. So we set them to 3pt each.
