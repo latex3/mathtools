@@ -203,6 +203,14 @@ and the derived files
     }%
   }%
 }
+\newcommand*\CommentAdded[1]{%
+  \hskip1sp
+  \marginpar{%
+    \parbox[b]{\marginparwidth}{\small\sffamily\raggedright
+     \strut Comment added\\#1%
+    }%
+  }%
+}
 
 
 \expandafter\def\expandafter\MakePrivateLetters\expandafter{%
@@ -273,7 +281,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{2836}
+%  \CheckSum{3097}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -1322,6 +1330,16 @@ and the derived files
 %  There can be two optional arguments (position and width) and
 %  they're interchangeable.
 %
+%  \medskip\noindent
+%  \textbf{Bug:}
+%  \CommentAdded{2014/05/11}  
+%  If used inside an \env{array} or
+%  a derivative (say, a \env{matrix} variant), \env{multlined} does
+%  not work as expected. The implementation contains an `invisible'
+%  line after the first \env{multline} row, inside an \env{array} this
+%  line is no longer `invisible' because \env{array} sets
+%  \cs{baselineskip} to zero. Currently we have no workaround for this.
+%
 %  \subsubsection{More \env{cases}-like environments}
 %
 %  \begin{codesyntax}
@@ -1799,7 +1817,7 @@ and the derived files
 %
 %  \begin{codesyntax}
 %    \SpecialUsageIndex{\DeclarePairedDelimiterX}
-%    \cs{DeclarePairedDelimiterX}\marg{cmd}\oarg{num args}\marg{left_delim}\marg{right_delim}\marg{code}\\
+%    \cs{DeclarePairedDelimiterX}\marg{cmd}\oarg{num args}\marg{left_delim}\marg{right_delim}\marg{body}\\
 %     \cs{delimsize}
 %  \end{codesyntax}
 %  \ProvidedBy{Lars Madsen}{2010/06/15} 
@@ -1872,9 +1890,96 @@ and the derived files
 % is a feature of the \cs{left}\dots\cs{right} construction).
 % \fi
 %
+% We can do even more, using \cs{DeclarePairedDelimiterX} we can make
+% an easier math syntax for certain constructions. Fx for building
+% sets, try this\footnote{The reason for \cs{SetSymbol} can be seen
+% when one want to build a complicated set where the condition has to
+% span several lines, then one may have to resort to a different
+% construction, giving the need to be able to refer back to the symbol
+% being used.}
+% \begin{verbatim}
+%   % just to make sure it exists
+%   \providecommand\given{} 
+%   % can be useful to refer to this outside \Set
+%   \newcommand\SetSymbol[1][]{\nonscript\:\vert\nonscript\:}
+%   \DeclarePairedDelimiterX\Set[1]\{\}{%
+%      \renewcommand\given{\SetSymbol[\delimsize]}
+%      #1
+%   }
+% \end{verbatim}
+%   \providecommand\given{} 
+%   \newcommand\SetSymbol[1][]{\nonscript\:\vert\nonscript\:}
+%   \DeclarePairedDelimiterX\Set[1]\{\}{%
+%      \renewcommand\given{\SetSymbol[\delimsize]}
+%      #1
+%   }
+% \begin{verbatim}
+% \[ \Set{ x \in X \given x^2 > 1 } \]
+% \end{verbatim}
+% \[ \Set{ x \in X \given x^2 > 1 } \]
+% Thus we end up with a syntax much closer to how we read this
+% aloud. Also we hide the `given' symbol for easy replacement.
+%
+% Combining with \pkg{etoolbox} it becomes easy to make a function
+% that automatically provide a marker for a blank argument:
+% \begin{verbatim}
+% \usepackage{etoolbox}
+% \DeclarePairedDelimiterX\norm[1]\lVert\rVert{
+%   \ifblank{#1}{\:\cdot\:}{#1}
+% }  
+% \end{verbatim}
+% Then \verb|\norm{}| will give you $\lVert\:\cdot\:\rVert$ while
+% \verb|\norm{a}| gives the expected $\lVert a \rVert$.
+%
+% \begin{codesyntax}
+% \SpecialUsageIndex{\DeclarePairedDelimiterXPP}
+% \cs{DeclarePairedDelimiterXPP}\marg{cmd}\oarg{num args}\marg{pre
+%  code}\marg{left_delim}\\%
+% \marg{right_delim}\marg{post code}\marg{body}
+% \end{codesyntax}
+% \FeatureRequest{Barbara Beeton (on TSE)}{2013/10/07}
+% \cs{DeclarePairedDelimiterX} has an annoying caveat: it is very hard
+% to make a macro \verb|\lnorm{a}| that should result in $\lVert
+% a\rVert_2$. The added `\verb|_2|' is hard to get around the argument
+% parsing. As a consequence we provide
+% \cs{DeclarePairedDelimiterXPP}\footnote{Extended
+% DeclarePairedDelimiter with Pre and Post code.} With the addition of
+% the \marg{pre code} and \marg{post code} it is identical to
+% \cs{DeclarePairedDelimiterX}. 
+%
+% An $\mathcal{L}^2$ norm can now be defined as
+% \begin{verbatim}
+% \DeclarePairedDelimiterXPP\lnorm[1]{}\lVert\rVert{_2}{#1}
+% \end{verbatim}
+% A probability macro with build in support for conditionals
+% (\cs{given} initialized as above)
+% \begin{verbatim}
+% \DeclarePairedDelimiterXPP\Prop[1]{\mathbb{P}}(){}{
+%   \renewcommand\given{\nonscript\:\vert\nonscript\:}
+%   #1
+% }
+% \end{verbatim}
+% 
+% \medskip\noindent\textbf{Note:} As the number of arguments
+% increase the \cs{DeclarePairedDelimiter...} macros become hard for
+% users to understand. A key-value interface would be better. This is
+% planed for a future release. In
+% \url{http://tex.stackexchange.com/a/136767/3929} there is a
+% suggested replacement for \cs{DeclarePairedDelimiter}, that greatly
+% reduces the number of macros and provides a key-val
+% interface. However, the code use \pkg{xparse}, and if we want to use 
+% \pkg{xparse} for some of our macros, we might just as well rewrite
+% the entire package in \pkg{expl3}. We will consider this for a
+% future release.
 %
 %  \subsubsection{Expert use}
 %
+%  \begin{quote}
+%   \itshape\small
+%    Please note that this extra feature may be removed in a future
+%    version. The use for this is rather limited and it makes the
+%    implementation much more complicated.
+%  \end{quote}
 %  Within the starred version of \cs{DeclarePairedDelimiter} and
 %  \cs{DeclarePairedDelimiterX} we make a few changes such that the
 %  auto scaled \cs{left} and \cs{right} fences behave as opening and
@@ -3817,6 +3922,77 @@ and the derived files
 }
 %    \end{macrocode}
 % \end{macro}
+
+% \begin{macro}{\DeclarePairedDelimiterXPP}
+% Similar to \cs{DeclarePairedDelimiterX}, but we can add \meta{pre}
+% and \meta{pre} code before and after the delimiters. Arguments are
+% interpreted as 
+% \marg{macro}\oarg{num}\marg{pre code}\marg{left delim}\marg{right
+% delim}\marg{post code}\marg{body}
+%    \begin{macrocode}
+\def\DeclarePairedDelimiterXPP#1[#2]#3#4#5#6#7{%
+  \@ifdefinable{#1}{
+    \ifnum#2>9\relax
+      \PackageError{mathtools}{No~ more~ than~ 9~ arguments}{}
+    \else
+      \ifnum#2<1\relax
+        \PackageError{mathtools}{Macro~ need~ 1~ or~ more~ arguments}{}
+      \fi
+    \fi
+    \MT_delim_default_inner_wrappers:n{#1}
+    \@xp\@xp\@xp
+      \newcommand
+        \@xp\csname MT_delim_\MH_cs_to_str:N #1 _star:\endcsname
+        [#2]
+        {
+          \begingroup
+            \def\delimsize{\middle}
+            #3
+            \@nameuse{MT_delim_\MH_cs_to_str:N #1 _star_wrapper:nnn}
+              {\left#4}{#7}{\right#5}
+            #6  
+          \endgroup
+        }
+    \@xp\@xp\@xp
+      \newcommand
+        \@xp\csname MT_delim_\MH_cs_to_str:N #1 _nostar:\endcsname
+        [1][\MHempty]
+      {
+        \begingroup
+        \def\delimsize{##1}
+        \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostar_inner:}
+      }
+    \@xp\@xp\@xp
+      \newcommand
+        \@xp\csname MT_delim_\MH_cs_to_str:N #1 _nostar_inner:\endcsname
+        [#2]
+        {
+          #3
+          \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostar_wrapper:nnn}
+          {
+            \let\MHempty\@gobble
+            \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize l\endcsname #4
+          }
+          {#7}
+          {
+            \let\MHempty\@gobble
+            \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize r\endcsname #5
+          }
+          #6
+          \endgroup
+        }
+    \DeclareRobustCommand{#1}{
+      \@ifstar
+        {\@nameuse{MT_delim_\MH_cs_to_str:N #1 _star:}}
+        {\@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostar:}}
+    }
+  }
+}
+
+%    \end{macrocode}
+% \end{macro}
+
+
 %
 %  \subsection{A \texttt{\textbackslash displaystyle} \env{cases} environment}
 %

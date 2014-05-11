@@ -2,7 +2,8 @@
 
 Mathtools:
 * robust \(\) and \[\], maintained when mathic is active
-
+* Bug comment about multlined inside array
+* Added \DeclarePairedDelimiterXPP
 
 empheq:
 * typos in doc
