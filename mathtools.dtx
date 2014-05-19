@@ -1820,7 +1820,6 @@ and the derived files
 %    \cs{DeclarePairedDelimiterX}\marg{cmd}\oarg{num args}\marg{left_delim}\marg{right_delim}\marg{body}\\
 %     \cs{delimsize}
 %  \end{codesyntax}
-%  \ProvidedBy{Lars Madsen}{2010/06/15} 
 %  Sometimes \cs{DeclarePairedDelimiter} just is not enough.  One
 %  might want to have the capabilities of \cs{DeclarePairedDelimiter},
 %  but also want a macro the takes more than one argument.
@@ -1828,10 +1827,11 @@ and the derived files
 %  \cs{DeclarePairedDelimiterX} extends the features of
 %  \cs{DeclarePairedDelimiter} such that the user will get a macro
 %  which is fenced off at either end, plus the capability to provide
-%  the code for what ever the macro should do within these fences. 
+%  the \meta{body} for what ever the macro should do within these
+%  fences.
 %
-%  Inside the \meta{code} part, the macro \cs{delimsize} refer to the
-%  size of the outer fences. It can then be used inside \meta{code} to
+%  Inside the \meta{body} part, the macro \cs{delimsize} refer to the
+%  size of the outer fences. It can then be used inside \meta{body} to
 %  scale any inner fences.
 %
 %  In this setting
@@ -1901,14 +1901,14 @@ and the derived files
 %   % just to make sure it exists
 %   \providecommand\given{} 
 %   % can be useful to refer to this outside \Set
-%   \newcommand\SetSymbol[1][]{\nonscript\:\vert\nonscript\:}
+%   \newcommand\SetSymbol[1][]{\nonscript\:\vert\nonscript\:\allowbreak}
 %   \DeclarePairedDelimiterX\Set[1]\{\}{%
 %      \renewcommand\given{\SetSymbol[\delimsize]}
 %      #1
 %   }
 % \end{verbatim}
 %   \providecommand\given{} 
-%   \newcommand\SetSymbol[1][]{\nonscript\:\vert\nonscript\:}
+%   \newcommand\SetSymbol[1][]{\nonscript\:\vert\nonscript\:\allowbreak}
 %   \DeclarePairedDelimiterX\Set[1]\{\}{%
 %      \renewcommand\given{\SetSymbol[\delimsize]}
 %      #1
@@ -2007,7 +2007,20 @@ and the derived files
 % star:   \mathopen{}\mathclose\bgroup #1#2\aftergroup\egroup #3
 % nostar: \mathopen{#1}#2\mathclose{#3}
 % \end{verbatim}
-%
+%  
+%  \bigskip\noindent
+%  One interesting aspect of using, say, our \verb|\abs*|\marg{arg}
+%  syntax for autoscaling fences, is that we can actually make these
+%  breakable across lines! In stark contrast to a plain
+%  \verb|\left(...\right)| which cannot. 
+%  Sebastien Gouezel has provided code for such a feature. For now it
+%  is not enabled by default (we need further testing), but it can be
+%  enabled via
+%  \begin{codesyntax}
+%    
+%  \end{codesyntax}
+%  
+%  \ProvidedBy{Sebastien Gouezel}{2014/05/15}
 %
 %  \subsection{Special symbols}
 %
@@ -3730,6 +3743,38 @@ and the derived files
   }
 
 %    \end{macrocode}
+% \begin{macro}{\MT_delim_breakable_inner_wrappers:n}
+%   Version provided by Sebastien Gouezel based on an idea by Enrico
+%   Gregorio in
+%   \url{ http://tex.stackexchange.com/questions/54023/how-to-compute-exact-width-added-by-left-right/54035#54035}.
+%   This provide scalable fences that support line breaks. In essence
+%   the \verb|\left X...\right Y| pair is broken and the proper size
+%   is set using a \cs{vphantom}.
+%    \begin{macrocode}
+\newcommand\MT_killspecial:n#1{
+  \bgroup
+  \catcode`\&=9%
+  \let\\\relax%
+  \let\delimsize\relax%
+  \scantokens{#1}%
+  \egroup
+}
+\newcommand\MT_delim_breakable_inner_wrappers:n [1]{
+  \@namedef{MT_delim_\MH_cs_to_str:N #1 _star_wrapper:nnn}##1##2##3{
+    \mathopen{##1\vphantom{\MT_killspecial:n{##2}}
+      \kern-\nulldelimiterspace\right.}
+    ##2
+    \mathclose{\left.\kern-\nulldelimiterspace
+        \vphantom{\MT_killspecial:n{##2}}##3}
+  }
+  \@namedef{MT_delim_\MH_cs_to_str:N #1 _nostar_wrapper:nnn}##1##2##3{
+    \mathopen{##1}##2\mathclose{##3}
+  }
+}
+%    \end{macrocode}
+%   
+% \end{macro}
+%    
 % \begin{macro}{\reDeclarePairedDelimiterInnerWrapper}
 %   Macro enabling the user to alter an existing call back. Note that
 %   currently no checks are performed. First argument is the name of
@@ -5619,5 +5664,5 @@ and the derived files
 %</package>
 %    \end{macrocode}
 %
-%  \Finale
+%  \ Finale
 \endinput
