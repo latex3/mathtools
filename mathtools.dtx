@@ -281,7 +281,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3097}
+%  \CheckSum{3093}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -2016,8 +2016,61 @@ and the derived files
 %  construction. Sadly, this can only be applied to macros made using
 %  \cs{DeclarePairedDelimiter} and \emph{not} macros made using
 %  \cs{DeclarePairedDelimiterX} or \cs{DeclarePairedDelimiterXPP} as
-%  these would hide any \verb|&| or \verb|\\| from \env{align} and
-%  thus breaks down.
+%  the contents is typeset inside a group (to limit \cs{delimsize})
+%  and thus hide any \verb|&| or \verb|\\| from \env{align} and
+%  \env{align} breaks down.
+%
+%  When \cs{DeclarePairedDelimiter} is used, Sebastien Gouezel has
+%  provided the following example \ProvidedBy{Sebastien
+%  Gouezel}{2014/05/14}
+% \begin{verbatim}
+% \newcommand\MTkillspecial[1]{% helper macro
+%  \bgroup
+%  \catcode`\&=9
+%  \let\\\relax%
+%  \scantokens{#1}%
+%  \egroup
+% }
+% \DeclarePairedDelimiter\abs\lvert\rvert
+% \reDeclarePairedDelimiterInnerWrapper\abs{star}{
+%   \mathopen{#1\vphantom{\MTkillspecial{#2}}\kern-\nulldelimiterspace\right.}
+%   #2
+%   \mathclose{\left.\kern-\nulldelimiterspace\vphantom{\MTkillspecial{#2}}#3}}
+% \end{verbatim}
+%  Then this example works just fine:
+% \begin{verbatim}
+% \begin{align*}
+%   f(a) &=
+%   \!\begin{aligned}[t]
+%    \abs*{ & \frac{1}{2}+\cdots \\
+%           & \dots+\frac{1}{2} }
+%  \end{aligned}
+% \end{align*}
+% \end{verbatim}
+% \newcommand\MTkillspecial[1]{% helper macro
+%  \bgroup
+%  \catcode`\&=9
+%  \let\\\relax%
+%  \scantokens{#1}%
+%  \egroup
+% }
+% \let\abs\relax
+% \MHInternalSyntaxOn
+% \MH_let:NwN\MT_delim_abs_nostar:\relax 
+% \MHInternalSyntaxOff
+% \DeclarePairedDelimiter\abs\lvert\rvert
+% \reDeclarePairedDelimiterInnerWrapper\abs{star}{
+%   \mathopen{#1\vphantom{\MTkillspecial{#2}}\kern-\nulldelimiterspace\right.}
+%   #2
+%   \mathclose{\left.\kern-\nulldelimiterspace\vphantom{\MTkillspecial{#2}}#3}}
+% \begin{align*}
+%   f(a) &=
+%   \!\begin{aligned}[t]
+%    \abs*{&\frac{1}{2}+\cdots \\
+%      &\dots+\frac{1}{2}}
+%  \end{aligned}
+% \end{align*}
+%  
 %
 %  \subsection{Special symbols}
 %
@@ -3758,7 +3811,6 @@ and the derived files
 
 %    \end{macrocode}
 %   
-% \end{macro}
 %  \end{macro}
 %  \begin{macro}{\DeclarePairedDelimiter}
 %  \changes{v1.06}{2008/08/01}{Made user command robust}
@@ -3832,14 +3884,9 @@ and the derived files
 % The constructor takes five arguments, the name of the macro, the
 % number of arguments (1-9), the left and right delimiter, the inner
 % code for the two macros. First we verify that the number of arguments fit.
+% \changes{v1.14}{2014/05/20}{Factored out in separate macro for reuse}
 %    \begin{macrocode}
-    \ifnum#2>9\relax
-      \PackageError{mathtools}{No~ more~ than~ 9~ arguments}{}
-    \else
-      \ifnum#2<1\relax
-        \PackageError{mathtools}{Macro~ need~ 1~ or~ more~ arguments}{}
-      \fi
-    \fi
+    \MT_paired_delimx_arg_test:n{#2}
 %    \end{macrocode}
 %  \changes{v1.13}{2012/05/10}{Using call back instead}
 %  Initiate the default call backs.
@@ -3934,8 +3981,27 @@ and the derived files
 }
 %    \end{macrocode}
 % \end{macro}
+% \begin{macro}{\MT_paired_delimx_arg_test:n}
+%  This tests the \oarg{num args} part of
+%  \cs{DeclarePairedDelimiterX} and \cs{DeclarePairedDelimiterXPP}
+%  (code reuse), and complains if it is not 1,\dots,9.
+%  \changes{v1.14}{2014/05/20}{Added}
+%    \begin{macrocode}
+\def\MT_paired_delimx_arg_test:n #1{
+  \ifnum#1>9\relax
+    \PackageError{mathtools}{No~ more~ than~ 9~ arguments}{}
+  \else
+    \ifnum#1<1\relax
+      \PackageError{mathtools}{Macro~ need~ 1~ or~ more~
+        arguments.\MessageBreak Please~ change~ [#1]~ to~ [1]~ ... [9]}{}
+    \fi
+  \fi
+ }
 
+%    \end{macrocode}
+% \end{macro}
 % \begin{macro}{\DeclarePairedDelimiterXPP}
+% \changes{v1.14}{2014/05/20}{Added}
 % Similar to \cs{DeclarePairedDelimiterX}, but we can add \meta{pre}
 % and \meta{pre} code before and after the delimiters. Arguments are
 % interpreted as 
@@ -3944,13 +4010,7 @@ and the derived files
 %    \begin{macrocode}
 \def\DeclarePairedDelimiterXPP#1[#2]#3#4#5#6#7{%
   \@ifdefinable{#1}{
-    \ifnum#2>9\relax
-      \PackageError{mathtools}{No~ more~ than~ 9~ arguments}{}
-    \else
-      \ifnum#2<1\relax
-        \PackageError{mathtools}{Macro~ need~ 1~ or~ more~ arguments}{}
-      \fi
-    \fi
+    \MT_paired_delimx_arg_test:n{#2}
     \MT_delim_default_inner_wrappers:n{#1}
     \@xp\@xp\@xp
       \newcommand
@@ -5633,5 +5693,5 @@ and the derived files
 %</package>
 %    \end{macrocode}
 %
-%  \ Finale
+%  \Finale
 \endinput
