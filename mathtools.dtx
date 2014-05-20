@@ -1822,7 +1822,8 @@ and the derived files
 %  \end{codesyntax}
 %  Sometimes \cs{DeclarePairedDelimiter} just is not enough.  One
 %  might want to have the capabilities of \cs{DeclarePairedDelimiter},
-%  but also want a macro the takes more than one argument.
+%  but also want a macro the takes more than one argument. (\meta{num
+%  args} can be at most 8!, because of the optional argument.)
 %
 %  \cs{DeclarePairedDelimiterX} extends the features of
 %  \cs{DeclarePairedDelimiter} such that the user will get a macro
@@ -2008,19 +2009,15 @@ and the derived files
 % nostar: \mathopen{#1}#2\mathclose{#3}
 % \end{verbatim}
 %  
-%  \bigskip\noindent
-%  One interesting aspect of using, say, our \verb|\abs*|\marg{arg}
-%  syntax for autoscaling fences, is that we can actually make these
-%  breakable across lines! In stark contrast to a plain
-%  \verb|\left(...\right)| which cannot. 
-%  Sebastien Gouezel has provided code for such a feature. For now it
-%  is not enabled by default (we need further testing), but it can be
-%  enabled via
-%  \begin{codesyntax}
-%    
-%  \end{codesyntax}
-%  
-%  \ProvidedBy{Sebastien Gouezel}{2014/05/15}
+%  \bigskip\noindent \textbf{Note:} Since we are using macros to add
+%  the \verb|\left...\right| constructions around some body, it
+%  \emph{is} (in principle) possible to make such a construction
+%  breakable across lines, even breakable within an \env{align}
+%  construction. Sadly, this can only be applied to macros made using
+%  \cs{DeclarePairedDelimiter} and \emph{not} macros made using
+%  \cs{DeclarePairedDelimiterX} or \cs{DeclarePairedDelimiterXPP} as
+%  these would hide any \verb|&| or \verb|\\| from \env{align} and
+%  thus breaks down.
 %
 %  \subsection{Special symbols}
 %
@@ -3743,36 +3740,6 @@ and the derived files
   }
 
 %    \end{macrocode}
-% \begin{macro}{\MT_delim_breakable_inner_wrappers:n}
-%   Version provided by Sebastien Gouezel based on an idea by Enrico
-%   Gregorio in
-%   \url{ http://tex.stackexchange.com/questions/54023/how-to-compute-exact-width-added-by-left-right/54035#54035}.
-%   This provide scalable fences that support line breaks. In essence
-%   the \verb|\left X...\right Y| pair is broken and the proper size
-%   is set using a \cs{vphantom}.
-%    \begin{macrocode}
-\newcommand\MT_killspecial:n#1{
-  \bgroup
-  \catcode`\&=9%
-  \let\\\relax%
-  \let\delimsize\relax%
-  \scantokens{#1}%
-  \egroup
-}
-\newcommand\MT_delim_breakable_inner_wrappers:n [1]{
-  \@namedef{MT_delim_\MH_cs_to_str:N #1 _star_wrapper:nnn}##1##2##3{
-    \mathopen{##1\vphantom{\MT_killspecial:n{##2}}
-      \kern-\nulldelimiterspace\right.}
-    ##2
-    \mathclose{\left.\kern-\nulldelimiterspace
-        \vphantom{\MT_killspecial:n{##2}}##3}
-  }
-  \@namedef{MT_delim_\MH_cs_to_str:N #1 _nostar_wrapper:nnn}##1##2##3{
-    \mathopen{##1}##2\mathclose{##3}
-  }
-}
-%    \end{macrocode}
-%   
 % \end{macro}
 %    
 % \begin{macro}{\reDeclarePairedDelimiterInnerWrapper}
@@ -4617,8 +4584,9 @@ and the derived files
 %    \begin{macrocode}
 \newcommand\Aboxed[1]{\let\bgroup{\romannumeral-`}\@Aboxed#1&&\ENDDNE}
 %    \end{macrocode}
+% \sloppy
 % The macro has been reimplemented courtesy of Florent Chervet out of
-% a posting on ctt, \url{https://groups.google.com/group/comp.text.tex/browse_thread/thread/5d66395f2a1b5134/93fd9661484bd8d8?#93fd9661484bd8d8}
+% a posting on ctt,  \url{https://groups.google.com/group/comp.text.tex/browse_thread/thread/5d66395f2a1b5134/93fd9661484bd8d8?#93fd9661484bd8d8}
 %    \begin{macrocode}
 \def\@Aboxed#1&#2&#3\ENDDNE{%
   \ifnum0=`{}\fi \setbox \z@
@@ -4730,6 +4698,7 @@ and the derived files
   \def\etb@tempa##1|#1|##2\MT@END{\endgroup
     \ifx\@empty##2\@empty\notag\fi}%
   \expandafter\etb@tempa\expandafter|alignedat|aligned|split|#1|\MT@END}
+  %| emacs
 %    \end{macrocode}
 % These macros take care of removing the space above or below. Since
 % these may be useful for the user in very special cases, we provide
@@ -5165,7 +5134,7 @@ and the derived files
 %  comp.text.tex on 1992/07/21 by Michael Herschorn.
 %  With speed-ups by the Grand Wizard himself as shown on
 %  \begin{quote}\rightskip-\leftmargini
-%  \url{http://www.tug.org/tex-archive/digests/tex-implementors/042}
+%  \url{http://mirrors.ctan.org/info/digests/tex-implementors/042}
 %  \end{quote}
 %  The (better) user interface by the author.
 %
