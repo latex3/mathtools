@@ -1,7 +1,7 @@
 % \iffalse meta-comment
 %
 % Copyright (C) 2004-2011 by Morten Hoegholm
-% Copyright (C) 2012      by Lars Madsen
+% Copyright (C) 2012-     by Lars Madsen
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -68,7 +68,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: mathtools 2013/02/12 v1.13}
+\Msg{* Package: mathtools 2014/05/21 v1.14}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -79,7 +79,7 @@
 This is a generated file.
 
 Copyright (C) 2002-2011 by Morten Hoegholm
-Copyright (C) 2012      by Lars Madsen
+Copyright (C) 2012-     by Lars Madsen
 
 
 This work may be distributed and/or modified under the
@@ -131,7 +131,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{mathtools.drv}%
-  [2013/02/12 v1.13 mathematical typesetting tools]
+  [2014/05/21 v1.14 mathematical typesetting tools]
 \documentclass{ltxdoc}
 \IfFileExists{fourier.sty}{\usepackage{fourier}}{}
 \addtolength\marginparwidth{-25pt}
@@ -281,7 +281,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3093}
+%  \CheckSum{3095}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -1820,10 +1820,10 @@ and the derived files
 %    \cs{DeclarePairedDelimiterX}\marg{cmd}\oarg{num args}\marg{left_delim}\marg{right_delim}\marg{body}\\
 %     \cs{delimsize}
 %  \end{codesyntax}
-%  Sometimes \cs{DeclarePairedDelimiter} just is not enough.  One
-%  might want to have the capabilities of \cs{DeclarePairedDelimiter},
-%  but also want a macro the takes more than one argument. (\meta{num
-%  args} can be at most 8!, because of the optional argument.)
+%  Sometimes one might want to have the capabilities of
+%  \cs{DeclarePairedDelimiter}, but also want a macro the takes more
+%  than one argument and specify plus being able to specify the body
+%  of the generated macro. 
 %
 %  \cs{DeclarePairedDelimiterX} extends the features of
 %  \cs{DeclarePairedDelimiter} such that the user will get a macro
@@ -1835,11 +1835,14 @@ and the derived files
 %  size of the outer fences. It can then be used inside \meta{body} to
 %  scale any inner fences.
 %
-%  In this setting
-%  \cs{DeclarePairedDelimiter}\marg{cmd}\marg{left_delim}\marg{right_delim} is the same thing as 
-%  \begin{center}
+%  Thus
+%  \begin{quote}
+%    \cs{DeclarePairedDelimiter}\marg{cmd}\marg{left_delim}\marg{right_delim}
+%  \end{quote}
+%  is the same thing as
+%  \begin{quote}
 %    \cs{DeclarePairedDelimiterX}\marg{cmd}\verb|[1]|\marg{left_delim}\marg{right_delim}\verb|{#1}|
-%  \end{center}
+%  \end{quote}
 %  %
 %  Let us do some examples. First we want to prepare a macro for inner
 %  products, with two arguments such that we can hide the character
@@ -1891,8 +1894,8 @@ and the derived files
 % is a feature of the \cs{left}\dots\cs{right} construction).
 % \fi
 %
-% We can do even more, using \cs{DeclarePairedDelimiterX} we can make
-% an easier math syntax for certain constructions. Fx for building
+% With the inner scaling, we can provide macros whos syntax closely
+% follow the mathematical meaning. Fx for building
 % sets, try this\footnote{The reason for \cs{SetSymbol} can be seen
 % when one want to build a complicated set where the condition has to
 % span several lines, then one may have to resort to a different
@@ -1902,22 +1905,22 @@ and the derived files
 %   % just to make sure it exists
 %   \providecommand\given{} 
 %   % can be useful to refer to this outside \Set
-%   \newcommand\SetSymbol[1][]{\nonscript\:\vert\nonscript\:\allowbreak}
+%   \newcommand\SetSymbol[1][]{\nonscript\:#1\vert\nonscript\:\allowbreak}
 %   \DeclarePairedDelimiterX\Set[1]\{\}{%
 %      \renewcommand\given{\SetSymbol[\delimsize]}
 %      #1
 %   }
 % \end{verbatim}
 %   \providecommand\given{} 
-%   \newcommand\SetSymbol[1][]{\nonscript\:\vert\nonscript\:\allowbreak}
+%   \newcommand\SetSymbol[1][]{\nonscript\:#1\vert\nonscript\:\allowbreak}
 %   \DeclarePairedDelimiterX\Set[1]\{\}{%
 %      \renewcommand\given{\SetSymbol[\delimsize]}
 %      #1
 %   }
 % \begin{verbatim}
-% \[ \Set{ x \in X \given x^2 > 1 } \]
+% \[ \Set*{ x \in X \given \frac{\sqrt{x}}{x^2+1} > 1 } \]
 % \end{verbatim}
-% \[ \Set{ x \in X \given x^2 > 1 } \]
+% \[ \Set*{ x \in X \given \frac{\sqrt{x}}{x^2+1} > 1 } \]
 % Thus we end up with a syntax much closer to how we read this
 % aloud. Also we hide the `given' symbol for easy replacement.
 %
@@ -1941,12 +1944,19 @@ and the derived files
 % \FeatureRequest{Barbara Beeton (on TSE)}{2013/10/07}
 % \cs{DeclarePairedDelimiterX} has an annoying caveat: it is very hard
 % to make a macro \verb|\lnorm{a}| that should result in $\lVert
-% a\rVert_2$. The added `\verb|_2|' is hard to get around the argument
-% parsing. As a consequence we provide
-% \cs{DeclarePairedDelimiterXPP}\footnote{Extended
+% a\rVert_2$.\footnote{The added `\texttt{\_2}' is hard to get around
+% the argument parsing.} 
+%
+% As a consequence we provide
+% \cs{DeclarePairedDelimiterXPP}.\footnote{Extended
 % DeclarePairedDelimiter with Pre and Post code.} With the addition of
 % the \marg{pre code} and \marg{post code} it is identical to
-% \cs{DeclarePairedDelimiterX}. 
+% \cs{DeclarePairedDelimiterX}. It should be interpreted as
+% \begin{center}
+% \marg{pre code} \marg{left_delim} \marg{body}
+% \marg{right_delim} \marg{post code}  
+% \end{center}
+% 
 %
 % An $\mathcal{L}^2$ norm can now be defined as
 % \begin{verbatim}
@@ -1957,30 +1967,25 @@ and the derived files
 % \begin{verbatim}
 % \DeclarePairedDelimiterXPP\Prop[1]{\mathbb{P}}(){}{
 %   \renewcommand\given{\nonscript\:\delimsize\vert\nonscript\:}
-%   #1
-% }
+%   #1}
 % \end{verbatim}
+% Thus giving support for \verb|\Prob{A \given B}|.
 % 
-% \medskip\noindent\textbf{Note:} As the number of arguments
-% increase the \cs{DeclarePairedDelimiter...} macros become hard for
-% users to understand. A key-value interface would be better. This is
-% planed for a future release. In
+% \medskip\noindent\textbf{Note:} As the number of arguments increase
+% the \cs{DeclarePairedDelimiter...} macros become hard for users to
+% understand. A key-value interface would be better. This is planed
+% for a future release. In
 % \url{http://tex.stackexchange.com/a/136767/3929} there is a
 % suggested replacement for \cs{DeclarePairedDelimiter}, that greatly
 % reduces the number of macros and provides a key-val
-% interface. However, the code use \pkg{xparse}, and if we want to use 
+% interface. However, the code use \pkg{xparse}, and if we want to use
 % \pkg{xparse} for some of our macros, we might just as well rewrite
-% the entire package in \pkg{expl3}. We will consider this for a
-% future release.
+% the entire package in \pkg{expl3}. Also it is not obvious how to get
+% \pkg{xparse} to support \verb|[3]| for the number of arguments. We
+% will consider this for a future release.
 %
 %  \subsubsection{Expert use}
 %
-%  \begin{quote}
-%   \itshape\small
-%    Please note that this extra feature may be removed in a future
-%    version. The use for this is rather limited and it makes the
-%    implementation much more complicated.
-%  \end{quote}
 %  Within the starred version of \cs{DeclarePairedDelimiter} and
 %  \cs{DeclarePairedDelimiterX} we make a few changes such that the
 %  auto scaled \cs{left} and \cs{right} fences behave as opening and
@@ -2013,8 +2018,8 @@ and the derived files
 %  the \verb|\left...\right| constructions around some body, it
 %  \emph{is} (in principle) possible to make such a construction
 %  breakable across lines, even breakable within an \env{align}
-%  construction. Sadly, this can only be applied to macros made using
-%  \cs{DeclarePairedDelimiter} and \emph{not} macros made using
+%  construction. Currently, this can only be applied to macros made
+%  using \cs{DeclarePairedDelimiter} and \emph{not} macros made using
 %  \cs{DeclarePairedDelimiterX} or \cs{DeclarePairedDelimiterXPP} as
 %  the contents is typeset inside a group (to limit \cs{delimsize})
 %  and thus hide any \verb|&| or \verb|\\| from \env{align} and
@@ -3538,12 +3543,15 @@ and the derived files
 %  \end{macro}
 %  \begin{macro}{\MT_mult_invisible_line:}
 %  An invisible line.
+%  \textbf{BUG:} \cs{baselineskip} is zero inside an array or matrix,
+%  thus in those cases the line is \emph{not} invisible.
+%  \changes{v1.14}{2014/05/21}{Added -\cs{jot}}
 %    \begin{macrocode}
 \def\MT_mult_invisible_line: {
   \crcr
   \global\MH_set_boolean_F:n {mult_firstline}
   \hbox to \l_MT_multwidth_dim{}\crcr
-  \noalign{\vskip-\baselineskip \vskip-\normallineskip}
+  \noalign{\vskip-\baselineskip \vskip-\jot \vskip-\normallineskip}
 }
 %    \end{macrocode}
 %  \end{macro}
@@ -3815,13 +3823,13 @@ and the derived files
 %  \begin{macro}{\DeclarePairedDelimiter}
 %  \changes{v1.06}{2008/08/01}{Made user command robust}
 %  This macro defines |#1| to be a control sequence that takes either
-%  a star or an optional argument.
+%  a star or an optional argument and one mandatory argument.
 %    \begin{macrocode}
 \newcommand*\DeclarePairedDelimiter[3]{%
   \@ifdefinable{#1}{
 %    \end{macrocode}
 %  Define the starred command to just put \cs{left} and \cs{right}
-%  before the delimiters.
+%  before the delimiters, wrapped in a callback function.
 %  \changes{1.08e}{2010/09/02}{`Fixed' \cs{left}\dots\cs{right} bad spacing}
 %  \changes{1.08e}{2010/09/14}{redid the \cs{left}\dots\cs{right} fix,
 %  see \cs{DeclarePairedDelimiterX} for details.}
@@ -3889,7 +3897,7 @@ and the derived files
     \MT_paired_delimx_arg_test:n{#2}
 %    \end{macrocode}
 %  \changes{v1.13}{2012/05/10}{Using call back instead}
-%  Initiate the default call backs.
+%  Define the default call backs.
 %    \begin{macrocode}
     \MT_delim_default_inner_wrappers:n{#1}
 %    \end{macrocode}

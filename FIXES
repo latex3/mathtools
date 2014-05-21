@@ -4,7 +4,9 @@ Mathtools:
 * robust \(\) and \[\], maintained when mathic is active
 * Bug comment about multlined inside array
 * Added \DeclarePairedDelimiterXPP
+* Added comment about breakable auto scaling using \DeclarePairedDelimiter
 
 empheq:
 * typos in doc
-* \eqref is now working again inside the empheq environment including when running under overload
+* \eqref is now working again inside the empheq environment including
+  when running under overload 
