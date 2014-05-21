@@ -5,6 +5,7 @@ Mathtools:
 * Bug comment about multlined inside array
 * Added \DeclarePairedDelimiterXPP
 * Added comment about breakable auto scaling using \DeclarePairedDelimiter
+* Added comment about \Aboxed and hiding &'s
 
 empheq:
 * typos in doc
