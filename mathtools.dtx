@@ -68,7 +68,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: mathtools 2014/05/21 v1.14}
+\Msg{* Package: mathtools 2014/07/16 v1.15}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -131,7 +131,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{mathtools.drv}%
-  [2014/05/21 v1.14 mathematical typesetting tools]
+  [2014/07/16 v1.15 mathematical typesetting tools]
 \documentclass{ltxdoc}
 \IfFileExists{fourier.sty}{\usepackage{fourier}}{}
 \addtolength\marginparwidth{-25pt}
@@ -286,7 +286,7 @@ and the derived files
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
 %
-%  \author{Lars Madsen, Will Robertson and Joseph
+%  \author{Lars Madsen and Joseph
 %  Wright\\ (maintainers)\thanks{The maintainers would like to thank
 %  Morten H\o gholm for his contributions to this package}}
 %  \date{\filedate}
@@ -325,11 +325,12 @@ and the derived files
 %  can only do so by having harvesting newsgroups for code and/or you
 %  writing the maintainers with wishes for code to be included, so if
 %  you have any good macros or just macros that help you when writing
-%  mathematics, then don't hesitate to report them to us. We can be
-%  reached at
-%  \begin{quote}\email{mh.ctan@gmail.com}\end{quote}
+%  mathematics, then don't hesitate to report them to us. It is
+%  easiest to just contact Lars Madsen at
+%  \begin{quote}\email{daleif@imf.au.dk}\end{quote}
 %  This is of course also the address to use in case of bug reports.
-%
+%  Please put `\texttt{mathtools}' in the subject line.
+%  
 %
 % \medskip\noindent
 % Update 2013: We now makes \cs{(}\cs{)} and \cs[\cs]
@@ -2259,12 +2260,12 @@ and the derived files
 %  \noindent
 %  As of 2013, \cs(\cs) are robust, as is the italic corrected versions.
 %
-%  \medskip\noindent 
-%  \textbf{Caveat:} Italic correction is a treacherous area. For
-%  example any penalties will cancel of the italic correction inserted
-%  by \verb|\(|. We have changed Michaels original to accomodate  one
-%  specific penalty construction: the \emph{tie}, i.e., this will work
-%  as expected \verb|text~\(| (as~of July, 2014).
+%  \medskip\noindent \textbf{Caveat:} Italic correction is a
+%  treacherous area. For example any penalties will cancel the italic
+%  correction inserted by \verb|\(| (for an explanation see
+%  \cite{TBT}, section 4.3.3). We have changed Michaels original to
+%  accomodate one specific penalty construction: the \emph{tie}, i.e.,
+%  >>\verb|text~\(|<< will work as expected  (as~of July, 2014).
 %
 %  \subsection{Left sub/superscripts}
 %
@@ -2635,7 +2636,7 @@ and the derived files
 %    \begin{macrocode}
 %<*package>
 \ProvidesPackage{mathtools}%
-  [2014/05/21 v1.14 mathematical typesetting tools]
+  [2014/07/16 v1.15 mathematical typesetting tools]
 %    \end{macrocode}
 % \changes{v1.10}{2011/02/12}{Might as well make sure that we need the
 % latest version of \texttt{mhsetup}}
@@ -5459,7 +5460,7 @@ and the derived files
           \if_dim:w \lastskip>\z@
             \skip@\lastskip\unskip
 %    \end{macrocode}
-%  \changes{2014/07/16}{v1.15}{Added penalty workaround}
+%  \changes{v1.15}{2014/07/16}{Added penalty workaround}
 %  Here is the fix.
 %    \begin{macrocode}
             \if_num:w \lastpenalty>\z@
@@ -5467,7 +5468,7 @@ and the derived files
             \fi:
             \@@italiccorr
 %    \end{macrocode}
-%  \changes{2014/07/16}{v1.15}{Added penalty workaround}
+%  \changes{v1.15}{2014/07/16}{Added penalty workaround}
 %  And here it is inserted again.
 %    \begin{macrocode}
             \if_num:w \count@>z@
