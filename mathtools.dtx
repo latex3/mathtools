@@ -281,7 +281,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3095}
+%  \CheckSum{3107}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -2256,8 +2256,15 @@ and the derived files
 %  Subset of \(V\) and subset of \(A\).
 %  \par
 %  \end{quote}
-%
+%  \noindent
 %  As of 2013, \cs(\cs) are robust, as is the italic corrected versions.
+%
+%  \medskip\noindent 
+%  \textbf{Caveat:} Italic correction is a treacherous area. For
+%  example any penalties will cancel of the italic correction inserted
+%  by \verb|\(|. We have changed Michaels original to accomodate  one
+%  specific penalty construction: the \emph{tie}, i.e., this will work
+%  as expected \verb|text~\(| (as~of July, 2014).
 %
 %  \subsection{Left sub/superscripts}
 %
@@ -2612,6 +2619,9 @@ and the derived files
 %     \emph{Mathematics into type}.
 %     American Mathematical Society, updated edition, 1999.
 %     Updated by Arlene O'Sean and Antoinette Schleyer.
+%   \bibitem{TBT}
+%   Victor Eijkhout, \emph{\TeX\ by Topic, A Texnician’s Reference}, 2007. 
+%   Freely available at \url{http://ctan.org/tex-archive/info/texbytopic}.
 %  \end{thebibliography}
 %
 %
@@ -5440,9 +5450,29 @@ and the derived files
       \relax\ifmmode\@badmath\else
       \ifhmode
         \if_dim:w \fontdimen\@ne\font>\z@
+%    \end{macrocode}
+%  We have a small problem here, if the user use >>\verb|text~\(|<< then
+%  the italic correction is lost due to the penalty (see \cite{TBT},
+%  section 4.3.3). However, we \emph{know} what \verb|~| does, a
+%  (positive) penalty and a skip.
+%    \begin{macrocode}
           \if_dim:w \lastskip>\z@
             \skip@\lastskip\unskip
+%    \end{macrocode}
+%  \changes{2014/07/16}{v1.15}{Added penalty workaround}
+%  Here is the fix.
+%    \begin{macrocode}
+            \if_num:w \lastpenalty>\z@
+              \count@\lastpenalty\unpenalty
+            \fi:
             \@@italiccorr
+%    \end{macrocode}
+%  \changes{2014/07/16}{v1.15}{Added penalty workaround}
+%  And here it is inserted again.
+%    \begin{macrocode}
+            \if_num:w \count@>z@
+              \penalty\count@
+            \fi:
             \hskip\skip@
           \else:
             \@@italiccorr
