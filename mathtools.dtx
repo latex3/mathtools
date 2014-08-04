@@ -1855,12 +1855,12 @@ and the derived files
 % \meta{code}. Here we do a weird three argument `braket'
 % \begin{verbatim}
 % \DeclarePairedDelimiterX\braket[3]{\langle}{\rangle}%
-% {#1\,\delimsize\vert\,#2\,\delimsize\vert\,#3}
+% {#1\,\delimsize\vert\,\mathopen{}#2\,\delimsize\vert\,\mathopen{}#3}
 % \end{verbatim}
 % Then we can get
 % \DeclarePairedDelimiterX\innerp[2]{\langle}{\rangle}{#1,#2}
 % \DeclarePairedDelimiterX\braket[3]{\langle}{\rangle}%
-% {#1\,\delimsize\vert\,#2\,\delimsize\vert\,#3}
+% {#1\,\delimsize\vert\,\mathopen{}#2\,\delimsize\vert\,\mathopen{}#3}
 % \begin{verbatim}
 % \[
 % \innerp*{A}{ \frac{1}{2} } \quad
@@ -1899,19 +1899,22 @@ and the derived files
 % when one want to build a complicated set where the condition has to
 % span several lines, then one may have to resort to a different
 % construction, giving the need to be able to refer back to the symbol
-% being used.}
+% being used.}\footnote{Note the use of \cs{mathopen} inside
+% \cs{SetSymbol}, without it `\texttt{\cs{given} - a}' will have the
+% wrong minus (an addition minus and the the proper sing minus).}
 % \begin{verbatim}
 %   % just to make sure it exists
 %   \providecommand\given{} 
 %   % can be useful to refer to this outside \Set
-%   \newcommand\SetSymbol[1][]{\nonscript\:#1\vert\nonscript\:\allowbreak}
+%   \newcommand\SetSymbol[1][]{\nonscript\:#1\vert\nonscript\:
+%      \mathopen{}\allowbreak}
 %   \DeclarePairedDelimiterX\Set[1]\{\}{%
 %      \renewcommand\given{\SetSymbol[\delimsize]}
 %      #1
 %   }
 % \end{verbatim}
 %   \providecommand\given{} 
-%   \newcommand\SetSymbol[1][]{\nonscript\:#1\vert\nonscript\:\allowbreak}
+%   \newcommand\SetSymbol[1][]{\nonscript\:#1\vert\nonscript\:\mathopen{}\allowbreak}
 %   \DeclarePairedDelimiterX\Set[1]\{\}{%
 %      \renewcommand\given{\SetSymbol[\delimsize]}
 %      #1
@@ -1965,7 +1968,7 @@ and the derived files
 % (\cs{given} initialized as above)
 % \begin{verbatim}
 % \DeclarePairedDelimiterXPP\Prop[1]{\mathbb{P}}(){}{
-%   \renewcommand\given{\nonscript\:\delimsize\vert\nonscript\:}
+%   \renewcommand\given{\nonscript\:\delimsize\vert\nonscript\:\mathopen{}}
 %   #1}
 % \end{verbatim}
 % Thus giving support for \verb|\Prob{A \given B}|.
