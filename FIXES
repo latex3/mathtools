@@ -1,3 +1,10 @@
+JULY 2014
+
+* workaround for ~\(...\) when mathic option is active
+* added comment about \mathopen{} in relation to \DeclarePairedDelimiterX
+
+
+
  <= Febuary 2013
 
 Mathtools:

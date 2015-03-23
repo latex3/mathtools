@@ -1845,7 +1845,7 @@ and the derived files
 %  %
 %  Let us do some examples. First we want to prepare a macro for inner
 %  products, with two arguments such that we can hide the character
-%  separating the arguments (a journal style might require a
+%  separating the arguments (a~journal style might require a
 %  semi-colon, so we will save a lot of hand editing). This can be
 %  done via
 % \begin{verbatim}
@@ -1857,7 +1857,21 @@ and the derived files
 % \DeclarePairedDelimiterX\braket[3]{\langle}{\rangle}%
 % {#1\,\delimsize\vert\,\mathopen{}#2\,\delimsize\vert\,\mathopen{}#3}
 % \end{verbatim}
-% Then we can get
+% \begin{itshape}
+%   Note the use of >>\verb|\mathopen{}|<< in the \meta{body} of
+%   \cs{braket}, this is very important when a scalable delimiter is
+%   being used and it does not present itself as a left or right
+%   delimiter. You will see why it is needed if you use
+%   \verb|\braket{A}{-B}| in a version without
+%   \verb|\mathopen{}|.\footnote{Basically, the problem is that
+%   \cs{vert} is a `symbol', thus $\vert-B$ is interpreted
+%   \emph{subtraction}, not a symbol followed by negative $B$. When
+%   \cs{mathopen\{\}} is added, \TeX\ is told that an opening
+%   delimiter just occurred, and it will adjust the minus
+%   accordingly.}
+% \end{itshape}
+%
+% Then we get
 % \DeclarePairedDelimiterX\innerp[2]{\langle}{\rangle}{#1,#2}
 % \DeclarePairedDelimiterX\braket[3]{\langle}{\rangle}%
 % {#1\,\delimsize\vert\,\mathopen{}#2\,\delimsize\vert\,\mathopen{}#3}
@@ -1871,6 +1885,8 @@ and the derived files
 % \innerp*{A}{ \frac{1}{2} } \quad
 % \braket[\Big]{B}{\sum_{k}}{C}
 % \]
+% 
+%
 % \iffalse
 % \bigskip
 % 
@@ -1894,27 +1910,30 @@ and the derived files
 % \fi
 %
 % With the inner scaling, we can provide macros whos syntax closely
-% follow the mathematical meaning. Fx for building
-% sets, try this\footnote{The reason for \cs{SetSymbol} can be seen
-% when one want to build a complicated set where the condition has to
-% span several lines, then one may have to resort to a different
-% construction, giving the need to be able to refer back to the symbol
-% being used.}\footnote{Note the use of \cs{mathopen} inside
-% \cs{SetSymbol}, without it `\texttt{\cs{given} - a}' will have the
-% wrong minus (an addition minus and the the proper sing minus).}
+% follow the mathematical meaning. Fx for building sets, try
+% this\footnote{The reason for using a separate \cs{SetSymbol} macro
+% has to do with complicated set definitions, where the condition
+% spans several lines. In this case \cs{Set} cannot be used. Thus it
+% is nice to be able to refer to the specific set building symbol we
+% have decided to use in this document. Also remember to add
+% \cs{allowbreak} \emph{before} the proceeding inserted space. Then
+% that space will disappear when a line break occurs.}
 % \begin{verbatim}
 %   % just to make sure it exists
 %   \providecommand\given{} 
 %   % can be useful to refer to this outside \Set
-%   \newcommand\SetSymbol[1][]{\nonscript\:#1\vert\nonscript\:
-%      \mathopen{}\allowbreak}
+%   \newcommand\SetSymbol[1][]{%
+%      \nonscript\:#1\vert
+%      \allowbreak
+%      \nonscript\:
+%      \mathopen{}}
 %   \DeclarePairedDelimiterX\Set[1]\{\}{%
 %      \renewcommand\given{\SetSymbol[\delimsize]}
 %      #1
 %   }
 % \end{verbatim}
 %   \providecommand\given{} 
-%   \newcommand\SetSymbol[1][]{\nonscript\:#1\vert\nonscript\:\mathopen{}\allowbreak}
+%   \newcommand\SetSymbol[1][]{\nonscript\:#1\vert\allowbreak\nonscript\:\mathopen{}}
 %   \DeclarePairedDelimiterX\Set[1]\{\}{%
 %      \renewcommand\given{\SetSymbol[\delimsize]}
 %      #1
@@ -1946,7 +1965,7 @@ and the derived files
 % \FeatureRequest{Barbara Beeton (on TSE)}{2013/10/07}
 % \cs{DeclarePairedDelimiterX} has an annoying caveat: it is very hard
 % to make a macro \verb|\lnorm{a}| that should result in $\lVert
-% a\rVert_2$.\footnote{The added `\texttt{\_2}' is hard to get around
+% a\rVert_2$.\footnote{The added >>\texttt{\_2}<< is hard to get around
 % the argument parsing.} 
 %
 % As a consequence we provide
@@ -1982,9 +2001,9 @@ and the derived files
 % reduces the number of macros and provides a key-val
 % interface. However, the code use \pkg{xparse}, and if we want to use
 % \pkg{xparse} for some of our macros, we might just as well rewrite
-% the entire package in \pkg{expl3}. Also it is not obvious how to get
-% \pkg{xparse} to support \verb|[3]| for the number of arguments. We
-% will consider this for a future release.
+% the entire \pkg{mathtools} package in \pkg{expl3}. Also it is not
+% obvious how to get \pkg{xparse} to support \verb|[3]| for the number
+% of arguments. We will consider this for a future release.
 %
 %  \subsubsection{Expert use}
 %
