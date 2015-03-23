@@ -1,3 +1,9 @@
+MARCH 2015
+
+* Changed the example for \Set in the manual, such that \allowbreak
+  comes before the inserted proceeding space
+
+
 JULY 2014
 
 * workaround for ~\(...\) when mathic option is active
