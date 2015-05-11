@@ -68,7 +68,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: mathtools 2014/08/04 v1.15}
+\Msg{* Package: mathtools 2015/05/11 v1.16}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -131,7 +131,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{mathtools.drv}%
-  [2014/08/04 v1.15 mathematical typesetting tools]
+  [2015/05/11 v1.16 mathematical typesetting tools]
 \documentclass{ltxdoc}
 \IfFileExists{fourier.sty}{\usepackage{fourier}}{}
 \addtolength\marginparwidth{-25pt}
@@ -281,7 +281,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3107}
+%  \CheckSum{3111}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -2656,7 +2656,7 @@ and the derived files
 %    \begin{macrocode}
 %<*package>
 \ProvidesPackage{mathtools}%
-  [2014/07/16 v1.15 mathematical typesetting tools]
+  [2015/05/11 v1.16 mathematical typesetting tools]
 %    \end{macrocode}
 % \changes{v1.10}{2011/02/12}{Might as well make sure that we need the
 % latest version of \texttt{mhsetup}}
@@ -3022,7 +3022,16 @@ and the derived files
 \def\MT_extended_eqref:n #1{
   \protected@write\@auxout{}
     {\string\MT@newlabel{#1}}
-  \textup{\MT_prev_tagform:n {\ref{#1}}}
+%    \end{macrocode}
+% \changes{v1.16}{2015/05/11}{Fix bug in \cs{eqref} in \cs{text} vs. \textsf{showonlyrefs}}
+% The manner in which \key{showonlyrefs} is implemented causes
+% problems when \cs{eqref} is used within \cs{text}. The problem is
+% that \cs{MT_prev_tagform:n} is used both in \cs{eqref} and within,
+% say, \env{align}. Thus a test within \cs{MT_prev_tagform:n} fails
+% for \cs{eqref}. We fix this by making sure we end up in the proper
+% branch of the test, when \cs{MT_prev_tagform:n} is used to typeset \cs{eqref}.
+%    \begin{macrocode}
+  \textup{\let\df@label\@empty\MT_prev_tagform:n {\ref{#1}}}
 }
 \EQ_MakeRobust\MT_extended_eqref:n
 %    \end{macrocode}
