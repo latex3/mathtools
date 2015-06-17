@@ -68,7 +68,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: mathtools 2015/05/11 v1.16}
+\Msg{* Package: mathtools 2015/06/17 v1.17}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -131,7 +131,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{mathtools.drv}%
-  [2015/05/11 v1.16 mathematical typesetting tools]
+  [2015/06/17 v1.17 mathematical typesetting tools]
 \documentclass{ltxdoc}
 \IfFileExists{fourier.sty}{\usepackage{fourier}}{}
 \addtolength\marginparwidth{-25pt}
@@ -281,7 +281,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3111}
+%  \CheckSum{3129}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -2656,7 +2656,7 @@ and the derived files
 %    \begin{macrocode}
 %<*package>
 \ProvidesPackage{mathtools}%
-  [2015/05/11 v1.16 mathematical typesetting tools]
+  [2015/06/17 v1.17 mathematical typesetting tools]
 %    \end{macrocode}
 % \changes{v1.10}{2011/02/12}{Might as well make sure that we need the
 % latest version of \texttt{mhsetup}}
@@ -4998,7 +4998,22 @@ and the derived files
       \vskip\normallineskiplimit % CCS
       \vskip\l_MT_above_intertext_sep
        \vbox{\normalbaselines
-        \ifdim\linewidth=\columnwidth
+%    \end{macrocode}
+% \changes{v1.17}{2015/06/17}{Added extra `in list' check}
+%  Johannes Böttcher has reported a problem in \cs{intertext} in
+%  relation to usage within lists or constructs that locally changes
+%  the margin (often implemented as a list). Markus Kohm suggested to
+%  test not only \cs{linewidth} against \cs{columnwidth} but also if
+%  \cs{@totalleftmargin} is not zero. The implementation used is due to
+%  David Carlisle.
+%    \begin{macrocode}
+         \ifdim
+           \ifdim\@totalleftmargin=\z@
+             \linewidth
+           \else
+             -\maxdimen
+           \fi
+         =\columnwidth
         \else \parshape\@ne \@totalleftmargin \linewidth
         \fi
         \noindent##1\par}%
@@ -5044,7 +5059,17 @@ and the derived files
   \noalign{%
     \penalty\postdisplaypenalty\vskip\abovedisplayshortskip
     \vbox{\normalbaselines
-      \if_dim:w \linewidth=\columnwidth
+%    \end{macrocode}
+% \changes{v1.17}{2015/06/17}{Added extra `in list' check}
+% Same comment as for \cs{intertext} above.
+%    \begin{macrocode}
+      \if_dim:w
+        \if_dim:w \@totalleftmargin=\z@
+          \linewidth
+        \else:
+          -\maxdimen
+        \fi:
+        =\columnwidth
       \else:
         \parshape\@ne \@totalleftmargin \linewidth
       \fi:
@@ -5099,7 +5124,17 @@ and the derived files
     \vskip\normallineskiplimit 
     \vskip\l_MT_above_shortintertext_sep
     \vbox{\normalbaselines
-      \if_dim:w \linewidth=\columnwidth
+%    \end{macrocode}
+% \changes{v1.17}{2015/06/17}{Added extra `in list' check}
+% Same comment as for \cs{intertext} above.
+%    \begin{macrocode}
+      \if_dim:w
+        \if_dim:w \@totalleftmargin=\z@
+          \linewidth
+        \else:
+          -\maxdimen
+        \fi:
+        =\columnwidth
       \else:
         \parshape\@ne \@totalleftmargin \linewidth
       \fi:
