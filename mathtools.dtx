@@ -68,7 +68,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: mathtools 2015/06/17 v1.17}
+\Msg{* Package: mathtools 2015/11/12 v1.18}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -131,7 +131,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{mathtools.drv}%
-  [2015/06/17 v1.17 mathematical typesetting tools]
+  [2015/11/12 v1.18 mathematical typesetting tools]
 \documentclass{ltxdoc}
 \IfFileExists{fourier.sty}{\usepackage{fourier}}{}
 \addtolength\marginparwidth{-25pt}
@@ -281,7 +281,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3129}
+%  \CheckSum{3174}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -918,7 +918,7 @@ and the derived files
 %  that one's formulas are not long enough to touch the equation
 %  number.
 %
-%  To make a long story stort, amsmath typesets its math environments
+%  To make a long story short, amsmath typesets its math environments
 %  twice, one time for measuring and one time for the actual
 %  typesetting. In the measuring part, the width of the equation
 %  number is recorded such that the formula or the equation number can
@@ -931,7 +931,7 @@ and the derived files
 %  the typesetting phase does not take the equation number into
 %  account.
 %
-% \medskip\noindent\textbf{BUG 2:} Currently there is a bug between
+% \medskip\noindent\textbf{BUG 2:} There is a bug between
 % \key{showonlyrefs} and the \pkg{ntheorem} package, when the
 % \pkg{ntheorem} option \key{thmmarks} is active. The shown equation
 % numbers may come out wrong (seems to be multiplied by 2). Or the end
@@ -1330,14 +1330,34 @@ and the derived files
 %  they're interchangeable.
 %
 %  \medskip\noindent
-%  \textbf{Bug:}
+%  \textbf{Bug 1:}
 %  \CommentAdded{2014/05/11}  
 %  If used inside an \env{array} or
 %  a derivative (say, a \env{matrix} variant), \env{multlined} does
 %  not work as expected. The implementation contains an `invisible'
 %  line after the first \env{multline} row, inside an \env{array} this
 %  line is no longer `invisible' because \env{array} sets
-%  \cs{baselineskip} to zero. Currently we have no workaround for this.
+%  \cs{baselineskip} to zero. Currently we have no general workaround
+%  for this. 
+%
+%  \medskip\noindent
+%  \textbf{Bug 2:}
+%  \CommentAdded{2015/11/12}  
+%  Due to the way \env{multilined} is implemented, certain
+%  constructions does not work inside \env{multlined}. We have added a
+%  hook (\cs{MultlinedHook}) that can be added to. The default value
+%  is a fix for \env{subarray} and thus \cs{substack}.
+%
+%  This can actually be used to fix Bug~1:
+% \begin{verbatim}
+% \usepackage{mathtools,etoolbox}
+% \newlength\Normalbaselineskip{\baselineskip} 
+% \appto\MultlinedHook{
+%   \setlength\baselineskip{\Normalbaselineskip}
+% }
+% \end{verbatim}
+%  
+%
 %
 %  \subsubsection{More \env{cases}-like environments}
 %
@@ -2375,6 +2395,9 @@ and the derived files
 %  been fixed in \LaTeX, this fix will be removed from
 %  \pkg{mathtools}.
 %
+% The \CommentAdded{2015/11/12} fix was added to the \LaTeX{} kernel i 2015. We will continue to
+% provide it on older kernels.
+%
 %  \subsection{Spreading equations}\label{sec:spread}
 %
 %  \begin{codesyntax}
@@ -2656,7 +2679,7 @@ and the derived files
 %    \begin{macrocode}
 %<*package>
 \ProvidesPackage{mathtools}%
-  [2015/06/17 v1.17 mathematical typesetting tools]
+  [2015/11/12 v1.18 mathematical typesetting tools]
 %    \end{macrocode}
 % \changes{v1.10}{2011/02/12}{Might as well make sure that we need the
 % latest version of \texttt{mhsetup}}
@@ -3510,21 +3533,24 @@ and the derived files
 %  This is just to simulate all the \cs{..colon..} symbols from
 %  \pkg{txfonts} and \pkg{pxfonts}.
 % \changes{v1.08c}{2010/11/17}{Enclosed all in \cs{mathrel}}
+% \changes{v1.18}{2015/11/12}{Moved the enclosing \cs{mathrel} to
+% \cs{mkern}. This is a result of
+% \url{http://chat.stackexchange.com/transcript/message/23630342#23630342} and \url{http://chat.stackexchange.com/transcript/message/25348032#25348032}}
 %    \begin{macrocode}
 \AtBeginDocument{
-  \providecommand*\dblcolon{\mathrel{\vcentcolon\mkern-.9mu\vcentcolon}}
-  \providecommand*\coloneqq{\mathrel{\vcentcolon\mkern-1.2mu=}}
-  \providecommand*\Coloneqq{\mathrel{\dblcolon\mkern-1.2mu=}}
-  \providecommand*\coloneq{\mathrel{\vcentcolon\mkern-1.2mu\mathrel{-}}}
-  \providecommand*\Coloneq{\mathrel{\dblcolon\mkern-1.2mu\mathrel{-}}}
-  \providecommand*\eqqcolon{\mathrel{=\mkern-1.2mu\vcentcolon}}
-  \providecommand*\Eqqcolon{\mathrel{=\mkern-1.2mu\dblcolon}}
-  \providecommand*\eqcolon{\mathrel{\mathrel{-}\mkern-1.2mu\vcentcolon}}
-  \providecommand*\Eqcolon{\mathrel{\mathrel{-}\mkern-1.2mu\dblcolon}}
-  \providecommand*\colonapprox{\mathrel{\vcentcolon\mkern-1.2mu\approx}}
-  \providecommand*\Colonapprox{\mathrel{\dblcolon\mkern-1.2mu\approx}}
-  \providecommand*\colonsim{\mathrel{\vcentcolon\mkern-1.2mu\sim}}
-  \providecommand*\Colonsim{\mathrel{\dblcolon\mkern-1.2mu\sim}}
+  \providecommand*\dblcolon{\vcentcolon\mathrel{\mkern-.9mu}\vcentcolon}
+  \providecommand*\coloneqq{\vcentcolon\mathrel{\mkern-1.2mu}=}
+  \providecommand*\Coloneqq{\dblcolon\mathrel{\mkern-1.2mu}=}
+  \providecommand*\coloneq{\vcentcolon\mathrel{\mkern-1.2mu}\mathrel{-}}
+  \providecommand*\Coloneq{\dblcolon\mathrel{\mkern-1.2mu}\mathrel{-}}
+  \providecommand*\eqqcolon{=\mathrel{\mkern-1.2mu}\vcentcolon}
+  \providecommand*\Eqqcolon{=\mathrel{\mkern-1.2mu}\dblcolon}
+  \providecommand*\eqcolon{\mathrel{-}\mathrel{\mkern-1.2mu}\vcentcolon}
+  \providecommand*\Eqcolon{\mathrel{-}\mathrel{\mkern-1.2mu}\dblcolon}
+  \providecommand*\colonapprox{\vcentcolon\mathrel{\mkern-1.2mu}\approx}
+  \providecommand*\Colonapprox{\dblcolon\mathrel{\mkern-1.2mu}\approx}
+  \providecommand*\colonsim{\vcentcolon\mathrel{\mkern-1.2mu}\sim}
+  \providecommand*\Colonsim{\dblcolon\mathrel{\mkern-1.2mu}\sim}
 }
 %    \end{macrocode}
 %  \end{macro}
@@ -3727,9 +3753,12 @@ and the derived files
 %  \begin{macro}{\MT_measure_mult:n}
 %  \changes{v1.01a}{2004/10/10}{Added Ord atom to beginning of each line}
 %  Measuring. Disable all labelling and check the number of lines.
+% \changes{v1.18}{2015/11/12}{Added \cs{measuring@true} inside the
+% \env{multlined}}
 %    \begin{macrocode}
 \newcommand\MT_measure_mult:n [1]{
   \begingroup
+    \measuring@true
     \g_MT_multlinerow_int\@ne
     \MH_let:NwN \label\MT_gobblelabel:w
     \MH_let:NwN \tag\gobble@tag
@@ -3767,11 +3796,44 @@ and the derived files
 }
 %    \end{macrocode}
 %  \end{macro}
+%
+%  \begin{macro}{\MultlinedHook}
+% \changes{v1.18}{2015/11/12}{Added this hook}
+% Due to the methods used by \env{multlined}, some constructions may
+% fail. We already know that \env{multlined} does not work well inside
+% arrays or matrices. Be things used inside \cs{multlined} may also
+% fail. Thus we provide a hook that can be added to in order to make
+% redefinitions of these constructions when used inside
+% \env{multlined}. The default value include a fix to \env{subarray}
+% and thus \cs{substack}. The fix to this environment was suggested by
+% Ulrike Fisher, \url{http://chat.stackexchange.com/transcript/message/25105970#25105970}
+%    \begin{macrocode}
+\newcommand\MultlinedHook{
+  \renewenvironment{subarray}[1]{%
+    \vcenter\bgroup
+    \Let@ \restore@math@cr \default@tag
+    \let\math@cr@@\AMS@math@cr@@ 
+    \baselineskip\fontdimen10 \scriptfont\tw@
+    \advance\baselineskip\fontdimen12 \scriptfont\tw@
+    \lineskip\thr@@\fontdimen8 \scriptfont\thr@@
+    \lineskiplimit\lineskip
+    \ialign\bgroup\ifx c##1\hfil\fi
+    $\m@th\scriptstyle####$\hfil\crcr
+  }{%
+    \crcr\egroup\egroup
+  }
+}
+
+%    \end{macrocode}
+%  \end{macro}
+%
 %  \begin{environment}{multlined}
 %  The user environment. Scan for an optional argument.
+% \changes{v1.18}{2015/11/12}{Added \cs{MultlinedHook}}
 %    \begin{macrocode}
 \newenvironment{multlined}[1][]
   {\MH_group_align_safe_begin:
+    \MultlinedHook
   \MT_test_for_tcb_other:nnnnn {#1}
     {\def\MT_mult_default_pos:{#1}}
     {\def\MT_mult_default_pos:{#1}}
@@ -5465,24 +5527,31 @@ and the derived files
 %  October~17th 2002 by Michael J.~Downes. The purpose is to be able
 %  to put dimensions on the last three arguments of
 %  \cs{DeclareMathSizes}.
+%
+%  As of 2015, this fix has made it into the \LaTeX{} kernel. Thus we
+%  only provide the fix for older kernels.
+% \changes{v1.18}{2015/11/12}{This was now moved into the kernel, thus
+% we only provide it for older kernels}
 %    \begin{macrocode}
-\def\@DeclareMathSizes #1#2#3#4#5{%
-  \@defaultunits\dimen@ #2pt\relax\@nnil
-  \if:w $#3$%
-    \MH_let:cN {S@\strip@pt\dimen@}\math@fontsfalse
-  \else:
-    \@defaultunits\dimen@ii #3pt\relax\@nnil
-    \@defaultunits\@tempdima #4pt\relax\@nnil
-    \@defaultunits\@tempdimb #5pt\relax\@nnil
-    \toks@{#1}%
-    \expandafter\xdef\csname S@\strip@pt\dimen@\endcsname{%
-      \gdef\noexpand\tf@size{\strip@pt\dimen@ii}%
-      \gdef\noexpand\sf@size{\strip@pt\@tempdima}%
-      \gdef\noexpand\ssf@size{\strip@pt\@tempdimb}%
-      \the\toks@
-    }%
-  \fi:
-}
+\ifx\e@alloc\@undefined% kernel thus older than 2015
+  \def\@DeclareMathSizes #1#2#3#4#5{%
+    \@defaultunits\dimen@ #2pt\relax\@nnil
+    \if:w $#3$%
+      \MH_let:cN {S@\strip@pt\dimen@}\math@fontsfalse
+    \else:
+      \@defaultunits\dimen@ii #3pt\relax\@nnil
+      \@defaultunits\@tempdima #4pt\relax\@nnil
+      \@defaultunits\@tempdimb #5pt\relax\@nnil
+      \toks@{#1}%
+      \expandafter\xdef\csname S@\strip@pt\dimen@\endcsname{%
+        \gdef\noexpand\tf@size{\strip@pt\dimen@ii}%
+        \gdef\noexpand\sf@size{\strip@pt\@tempdima}%
+        \gdef\noexpand\ssf@size{\strip@pt\@tempdimb}%
+        \the\toks@
+      }%
+    \fi:
+  }
+\fi
 %    \end{macrocode}
 %  \end{macro}
 %
