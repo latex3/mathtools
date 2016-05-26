@@ -281,7 +281,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3174}
+%  \CheckSum{3177}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -5068,6 +5068,8 @@ and the derived files
 %  test not only \cs{linewidth} against \cs{columnwidth} but also if
 %  \cs{@totalleftmargin} is not zero. The implementation used is due to
 %  David Carlisle.
+% \changes{v1.19}{2016/05/26}{Added \cs{ignorespaces} after
+% \cs{noindent}, bug inherited from \pkg{amsmath}}
 %    \begin{macrocode}
          \ifdim
            \ifdim\@totalleftmargin=\z@
@@ -5078,7 +5080,7 @@ and the derived files
          =\columnwidth
         \else \parshape\@ne \@totalleftmargin \linewidth
         \fi
-        \noindent##1\par}%
+        \noindent\ignorespaces##1\par}%
       \penalty\predisplaypenalty\vskip\abovedisplayskip%
       \vskip-\lineskiplimit      % CCS
       \vskip\normallineskiplimit % CCS
@@ -5124,6 +5126,8 @@ and the derived files
 %    \end{macrocode}
 % \changes{v1.17}{2015/06/17}{Added extra `in list' check}
 % Same comment as for \cs{intertext} above.
+% \changes{v1.19}{2016/05/26}{Added \cs{ignorespaces} after
+% \cs{noindent}, bug inherited from \pkg{amsmath}}
 %    \begin{macrocode}
       \if_dim:w
         \if_dim:w \@totalleftmargin=\z@
@@ -5135,7 +5139,7 @@ and the derived files
       \else:
         \parshape\@ne \@totalleftmargin \linewidth
       \fi:
-      \noindent#1\par}%
+      \noindent\ignorespaces#1\par}%
     \penalty\predisplaypenalty\vskip\abovedisplayshortskip%
   }%
 }
@@ -5189,6 +5193,8 @@ and the derived files
 %    \end{macrocode}
 % \changes{v1.17}{2015/06/17}{Added extra `in list' check}
 % Same comment as for \cs{intertext} above.
+% \changes{v1.19}{2016/05/26}{Added \cs{ignorespaces} after
+% \cs{noindent}, bug inherited from \pkg{amsmath}}
 %    \begin{macrocode}
       \if_dim:w
         \if_dim:w \@totalleftmargin=\z@
@@ -5200,7 +5206,7 @@ and the derived files
       \else:
         \parshape\@ne \@totalleftmargin \linewidth
       \fi:
-      \noindent#1\par}%
+      \noindent\ignorespaces#1\par}%
     \penalty\predisplaypenalty\vskip\abovedisplayshortskip%
     \vskip-\lineskiplimit      
     \vskip\normallineskiplimit 

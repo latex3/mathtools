@@ -1,3 +1,8 @@
+MAY 2016
+
+* Added \ignorespaces after \noindent, bug inherited from amsmath
+
+
 MARCH 2015
 
 * Changed the example for \Set in the manual, such that \allowbreak
