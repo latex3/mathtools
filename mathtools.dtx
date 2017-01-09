@@ -3186,7 +3186,7 @@ and the derived files
 %   to \cs{nocite}.
 %    \begin{macrocode}
 \MHInternalSyntaxOff
-\newcommand\noeqref[1]{\@bsphack
+\newcommand\noeqref[1]{\@bsphack%
   \@for\@tempa:=#1\do{%
     \@safe@activestrue%
     \edef\@tempa{\expandafter\@firstofone\@tempa}%
@@ -3197,7 +3197,7 @@ and the derived files
     }{}%
     \if@filesw\protected@write\@auxout{}%
     {\string\MT@newlabel{\@tempa}}\fi%
-  \@safe@activesfalse}
+  \@safe@activesfalse}%
   \@esphack}
 
 %    \end{macrocode}
@@ -3812,7 +3812,7 @@ and the derived files
   \renewenvironment{subarray}[1]{%
     \vcenter\bgroup
     \Let@ \restore@math@cr \default@tag
-    \let\math@cr@@\AMS@math@cr@@ 
+    \let\math@cr@@\AMS@math@cr@@  % <--- the fix
     \baselineskip\fontdimen10 \scriptfont\tw@
     \advance\baselineskip\fontdimen12 \scriptfont\tw@
     \lineskip\thr@@\fontdimen8 \scriptfont\thr@@

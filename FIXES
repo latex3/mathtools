@@ -1,3 +1,8 @@
+JANUARY 2017
+
+* sporadic space in \noeqref
+
+
 MAY 2016
 
 * Added \ignorespaces after \noindent, bug inherited from amsmath
