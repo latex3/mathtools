@@ -68,7 +68,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: empheq 2014/08/04 v2.14 empheq}
+\Msg{* Package: empheq 2017/03/28 v2.15 empheq}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -131,7 +131,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{empheq.drv}%
-  [2014/08/04 v2.14 Emphasizing equations]
+  [2017/03/28 v2.15 Emphasizing equations]
 \documentclass{ltxdoc}
 \usepackage{mathpazo}
 \usepackage[overload]{empheq}
@@ -641,7 +641,8 @@ and the derived files
 %  Now we've seen some of the things that work in the \env{empheq}
 %  environment but we also have to take note of what won't work. As
 %  this package provides a way to box multi line math displays it can
-%  come as no surprise that using either \cs{intertext} or
+%  come as no surprise that using either \cs{intertext}\footnote{And
+%  thus also \cs{shortintertext} (\pkg{mathtools}).} or
 %  \cs{displaybreak} inside the \env{empheq} environment makes no
 %  sense. Should you however happen to try them anyway, you'll
 %  experience that \cs{intertext} issues an error message and
@@ -650,8 +651,13 @@ and the derived files
 %  from what you expect, and that is not the case (so much at least)
 %  with \cs{displaybreak}. But of course, you'll never see either
 %  message because you read the manual!
-%
-%
+%  \begin{codesyntax}
+%    Very long lines
+%  \end{codesyntax}
+%  The standard \AmS\ environments will move the equation number if a
+%  line gets too close to it. Due to implementation, this feature is
+%  \emph{not} carried correctly to the \env{empheq} environments, so keep
+%  equation lines short then applying \env{empheq} to them.
 %
 %  \subsection{Special delimiters}
 %
@@ -2278,7 +2284,7 @@ and the derived files
 %  \subsubsection{Separating Tags and Display}
 %
 %  \begin{macro}{\EQ_typeset_tags:}
-%  Typesetting the tags without the display.
+%  Typesetting the tags without the display. 
 %    \begin{macrocode}
 \def\EQ_typeset_tags:{%
   \sbox\EQ_tag_box{%
@@ -2290,6 +2296,15 @@ and the derived files
 %  both \cs{EQ_typeset_tags:} and \cs{EQ_typeset_display:}.}
 %    \begin{macrocode}
       \EQ_prevent_vertical_space:
+%    \end{macrocode}
+%  The AMS classes sets \cs{displaywidth} equal to \cs{columnwidth} in
+%  \cs{everydisplay}. This is bad for us as then the reqno equation
+%  numbers are not typeset at the right edge of the parbox we are
+%  in. Simplest solution: Locally reset \cs{columnwidth}.
+%  \changes{v2.15}{2017/03/28}{Resetting \cs{columnwidth} as a fix for
+%  a setting in AMS classes} 
+%    \begin{macrocode}
+     \columnwidth\linewidth 
 %    \end{macrocode}
 %  Support for \pkg{ntheorem}. This package patches \cs{endgather}
 %  and \cs{endalign} with the commands \cs{TagsPlusEndmarks} and
