@@ -1,6 +1,7 @@
 % \iffalse meta-comment
 %
 % Copyright (C) 2002-2007,2010 by Morten Hoegholm
+% Copyright (C) 2017           by Lars Madsen
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -12,8 +13,7 @@
 %
 % This work has the LPPL maintenance status "maintained".
 %
-% This Current Maintainer of this work is
-% Lars Madsen, Will Robertson and Joseph Wright.
+% This Current Maintainer of this work is Lars Madsen <daleif@math.au.dk>
 %
 % This work consists of the main source file mhsetup.dtx
 % and the derived files
@@ -67,7 +67,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: mhsetup 2010/01/21 v1.2a mhsetup}
+\Msg{* Package: mhsetup 2017/03/31 v1.3 mhsetup}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -78,6 +78,7 @@
 This is a generated file.
 
 Copyright (C) 2002-2007,2010 by Morten Hoegholm
+Copyright (C) 2017           by Lars Madsen
 
 This work may be distributed and/or modified under the
 conditions of the LaTeX Project Public License, either
@@ -89,8 +90,7 @@ LaTeX version 2005/12/01 or later.
 
 This work has the LPPL maintenance status "maintained".
 
-This Current Maintainer of this work is 
-Lars Madsen, Will Robertson and Joseph Wright.
+This Current Maintainer of this work is Lars Madsen <daleif@math.au.dk>
 
 This work consists of the main source file mhsetup.dtx
 and the derived files
@@ -128,7 +128,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{mhsetup.drv}%
-  [2010/01/21 v1.2a programming setup (MH)]
+  [2017/03/31 v1.3 programming setup (MH)]
 \documentclass{ltxdoc}
 \usepackage{mhsetup}
 
@@ -163,18 +163,18 @@ and the derived files
 %
 %  \title{The \pkg{mhsetup} package\thanks{This package has version
 %  number \fileversion, last revised on \filedate.}}
-%  \author{Morten H\o gholm}
+%  \author{Morten H\o gholm (maintained by Lars Madsen)}
 %  \date{\filedate}
 %  \maketitle
 %
 %  \begin{abstract}
-%    The \pkg{mhsetup} package provides tools for a \LaTeX{}
+%    \noindent The \pkg{mhsetup} package provides tools for a \LaTeX{}
 %    programming environment similar to the one described in
 %    \texttt{expl3} on \textsc{ctan} although not as extensive. It is
 %    a required part of both the \pkg{mathtools} and \pkg{empheq}
 %    packages.
 %  \end{abstract}
-%
+%  \noindent 
 %  The description below was made before the extensive changes made to
 %  the expl3 code available from the LaTeX Project website.
 %
@@ -297,7 +297,7 @@ and the derived files
 %    \begin{macrocode}
 %<*package>
 \ProvidesPackage{mhsetup}%
-  [2010/01/21 v1.2a programming setup (MH)]
+  [2017/03/31 v1.3 programming setup (MH)]
 %    \end{macrocode}
 %  \subsection{The new internal syntax}
 %  \begin{macro}{\MHInternalSyntaxOn}
@@ -372,14 +372,14 @@ and the derived files
 %    \cs{MH_new_boolean:n} \marg{name}
 %  \end{quote}
 %  defines the boolean \meta{name} but also the conditional
-%  \cs{if_boolean_\meta{name}:} to be used in the ordinary
+%  \cs{MH_if_boolean_\meta{name}:} to be used in the ordinary
 %  \begin{tabbing}
 %    \mbox{}\quad\= \kill
-%    \cs{if_boolean_\meta{name}:}\\
+%    \cs{MH_if_boolean_\meta{name}:}\\
 %    \> \meta{true code} \\
-%    \cs{else:} \\
+%    \cs{MH_else:} \\
 %    \> \meta{false code} \\
-%    \cs{fi:}
+%    \cs{MH_fi:}
 %  \end{tabbing}
 %  There is also a more ``\LaTeX-like'' interface available by using
 %  the commands
@@ -397,17 +397,17 @@ and the derived files
 %  \end{quote}
 %  This is the interface I have used in this package.
 %
-%  Initially \cs{if_boolean_\meta{name}:} is `false'. This can be
+%  Initially \cs{MH_if_boolean_\meta{name}:} is `false'. This can be
 %  changed by saying
 %  \begin{tabbing}
 %    \quad \= \LaTeX:\quad \= \kill
-%    \> \TeX: \>   \cs{boolean_\meta{name}_true:} \quad \emph{or}\\
+%    \> \TeX: \>   \cs{MH_boolean_\meta{name}_true:} \quad \emph{or}\\
 %    \> \LaTeX: \> \cs{MH_set_boolean_T:n}\marg{name}
 %  \end{tabbing}
 %  and changed back again by
 %  \begin{tabbing}
 %    \quad \= \LaTeX:\quad \= \kill
-%    \> \TeX: \>   \cs{boolean_\meta{name}_false:} \quad \emph{or}\\
+%    \> \TeX: \>   \cs{MH_boolean_\meta{name}_false:} \quad \emph{or}\\
 %    \> \LaTeX: \> \cs{MH_set_boolean_F:n}\marg{name}
 %  \end{tabbing}
 %
@@ -415,38 +415,39 @@ and the derived files
 %  \cs{fi} now. That way a simple search and replace will be all that
 %  is needed for this package to be a certified \LaTeX3 package (well,
 %  maybe a little more is needed, but not much).
+%  \changes{v1.3}{2017/03/31}{Prefixed with MH\_}
 %    \begin{macrocode}
 \def\MH_new_boolean:n #1{
-  \expandafter\@ifdefinable\csname if_boolean_#1:\endcsname{
-    \@namedef{boolean_#1_true:}
-      {\MH_let:cN{if_boolean_#1:}\iftrue}
-    \@namedef{boolean_#1_false:}
-      {\MH_let:cN{if_boolean_#1:}\iffalse}
-    \@nameuse{boolean_#1_false:}%
+  \expandafter\@ifdefinable\csname MH_if_boolean_#1:\endcsname{
+    \@namedef{MH_boolean_#1_true:}
+      {\MH_let:cN{MH_if_boolean_#1:}\iftrue}
+    \@namedef{MH_boolean_#1_false:}
+      {\MH_let:cN{MH_if_boolean_#1:}\iffalse}
+    \@nameuse{MH_boolean_#1_false:}%
   }
 }
-\def\MH_set_boolean_F:n #1{ \@nameuse{boolean_#1_false:} }
-\def\MH_set_boolean_T:n #1{ \@nameuse{boolean_#1_true:} }
+\def\MH_set_boolean_F:n #1{ \@nameuse{MH_boolean_#1_false:} }
+\def\MH_set_boolean_T:n #1{ \@nameuse{MH_boolean_#1_true:} }
 \def\MH_if_boolean:nTF #1{
-  \@nameuse{if_boolean_#1:}
+  \@nameuse{MH_if_boolean_#1:}
     \expandafter\@firstoftwo
-  \else:
+  \MH_else:
     \expandafter\@secondoftwo
-  \fi:
+  \MH_fi:
 }
 \def\MH_if_boolean:nT #1{
-  \@nameuse{if_boolean_#1:}
+  \@nameuse{MH_if_boolean_#1:}
     \expandafter\@firstofone
-  \else:
+  \MH_else:
     \expandafter\@gobble
-  \fi:
+  \MH_fi:
 }
 \def\MH_if_boolean:nF #1{
-  \@nameuse{if_boolean_#1:}
+  \@nameuse{MH_if_boolean_#1:}
     \expandafter\@gobble
-  \else:
+  \MH_else:
     \expandafter\@firstofone
-  \fi:
+  \MH_fi:
 }
 %    \end{macrocode}
 %  \end{macro}
@@ -456,37 +457,38 @@ and the derived files
 %  \end{macro}
 %  \end{macro}
 %
-%  \begin{macro}{\if:w}
+%  \changes{v1.3}{2017/03/31}{Prefixed all with MH\_}
+%  \begin{macro}{\MH_if:w}
 %  \changes{v1.0b}{2004/10/10}{Use different test}
-%  \begin{macro}{\if_meaning:NN}
+%  \begin{macro}{\MH_if_meaning:NN}
 %  \changes{v1.0b}{2004/10/10}{Use different test}
-%  \begin{macro}{\else:}
+%  \begin{macro}{\MH_else:}
 %  \changes{v1.0b}{2004/10/10}{Use different test}
-%  \begin{macro}{\fi:}
+%  \begin{macro}{\MH_fi:}
 %  \changes{v1.0b}{2004/10/10}{Use different test}
-%  \begin{macro}{\if_num:w}
-%  \changes{v1.0b}{2004/10/10}{Use different test}
-%  \changes{v1.2a}{2010/01/21}{Define at start of document}
-%  \begin{macro}{\if_dim:w}
+%  \begin{macro}{\MH_if_num:w}
 %  \changes{v1.0b}{2004/10/10}{Use different test}
 %  \changes{v1.2a}{2010/01/21}{Define at start of document}
-%  \begin{macro}{\if_case:w}
+%  \begin{macro}{\MH_if_dim:w}
 %  \changes{v1.0b}{2004/10/10}{Use different test}
 %  \changes{v1.2a}{2010/01/21}{Define at start of document}
-%  \begin{macro}{\or:}
+%  \begin{macro}{\MH_if_case:w}
+%  \changes{v1.0b}{2004/10/10}{Use different test}
+%  \changes{v1.2a}{2010/01/21}{Define at start of document}
+%  \begin{macro}{\MH_or:}
 %  \changes{v1.0b}{2004/10/10}{Use different test}
 %  Copies of \TeX{} primitives.
 %    \begin{macrocode}
-\@ifundefined{if:w}{\MH_let:NwN \if:w =\if}{}
-\@ifundefined{if_meaning:NN}{\MH_let:NwN \if_meaning:NN =\ifx}{}
-\@ifundefined{else:}{\MH_let:NwN \else:=\else}{}
-\@ifundefined{fi:}{\MH_let:NwN \fi:=\fi}{}
+\@ifundefined{MH_if:w}{\MH_let:NwN \MH_if:w =\if}{}
+\@ifundefined{MH_if_meaning:NN}{\MH_let:NwN \MH_if_meaning:NN =\ifx}{}
+\@ifundefined{MH_else:}{\MH_let:NwN \MH_else:=\else}{}
+\@ifundefined{MH_fi:}{\MH_let:NwN \MH_fi:=\fi}{}
 \AtBeginDocument{
-  \@ifundefined{if_num:w}{\MH_let:NwN \if_num:w =\ifnum}{}
-  \@ifundefined{if_dim:w}{\MH_let:NwN \if_dim:w =\ifdim}{}
-  \@ifundefined{if_case:w}{\MH_let:NwN \if_case:w =\ifcase}{}
+  \@ifundefined{MH_if_num:w}{\MH_let:NwN \MH_if_num:w =\ifnum}{}
+  \@ifundefined{MH_if_dim:w}{\MH_let:NwN \MH_if_dim:w =\ifdim}{}
+  \@ifundefined{MH_if_case:w}{\MH_let:NwN \MH_if_case:w =\ifcase}{}
 }
-\@ifundefined{or:}{\MH_let:NwN \or:=\or}{}
+\@ifundefined{MH_or:}{\MH_let:NwN \MH_or:=\or}{}
 %    \end{macrocode}
 %  \end{macro}
 %  \end{macro}
@@ -568,6 +570,7 @@ and the derived files
 %  \begin{macro}{\MH_nospace_testopt:nn}
 %  \begin{macro}{\MH_nospace_protected_testopt:n}
 %  Scanning for the next character but disallow spaces.
+% \changes{v1.3}{2017/03/31}{Added MH\_ prefix to several \cs{if...} macros}
 %    \begin{macrocode}
 \long\def\MH_nospace_ifnextchar:Nnn #1#2#3{
   \MH_let:NwN\reserved@d=~#1
@@ -576,9 +579,9 @@ and the derived files
   \futurelet\@let@token\MH_nospace_nextchar:
 }
 \def\MH_nospace_nextchar:{
-  \if_meaning:NN \@let@token\reserved@d
+  \MH_if_meaning:NN \@let@token\reserved@d
     \MH_let:NwN \reserved@b\reserved@a
-  \fi:
+  \MH_fi:
   \reserved@b
 }
 \long\def\MH_nospace_testopt:nn #1#2{
@@ -587,11 +590,11 @@ and the derived files
     {#1[{#2}]}
 }
 \def\MH_nospace_protected_testopt:n #1{
-  \if_meaning:NN \protect\@typeset@protect
+  \MH_if_meaning:NN \protect\@typeset@protect
     \expandafter\MH_nospace_testopt:nn
-  \else:
+  \MH_else:
     \@x@protect#1
-  \fi:
+  \MH_fi:
 }
 %    \end{macrocode}
 %  \end{macro}

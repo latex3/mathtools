@@ -68,7 +68,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: empheq 2017/03/28 v2.15 empheq}
+\Msg{* Package: empheq 2017/03/31 v2.15 empheq}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -131,7 +131,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{empheq.drv}%
-  [2017/03/28 v2.15 Emphasizing equations]
+  [2017/03/31 v2.15 Emphasizing equations]
 \documentclass{ltxdoc}
 \usepackage{mathpazo}
 \usepackage[overload]{empheq}
@@ -324,6 +324,9 @@ and the derived files
 \end{document}
 %</driver>
 %  \fi
+%  \changes{v2.15}{2017/03/31}{Fixed a bug in relation to the AMS
+%  classes and completed prefixing macros belonging to \pkg{mhsetup}
+%  and \pkg{empheq}}
 %  \changes{v2.14}{2014/07/16}{Updated maintenance and contact info}
 %
 %  \changes{v2.11}{2004/08/03}{Removed interface to the obsolete empheq
@@ -370,7 +373,7 @@ and the derived files
 %  \maketitle
 %
 %  \begin{abstract}
-%  The \pkg{empheq} package can best be described as a visual markup
+%  \noindent The \pkg{empheq} package can best be described as a visual markup
 %  extension to \pkg{amsmath}. In short it offers a)~a multi line
 %  equivalent of \cs{boxed} from \pkg{amsmath} and b)~a way to
 %  produce arbitrary delimiters that span entire math displays.
@@ -1735,10 +1738,11 @@ and the derived files
 %    \begin{macrocode}
 %<*package>
 \ProvidesPackage{empheq}%
-  [2014/07/16 v2.14 Emphasizing equations]
+  [2017/03/31 v2.15 Emphasizing equations]
 %    \end{macrocode}
+% \changes{v2.15}{2017/03/31}{Bumped required mhsetup release}
 %    \begin{macrocode}
-\RequirePackage{mhsetup}[2004/10/10]
+\RequirePackage{mhsetup}[2017/03/31]
 \MHInternalSyntaxOn
 %    \end{macrocode}
 %
@@ -1793,9 +1797,10 @@ and the derived files
 %  course. Since v2.10 that is now taken care of in the
 %  \pkg{mathtools} package which'll pass on the options to
 %  \pkg{amsmath}.
+% \changes{v2.15}{2017/03/31}{Bumped required mathtools release}
 %    \begin{macrocode}
 \MHInternalSyntaxOff
-\RequirePackage{mathtools}[2004/10/10]
+\RequirePackage{mathtools}[2017/03/31]
 %    \end{macrocode}
 %  Activate the internal syntax.
 %    \begin{macrocode}
@@ -1845,22 +1850,23 @@ and the derived files
 %  \end{enumerate}
 %  \end{multicols}
 %
+% \changes{v2.15}{2017/03/31}{added MH\_ prefix}
 %    \begin{macrocode}
 \newcount\l_EQ_equationtype_int
 \newcount\l_EQ_alignmentmode_int
 \if@fleqn
   \iftagsleft@
     \l_EQ_alignmentmode_int=4
-  \else:
+  \MH_else:
     \l_EQ_alignmentmode_int=\thr@@
-  \fi:
-\else:
+  \MH_fi:
+\MH_else:
   \iftagsleft@
     \l_EQ_alignmentmode_int=\tw@
-  \else:
+  \MH_else:
     \l_EQ_alignmentmode_int=\@ne
-  \fi:
-\fi:
+  \MH_fi:
+\MH_fi:
 %    \end{macrocode}
 %  \end{macro}
 %  \end{macro}
@@ -1988,17 +1994,19 @@ and the derived files
 %  If the user didn't specify the mandatory argument we will catch it
 %  because \cs{l_EQ_equationtype_int} is zero. An error is
 %  issued\label{ZeroCheckpoint}.
+% \changes{v2.15}{2017/03/31}{added MH\_ prefix, twice}
 %    \begin{macrocode}
-  \if_num:w \l_EQ_equationtype_int=\z@ %ZeroCheckpoint
+  \MH_if_num:w \l_EQ_equationtype_int=\z@ %ZeroCheckpoint
     \EQ_upgrade_error:
-  \else:
+  \MH_else:
 %    \end{macrocode}
 %  Those that read the manual get the reward here: The package will
 %  actually work!
+% \changes{v2.15}{2017/03/31}{added MH\_ prefix}
 %    \begin{macrocode}
     \EQ_post_process:
     \ignorespacesafterend
-  \fi:}
+  \MH_fi:}
 %    \end{macrocode}
 %  \end{environment}
 %  \end{macro}
@@ -2037,9 +2045,9 @@ and the derived files
     }
     \ifodd \l_EQ_alignmentmode_int
       \setkeys{\MT_options_name:}{multlined-pos=b}
-    \else:
+    \MH_else:
       \setkeys{\MT_options_name:}{multlined-pos=t}
-    \fi:
+    \MH_fi:
       \g@addto@macro\EQ_complete_mathdisplay:{
         \begin{MTmultlined}\relax}
   }
@@ -2109,47 +2117,49 @@ and the derived files
 %    \end{macrocode}
 %  Call the appropriate \cs{find_displaywidth_}\meta{num}\texttt{:}
 %  which extracts the display width (\cs{l_EQ_displaywidth_dim}).
+%  \changes{v2.15}{2017/03/31}{added EQ\_ prefix}
 %    \begin{macrocode}
-  \@nameuse{find_displaywidth_
+  \@nameuse{EQ_find_displaywidth_
            \romannumeral\l_EQ_equationtype_int\EQ_next: :}
   \MH_addtolength:dn
     \l_EQ_totalwidth_dim{\l_EQ_displaywidth_dim}
 %    \end{macrocode}
 %  We save the math display in a box of the correct size.
+% \changes{v2.15}{2017/03/31}{added MH\_ prefix}
 %    \begin{macrocode}
   \savebox\EQ_mathdisplay_box[\l_EQ_totalwidth_dim][c]{%
     $\EQ_left_side:
     \EQ_innerbox:{%
-      \if_case:w \l_EQ_alignmentmode_int\or:
+      \MH_if_case:w \l_EQ_alignmentmode_int\MH_or:
 %    \end{macrocode}
 %  If the equation is centered we make the box centered
 %    \begin{macrocode}
         \makebox[\l_EQ_displaywidth_dim][c]
           {\usebox{\EQ_mathdisplay_box}}%
-      \or:
+      \MH_or:
         \makebox[\l_EQ_displaywidth_dim][c]
           {\usebox{\EQ_mathdisplay_box}}%
-      \or:
+      \MH_or:
 %    \end{macrocode}
 %  Else we set it in a left aligned box and take care of the
 %  \cs{@mathmargin} unless we're in \env{flalign} or \env{flalign*}.
 %    \begin{macrocode}
         \makebox[\l_EQ_displaywidth_dim][l]{%
-          \if_num:w \l_EQ_equationtype_int=5 \else:
-            \if_num:w \l_EQ_equationtype_int=6 \else:
+          \MH_if_num:w \l_EQ_equationtype_int=5 \MH_else:
+            \MH_if_num:w \l_EQ_equationtype_int=6 \MH_else:
               \kern-\@mathmargin
-            \fi:
-          \fi:
+            \MH_fi:
+          \MH_fi:
           \usebox{\EQ_mathdisplay_box}}%
-      \or:
+      \MH_or:
         \makebox[\l_EQ_displaywidth_dim][l]{%
-          \if_num:w \l_EQ_equationtype_int=5 \else:
-            \if_num:w \l_EQ_equationtype_int=6 \else:
+          \MH_if_num:w \l_EQ_equationtype_int=5 \MH_else:
+            \MH_if_num:w \l_EQ_equationtype_int=6 \MH_else:
               \kern-\@mathmargin
-            \fi:
-          \fi:
+            \MH_fi:
+          \MH_fi:
           \usebox{\EQ_mathdisplay_box}}%
-      \fi:}%
+      \MH_fi:}%
     \EQ_right_side:$}%
 %    \end{macrocode}
 %  Then we're ready for typesetting. We just use an ordinary
@@ -2168,20 +2178,22 @@ and the derived files
 %  properly, so we make sure there is a tag before we try to typeset
 %  it. Also make sure that the boolean |show_manual_tags| is true
 %  just for this tag.
+%  \changes{v2.15}{2017/03/31}{added MH\_ prefixes}
 %    \begin{macrocode}
-  \if_dim:w \g_EQ_widesttag_dim>\z@
+  \MH_if_dim:w \g_EQ_widesttag_dim>\z@
   \MH_set_boolean_T:n {show_manual_tags}
 %    \end{macrocode}
 %  Set the tag in a left aligned box when in \mode{leqno} mode and
 %  right aligned when in \mode{reqno} mode.
+%  \changes{v2.15}{2017/03/31}{added MH\_ prefixes}
 %    \begin{macrocode}
-    \if_case:w \l_EQ_alignmentmode_int
-    \or: \EQ_place_tag:N r %#1
-    \or: \EQ_place_tag:N l %#2
-    \or: \EQ_place_tag:N r %#3
-    \or: \EQ_place_tag:N l %#4
-    \fi:
-  \fi:
+    \MH_if_case:w \l_EQ_alignmentmode_int
+    \MH_or: \EQ_place_tag:N r %#1
+    \MH_or: \EQ_place_tag:N l %#2
+    \MH_or: \EQ_place_tag:N r %#3
+    \MH_or: \EQ_place_tag:N l %#4
+    \MH_fi:
+  \MH_fi:
   \end{AmSequation*}
 %    \end{macrocode}
 %  \changes{v2.11}{2004/08/03}{Use raw \TeX{} commands to speed it up}
@@ -2245,12 +2257,18 @@ and the derived files
 %  \end{macro}
 %  \begin{macro}{\EQ_intertext:}
 %  Then we issue a suitable error message.
+% \changes{v2.15}{2017/03/31}{Extended to also include \cs{shortintertext}}
 %    \begin{macrocode}
 \def\EQ_intertext:{%
   \def\intertext##1{\PackageError{empheq}{%
     You~cannot~use~\string\intertext\space inside~the~`empheq'
     \MessageBreak
-    environment,~as~`empheq'~creates~an~unbreakable~box}\@eha}}
+    environment,~as~`empheq'~creates~an~unbreakable~box}\@eha}
+  \def\shortintertext##1{\PackageError{empheq}{%
+    You~cannot~use~\string\shortintertext\space inside~the~`empheq'
+    \MessageBreak
+    environment,~as~`empheq'~creates~an~unbreakable~box}\@eha}
+}
 \def\EQ_displaybreak:{%
   \def\dspbrk@[##1]{\PackageWarning{empheq}{%
     You~cannot~use~\string\displaybreak\space inside~the~`empheq'%
@@ -2341,38 +2359,40 @@ and the derived files
 %  case of extremely big tag height}
 %
 %  For adjusting vertical spacing in the display.
+% \changes{v2.15}{2017/03/31}{added MH\_ prefix}
 %    \begin{macrocode}
 \def\EQ_predisplay_adjustment:{%
-  \if_dim:w \g_EQ_toprow_height_dim<\baselineskip
+  \MH_if_dim:w \g_EQ_toprow_height_dim<\baselineskip
     \vskip\g_EQ_toprow_height_dim
     \vskip-\baselineskip
-  \else:
+  \MH_else:
     \vskip-\normallineskip
-  \fi:
-  \if_dim:w \g_EQ_toptag_height_dim>\g_EQ_toprow_height_dim
-    \if_dim:w \g_EQ_toptag_height_dim>\baselineskip
+  \MH_fi:
+  \MH_if_dim:w \g_EQ_toptag_height_dim>\g_EQ_toprow_height_dim
+    \MH_if_dim:w \g_EQ_toptag_height_dim>\baselineskip
       \vskip-\g_EQ_toptag_height_dim
       \vskip\baselineskip
       \vskip-\normallineskip
-    \fi:
-  \fi:}
+    \MH_fi:
+  \MH_fi:}
 %    \end{macrocode}
 %  \end{macro}
 %  \begin{macro}{\EQ_postdisplay_adjustment:}
 %  \changes{v1.05c}{2004/02/25}{Added \cs{EQ_postdisplay_adjustment:}}
 %  Name says it all.
+%  \changes{v2.15}{2017/03/31}{added MH\_ prefixes}
 %    \begin{macrocode}
 \def\EQ_postdisplay_adjustment:{%
-  \if_dim:w \g_EQ_bottomrow_depth_dim<\dp\strutbox
+  \MH_if_dim:w \g_EQ_bottomrow_depth_dim<\dp\strutbox
     \vskip\g_EQ_bottomrow_depth_dim
     \vskip-\dp\strutbox
-  \fi:
-  \if_dim:w \g_EQ_bottomtag_depth_dim>\g_EQ_bottomrow_depth_dim
-    \if_dim:w \g_EQ_bottomtag_depth_dim>\dp\strutbox
+  \MH_fi:
+  \MH_if_dim:w \g_EQ_bottomtag_depth_dim>\g_EQ_bottomrow_depth_dim
+    \MH_if_dim:w \g_EQ_bottomtag_depth_dim>\dp\strutbox
       \vskip-\g_EQ_bottomtag_depth_dim
       \vskip\dp\strutbox
-    \fi:
-  \fi:}
+    \MH_fi:
+  \MH_fi:}
 %    \end{macrocode}
 %  \end{macro}
 %  \begin{macro}{\EQ_typeset_display:}
@@ -2432,12 +2452,13 @@ and the derived files
 %  need to use a \cs{vphantom} of the tag as it may be taller than
 %  the line of math it is attached to (say, if you are using node
 %  connectors from \pkg{pstricks} or some other weird stuff).
+%  \changes{v2.15}{2017/03/31}{added MH\_ prefixes}
 %    \begin{macrocode}
 \def\EQ_maketag:Nn #1#2{%
   \setboxz@h{#2}%
-  \if_num:w \row@=\@ne
+  \MH_if_num:w \row@=\@ne
     \global \g_EQ_toptag_height_dim = \ht\z@
-  \fi:
+  \MH_fi:
 %    \end{macrocode}
 %  Similarly the depth of the last row is determined by measuring the
 %  depth of box zero for each row and then using the last of the
@@ -2448,12 +2469,13 @@ and the derived files
 %  \changes{v2.11}{2004/08/03}{Added a check for being in the last row.}
 %  Save the row number for later as the \opt{ntheorem} option will need
 %  it.
+%  \changes{v2.15}{2017/03/31}{added MH\_ prefixes}
 %    \begin{macrocode}
   \xdef\g_EQ_latest_nonzerodepth_row_fint{\number\row@}
   \@tempdima=\wd\z@
-  \if_dim:w \@tempdima > \g_EQ_widesttag_dim
+  \MH_if_dim:w \@tempdima > \g_EQ_widesttag_dim
     \global \g_EQ_widesttag_dim = \@tempdima
-  \fi:
+  \MH_fi:
   #1{#2}%
 }
 %    \end{macrocode}
@@ -2464,13 +2486,14 @@ and the derived files
 %  Box zero (\cs{z@}) contains the entire line of math in a
 %  \env{gather}, so instead of typesetting it we typeset the phantom
 %  of it and call \cs{EQ_measure_gather:}.
+% \changes{v2.15}{2017/03/31}{added MH\_ prefix}
 %    \begin{macrocode}
 \def\EQ_set_gather_field:{%
   \iftagsleft@
     \global\lineht@\ht\z@
-  \else:
+  \MH_else:
     \global\lineht@\dp\z@
-  \fi:
+  \MH_fi:
   \kern\eqnshift@
   %\boxz@ % Original amsmath version
   \EQ_measure_gather:
@@ -2483,11 +2506,12 @@ and the derived files
 %  fairly easy. If \cs{row@} is equal to one, we're in the first
 %  line, and the height of the top row is simply given by the height
 %  of box zero.
+%  \changes{v2.15}{2017/03/31}{added MH\_ prefixes}
 %    \begin{macrocode}
 \def\EQ_measure_gather:{%
-  \if_num:w \row@=\@ne
+  \MH_if_num:w \row@=\@ne
     \g_EQ_toprow_height_dim=\ht\z@
-  \fi:
+  \MH_fi:
 %    \end{macrocode}
 %  Similarly the depth of the last row is determined by measuring the
 %  depth of box zero for each row and then using the last of the
@@ -2505,18 +2529,19 @@ and the derived files
 %  we have to stop the underlying \cs{start@align} from going over
 %  the measuring phase twice. That's when the conditional
 %  \bool{continue_measuring} comes into the picture.
+% \changes{v2.15}{2017/03/31}{added MH\_ prefix}
 %    \begin{macrocode}
 \def\EQ_set_align_field:{%
   \column@plus
   \iftagsleft@
-    \if_dim:w \ht\z@>\lineht@
+    \MH_if_dim:w \ht\z@>\lineht@
       \global\lineht@\ht\z@
-    \fi:
-  \else:
-    \if_dim:w \dp\z@>\lineht@
+    \MH_fi:
+  \MH_else:
+    \MH_if_dim:w \dp\z@>\lineht@
       \global\lineht@\dp\z@
-    \fi:
-  \fi:
+    \MH_fi:
+  \MH_fi:
   %\boxz@ % Original amsmath version
   \MH_if_boolean:nT {continue_measuring}{ \EQ_measure_align: }
   \phantom{\boxz@}}
@@ -2525,37 +2550,38 @@ and the derived files
 %  \begin{macro}{\EQ_measure_align:}
 %  We have to measure every single field of the \cs{align@} \ldots\@
 %  Oh well, here it comes:
+% \changes{v2.15}{2017/03/31}{added MH\_ prefix}
 %    \begin{macrocode}
 \newcount\g_EQ_temprow_int
 \MH_new_boolean:n {still_in_samerow}
 \MH_new_boolean:n {continue_measuring}
 \def\EQ_measure_align:{%
-  \if_num:w \g_EQ_temprow_int=\row@
+  \MH_if_num:w \g_EQ_temprow_int=\row@
     \MH_set_boolean_T:n {still_in_samerow}
-  \else:
-    \if_num:w \g_EQ_temprow_int>\row@
+  \MH_else:
+    \MH_if_num:w \g_EQ_temprow_int>\row@
       \global\MH_set_boolean_F:n {continue_measuring}
-    \fi:
+    \MH_fi:
     \MH_set_boolean_F:n {still_in_samerow}
     \global\@tempdimc=\@tempdimb
     \global\@tempdimb=\g_EQ_bottomrow_depth_dim
-  \fi:
+  \MH_fi:
   \MH_if_boolean:nTF {continue_measuring}{
     \global\g_EQ_temprow_int=\row@
     \@tempcnta=\row@
-    \if_num:w \@tempcnta=\z@
+    \MH_if_num:w \@tempcnta=\z@
       \@tempdima=\g_EQ_toprow_height_dim
       \g_EQ_toprow_height_dim=\ht\z@\relax
-      \if_dim:w \g_EQ_toprow_height_dim<\@tempdima
+      \MH_if_dim:w \g_EQ_toprow_height_dim<\@tempdima
         \g_EQ_toprow_height_dim\@tempdima
-      \fi:
-    \fi:
+      \MH_fi:
+    \MH_fi:
     \MH_if_boolean:nTF {still_in_samerow}{
       \@tempdima=\g_EQ_bottomrow_depth_dim
       \g_EQ_bottomrow_depth_dim=\dp\z@\relax
-      \if_dim:w \g_EQ_bottomrow_depth_dim<\@tempdima
+      \MH_if_dim:w \g_EQ_bottomrow_depth_dim<\@tempdima
         \g_EQ_bottomrow_depth_dim\@tempdima
-      \fi:
+      \MH_fi:
     }{
       \g_EQ_bottomrow_depth_dim\dp\z@\relax
     }
@@ -2586,38 +2612,40 @@ and the derived files
 %  right. Remember we have separated the tags and the math display
 %  but we would still like to have them line up as they should! We do
 %  it all inside a group so we can use the scratch dimensions safely.
+% \changes{v2.15}{2017/03/31}{added MH\_ prefix}
 %    \begin{macrocode}
 \def\EQ_vertical_tag_adjustment:n #1{{%
   \@tempdima\z@\@tempdimb\z@
   \@tempdimc=\dp\strutbox
-  \if_dim:w \g_EQ_toprow_height_dim<\baselineskip
+  \MH_if_dim:w \g_EQ_toprow_height_dim<\baselineskip
     \MH_setlength:dn
       \@tempdima{\g_EQ_toprow_height_dim-\baselineskip}
-  \else:
+  \MH_else:
     \MH_setlength:dn \@tempdima{-\normallineskip}
-  \fi:
-  \if_dim:w \g_EQ_toptag_height_dim>\g_EQ_toprow_height_dim
-    \if_dim:w \g_EQ_toptag_height_dim>\baselineskip
+  \MH_fi:
+  \MH_if_dim:w \g_EQ_toptag_height_dim>\g_EQ_toprow_height_dim
+    \MH_if_dim:w \g_EQ_toptag_height_dim>\baselineskip
       \MH_addtolength:dn \@tempdima
         {-\g_EQ_toptag_height_dim+\baselineskip-\normallineskip}
-    \fi:
-  \fi:
-  \if_dim:w \g_EQ_bottomrow_depth_dim<\@tempdimc
+    \MH_fi:
+  \MH_fi:
+  \MH_if_dim:w \g_EQ_bottomrow_depth_dim<\@tempdimc
     \MH_setlength:dn \@tempdimb
       {\g_EQ_bottomrow_depth_dim-\@tempdimc}
-  \fi:
+  \MH_fi:
 %    \end{macrocode}
 %  \changes{v2.00}{2004/04/14}{Fixed minor bug}
 %  If the last condition is fulfilled we also need to cancel the
 %  first condition.
+% \changes{v2.15}{2017/03/31}{added MH\_ prefix}
 %    \begin{macrocode}
-  \if_dim:w \g_EQ_bottomtag_depth_dim>\g_EQ_bottomrow_depth_dim
-    \if_dim:w \g_EQ_bottomtag_depth_dim<\@tempdimc
-    \else:
+  \MH_if_dim:w \g_EQ_bottomtag_depth_dim>\g_EQ_bottomrow_depth_dim
+    \MH_if_dim:w \g_EQ_bottomtag_depth_dim<\@tempdimc
+    \MH_else:
       \MH_addtolength:dn \@tempdimb
         {-\g_EQ_bottomtag_depth_dim+\@tempdimc}
-    \fi:
-  \fi:
+    \MH_fi:
+  \MH_fi:
   \raisebox{-0.5\@tempdima+0.5\@tempdimb}{#1}}}%
 %    \end{macrocode}
 %  \end{macro}
@@ -2628,7 +2656,7 @@ and the derived files
 %    env}\marg{arabic num}\texttt{:}
 %    \item[]|\def\EQ_modify_linewidth_|\meta{roman num}\texttt{:}\\
 %    \hspace*{2em}\marg{Optionally alter \cs{l_EQ_temp_linewidth_dim}}
-%    \item[]|\def\find_displaywidth_|\meta{roman num}\texttt{:}\\
+%    \item[]|\def\EQ_find_displaywidth_|\meta{roman num}\texttt{:}\\
 %    \hspace*{2em}\marg{Set \cs{l_EQ_displaywidth_dim}}
 %    \item[]|\def\EQ_place_display_|\meta{roman num}\texttt{:}\\
 %    \hspace*{2em}\marg{Make use of \cs{EQ_use_mathdisplay:}}
@@ -2688,32 +2716,35 @@ and the derived files
 %    \end{macrocode}
 %  If $\cs{maxfields@}=2$ we're in a single column \env{align} and
 %  thus there is no flexible space.
+% \changes{v2.15}{2017/03/31}{added MH\_ prefix}
 %    \begin{macrocode}
-  \if_num:w \maxfields@=\tw@
-  \else:
+  \MH_if_num:w \maxfields@=\tw@
+  \MH_else:
 %    \end{macrocode}
 %  But if there is any flexible space we would very much like to
 %  adjust it because we add material to the right and left of the
 %  math display.
+% \changes{v2.15}{2017/03/31}{added MH\_ prefix}
+% \changes{v2.15}{2017/03/31}{added EQ\_ prefix}
 %    \begin{macrocode}
     \setlength{\l_EQ_temp_linewidth_dim}{%
       \linewidth-\l_EQ_totalwidth_dim-\widthof{\EQ_outerbox:{}}}%
-  \fi:}
+  \MH_fi:}
 \def\EQ_modify_linewidth_ii:{\EQ_modify_linewidth_i:}
-\def\find_displaywidth_i:{%
+\def\EQ_find_displaywidth_i:{%
   \MH_setlength:dn \l_EQ_displaywidth_dim
     {\l_EQ_temp_linewidth_dim-\alignsep@}
-  \if_case:w \l_EQ_alignmentmode_int
-  \or: % #1:
+  \MH_if_case:w \l_EQ_alignmentmode_int
+  \MH_or: % #1:
     \MH_addtolength:dn \l_EQ_displaywidth_dim{-\alignsep@}%
-  \or: % #2:
+  \MH_or: % #2:
     \MH_addtolength:dn \l_EQ_displaywidth_dim{-\alignsep@}%
-  \or: % #3:
+  \MH_or: % #3:
     \MH_addtolength:dn \l_EQ_displaywidth_dim{-\@mathmargin}%
-  \or: % #4:
+  \MH_or: % #4:
     \MH_addtolength:dn \l_EQ_displaywidth_dim{-\@mathmargin}%
-  \fi:}
-\def\find_displaywidth_ii:{\find_displaywidth_i:}
+  \MH_fi:}
+\def\EQ_find_displaywidth_ii:{\EQ_find_displaywidth_i:}
 \def\EQ_place_display_i: {\EQ_use_mathdisplay:}
 \def\EQ_place_display_ii:{\EQ_place_display_i:}
 %    \end{macrocode}
@@ -2721,20 +2752,22 @@ and the derived files
 %  \subsection{The \env{gather} Family}
 %  This is a gem. Notice how easy it is once we got the framework for
 %  it.
+%  \changes{v2.15}{2017/03/31}{added MH\_ prefixes}
+%  \changes{v2.15}{2017/03/31}{added EQ\_ prefix}
 %    \begin{macrocode}
 \EQ_new_equationtype:nnn {EmphEqEnv}{gather}{3}
 \EQ_new_equationtype:nnn {EmphEqEnv}{gather*}{4}
 \def\EQ_modify_linewidth_iii:{}
 \def\EQ_modify_linewidth_iv:{\EQ_modify_linewidth_iii:}
-\def\find_displaywidth_iii:{%
+\def\EQ_find_displaywidth_iii:{%
   \MH_setlength:dn \l_EQ_displaywidth_dim{\totwidth@}%
-  \if_case:w \l_EQ_alignmentmode_int \or: \or: % #1 & #2:
-  \or: % #3:
+  \MH_if_case:w \l_EQ_alignmentmode_int \MH_or: \MH_or: % #1 & #2:
+  \MH_or: % #3:
     \MH_addtolength:dn \l_EQ_displaywidth_dim{-\@mathmargin}%
-  \or: % #4:
+  \MH_or: % #4:
     \MH_addtolength:dn \l_EQ_displaywidth_dim{-\@mathmargin}%
-  \fi:}
-\def\find_displaywidth_iv:{\find_displaywidth_iii:}
+  \MH_fi:}
+\def\EQ_find_displaywidth_iv:{\EQ_find_displaywidth_iii:}
 \def\EQ_place_display_iii:{\EQ_use_mathdisplay:}
 \def\EQ_place_display_iv: {\EQ_place_display_iii:}
 %    \end{macrocode}
@@ -2785,35 +2818,37 @@ and the derived files
 %  two cases. I made this choice because we need these adjustments
 %  inside the adjustments for \env{flalign} and that makes it
 %  incredibly difficult to see what happens.
+%  \changes{v2.15}{2017/03/31}{added MH\_ prefixes}
 %    \begin{macrocode}
 \def\EQ_multline_modify_linewidth_tag:{%
-  \if_case:w \l_EQ_alignmentmode_int
-  \or: % #1:
+  \MH_if_case:w \l_EQ_alignmentmode_int
+  \MH_or: % #1:
     \MH_addtolength:dn \l_EQ_temp_linewidth_dim{%
       -\g_EQ_widesttag_dim-\multlinetaggap-\multlinegap}%
-  \or:
+  \MH_or:
     \MH_addtolength:dn \l_EQ_temp_linewidth_dim{%
       -\g_EQ_widesttag_dim-\multlinetaggap-\multlinegap}%
-  \or:
+  \MH_or:
     \MH_addtolength:dn \l_EQ_temp_linewidth_dim{%
       -\@mathmargin-\g_EQ_widesttag_dim-\multlinetaggap}%
-  \or:
+  \MH_or:
     \MH_addtolength:dn
       \l_EQ_temp_linewidth_dim{-\@mathmargin-\multlinegap}%
-  \fi:
+  \MH_fi:
 }
 \def\EQ_multline_modify_linewidth_notag:{%
-  \if_case:w \l_EQ_alignmentmode_int\or:
+  \MH_if_case:w \l_EQ_alignmentmode_int
+  \MH_or:
     \MH_addtolength:dn \l_EQ_temp_linewidth_dim{-2\multlinegap}
-  \or:
+  \MH_or:
     \MH_addtolength:dn \l_EQ_temp_linewidth_dim{-2\multlinegap}
-  \or:
+  \MH_or:
     \MH_addtolength:dn
       \l_EQ_temp_linewidth_dim{-\@mathmargin-\multlinegap}%
-  \or:
+  \MH_or:
     \MH_addtolength:dn
       \l_EQ_temp_linewidth_dim{-\@mathmargin-\multlinegap}%
-  \fi:
+  \MH_fi:
 }
 %    \end{macrocode}
 %  \end{macro}
@@ -2832,6 +2867,8 @@ and the derived files
 \MH_if_boolean:nTF {good_mult}{
 %    \end{macrocode}
 %  The good:
+% \changes{v2.15}{2017/03/31}{added MH\_ prefix}
+%  \changes{v2.15}{2017/03/31}{added EQ\_ prefix}
 %    \begin{macrocode}
 \MH_keyval_alias_with_addon:nnnn {EmphEqEnv}{multline}{gather}
   {\MH_set_boolean_T:n {outer_mult}}
@@ -2840,51 +2877,51 @@ and the derived files
 \def\EQ_modify_linewidth_iii_mult:{
   \setlength{\l_EQ_temp_linewidth_dim}{%
     \linewidth-\widthof{\EQ_outerbox:{}}}%
-  \if_dim:w \g_EQ_widesttag_dim>\z@
+  \MH_if_dim:w \g_EQ_widesttag_dim>\z@
     \EQ_multline_modify_linewidth_tag:
-  \else:
+  \MH_else:
     \EQ_multline_modify_linewidth_notag:
-  \fi:
+  \MH_fi:
   \MH_setlength:dn \l_MT_multwidth_dim{\l_EQ_temp_linewidth_dim}
 }
 \def\EQ_modify_linewidth_iv_mult:{\EQ_modify_linewidth_iii_mult:}
-\def\find_displaywidth_iii_mult:{%
+\def\EQ_find_displaywidth_iii_mult:{%
   \MH_setlength:dn \l_EQ_displaywidth_dim{\totwidth@}%
-  \if_case:w \l_EQ_alignmentmode_int \or: \or: % #1 & #2:
-  \or: % #3:
+  \MH_if_case:w \l_EQ_alignmentmode_int \MH_or: \MH_or: % #1 & #2:
+  \MH_or: % #3:
     \MH_addtolength:dn \l_EQ_displaywidth_dim{-\@mathmargin}%
-  \or: % #4:
+  \MH_or: % #4:
     \MH_addtolength:dn \l_EQ_displaywidth_dim{-\@mathmargin}%
-  \fi:}
-\def\find_displaywidth_iv_mult:{\find_displaywidth_iii_mult:}
+  \MH_fi:}
+\def\EQ_find_displaywidth_iv_mult:{\EQ_find_displaywidth_iii_mult:}
 \def\EQ_place_display_iii_mult:{
-  \if_case:w \l_EQ_alignmentmode_int
-  \or: % #1:
-    \if_dim:w \g_EQ_widesttag_dim>\z@
+  \MH_if_case:w \l_EQ_alignmentmode_int
+  \MH_or: % #1:
+    \MH_if_dim:w \g_EQ_widesttag_dim>\z@
       \abovedisplayshortskip=\abovedisplayskip
       \rlap{
         \kern-.5\linewidth
         \kern\multlinegap
         \EQ_use_mathdisplay:
       }
-    \else:
+    \MH_else:
       \EQ_use_mathdisplay:
-    \fi:
-  \or: % #2:
-    \if_dim:w \g_EQ_widesttag_dim>\z@
+    \MH_fi:
+  \MH_or: % #2:
+    \MH_if_dim:w \g_EQ_widesttag_dim>\z@
       \llap{
         \EQ_use_mathdisplay:
         \kern-.5\linewidth
         \kern\multlinegap
       }%
-    \else:
+    \MH_else:
       \EQ_use_mathdisplay:
-    \fi:
-  \or: % #3:
+    \MH_fi:
+  \MH_or: % #3:
     \EQ_use_mathdisplay:
-  \or: % #4:
+  \MH_or: % #4:
     \EQ_use_mathdisplay:
-  \fi:
+  \MH_fi:
 }
 \def\EQ_place_display_iv_mult: {\EQ_place_display_iii_mult:}
 %    \end{macrocode}
@@ -2906,9 +2943,10 @@ and the derived files
 %  \end{verbatim}
 %  If you scroll past this error it will be typeset correctly, but
 %  how many users can fix this by themselves?
+% \changes{v2.15}{2017/03/31}{added MH\_ prefix}
 %    \begin{macrocode}
   \hskip1sp#2#3{{}#5}#4%
-  \if:w *#1\relax\else:\notag\fi:}
+  \MH_if:w *#1\relax\MH_else:\notag\MH_fi:}
 %    \end{macrocode}
 %  \end{macro}
 %  \end{macro}
@@ -2973,21 +3011,22 @@ and the derived files
 %  \begin{macro}{\multlast}
 %  If we're using the \mode{leqno} option, the equation number should
 %  be placed in the first line.
+%  \changes{v2.15}{2017/03/31}{added MH\_ prefixes}
 %    \begin{macrocode}
 \def\multfirst{%
   \MH_if_boolean:nTF {multlined}{
      \def\EQ_next:{\EQ_multlined_left:n }%
   }{
-    \if_case:w \l_EQ_alignmentmode_int
-    \or: % #1:
+    \MH_if_case:w \l_EQ_alignmentmode_int
+    \MH_or: % #1:
       \def\EQ_next:{\multleft}%
-    \or: % #2:
+    \MH_or: % #2:
       \def\EQ_next:{\multleft*}%
-    \or: % #3:
+    \MH_or: % #3:
       \def\EQ_next:{\multleft}%
-    \or: % #4:
+    \MH_or: % #4:
       \def\EQ_next:{\multleft*}%
-    \fi:
+    \MH_fi:
   }
   \EQ_next:}
 %    \end{macrocode}
@@ -3005,21 +3044,22 @@ and the derived files
 %    \end{macrocode}
 %  If we're  using the \mode{reqno} option, the equation number
 %  should be placed in the last line.
+%  \changes{v2.15}{2017/03/31}{added MH\_ prefixes}
 %    \begin{macrocode}
 \def\multlast{%
   \MH_if_boolean:nTF {multlined}{
      \def\EQ_next:{\EQ_multlined_right:n }%
   }{
-    \if_case:w \l_EQ_alignmentmode_int
-    \or: % #1:
+    \MH_if_case:w \l_EQ_alignmentmode_int
+    \MH_or: % #1:
       \def\EQ_next:{\multright*}%
-    \or: % #2:
+    \MH_or: % #2:
       \def\EQ_next:{\multright}%
-    \or: % #3:
+    \MH_or: % #3:
       \def\EQ_next:{\multright*}%
-    \or: % #4:
+    \MH_or: % #4:
       \def\EQ_next:{\multright}%
-    \fi:
+    \MH_fi:
   }
   \EQ_next:}
 %    \end{macrocode}
@@ -3067,17 +3107,18 @@ and the derived files
 %  \cs{EQ_multlined_III:w}, which sets \cs{multlinewidth} if
 %  specified and calls \cs{start@aligned} (an \env{alignedat} with
 %  three columns).
+% \changes{v2.15}{2017/03/31}{added MH\_ prefix}
 %    \begin{macrocode}
-  \if:w t#1\relax \EQ_multlined_III:nn {#1}{#2}%
-  \else:
-    \if:w b#1\relax \EQ_multlined_III:nn {#1}{#2}%
-    \else:
-      \if:w c#1\relax \EQ_multlined_III:nn {#1}{#2}%
-      \else:
+  \MH_if:w t#1\relax \EQ_multlined_III:nn {#1}{#2}%
+  \MH_else:
+    \MH_if:w b#1\relax \EQ_multlined_III:nn {#1}{#2}%
+    \MH_else:
+      \MH_if:w c#1\relax \EQ_multlined_III:nn {#1}{#2}%
+      \MH_else:
         \EQ_multlined_III:nn {#2}{#1}%
-      \fi:
-    \fi:
-  \fi:
+      \MH_fi:
+    \MH_fi:
+  \MH_fi:
   \mkern-\thinmuskip
   \EQ_next:}
 \def\EQ_multlined_III:nn #1#2{%
@@ -3111,45 +3152,47 @@ and the derived files
 %    \end{macrocode}
 %
 %  \subsubsection{The Code for \env{flalign} \& \env{multline}}
+% \changes{v2.15}{2017/03/31}{added MH\_ prefix}
+%  \changes{v2.15}{2017/03/31}{added EQ\_ prefix}
 %    \begin{macrocode}
 \EQ_new_equationtype:nnn {EmphEqEnv}{flalign}{5}
 \EQ_new_equationtype:nnn {EmphEqEnv}{flalign*}{6}
 \def\EQ_modify_linewidth_v:{%
   \setlength{\l_EQ_temp_linewidth_dim}{%
     \linewidth-\l_EQ_totalwidth_dim-\widthof{\EQ_outerbox:{}}}%
-  \if_dim:w \g_EQ_widesttag_dim>\z@
+  \MH_if_dim:w \g_EQ_widesttag_dim>\z@
     \MH_if_boolean:nTF {multline}{
       \EQ_multline_modify_linewidth_tag:
     }{
-      \if_case:w \l_EQ_alignmentmode_int
-      \or: % #1:
+      \MH_if_case:w \l_EQ_alignmentmode_int
+      \MH_or: % #1:
         \MH_addtolength:dn  \l_EQ_temp_linewidth_dim
           {-\g_EQ_widesttag_dim-\mintagsep}
-      \or: % #2:
+      \MH_or: % #2:
         \MH_addtolength:dn \l_EQ_temp_linewidth_dim
           {-\g_EQ_widesttag_dim-\mintagsep}%
-      \or: % #3:
+      \MH_or: % #3:
         \MH_addtolength:dn \l_EQ_temp_linewidth_dim
           {-\g_EQ_widesttag_dim-\mintagsep}
-      \or: % #4:
+      \MH_or: % #4:
         \MH_addtolength:dn \l_EQ_temp_linewidth_dim
           {-\@mathmargin}
-      \fi:
+      \MH_fi:
     }
-  \else:
+  \MH_else:
     \MH_if_boolean:nT {multline}{
       \EQ_multline_modify_linewidth_notag:
     }
-  \fi:}
+  \MH_fi:}
 \def\EQ_modify_linewidth_vi:{\EQ_modify_linewidth_v:}
-\def\find_displaywidth_v:{%
+\def\EQ_find_displaywidth_v:{%
   \MH_setlength:dn
     \l_EQ_displaywidth_dim{\l_EQ_temp_linewidth_dim}}
-\def\find_displaywidth_vi:{\find_displaywidth_v:}
+\def\EQ_find_displaywidth_vi:{\EQ_find_displaywidth_v:}
 \def\EQ_place_display_v:{%
-  \if_case:w \l_EQ_alignmentmode_int
-  \or: % #1:
-    \if_dim:w \g_EQ_widesttag_dim>\z@
+  \MH_if_case:w \l_EQ_alignmentmode_int
+  \MH_or: % #1:
+    \MH_if_dim:w \g_EQ_widesttag_dim>\z@
       \MH_if_boolean:nTF {multline}{
         \rlap{\kern\multlinegap  \kern-.5\linewidth
           \EQ_use_mathdisplay:
@@ -3157,11 +3200,11 @@ and the derived files
       }{
         \rlap{\kern-.5\linewidth\EQ_use_mathdisplay:}%
       }
-    \else:
+    \MH_else:
       \EQ_use_mathdisplay:
-    \fi:
-  \or: % #2:
-    \if_dim:w \g_EQ_widesttag_dim>\z@
+    \MH_fi:
+  \MH_or: % #2:
+    \MH_if_dim:w \g_EQ_widesttag_dim>\z@
       \MH_if_boolean:nTF {multline}{
         \llap{\kern-\mintagsep \kern\multlinetaggap
           \EQ_use_mathdisplay:
@@ -3169,19 +3212,19 @@ and the derived files
       }{
         \llap{\EQ_use_mathdisplay:\kern-.5\linewidth}%
       }
-    \else:
+    \MH_else:
       \EQ_use_mathdisplay:
-    \fi:
-  \or: % #3:
+    \MH_fi:
+  \MH_or: % #3:
     \MH_if_boolean:nF {multline}{ \kern-\multlinetaggap }
     \EQ_use_mathdisplay:
-  \or: % #4:
-    \if_dim:w \g_EQ_widesttag_dim>\z@
-    \else:
+  \MH_or: % #4:
+    \MH_if_dim:w \g_EQ_widesttag_dim>\z@
+    \MH_else:
       \MH_if_boolean:nF {multline}{ \kern-\@mathmargin }
-    \fi:
+    \MH_fi:
     \EQ_use_mathdisplay:
-  \fi:
+  \MH_fi:
   \MH_set_boolean_F:n {multline}}
 \def\EQ_place_display_vi:{\EQ_place_display_v:}
 %    \end{macrocode}
@@ -3189,22 +3232,24 @@ and the derived files
 %  \subsection{The \env{alignat} Family}
 %  This is just as easy as \env{gather}. Actually only one line is
 %  different from \env{gather}!
+%  \changes{v2.15}{2017/03/31}{added MH\_ prefixes}
+%  \changes{v2.15}{2017/03/31}{added EQ\_ prefix}
 %    \begin{macrocode}
 \EQ_new_equationtype_arg:nnn {EmphEqEnv}{alignat}{7}
 \EQ_new_equationtype_arg:nnn {EmphEqEnv}{alignat*}{8}
 \def\EQ_modify_linewidth_vii:{}
 \def\EQ_modify_linewidth_viii:{\EQ_modify_linewidth_vii:}
-\def\find_displaywidth_vii:{%
+\def\EQ_find_displaywidth_vii:{%
   \MH_setlength:dn \l_EQ_displaywidth_dim{\totwidth@}%
-  \if_case:w \l_EQ_alignmentmode_int
-  \or: % #1:
-  \or: % #2:
-  \or: % #3:
+  \MH_if_case:w \l_EQ_alignmentmode_int
+  \MH_or: % #1:
+  \MH_or: % #2:
+  \MH_or: % #3:
     \MH_addtolength:dn \l_EQ_displaywidth_dim{-\eqnshift@}%
-  \or: % #4:
+  \MH_or: % #4:
     \MH_addtolength:dn \l_EQ_displaywidth_dim{-\@mathmargin}%
-  \fi:}
-\def\find_displaywidth_viii:{\find_displaywidth_vii:}
+  \MH_fi:}
+\def\EQ_find_displaywidth_viii:{\EQ_find_displaywidth_vii:}
 \def\EQ_place_display_vii:{\EQ_use_mathdisplay:}
 \def\EQ_place_display_viii:{\EQ_place_display_vii:}
 %    \end{macrocode}
@@ -3716,7 +3761,7 @@ and the derived files
 %  Although \pkg{ntheorem} provides a lot of useful features it
 %  does however ruin things in the \pkg{amsmath} environments,
 %  because of the alternative syntax of its \cs{label} command.
-%  \begin{macro}{\default_raisetag}
+%  \begin{macro}{\EQ_default_raisetag}
 %  \begin{macro}{\raisetag}
 %  \begin{macro}{\raise@tag}
 %  \changes{v1.06}{2004/03/13}{Fixed \pkg{amsmath} bug \# 3624}
@@ -3724,13 +3769,15 @@ and the derived files
 %  \url{http://www.latex-project.org/cgi-bin/ltxbugs2html?pr=amslatex/3624}}
 %  in \pkg{amsmath} that could cause tags to cross page boundaries
 %  without warning. The \cs{nobreak} is the addition.
+% \changes{v2.15}{2017/03/31}{added MH\_ prefix}
+%  \changes{v2.15}{2017/03/31}{added EQ\_ prefix}
 %    \begin{macrocode}
-\def\default_raisetag:{\nobreak}
+\def\EQ_default_raisetag:{\nobreak}
 \def\raisetag#1{
   \skip@#1\relax
-  \xdef\raise@tag{\default_raisetag:
-                  \vskip\iftagsleft@\else:-\fi:\the\skip@\relax}}
-\MH_let:NwN\raise@tag\default_raisetag:
+  \xdef\raise@tag{\EQ_default_raisetag:
+                  \vskip\iftagsleft@\MH_else:-\MH_fi:\the\skip@\relax}}
+\MH_let:NwN\raise@tag\EQ_default_raisetag:
 %    \end{macrocode}
 %  \end{macro}
 %  \end{macro}
@@ -3738,10 +3785,11 @@ and the derived files
 %  \begin{macro}{\displ@y@}
 %  Patch it so that it doesn't set \cs{raise@tag} to \cs{@empty}
 %  globally.
+%  \changes{v2.15}{2017/03/31}{added EQ\_ prefix}
 %    \begin{macrocode}
 \def\displ@y@{\@display@init{%
   \global\column@\z@ \global\dspbrk@lvl\m@ne
-  \global\tag@false \global\MH_let:NwN\raise@tag\default_raisetag:
+  \global\tag@false \global\MH_let:NwN\raise@tag\EQ_default_raisetag:
 }}
 %    \end{macrocode}
 %  \end{macro}
@@ -3772,18 +3820,20 @@ and the derived files
       \everycr{\noalign{\global\tag@false
 %    \end{macrocode}
 %  The patch for \cs{raisetag}.
+%  \changes{v2.15}{2017/03/31}{added EQ\_ prefix}
 %    \begin{macrocode}
-        \global\MH_let:NwN\raise@tag\default_raisetag:
+        \global\MH_let:NwN\raise@tag\EQ_default_raisetag:
         \global\column@\z@}}%
 %    \end{macrocode}
 %  The patch for \cs{label}.
+% \changes{v2.15}{2017/03/31}{added MH\_ prefix}
 %    \begin{macrocode}
       \MH_let:NwN\label\MT_gobblelabel:w
       \halign{%
         \setboxz@h{$\m@th\displaystyle{##}$}%
-        \if_dim:w \wdz@>\totwidth@
+        \MH_if_dim:w \wdz@>\totwidth@
           \global\totwidth@\wdz@
-        \fi:
+        \MH_fi:
         &\setboxz@h{\strut@{##}}%
         \savetaglength@
         \crcr
@@ -3794,14 +3844,14 @@ and the derived files
     \restorecounters@
     \if@fleqn
         \global\advance\totwidth@\@mathmargin
-    \fi:
+    \MH_fi:
     \iftagsleft@
-        \if_dim:w \totwidth@>\displaywidth
+        \MH_if_dim:w \totwidth@>\displaywidth
             \global\MH_let:NwN\gdisplaywidth@\totwidth@
-        \else:
+        \MH_else:
             \global\MH_let:NwN\gdisplaywidth@\displaywidth
-        \fi:
-    \fi:
+        \MH_fi:
+    \MH_fi:
   \endgroup
 }
 %    \end{macrocode}
@@ -3823,11 +3873,13 @@ and the derived files
       \everycr{\noalign{\global\tag@false
 %    \end{macrocode}
 %  The patch for \cs{raisetag}.
+%  \changes{v2.15}{2017/03/31}{added EQ\_ prefix}
 %    \begin{macrocode}
-        \global\MH_let:NwN\raise@tag\default_raisetag:
+        \global\MH_let:NwN\raise@tag\EQ_default_raisetag:
         \global\column@\z@}}%
 %    \end{macrocode}
 %  The patch.
+% \changes{v2.15}{2017/03/31}{added MH\_ prefix}
 %    \begin{macrocode}
       \MH_let:NwN\label\MT_gobblelabel:w
       \global\row@\z@
@@ -3842,43 +3894,43 @@ and the derived files
     \restorecounters@
     \ifodd\maxfields@
       \global\advance\maxfields@\@ne
-    \fi:
-    \if_num:w \xatlevel@=\tw@
-      \if_num:w \maxfields@<\thr@@
+    \MH_fi:
+    \MH_if_num:w \xatlevel@=\tw@
+      \MH_if_num:w \maxfields@<\thr@@
         \MH_let:NwN\xatlevel@\z@
-      \fi:
-    \fi:
+      \MH_fi:
+    \MH_fi:
     \setbox\z@\vbox{%
       \unvbox\z@ \unpenalty \global\setbox\@ne\lastbox
     }%
     \global\totwidth@\wd\@ne
-    \if@fleqn \global\advance\totwidth@\@mathmargin \fi:
+    \if@fleqn \global\advance\totwidth@\@mathmargin \MH_fi:
     \global\MH_let:NwN\maxcolumn@widths\@empty
     \begingroup
-      \MH_let:NwN\or:\relax
+      \MH_let:NwN\MH_or:\relax
       \loop
         \global\setbox\@ne\hbox{%
           \unhbox\@ne \unskip \global\setbox\thr@@\lastbox
         }%
       \ifhbox\thr@@
-        \xdef\maxcolumn@widths{ \or: \the\wd\thr@@ \maxcolumn@widths}%
+        \xdef\maxcolumn@widths{ \MH_or: \the\wd\thr@@ \maxcolumn@widths}%
       \repeat
     \endgroup
     \dimen@\displaywidth
     \advance\dimen@-\totwidth@
-    \if_case:w \xatlevel@
+    \MH_if_case:w \xatlevel@
       \global\alignsep@\z@
       \MH_let:NwN\minalignsep\z@
       \@tempcntb\z@
       \if@fleqn
         \@tempcnta\@ne
         \global\eqnshift@\@mathmargin
-      \else:
+      \MH_else:
         \@tempcnta\tw@
         \global\eqnshift@\dimen@
         \global\divide\eqnshift@\@tempcnta
-      \fi:
-    \or:
+      \MH_fi:
+    \MH_or:
       \@tempcntb\maxfields@
       \divide\@tempcntb\tw@
       \@tempcnta\@tempcntb
@@ -3887,13 +3939,13 @@ and the derived files
         \global\eqnshift@\@mathmargin
         \global\alignsep@\dimen@
         \global\divide\alignsep@\@tempcnta
-      \else:
+      \MH_else:
         \global\advance\@tempcnta\@ne
         \global\eqnshift@\dimen@
         \global\divide\eqnshift@\@tempcnta
         \global\alignsep@\eqnshift@
-      \fi:
-    \or:
+      \MH_fi:
+    \MH_or:
       \@tempcntb\maxfields@
       \divide\@tempcntb\tw@
       \global\advance\@tempcntb\m@ne
@@ -3902,43 +3954,43 @@ and the derived files
       \global\alignsep@\dimen@
       \if@fleqn
         \global\advance\alignsep@\@mathmargin\relax
-      \fi:
+      \MH_fi:
       \global\divide\alignsep@\@tempcntb
-    \fi:
-    \if_dim:w \alignsep@<\minalignsep\relax
+    \MH_fi:
+    \MH_if_dim:w \alignsep@<\minalignsep\relax
       \global\alignsep@\minalignsep\relax
-      \if_dim:w \eqnshift@>\z@
-        \if@fleqn\else:
+      \MH_if_dim:w \eqnshift@>\z@
+        \if@fleqn\MH_else:
           \global\eqnshift@\displaywidth
           \global\advance\eqnshift@-\totwidth@
           \global\advance\eqnshift@-\@tempcntb\alignsep@
           \global\divide\eqnshift@\tw@
-        \fi:
-      \fi:
-    \fi:
-    \if_dim:w \eqnshift@<\z@
+        \MH_fi:
+      \MH_fi:
+    \MH_fi:
+    \MH_if_dim:w \eqnshift@<\z@
       \global\eqnshift@\z@
-    \fi:
+    \MH_fi:
     \calc@shift@align
     \global\tagshift@\totwidth@
     \global\advance\tagshift@\@tempcntb\alignsep@
     \if@fleqn
-      \if_num:w \xatlevel@=\tw@
+      \MH_if_num:w \xatlevel@=\tw@
         \global\advance\tagshift@-\@mathmargin\relax
-      \fi:
-    \else:
+      \MH_fi:
+    \MH_else:
       \global\advance\tagshift@\eqnshift@
-    \fi:
-    \iftagsleft@ \else:
+    \MH_fi:
+    \iftagsleft@ \MH_else:
       \global\advance\tagshift@-\displaywidth
-    \fi:
+    \MH_fi:
     \dimen@\minalignsep\relax
     \global\advance\totwidth@\@tempcntb\dimen@
-    \if_dim:w \totwidth@>\displaywidth
+    \MH_if_dim:w \totwidth@>\displaywidth
       \global\MH_let:NwN\displaywidth@\totwidth@
-    \else:
+    \MH_else:
       \global\MH_let:NwN\displaywidth@\displaywidth
-    \fi:
+    \MH_fi:
   \endgroup
 }
 %    \end{macrocode}
@@ -3975,26 +4027,28 @@ and the derived files
   \MH_let:NwN\tag\tag@in@align
 %    \end{macrocode}
 %  The patch for \cs{raisetag}.
+%  \changes{v2.15}{2017/03/31}{added EQ\_ prefix}
 %    \begin{macrocode}
-  \global\tag@false \global\MH_let:NwN\raise@tag\default_raisetag:
+  \global\tag@false \global\MH_let:NwN\raise@tag\EQ_default_raisetag:
   \mmeasure@{#1}%
   \MH_let:NwN\tag\gobble@tag
 %    \end{macrocode}
 %  The patch.
+% \changes{v2.15}{2017/03/31}{added MH\_ prefixes}
 %    \begin{macrocode}
   \MH_let:NwN\label\MT_gobblelabel:w
-  \tabskip \if@fleqn \@mathmargin \else: \z@skip \fi:
+  \tabskip \if@fleqn \@mathmargin \MH_else: \z@skip \MH_fi:
   \totwidth@\displaywidth
   \if@fleqn
     \advance\totwidth@-\@mathmargin
-  \fi:
+  \MH_fi:
   \halign\bgroup
     \hbox to\totwidth@{%
       \if@fleqn
         \hskip \@centering \relax
-      \else:
+      \MH_else:
         \hfil
-      \fi:
+      \MH_fi:
       \strut@
       $\m@th\displaystyle{}##\endmultline@math%$
       \hfil
@@ -4003,10 +4057,10 @@ and the derived files
     \if@fleqn
       \hskip-\@mathmargin
       \def\multline@indent{\hskip\@mathmargin}% put it back
-    \else:
+    \MH_else:
       \hfilneg
       \def\multline@indent{\hskip\multlinegap}%
-    \fi:
+    \MH_fi:
     \iftagsleft@
       \iftag@
         \begingroup
@@ -4021,21 +4075,21 @@ and the derived files
               \raise@tag
             }}%
               \multline@indent
-          \else:
+          \MH_else:
             \setbox\z@\hbox{\make@display@tag}%
             \dimen@\@mathmargin \advance\dimen@-\wd\z@
-            \if_dim:w \dimen@<\multlinetaggap
+            \MH_if_dim:w \dimen@<\multlinetaggap
               \dimen@\multlinetaggap
-            \fi:
+            \MH_fi:
             \box\z@ \hskip\dimen@\relax
-          \fi:
+          \MH_fi:
         \endgroup
-      \else:
+      \MH_else:
         \multline@indent
-      \fi:
-    \else:
+      \MH_fi:
+    \MH_else:
       \multline@indent
-    \fi:
+    \MH_fi:
   #1%
 }
 %    \end{macrocode}
@@ -4048,6 +4102,7 @@ and the derived files
     \measuring@true
 %    \end{macrocode}
 %  The patch.
+% \changes{v2.15}{2017/03/31}{added MH\_ prefixes}
 %    \begin{macrocode}
     \def\label##1{%
       \@ifnextchar[
@@ -4063,49 +4118,49 @@ and the derived files
       \halign{%
         \setboxz@h{\@lign$\m@th\displaystyle{}##$}%
         \iftagsleft@
-          \if_num:w \row@=\@ne
+          \MH_if_num:w \row@=\@ne
             \global\totwidth@\wdz@
             \global\lineht@\ht\z@
-          \fi:
-        \else:
+          \MH_fi:
+        \MH_else:
           \global\totwidth@\wdz@
           \global\lineht@\dp\z@
-        \fi:
+        \MH_fi:
         \crcr
         #1%
         \crcr
       }%
     }%
-    \if_meaning:NN
+    \MH_if_meaning:NN
       \df@tag\@empty
-    \else:
+    \MH_else:
       \global\tag@true
-    \fi:
-    \if@eqnsw\global\tag@true\fi:
+    \MH_fi:
+    \if@eqnsw\global\tag@true\MH_fi:
     \iftag@
       \setboxz@h{%
         \if@eqnsw
           \stepcounter{equation}%
           \tagform@\theequation
-        \else:
+        \MH_else:
           \df@tag
-        \fi:
+        \MH_fi:
       }%
       \global\tagwidth@\wdz@
       \dimen@\totwidth@
       \advance\dimen@\tagwidth@
       \advance\dimen@\multlinetaggap
-      \iftagsleft@\else:
+      \iftagsleft@\MH_else:
         \if@fleqn
           \advance\dimen@\@mathmargin
-        \fi:
-      \fi:
-      \if_dim:w \dimen@>\displaywidth
+        \MH_fi:
+      \MH_fi:
+      \MH_if_dim:w \dimen@>\displaywidth
         \global\shifttag@true
-      \else:
+      \MH_else:
         \global\shifttag@false
-      \fi:
-    \fi:
+      \MH_fi:
+    \MH_fi:
     \restorecounters@
   \endgroup
 }
@@ -4186,6 +4241,7 @@ and the derived files
 %  If the tags are set to the left we just have to lower the end mark
 %  by the total depth of the display including its surrounding box.
 %  Also we have to take care of \cs{normallineskip}.
+% \changes{v2.15}{2017/03/31}{added MH\_ prefixes}
 %    \begin{macrocode}
         \raisebox{-\normallineskip
                   -\depthof{\EQ_outerbox:{}}
@@ -4193,12 +4249,12 @@ and the derived files
                   -\dp\EQ_mathdisplay_box
                   -\ht\EQ_mathdisplay_box}
                  [0pt][0pt]{\PotEndMark{\maketag@@@}}}}
-  \else:
+  \MH_else:
     \gdef\df@tag{%
       \raisebox{-\dp\EQ_mathdisplay_box
                 -\depthof{\EQ_outerbox:{}}}
                {\PotEndMark{\maketag@@@}}}%
-  \fi:}
+  \MH_fi:}
 %    \end{macrocode}
 %  \changes{v2.00}{2004/04/14}{Fixed another bug in placement of the
 %  marker}
@@ -4220,6 +4276,7 @@ and the derived files
 %  wrap the tag in a box of the correct size, namely |\widthof{##1}|
 %  and then push the end mark to the right margin. Then the displayed
 %  math is set correcly.
+%  \changes{v2.15}{2017/03/31}{added MH\_ prefixes}
 %    \begin{macrocode}
       \hfuzz\displaywidth
       \makebox[\widthof{##1}][l]{%
@@ -4227,7 +4284,7 @@ and the derived files
           \raisebox{-\dp\EQ_mathdisplay_box
                     -\depthof{\EQ_outerbox:{}}}
                    {\PotEndMark{\hss}}}}}%
-  \else:
+  \MH_else:
     \gdef\maketag@@@##1{%
       \hbox{\m@th\normalfont##1\llap{\hss\PotEndMark{%
         \settoheight{\@tempdima}{\@nameuse{\InTheoType Symbol}}%
@@ -4236,24 +4293,25 @@ and the derived files
         \setlength{\@tempdimb}
           {\g_EQ_bottomrow_depth_dim+\depthof{\EQ_outerbox:{}}
             +\depthof{\EQ_innerbox:{}}}
-        \if_dim:w \@tempdima>\@tempdimb
+        \MH_if_dim:w \@tempdima>\@tempdimb
           \MH_setlength:dn \@tempdima{-\dp\EQ_mathdisplay_box
             -\@tempdima+\g_EQ_bottomrow_depth_dim}
           \addtolength{\@tempdima}{\depthof{\EQ_innerbox:{}}}%
           \def\EQ_next:{\raisebox{\@tempdima}}%
-        \else:
+        \MH_else:
 %    \end{macrocode}
 %  \changes{v1.06}{2004/03/13}{Fixed bug in placement of the marker
 %  and re-arranged some code}
 %  In v1.06 I fixed a stupid bug regarding placement of the marker.
 %  If I had done a proper test I would have discovered it
 %  immediately!
+%  \changes{v2.15}{2017/03/31}{added MH\_ prefixes}
 %    \begin{macrocode}
           \def\EQ_next:{
             \raisebox{-\dp\EQ_mathdisplay_box
                       -\depthof{\EQ_outerbox:{}}}}%
-        \fi:\EQ_next:}}}}%
-  \fi:}
+        \MH_fi:\EQ_next:}}}}%
+  \MH_fi:}
 %    \end{macrocode}
 %  \end{macro}
 %  \end{macro}
@@ -4266,21 +4324,22 @@ and the derived files
 %  \end{macro}
 %  \begin{macro}{\nonumber}
 %  Redefine \cs{nonumber} to reset depth of bottom tag.
+%  \changes{v2.15}{2017/03/31}{added MH\_ prefixes}
 %    \begin{macrocode}
 \def\g_EQ_latest_nonzerodepth_row_fint{\z@}
 \renewcommand*\nonumber{
   \@tempcnta=\row@
-  \if_num:w \l_EQ_equationtype_int=\thr@@
+  \MH_if_num:w \l_EQ_equationtype_int=\thr@@
     \advance\@tempcnta\m@ne
-  \else:
-    \if_num:w \l_EQ_equationtype_int=4\relax
+  \MH_else:
+    \MH_if_num:w \l_EQ_equationtype_int=4\relax
       \advance\@tempcnta\m@ne
-    \fi:
-  \fi:
-  \if_num:w \g_EQ_latest_nonzerodepth_row_fint=\@tempcnta
-  \else:
+    \MH_fi:
+  \MH_fi:
+  \MH_if_num:w \g_EQ_latest_nonzerodepth_row_fint=\@tempcnta
+  \MH_else:
     \global\g_EQ_bottomtag_depth_dim=-\baselineskip
-  \fi:
+  \MH_fi:
   \MT_nonumber:
 }
 %    \end{macrocode}

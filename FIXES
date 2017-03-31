@@ -1,6 +1,11 @@
 MARCH 2017
 
 * fixed bug in empheq in relation to AMS clases
+* renamed macros such that any xxx_yyy: macro should now contain EQ, 
+  MH or HT as a prefix or infix. Thus making everyting truely separate from expl3.
+* changed \shortintertext such that as long as 'original-intertext=false' (the default), 
+  \shortintertext now only work in the same context as \intertext
+* \shortintertext is now also an error inside the empheq construction
 
 
 JANUARY 2017
