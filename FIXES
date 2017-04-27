@@ -1,3 +1,8 @@
+APRIL 2017
+
+* fixed problem in \DeclarePairedDelimiterX and \DeclarePairedDelimiterXPP 
+  where a redefinition of the inner wrapper could remove grouping and \delimsize then stopped working
+
 MARCH 2017
 
 * fixed bug in empheq in relation to AMS clases

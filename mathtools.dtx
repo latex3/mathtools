@@ -283,7 +283,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3189}
+%  \CheckSum{3173}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -4051,10 +4051,9 @@ and the derived files
 % In order for the starred and non-starred version to have the same
 % arguments, we need to introduce an extra macro to catch the optional
 % argument (this means that the non-starred version can actually
-% support ten arguments!).
-% Here we do things a little differently than with
-% \cs{DeclarePairedDelimiter}. The optional argument have \cs{MHempty}
-% as the default. This is locally changed when we scale the
+% support ten arguments!).  Here we do things a little differently
+% than with \cs{DeclarePairedDelimiter}. The optional argument have
+% \cs{MHempty} as the default. This is changed when we scale the
 % delimiters, such that it can eat the l/r if needed.
 %    \begin{macrocode}
     \@xp\@xp\@xp
@@ -4064,7 +4063,8 @@ and the derived files
       {
 %    \end{macrocode}
 % We need to introduce a local group in order to support nesting. It
-% is ended inside \verb|\MT_delim_\MH_cs_to_str:N #1 _nostar_inner:|
+% is ended inside \verb|\MT_delim_\MH_cs_to_str:N #1 _nostar_inner:|,
+% here we also stores the scaler in \cs{delimsize}.
 %    \begin{macrocode}
         \begingroup
         \def\delimsize{##1}
@@ -4074,28 +4074,27 @@ and the derived files
 % Next we provide the inner workhorse. We need a bit of expansion
 % magic to get \cs{delimsize} to work.
 % \changes{v1.13}{2012/05/10}{Using call back instead}
+% \changes{v1.19}{2017/04/27}{Added resetting code for \cs{MHempty},
+% cannot rely on groups here}
+% Also note that we cannot rely on groups to localize when changing
+% \cs{MHempty} to \cs{@gobble}, thus we need to reset after use.
 %    \begin{macrocode}
     \@xp\@xp\@xp
       \newcommand
         \@xp\csname MT_delim_\MH_cs_to_str:N #1 _nostar_inner:\endcsname
         [#2]
         {
-          %\mathopen{%
-          %  \let\MHempty\@gobble
-          %  \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize l\endcsname #3} 
-          %#5
-          %\mathclose{%
-          %  \let\MHempty\@gobble
-          %  \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize r\endcsname #4}
           \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostar_wrapper:nnn}
           {
             \let\MHempty\@gobble
             \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize l\endcsname #3
+            \def\MHempty{}
           }
           {#5}
           {
             \let\MHempty\@gobble
             \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize r\endcsname #4
+            \def\MHempty{}
           }
           \endgroup
         }
@@ -4132,8 +4131,10 @@ and the derived files
 % Similar to \cs{DeclarePairedDelimiterX}, but we can add \meta{pre}
 % and \meta{pre} code before and after the delimiters. Arguments are
 % interpreted as 
-% \marg{macro}\oarg{num}\marg{pre code}\marg{left delim}\marg{right
+% \marg{macroname}\oarg{num~args}\allowbreak\marg{pre~code}\allowbreak\marg{left delim}\marg{right
 % delim}\marg{post code}\marg{body}
+% \changes{v1.19}{2017/04/27}{Added the same \cs{MHempty} redefinition
+% as above}
 %    \begin{macrocode}
 \def\DeclarePairedDelimiterXPP#1[#2]#3#4#5#6#7{%
   \@ifdefinable{#1}{
@@ -4171,11 +4172,13 @@ and the derived files
           {
             \let\MHempty\@gobble
             \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize l\endcsname #4
+            \def\MHempty{}
           }
           {#7}
           {
             \let\MHempty\@gobble
             \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize r\endcsname #5
+            \def\MHempty{}
           }
           #6
           \endgroup
