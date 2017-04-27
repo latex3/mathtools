@@ -1,7 +1,8 @@
 APRIL 2017
 
 * fixed problem in \DeclarePairedDelimiterX and \DeclarePairedDelimiterXPP 
-  where a redefinition of the inner wrapper could remove grouping and \delimsize then stopped working
+  where a redefinition of an inner wrapper could remove grouping and \delimsize then 
+  stopped working properly inside the body
 
 MARCH 2017
 
