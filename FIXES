@@ -1,3 +1,7 @@
+MAY 2017
+
+* changed amsmath requirelemnt to require the latest amsmath version (in order to use the aligend fix)
+
 APRIL 2017
 
 * fixed problem in \DeclarePairedDelimiterX and \DeclarePairedDelimiterXPP 

@@ -2814,7 +2814,7 @@ and the derived files
 %  We have to turn off the new syntax when \pkg{amstext} is loaded.
 %    \begin{macrocode}
 \MHInternalSyntaxOff
-\RequirePackage{amsmath}[2000/07/18]
+\RequirePackage{amsmath}[2016/11/05]
 \MHInternalSyntaxOn
 \AtEndOfPackage{\MHInternalSyntaxOff}
 %    \end{macrocode}
@@ -3713,9 +3713,11 @@ and the derived files
 %  \begin{macro}{\MT_mult_internal:n}
 %  \changes{v1.01a}{2004/10/10}{Added Ord atom to beginning of each line}
 %  The real internal \env{multlined}.
+%  \changes{v1.19}{2017/05/22}{Added \cs{alignedspace@left} instead of
+%  \cs{null}\cs{,}}
 %    \begin{macrocode}
 \newcommand*\MT_mult_internal:n [1]{
- \MH_if_boolean:nF {outer_mult}{\null\,}
+ \MH_if_boolean:nF {outer_mult}{\alignedspace@left} %<-- requires amsmath 2016/11/05
   \MT_next:
   \bgroup
 %    \end{macrocode}
