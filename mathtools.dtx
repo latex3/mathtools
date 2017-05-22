@@ -283,7 +283,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3173}
+%  \CheckSum{3176}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -1359,6 +1359,11 @@ and the derived files
 % }
 % \end{verbatim}
 %  
+%  \medskip\noindent
+%  \textbf{Caveat:}
+%  \CommentAdded{2017/05/22}  
+%  \cs{shoveleft} and \cs{shoveright} does not work as expected if
+%  used as the last line in \env{multlined}.
 %
 %
 %  \subsubsection{More \env{cases}-like environments}
@@ -2040,24 +2045,39 @@ and the derived files
 %  \begin{codesyntax}
 %    \SpecialUsageIndex{\reDeclarePairedDelimiterInnerWrapper}\cs{reDeclarePairedDelimiterInnerWrapper}\marg{macro name}\marg{\textnormal{\texttt{star}} or \textnormal{\texttt{nostar}}}\marg{code}
 %  \end{codesyntax}
-%  Internally several macros are created, including two call backs
+%  Internally several macros are created, including three call backs
 %  that take care of the formatting. There is one internal macro for
-%  the starred version, labeled \texttt{star}, the other one is
-%  labeled \texttt{nostar}. Within \meta{code}, \texttt{\#1} will be
-%  replaced by the scaled left fence, \texttt{\#3} the corresponding
-%  scaled right fence, and \texttt{\#2} the stuff in between. For
-%  example, here is how one might turn the content into \cs{mathinner}:
+%  the starred version, labeled \texttt{star}, the other two are
+%  labeled \texttt{nostarnonscaled} and \texttt{nostarscaled}. Within
+%  \meta{code}, \texttt{\#1} will be replaced by the scaled left
+%  fence, \texttt{\#3} the corresponding scaled right fence, and
+%  \texttt{\#2} the stuff in between. For example, here is how one
+%  might turn the content into \cs{mathinner}:
 % \begin{verbatim}
 % \DeclarePairedDelimiter\abs\lvert\rvert
 % \reDeclarePairedDelimiterInnerWrapper\abs{star}{#1#2#3}
-% \reDeclarePairedDelimiterInnerWrapper\abs{nostar}{\mathinner{#1#2#3}}
+% \reDeclarePairedDelimiterInnerWrapper\abs{nostarnonscaled}{\mathinner{#1#2#3}}
+% \reDeclarePairedDelimiterInnerWrapper\abs{nostarscaled}{\mathinner{#1#2#3}}
 % \end{verbatim}
 %  The default values for the call backs corresponds to
 % \begin{verbatim}
-% star:   \mathopen{}\mathclose\bgroup #1#2\aftergroup\egroup #3
-% nostar: \mathopen{#1}#2\mathclose{#3}
+% star:            \mathopen{}\mathclose\bgroup #1#2\aftergroup\egroup #3
+% nostarnonscaled: \mathopen#1#2\mathclose#3
+% nostarscaled:    \mathopen{#1}#2\mathclose{#3}
 % \end{verbatim}
-%  
+% The two \texttt{nostar...} versions look the same, but they are
+% not. Consider this example:
+% \begin{verbatim}
+% x^2\mathclose{\rvert}^2\mathclose\rvert^2\rvert^2
+% \end{verbatim}
+% \[ x^2\mathclose{\rvert}^2\mathclose\rvert^2\rvert^2 \]
+% \fxnote{fix this}
+%
+% \bigskip\noindent \textbf{Breaking change:} Prior to May 2017, we
+% used two wrappers, the other named \texttt{nostar}. As of May 2017
+% \texttt{nostar} has been split in two and \texttt{nostar} alone is
+% no longer supported.
+%
 %  \bigskip\noindent \textbf{Note:} Since we are using macros to add
 %  the \verb|\left...\right| constructions around some body, it
 %  \emph{is} (in principle) possible to make such a construction
@@ -3916,8 +3936,17 @@ and the derived files
    \@namedef{MT_delim_\MH_cs_to_str:N #1 _star_wrapper:nnn}##1##2##3{
       \mathopen{}\mathclose\bgroup ##1 ##2 \aftergroup\egroup ##3
     }
-    \@namedef{MT_delim_\MH_cs_to_str:N #1 _nostar_wrapper:nnn}##1##2##3{
+%    \end{macrocode}
+% Turns out that there is a difference between \verb|\mathclose{)}|
+% and \verb|\mathclose)| (placement of for example superscript), so instead of two wrappers, we need three. 
+% \changes{v1.19}{2017/05/22}{added \cs{...nostarnonscaled..} wrapper}
+% \changes{v1.19}{2017/05/22}{renamed \cs{...nostar..} to \cs{...nostarscaled..}  }
+%    \begin{macrocode}
+    \@namedef{MT_delim_\MH_cs_to_str:N #1 _nostarscaled_wrapper:nnn}##1##2##3{
       \mathopen{##1}##2\mathclose{##3}
+    }
+    \@namedef{MT_delim_\MH_cs_to_str:N #1 _nostarnonscaled_wrapper:nnn}##1##2##3{
+      \mathopen##1##2\mathclose##3
     }
   }
 
