@@ -283,7 +283,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3176}
+%  \CheckSum{3229}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -2020,7 +2020,7 @@ and the derived files
 % \end{verbatim}
 % Thus giving support for \verb|\Prob{A \given B}|.
 % 
-% \medskip\noindent\textbf{Note:} As the number of arguments increase
+% \medskip\noindent\textbf{Note 1:} As the number of arguments increase
 % the \cs{DeclarePairedDelimiter...} macros become hard for users to
 % understand. A key-value interface would be better. This is planed
 % for a future release. In
@@ -2033,6 +2033,12 @@ and the derived files
 % obvious how to get \pkg{xparse} to support \verb|[3]| for the number
 % of arguments. We will consider this for a future release.
 %
+% \medskip\noindent\textbf{Note 2:} If you want to define your own
+% manual scaler macros, it is importent that you besides \cs{foo} also
+% defines \cs{fool} and \cs{foor}. When a scaler is specified, in say
+% \cs{abs[\cs{big}]}\marg{arg}, we actually use \cs{bigl} and \cs{bigr}.
+%
+%
 %  \subsubsection{Expert use}
 %
 %  Within the starred version of \cs{DeclarePairedDelimiter} and
@@ -2043,14 +2049,14 @@ and the derived files
 %  '$\sin$' and '('.  In some special cases it may be useful to be
 %  able to tinker with the behavior.
 %  \begin{codesyntax}
-%    \SpecialUsageIndex{\reDeclarePairedDelimiterInnerWrapper}\cs{reDeclarePairedDelimiterInnerWrapper}\marg{macro name}\marg{\textnormal{\texttt{star}} or \textnormal{\texttt{nostar}}}\marg{code}
+%    \SpecialUsageIndex{\reDeclarePairedDelimiterInnerWrapper}\cs{reDeclarePairedDelimiterInnerWrapper}\marg{macro name}\marg{\textnormal{\texttt{star}} or \textnormal{\texttt{nostarnonscaled}} or \textnormal{\texttt{nostarscaled}}}\marg{code}
 %  \end{codesyntax}
 %  Internally several macros are created, including three call backs
 %  that take care of the formatting. There is one internal macro for
 %  the starred version, labeled \texttt{star}, the other two are
 %  labeled \texttt{nostarnonscaled} and \texttt{nostarscaled}. Within
-%  \meta{code}, \texttt{\#1} will be replaced by the scaled left
-%  fence, \texttt{\#3} the corresponding scaled right fence, and
+%  \meta{code}, \texttt{\#1} will be replaced by the (scaled) left
+%  fence, \texttt{\#3} the corresponding (scaled) right fence, and
 %  \texttt{\#2} the stuff in between. For example, here is how one
 %  might turn the content into \cs{mathinner}:
 % \begin{verbatim}
@@ -2065,18 +2071,21 @@ and the derived files
 % nostarnonscaled: \mathopen#1#2\mathclose#3
 % nostarscaled:    \mathopen{#1}#2\mathclose{#3}
 % \end{verbatim}
-% The two \texttt{nostar...} versions look the same, but they are
-% not. Consider this example:
+%  The two \texttt{nostar...} versions look the same, but they are
+%  not. In most (math) fonts, the first item in this list will be
+%  different from the rest (the superscript sits
+%  higher).\footnote{Interestingly it dod not show up in the font of
+%  this manual, which uses the \pkg{fourier} font set.}
 % \begin{verbatim}
-% x^2\mathclose{\rvert}^2\mathclose\rvert^2\rvert^2
+% \mathclose{\rvert}^2\mathclose\rvert^2\rvert^2
 % \end{verbatim}
-% \[ x^2\mathclose{\rvert}^2\mathclose\rvert^2\rvert^2 \]
-% \fxnote{fix this}
+%
 %
 % \bigskip\noindent \textbf{Breaking change:} Prior to May 2017, we
 % used two wrappers, the other named \texttt{nostar}. As of May 2017
-% \texttt{nostar} has been split in two and \texttt{nostar} alone is
-% no longer supported.
+% \texttt{nostar} has been split into \texttt{nostarnonscaled} and
+% \texttt{nostarscaled} and \texttt{nostar} alone is no longer
+% supported (will give an error).
 %
 %  \bigskip\noindent \textbf{Note:} Since we are using macros to add
 %  the \verb|\left...\right| constructions around some body, it
@@ -3954,21 +3963,63 @@ and the derived files
 % \end{macro}
 %    
 % \begin{macro}{\reDeclarePairedDelimiterInnerWrapper}
-%   Macro enabling the user to alter an existing call back. Note that
-%   currently no checks are performed. First argument is the name of
-%   the macro we are altering (as defined via \cs{DeclarePaired...}),
-%   the second is \texttt{star} or \texttt{nostar}. In the last
+%   Macro enabling the user to alter an existing call back.  First
+%   argument is the name of the macro we are altering (as defined via
+%   \cs{DeclarePaired...}), the second is \texttt{star},
+%   \texttt{nostarnonscaled} or \texttt{nostarscaled}. In the last
 %   argument \texttt{\#1} and \texttt{\#3} respectively refer to the
-%   scaled fences and \texttt{\#3} refer to whatever come between.
+%   scaled fences and \texttt{\#2} refer to whatever come between.
+%   \changes{v1.19}{2017/05/23}{Added a test and error}
 %    \begin{macrocode}
 \newcommand\reDeclarePairedDelimiterInnerWrapper[3]{
-  \@namedef{MT_delim_\MH_cs_to_str:N #1 _ #2 _wrapper:nnn}##1##2##3{
-    #3
+  \@ifundefined{MT_delim_\MH_cs_to_str:N #1 _ #2 _wrapper:nnn}{
+    \PackageError{mathtools}{
+      Wrapper~not~found~for~\string#1~and~option~'#2'.\MessageBreak 
+      Either~\string#1~is~ not~ defined,~or~ you~ are~using~ the~
+      \MessageBreak
+      'nostar'~ option,~which~ is~ no~ longer~ supported.~ 
+      \MessageBreak
+      Please~ use~ 'nostarnonscaled'~ or~ 'nostarscaled~
+      \MessageBreak instead.~ 
+    }{See the manual}
+  }{
+    \@namedef{MT_delim_\MH_cs_to_str:N #1 _ #2 _wrapper:nnn}##1##2##3{
+      #3
+    }
   }
 }
 
 %    \end{macrocode}
 %   
+% \begin{macro}{\MT_etb_ifdefempty_x:nnn}
+% \begin{macro}{\MT_etb_ifblank:nnn}
+%   \changes{v1.19}{2017/05/23}{Added so we can test for empty args}
+%   This is a copy of \cs{etb@ifdefempty} (it is \emph{not} the same
+%   as \cs{ifdefempty}) and \cs{ifblank} from \pkg{etoolbox},
+%   currently we do not want to make \pkg{etoolbox} a requirement,
+%   that may change in the future. We need a reliable method to check
+%   whether a macro is blank or not (including spaces).
+%    \begin{macrocode}
+\def\MT_etb_ifdefempty_x:nnn #1{ 
+  \expandafter\expandafter\expandafter
+  \MT_etb_ifblank:nnn 
+  \expandafter\expandafter\expandafter{%
+    \expandafter\strip@prefix\meaning#1} 
+}
+\def\MT_etb_ifblank:nnn #1{
+  \expandafter\ifx\expandafter\relax\detokenize\expandafter{\@gobble#1?}\relax
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+}
+
+
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%  %
+%
 %  \end{macro}
 %  \begin{macro}{\DeclarePairedDelimiter}
 %  \changes{v1.06}{2008/08/01}{Made user command robust}
@@ -3985,9 +4036,8 @@ and the derived files
 %  see \cs{DeclarePairedDelimiterX} for details.}
 %  \changes{v1.13}{2012/05/10}{Using call back instead}
 %    \begin{macrocode}
-    \MT_delim_default_inner_wrappers:n{#1}
+    \MT_delim_default_inner_wrappers:n{#1} % define the wrappers
     \@namedef{MT_delim_\MH_cs_to_str:N #1 _star:}##1
-      %{\mathopen{}\mathclose\bgroup\left#2 ##1 \aftergroup\egroup\right #3}%
       { \@nameuse{MT_delim_\MH_cs_to_str:N #1 _star_wrapper:nnn}%
            {\left#2}{##1}{\right#3} }%
 %    \end{macrocode}
@@ -4003,13 +4053,39 @@ and the derived files
 %  With the default optional argument we wind up with \cs{relax},
 %  else we get \cs{biggr} and \cs{biggl} etc.
 %  \changes{v1.13}{2012/05/10}{Using call back instead}
+%  \changes{v1.19}{2017/05/23}{Split the wrappers in two, so know
+%  \cs{}\cs{@gobble} is now only used to check if the optional
+%  argument is empty.}
 %    \begin{macrocode}
-          %\mathopen{\@nameuse {\MH_cs_to_str:N ##1 l} #2} ##2 
-          %\mathclose{\@nameuse {\MH_cs_to_str:N ##1 r} #3}}
-          \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostar_wrapper:nnn}%
-             {\@nameuse {\MH_cs_to_str:N ##1 l} #2}
-             {##2}
-             {\@nameuse {\MH_cs_to_str:N ##1 r} #3}
+          \def\@tempa{\\@gobble}
+          \def\@tempb{##1}
+          \ifx\@tempa\@tempb
+%    \end{macrocode}
+% As of May 2017, we now run explicit wrapper in the nonscaled
+% version, so we can remove the feature to to add l and r version of
+% the scaler (as there is none).
+%    \begin{macrocode}
+            \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostarnonscaled_wrapper:nnn}%
+               {#2}
+               {##2}
+               {#3}
+          \else
+%    \end{macrocode}
+% Next we need to check whether \texttt{\#\#1} is blank as that
+% should not be scaled
+%    \begin{macrocode}
+            \MT_etb_ifblank:nnn {##1}{
+              \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostarnonscaled_wrapper:nnn}%
+                {#2}
+                {##2}
+                {#3}
+            }{
+              \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostarscaled_wrapper:nnn}%
+                {\@nameuse {\MH_cs_to_str:N ##1 l} #2}
+                {##2}
+                {\@nameuse {\MH_cs_to_str:N ##1 r} #3}
+            }
+          \fi
         }
 %    \end{macrocode}
 %  The user command comes here. Just check for the star and choose
@@ -4035,7 +4111,7 @@ and the derived files
 %  \changes{v1.08e}{2010/09/02}{Provided better implementation of 
 %  \cs{DeclarePairedDelimiterX}}
 %    \begin{macrocode}
-\def\MHempty{}
+\def\@MHempty{}
 \def\DeclarePairedDelimiterX#1[#2]#3#4#5{%
   \@ifdefinable{#1}{
 %    \end{macrocode}
@@ -4073,7 +4149,6 @@ and the derived files
 % started 2010-08-12.}
 % \changes{v1.13}{2012/05/10}{Using call back instead}
 %    \begin{macrocode}
-            %\mathopen{}\mathclose\bgroup\left#3 #5 \aftergroup\egroup\right#4
             \@nameuse{MT_delim_\MH_cs_to_str:N #1 _star_wrapper:nnn}
               {\left#3}{#5}{\right#4}
           \endgroup
@@ -4084,13 +4159,13 @@ and the derived files
 % argument (this means that the non-starred version can actually
 % support ten arguments!).  Here we do things a little differently
 % than with \cs{DeclarePairedDelimiter}. The optional argument have
-% \cs{MHempty} as the default. This is changed when we scale the
+% \cs{@MHempty} as the default. This is changed when we scale the
 % delimiters, such that it can eat the l/r if needed.
 %    \begin{macrocode}
     \@xp\@xp\@xp
       \newcommand
         \@xp\csname MT_delim_\MH_cs_to_str:N #1 _nostar:\endcsname
-        [1][\MHempty]
+        [1][\@MHempty]
       {
 %    \end{macrocode}
 % We need to introduce a local group in order to support nesting. It
@@ -4104,29 +4179,60 @@ and the derived files
 %    \end{macrocode}
 % Next we provide the inner workhorse. We need a bit of expansion
 % magic to get \cs{delimsize} to work.
-% \changes{v1.13}{2012/05/10}{Using call back instead}
-% \changes{v1.19}{2017/04/27}{Added resetting code for \cs{MHempty},
+% \changes{v1.13}{2012/05/10}{Using call backs for \cs{mathopen} and
+% \cs{mathclose} additions}
+% \changes{v1.19}{2017/04/27}{Added resetting code for \cs{@MHempty},
 % cannot rely on groups here}
 % Also note that we cannot rely on groups to localize when changing
-% \cs{MHempty} to \cs{@gobble}, thus we need to reset after use.
+% \cs{@MHempty} to \cs{@gobble}, thus we need to reset after use.
+%
+% May 2017: Due to \verb+\mathclose{|}^2+ generally not being equal to
+% \verb+\mathclose|^2+ we needed to split the wrapper macro into
+% separate nonscaled and scaled versions. This also have the benefit
+% of completely eliminating the need to gobble any chars. There is now
+% the nonscaled version, which we do not add any scalers to and the
+% manually scaled version where we \emph{know} there is a scaler. The
+% complication is now that we need to be able to check for blank
+% input, thus the including of a few macros from \pkg{etoolbox}.
 %    \begin{macrocode}
     \@xp\@xp\@xp
       \newcommand
         \@xp\csname MT_delim_\MH_cs_to_str:N #1 _nostar_inner:\endcsname
         [#2]
         {
-          \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostar_wrapper:nnn}
-          {
-            \let\MHempty\@gobble
-            \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize l\endcsname #3
-            \def\MHempty{}
-          }
-          {#5}
-          {
-            \let\MHempty\@gobble
-            \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize r\endcsname #4
-            \def\MHempty{}
-          }
+%    \end{macrocode}
+% \changes{v1.19}{2017/05/23}{Split into two wrappers and some tests}
+% First we need to look at \cs{delimsize} to see if it is equal to
+% \cs{@MHempty}. If it is run the nonscaled version. 
+%    \begin{macrocode}
+          \def\@tempa{\@MHempty}
+          \@xp\def\@xp\@tempb\@xp{\delimsize}
+          \ifx\@tempa\@tempb
+            \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostarnonscaled_wrapper:nnn}
+              {#3}{#5}{#4}
+          \else
+%    \end{macrocode}
+% Next we use a copy of a macro from \pkg{etoolbox} to determine
+% whether \cs{delimsize} is empty or not.
+%    \begin{macrocode}
+            \MT_etb_ifdefempty_x:nnn {\delimsize}{
+              \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostarnonscaled_wrapper:nnn}
+                {#3}{#5}{#4}
+            }{
+%    \end{macrocode}
+% In the scaled version we add features to convert til scaler to its
+% l/r versions.
+%    \begin{macrocode}
+              \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostarscaled_wrapper:nnn}
+              {
+                \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize l\endcsname #3
+              }
+              {#5}
+              {
+                \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize r\endcsname #4
+              }
+            }
+          \fi
           \endgroup
         }
     \DeclareRobustCommand{#1}{
@@ -4164,7 +4270,7 @@ and the derived files
 % interpreted as 
 % \marg{macroname}\oarg{num~args}\allowbreak\marg{pre~code}\allowbreak\marg{left delim}\marg{right
 % delim}\marg{post code}\marg{body}
-% \changes{v1.19}{2017/04/27}{Added the same \cs{MHempty} redefinition
+% \changes{v1.19}{2017/04/27}{Added the same \cs{@MHempty} redefinition
 % as above}
 %    \begin{macrocode}
 \def\DeclarePairedDelimiterXPP#1[#2]#3#4#5#6#7{%
@@ -4187,7 +4293,7 @@ and the derived files
     \@xp\@xp\@xp
       \newcommand
         \@xp\csname MT_delim_\MH_cs_to_str:N #1 _nostar:\endcsname
-        [1][\MHempty]
+        [1][\@MHempty]
       {
         \begingroup
         \def\delimsize{##1}
@@ -4199,18 +4305,31 @@ and the derived files
         [#2]
         {
           #3
-          \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostar_wrapper:nnn}
-          {
-            \let\MHempty\@gobble
-            \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize l\endcsname #4
-            \def\MHempty{}
-          }
-          {#7}
-          {
-            \let\MHempty\@gobble
-            \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize r\endcsname #5
-            \def\MHempty{}
-          }
+%    \end{macrocode}
+% The next code is a copy of new code from
+% \cs{DeclarePairedDelimiterX}
+% \changes{v1.19}{2017/05/23}{Code redone similar to \cs{DeclarePairedDelimiterX}}
+%    \begin{macrocode}
+          \def\@tempa{\@MHempty}
+          \@xp\def\@xp\@tempb\@xp{\delimsize}
+          \ifx\@tempa\@tempb
+            \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostarnonscaled_wrapper:nnn}
+              {#3}{#5}{#4}
+          \else
+            \MT_etb_ifdefempty_x:nnn {\delimsize}{
+              \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostarnonscaled_wrapper:nnn}
+                {#3}{#5}{#4}
+            }{
+              \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostarscaled_wrapper:nnn}
+              {
+                \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize l\endcsname #3
+              }
+              {#5}
+              {
+                \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize r\endcsname #4
+              }
+            }
+          \fi
           #6
           \endgroup
         }
