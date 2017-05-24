@@ -4121,30 +4121,38 @@ and the derived files
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\MT_delim_inner_generator:n..n}
-% \changes{v1.19}{2017/05/14}{Macro added, changes notes in the
-% implementation are taken from when this code was not factored out}
+%   \changes{v1.19}{2017/05/14}{Macro added, changes notes in the
+%   implementation are taken from when this code was not factored out}
 %   This generates the internal macro from
 %   \cs{DeclarePairedDelimiterX} and \cs{DeclarePairedDelimiterXPP}
 %   that handles the non-starred part of the generated macro. The
 %   macro takes 7 arguments mimicing the arguments of
-%   \cs{DeclarePairedDelimiterXPP}.
+%   \cs{DeclarePairedDelimiterXPP}: 
+% \begin{enumerate}\setlength\itemsep{0pt}
+% \item external macro name
+% \item number of arguments, 1-9, already checked at this stage
+% \item predata
+% \item left scaler
+% \item right scaler
+% \item postdata
+% \item body
+% \end{enumerate}
 %
-% In order for the starred and non-starred version to have the same
-% arguments, we need to introduce an extra macro to catch the optional
-% argument (this means that the non-starred version can actually
-% support ten arguments!).  Here we do things a little differently
-% than with \cs{DeclarePairedDelimiter}. The optional argument have
-% \cs{@MHempty} as the default. This is changed when we scale the
-% delimiters, such that it can eat the l/r if needed.
 %    \begin{macrocode}
+\def\@MHempty{}
 \newcommand\MT_delim_inner_generator:nnnnnnn [7]{
-  % 1: external macro name
-  % 2: number of arguments, 1-9, already checked at this stage
-  % 3: predata
-  % 4: left scaler
-  % 5: right scaler
-  % 6: postdata
-  % 7: body
+%    \end{macrocode}
+% In order for the starred and non-starred version of
+% \cs{DeclarePairedDelimiterX(PP)} to have the same arguments, we need
+% to introduce an extra macro to catch the optional argument (this
+% means that the non-starred version can actually support ten
+% arguments!).  Here we do things a little differently than with
+% \cs{DeclarePairedDelimiter}. The optional argument have
+% \cs{@MHempty} as the default. This was earlier locally redefined to
+% eat l/r additions to the scaler when there were no scaler. In this
+% implementation, we just look for that macro to see if no scaler has
+% been given at all.
+%    \begin{macrocode}
     \@xp\@xp\@xp
       \newcommand
         \@xp\csname MT_delim_\MH_cs_to_str:N #1 _nostar_inner:\endcsname
@@ -4155,6 +4163,21 @@ and the derived files
 %    \begin{macrocode}
           #3
 %    \end{macrocode}
+% Next we provide the inner workhorse. We need a bit of expansion
+% magic to get \cs{delimsize} to work.
+% \changes{v1.13}{2012/05/10}{Using call backs for \cs{mathopen} and
+% \cs{mathclose} additions}
+% \changes{v1.19}{2017/04/27}{Added resetting code for \cs{@MHempty},
+% cannot rely on groups here. 2017/05/23 removed because of reimplementation}
+%
+% May 2017: Due to \verb+\mathclose{|}^2+ generally not being equal to
+% \verb+\mathclose|^2+ we needed to split the wrapper macro into
+% separate nonscaled and scaled versions. This also have the benefit
+% of completely eliminating the need to gobble any chars. There is now
+% the nonscaled version, which we do not add any scalers to and the
+% manually scaled version where we \emph{know} there is a scaler. The
+% complication is now that we need to be able to check for blank
+% input, thus the including of a few macros from \pkg{etoolbox}.
 % \changes{v1.19}{2017/05/23}{Split into two wrappers and some tests}
 % First we need to look at \cs{delimsize} to see if it is equal to
 % \cs{@MHempty}. If it is run the nonscaled version. 
@@ -4199,6 +4222,140 @@ and the derived files
 %    \end{macrocode}
 %   
 % \end{macro}
+% \begin{macro}{\DeclarePairedDelimiterXPP}
+%   \changes{v1.19}{2017/05/24}{Rewritten as we might as well
+%   implement ...X via ...XPP} It turns out it is useful to have more
+%   general versions of \cs{DeclarePairedDelimiter} where we can
+%   access the body and perhaps even add stuff on the outside of the
+%   fences. Historically, we added \cs{DeclarePairedDelimiterX} first,
+%   giving access to the body and the most general
+%   \cs{DeclarePairedDelimiterXPP} was requested after that, thus
+%   ending up with two macros so not to break existing document. As of
+%   May 2017, since \cs{DeclarePairedDelimiterX} is just
+%   \cs{DeclarePairedDelimiterXPP} with no pre- or postcode, we will
+%   use this update to just define \cs{DeclarePairedDelimiterXPP} and
+%   define \cs{DeclarePairedDelimiterX} from that.
+% 
+%   The arguments for \cs{DeclarePairedDelimiterXPP} are interpreted
+%   as
+% \begin{center}
+%   \marg{macroname}\oarg{num~args}\allowbreak\marg{pre~code}\allowbreak\marg{left
+%   delim}\goodbreak \marg{right delim}\marg{post code}\marg{body}
+% \end{center}
+%  Inside \marg{body} \cs{delimsize}
+% refers to the current size of the scaler (\cs{middle} in the starred version).
+%    \begin{macrocode}
+\def\DeclarePairedDelimiterXPP#1[#2]#3#4#5#6#7{%
+  \@ifdefinable{#1}{
+%    \end{macrocode}
+% The constructor takes five arguments, the name of the macro, the
+% number of arguments (1-9), the left and right delimiter, the inner
+% code for the two macros. First we verify that the number of arguments fit.
+% \changes{v1.14}{2014/05/20}{Factored out in separate macro
+% (\cs{MT_paired_delimx_arg_test:n}) for reuse. Comment refers back to
+% old \cs{DeclarePairedDelimiterX} implementation.} 
+%    \begin{macrocode}
+    \MT_paired_delimx_arg_test:n{#2}
+%    \end{macrocode}
+%  \changes{v1.13}{2012/05/10}{Using call back instead}
+%  Define the default call backs.
+%    \begin{macrocode}
+    \MT_delim_default_inner_wrappers:n{#1}
+%    \end{macrocode}
+% We make sure to store the delimiter size in the local variable
+% \cs{delimsize}. Then users can refer to the size in the \marg{body}
+% argument. In the starred version it will refer to \cs{middle} and in
+% the normal version it will hold the provided optional argument.
+%    \begin{macrocode}
+    \@xp\@xp\@xp
+      \newcommand
+        \@xp\csname MT_delim_\MH_cs_to_str:N #1 _star:\endcsname
+        [#2]
+        {
+          \begingroup
+            \def\delimsize{\middle}
+%    \end{macrocode}
+% Adding the \marg{precode} (possibly empty)
+%    \begin{macrocode}
+            #3
+%    \end{macrocode}
+% This is slightly controversial, \cs{left}\dots\cs{right} are known
+% to produce an inner atom, thus may cause different spacing than
+% normal delimiters. We `fix' this by introducing \cs{mathopen} and
+% \cs{mathclose}. This change is now factored out into call backs. 
+% \changes{v1.08e}{2010/09/14}{redid the left/right fix, inspired by
+% ctt thread named `spacing after \cs{right}) and before \cs{left})'
+% started 2010-08-12.}
+% \changes{v1.13}{2012/05/10}{Using call back instead}
+%    \begin{macrocode}
+            \@nameuse{MT_delim_\MH_cs_to_str:N #1 _star_wrapper:nnn}
+              {\left#4}{#7}{\right#5}
+            #6  
+          \endgroup
+        }
+%    \end{macrocode}
+% In order for the starred and non-starred version to have the same
+% arguments, we need to introduce an extra macro to catch the optional
+% argument (this means that the non-starred version can actually
+% support ten arguments!).  
+%    \begin{macrocode}
+    \@xp\@xp\@xp
+      \newcommand
+        \@xp\csname MT_delim_\MH_cs_to_str:N #1 _nostar:\endcsname
+        [1][\@MHempty]
+      {
+%    \end{macrocode}
+% We need to introduce a local group in order to support nesting. It
+% is ended inside \verb|\MT_delim_\MH_cs_to_str:N #1 _nostar_inner:|,
+% here we also stores the scaler in \cs{delimsize}.
+%    \begin{macrocode}
+        \begingroup
+        \def\delimsize{##1}
+        \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostar_inner:}
+      }
+%    \end{macrocode}
+% To make the code easier to work with we factored the next macro
+% out. Since \cs{DeclarePairedDelimiterX} is now implemented via
+% \cs{DeclarePairedDelimiterXPP} we did not need to. But it makes the
+% code a bit simpler. \cs{MT_delim_inner_generator:nnnnnnn} just
+% takes care of generating the appropriate \cs{..._nostar_inner:} macro.
+%    \begin{macrocode}
+      \MT_delim_inner_generator:nnnnnnn {#1}{#2}{#3}{#4}{#5}{#6}{#7}
+%    \end{macrocode}
+% At the end, generate the actual user command.
+%    \begin{macrocode}
+    \DeclareRobustCommand{#1}{
+      \@ifstar
+        {\@nameuse{MT_delim_\MH_cs_to_str:N #1 _star:}}
+        {\@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostar:}}
+    }
+  }
+}
+
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\DeclarePairedDelimiterX}
+% As of May 2017, this is now just a call to \cs{DeclarePairedDelimiterXPP}.
+%    \begin{macrocode}
+\def\DeclarePairedDelimiterX#1[#2]#3#4#5{%
+  \DeclarePairedDelimiterXPP{#1}[#2]{}{#3}{#4}{}{#5}
+}
+%    \end{macrocode}
+% \end{macro}
+%
+
+
+
+
+
+
+
+
+
+
+
+
+
 %
 % \begin{macro}{\DeclarePairedDelimiterX}
 %  \changes{v1.08}{2010/06/10}{Added \cs{DeclarePairedDelimiterX}}
@@ -4380,41 +4537,6 @@ and the derived files
         \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostar_inner:}
       }
       \MT_delim_inner_generator:nnnnnnn {#1}{#2}{#3}{#4}{#5}{#6}{#7}
- %     \@xp\@xp\@xp
- %       \newcommand
- %         \@xp\csname MT_delim_\MH_cs_to_str:N #1 _nostar_inner:\endcsname
- %         [#2]
- %         {
- %           #3
- % %    \end{macrocode}
- % % The next code is a copy of new code from
- % % \cs{DeclarePairedDelimiterX}
- % % \changes{v1.19}{2017/05/23}{Code redone similar to \cs{DeclarePairedDelimiterX}}
- % % \changes{v1.19}{2017/05/24}{Used the wrong argument numbers, now fixed}
- % %    \begin{macrocode}
- %           \def\@tempa{\@MHempty}
- %           \@xp\def\@xp\@tempb\@xp{\delimsize}
- %           \ifx\@tempa\@tempb
- %             \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostarnonscaled_wrapper:nnn}
- %               {#4}{#7}{#5}
- %           \else
- %             \MT_etb_ifdefempty_x:nnn {\delimsize}{
- %               \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostarnonscaled_wrapper:nnn}
- %                 {#4}{#7}{#5}
- %             }{
- %               \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostarscaled_wrapper:nnn}
- %               {
- %                 \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize l\endcsname #4
- %               }
- %               {#7}
- %               {
- %                 \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize r\endcsname #5
- %               }
- %             }
- %           \fi
- %           #6
- %           \endgroup
- %         }
     \DeclareRobustCommand{#1}{
       \@ifstar
         {\@nameuse{MT_delim_\MH_cs_to_str:N #1 _star:}}
