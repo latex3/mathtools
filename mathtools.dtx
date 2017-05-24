@@ -68,7 +68,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: mathtools 2017/03/31 v1.19}
+\Msg{* Package: mathtools 2017/05/24 v1.19}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -131,7 +131,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{mathtools.drv}%
-  [2017/03/31 v1.19 mathematical typesetting tools]
+  [2017/05/24 v1.19 mathematical typesetting tools]
 \documentclass{ltxdoc}
 \IfFileExists{fourier.sty}{\usepackage{fourier}}{}
 \addtolength\marginparwidth{-25pt}
@@ -2713,7 +2713,7 @@ hyperindex=false,
 %    \begin{macrocode}
 %<*package>
 \ProvidesPackage{mathtools}%
-  [2017/03/31 v1.19 mathematical typesetting tools]
+  [2017/05/24 v1.19 mathematical typesetting tools]
 %    \end{macrocode}
 % \changes{v1.10}{2011/02/12}{Might as well make sure that we need the
 % latest version of \texttt{mhsetup}}
@@ -3653,12 +3653,14 @@ hyperindex=false,
 %  \textbf{BUG:} \cs{baselineskip} is zero inside an array or matrix,
 %  thus in those cases the line is \emph{not} invisible.
 %  \changes{v1.14}{2014/05/21}{Added -\cs{jot}}
+%  \changes{v1.19}{2017/05/24}{Removed -\cs{jot} again, do not
+%  remember why we added it in the first place}
 %    \begin{macrocode}
 \def\MT_mult_invisible_line: {
   \crcr
   \global\MH_set_boolean_F:n {mult_firstline}
   \hbox to \l_MT_multwidth_dim{}\crcr
-  \noalign{\vskip-\baselineskip \vskip-\jot \vskip-\normallineskip}
+  \noalign{\vskip-\baselineskip \vskip-\normallineskip}
 }
 %    \end{macrocode}
 %  \end{macro}

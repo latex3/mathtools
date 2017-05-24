@@ -1,0 +1,48 @@
+Announcement release 2017
+
+* changed amsmath requirelemnt to 2016/11/05 (in order to use the aligend fix)
+
+* Applied the amsmath aligned fix to multlined, now the left part aligned correctly
+  Reported by campa in a note to <https://tex.stackexchange.com/a/369212/3929>
+
+* Reimplemented `\DeclarePairedDelimiter` and friends to fix the following problem:
+
+		\mathclose{\rvert}^2 vs \mathclose\rvert^2
+
+	They might not give the same result (depending on the font
+    setup). Thus the internal wrappers need to be changed into three
+    branches: star, nostarnonscaled, nostarscaled, where the
+    difference between the last two is whether or not braces are
+    applied to the fences.
+
+	This problem was reported in <https://tex.stackexchange.com/q/364308/3929>
+
+* Since we were cleaning up `\DeclarePairedDelimiter` and friends,
+  `\DeclarePairedDelimiterX` is now implemented as a call to `\DeclarePairedDelimiterXPP`
+  with empty pre- and postcode.
+
+* The \DeclarePairedDelimiter(X,XPP) reimplementation removes a grouping issue reported in
+  <https://tex.stackexchange.com/q/366665/3929>
+
+* since there is no longer any `nostar` wrapper branch, redeclaring the `nostar` wrapper
+  will now give an error.
+
+* Removed `-\jot` from the multlined implementation (invisible line). Issue reported in at
+  least <http://tex.stackexchange.com/a/258162/3929> and
+  <https://tex.stackexchange.com/q/369156/3929>. It is not 100% correct, but better than
+  with `-\jot`.
+
+* fixed bug in empheq in relation to AMS clases
+
+* renamed macros in mhsetup, mathtools and empheq such that any xxx_yyy: macro should now
+  contain EQ, MH or HT as a prefix or infix. Thus making everyting truely separate from
+  expl3 defined syntax.
+
+* changed \shortintertext such that as long as 'original-intertext=false' (the default), 
+  \shortintertext now only work in the same context as \intertext
+
+* \shortintertext is now also an error inside the empheq construction
+
+* sporadic space fixed in \noeqref, reported by Christian Vetter (private email)
+
+* Added \ignorespaces after \noindent, bug inherited from amsmath
