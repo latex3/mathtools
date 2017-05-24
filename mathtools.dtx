@@ -267,7 +267,9 @@ and the derived files
 \let\MTtheindex\theindex
 \def\theindex{\MTtheindex\MakePrivateLetters}
 
-\usepackage[final,hyperindex=false]{hyperref}
+\usepackage[final,
+hyperindex=false,
+]{hyperref}
 \renewcommand*\usage[1]{\textit{\hyperpage{#1}}}
 
 \OnlyDescription
@@ -1613,7 +1615,7 @@ and the derived files
 %  \end{alignat*}
 %
 %
-% \subsubsection{Centered \cs{vdots}}
+% \subsubsection{Centered \texorpdfstring{\cs{vdots}}{\textbackslash vdots}}
 %
 %  If one want to mark a vertical continuation, there is
 %  the \verb?\vdots? command, but combine this with an alignment and
