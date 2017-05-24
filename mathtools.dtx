@@ -4101,6 +4101,105 @@ and the derived files
 %    \end{macrocode}
 %  \end{macro}
 %
+% \begin{macro}{\MT_paired_delimx_arg_test:n}
+%  This tests the \oarg{num args} part of
+%  \cs{DeclarePairedDelimiterX} and \cs{DeclarePairedDelimiterXPP}
+%  (code reuse), and complains if it is not 1,\dots,9.
+%  \changes{v1.14}{2014/05/20}{Added}
+%    \begin{macrocode}
+\def\MT_paired_delimx_arg_test:n #1{
+  \ifnum#1>9\relax
+    \PackageError{mathtools}{No~ more~ than~ 9~ arguments}{}
+  \else
+    \ifnum#1<1\relax
+      \PackageError{mathtools}{Macro~ need~ 1~ or~ more~
+        arguments.\MessageBreak Please~ change~ [#1]~ to~ [1]~ ... [9]}{}
+    \fi
+  \fi
+ }
+
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\MT_delim_inner_generator:n..n}
+% \changes{v1.19}{2017/05/14}{Macro added, changes notes in the
+% implementation are taken from when this code was not factored out}
+%   This generates the internal macro from
+%   \cs{DeclarePairedDelimiterX} and \cs{DeclarePairedDelimiterXPP}
+%   that handles the non-starred part of the generated macro. The
+%   macro takes 7 arguments mimicing the arguments of
+%   \cs{DeclarePairedDelimiterXPP}.
+%
+% In order for the starred and non-starred version to have the same
+% arguments, we need to introduce an extra macro to catch the optional
+% argument (this means that the non-starred version can actually
+% support ten arguments!).  Here we do things a little differently
+% than with \cs{DeclarePairedDelimiter}. The optional argument have
+% \cs{@MHempty} as the default. This is changed when we scale the
+% delimiters, such that it can eat the l/r if needed.
+%    \begin{macrocode}
+\newcommand\MT_delim_inner_generator:nnnnnnn [7]{
+  % 1: external macro name
+  % 2: number of arguments, 1-9, already checked at this stage
+  % 3: predata
+  % 4: left scaler
+  % 5: right scaler
+  % 6: postdata
+  % 7: body
+    \@xp\@xp\@xp
+      \newcommand
+        \@xp\csname MT_delim_\MH_cs_to_str:N #1 _nostar_inner:\endcsname
+        [#2]
+        {
+%    \end{macrocode}
+% Add the (possibly empty) precode:
+%    \begin{macrocode}
+          #3
+%    \end{macrocode}
+% \changes{v1.19}{2017/05/23}{Split into two wrappers and some tests}
+% First we need to look at \cs{delimsize} to see if it is equal to
+% \cs{@MHempty}. If it is run the nonscaled version. 
+%    \begin{macrocode}
+          \def\@tempa{\@MHempty}
+          \@xp\def\@xp\@tempb\@xp{\delimsize}
+          \ifx\@tempa\@tempb
+            \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostarnonscaled_wrapper:nnn}
+              {#4}{#7}{#5}
+          \else
+%    \end{macrocode}
+% Next we use a copy of a macro from \pkg{etoolbox} to determine
+% whether \cs{delimsize} is empty or not. This is to be sure that
+% \verb|\abs[]| and similar still end up in the unscaled branch.
+%    \begin{macrocode}
+            \MT_etb_ifdefempty_x:nnn {\delimsize}{
+              \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostarnonscaled_wrapper:nnn}
+                {#4}{#7}{#5}
+            }{
+%    \end{macrocode}
+% In the scaled version we add features to convert til scaler to its
+% l/r versions.
+%    \begin{macrocode}
+              \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostarscaled_wrapper:nnn}
+              {
+                \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize l\endcsname #4
+              }
+              {#7}
+              {
+                \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize r\endcsname #5
+              }
+            }
+          \fi
+%    \end{macrocode}
+% Add the (possibly empty) post code
+%    \begin{macrocode}
+          #6
+          \endgroup
+        }
+}
+
+%    \end{macrocode}
+%   
+% \end{macro}
+%
 % \begin{macro}{\DeclarePairedDelimiterX}
 %  \changes{v1.08}{2010/06/10}{Added \cs{DeclarePairedDelimiterX}}
 %  It has turned out that it is convenient to have a more general
@@ -4244,25 +4343,6 @@ and the derived files
 }
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\MT_paired_delimx_arg_test:n}
-%  This tests the \oarg{num args} part of
-%  \cs{DeclarePairedDelimiterX} and \cs{DeclarePairedDelimiterXPP}
-%  (code reuse), and complains if it is not 1,\dots,9.
-%  \changes{v1.14}{2014/05/20}{Added}
-%    \begin{macrocode}
-\def\MT_paired_delimx_arg_test:n #1{
-  \ifnum#1>9\relax
-    \PackageError{mathtools}{No~ more~ than~ 9~ arguments}{}
-  \else
-    \ifnum#1<1\relax
-      \PackageError{mathtools}{Macro~ need~ 1~ or~ more~
-        arguments.\MessageBreak Please~ change~ [#1]~ to~ [1]~ ... [9]}{}
-    \fi
-  \fi
- }
-
-%    \end{macrocode}
-% \end{macro}
 % \begin{macro}{\DeclarePairedDelimiterXPP}
 % \changes{v1.14}{2014/05/20}{Added}
 % Similar to \cs{DeclarePairedDelimiterX}, but we can add \meta{pre}
@@ -4299,40 +4379,42 @@ and the derived files
         \def\delimsize{##1}
         \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostar_inner:}
       }
-    \@xp\@xp\@xp
-      \newcommand
-        \@xp\csname MT_delim_\MH_cs_to_str:N #1 _nostar_inner:\endcsname
-        [#2]
-        {
-          #3
-%    \end{macrocode}
-% The next code is a copy of new code from
-% \cs{DeclarePairedDelimiterX}
-% \changes{v1.19}{2017/05/23}{Code redone similar to \cs{DeclarePairedDelimiterX}}
-%    \begin{macrocode}
-          \def\@tempa{\@MHempty}
-          \@xp\def\@xp\@tempb\@xp{\delimsize}
-          \ifx\@tempa\@tempb
-            \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostarnonscaled_wrapper:nnn}
-              {#3}{#5}{#4}
-          \else
-            \MT_etb_ifdefempty_x:nnn {\delimsize}{
-              \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostarnonscaled_wrapper:nnn}
-                {#3}{#5}{#4}
-            }{
-              \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostarscaled_wrapper:nnn}
-              {
-                \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize l\endcsname #3
-              }
-              {#5}
-              {
-                \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize r\endcsname #4
-              }
-            }
-          \fi
-          #6
-          \endgroup
-        }
+      \MT_delim_inner_generator:nnnnnnn {#1}{#2}{#3}{#4}{#5}{#6}{#7}
+ %     \@xp\@xp\@xp
+ %       \newcommand
+ %         \@xp\csname MT_delim_\MH_cs_to_str:N #1 _nostar_inner:\endcsname
+ %         [#2]
+ %         {
+ %           #3
+ % %    \end{macrocode}
+ % % The next code is a copy of new code from
+ % % \cs{DeclarePairedDelimiterX}
+ % % \changes{v1.19}{2017/05/23}{Code redone similar to \cs{DeclarePairedDelimiterX}}
+ % % \changes{v1.19}{2017/05/24}{Used the wrong argument numbers, now fixed}
+ % %    \begin{macrocode}
+ %           \def\@tempa{\@MHempty}
+ %           \@xp\def\@xp\@tempb\@xp{\delimsize}
+ %           \ifx\@tempa\@tempb
+ %             \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostarnonscaled_wrapper:nnn}
+ %               {#4}{#7}{#5}
+ %           \else
+ %             \MT_etb_ifdefempty_x:nnn {\delimsize}{
+ %               \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostarnonscaled_wrapper:nnn}
+ %                 {#4}{#7}{#5}
+ %             }{
+ %               \@nameuse{MT_delim_\MH_cs_to_str:N #1 _nostarscaled_wrapper:nnn}
+ %               {
+ %                 \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize l\endcsname #4
+ %               }
+ %               {#7}
+ %               {
+ %                 \@xp\@xp\@xp\csname\@xp\MH_cs_to_str:N \delimsize r\endcsname #5
+ %               }
+ %             }
+ %           \fi
+ %           #6
+ %           \endgroup
+ %         }
     \DeclareRobustCommand{#1}{
       \@ifstar
         {\@nameuse{MT_delim_\MH_cs_to_str:N #1 _star:}}
@@ -6087,5 +6169,5 @@ and the derived files
 %</package>
 %    \end{macrocode}
 %
-%  \Finale
+%  \ Finale
 \endinput
