@@ -283,7 +283,7 @@ and the derived files
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3229}
+%  \CheckSum{3146}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -4033,7 +4033,7 @@ and the derived files
 %  before the delimiters, wrapped in a callback function.
 %  \changes{1.08e}{2010/09/02}{`Fixed' \cs{left}\dots\cs{right} bad spacing}
 %  \changes{1.08e}{2010/09/14}{redid the \cs{left}\dots\cs{right} fix,
-%  see \cs{DeclarePairedDelimiterX} for details.}
+%  see \cs{DeclarePairedDelimiterXPP} for details.}
 %  \changes{v1.13}{2012/05/10}{Using call back instead}
 %    \begin{macrocode}
     \MT_delim_default_inner_wrappers:n{#1} % define the wrappers
@@ -4224,8 +4224,8 @@ and the derived files
 % \end{macro}
 % \begin{macro}{\DeclarePairedDelimiterXPP}
 %   \changes{v1.19}{2017/05/24}{Rewritten as we might as well
-%   implement ...X via ...XPP} It turns out it is useful to have more
-%   general versions of \cs{DeclarePairedDelimiter} where we can
+%   implement ...X via ...XPP} It turns out it is useful to have a
+%   more general version of \cs{DeclarePairedDelimiter} where we can
 %   access the body and perhaps even add stuff on the outside of the
 %   fences. Historically, we added \cs{DeclarePairedDelimiterX} first,
 %   giving access to the body and the most general
@@ -4343,7 +4343,7 @@ and the derived files
 %  historic reasons.}
 % As of May 2017, this is now just a call to \cs{DeclarePairedDelimiterXPP}.
 %    \begin{macrocode}
-\def\DeclarePairedDelimiterX#1[#2]#3#4#5{%
+\def\DeclarePairedDelimiterX#1[#2]#3#4#5{
   \DeclarePairedDelimiterXPP{#1}[#2]{}{#3}{#4}{}{#5}
 }
 %    \end{macrocode}
@@ -6093,5 +6093,5 @@ and the derived files
 %</package>
 %    \end{macrocode}
 %
-%  \ Finale
+%  \Finale
 \endinput
