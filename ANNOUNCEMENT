@@ -1,6 +1,7 @@
 Announcement release 2017/10/30
 
 * fixed \null\, bug in (l|r|)gathered versions, bringing it in line with amsmath
+  Reported in https://tex.stackexchange.com/a/397718/3929
 
 
 Announcement release 2017
