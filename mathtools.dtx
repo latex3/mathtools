@@ -68,7 +68,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: mathtools 2017/05/24 v1.19}
+\Msg{* Package: mathtools 2017/10/30 v1.20}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -131,7 +131,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{mathtools.drv}%
-  [2017/05/24 v1.19 mathematical typesetting tools]
+  [2017/10/30 v1.20 mathematical typesetting tools]
 \documentclass{ltxdoc}
 \IfFileExists{fourier.sty}{\usepackage{fourier}}{}
 \addtolength\marginparwidth{-25pt}
@@ -285,7 +285,7 @@ hyperindex=false,
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3146}
+%  \CheckSum{3144}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -2713,7 +2713,7 @@ hyperindex=false,
 %    \begin{macrocode}
 %<*package>
 \ProvidesPackage{mathtools}%
-  [2017/05/24 v1.19 mathematical typesetting tools]
+  [2017/10/30 v1.20 mathematical typesetting tools]
 %    \end{macrocode}
 % \changes{v1.10}{2011/02/12}{Might as well make sure that we need the
 % latest version of \texttt{mhsetup}}
@@ -5896,13 +5896,16 @@ hyperindex=false,
 %  \begin{environment}{MT_gathered_env}
 %  Just like the normal \env{gathered}, only here we're allowed to
 %  specify actions before and after each line.
+% \changes{2017/10/30}{v1.20}{added \cs{alignedspace@left} instead of
+% \cs{null}\cs{,} as in the other amsmath adjustments}
 %    \begin{macrocode}
 \MaybeMHPrecedingSpacesOff
 \newenvironment{MT_gathered_env}[1][c]{%
     \RIfM@\else
         \nonmatherr@{\begin{\@currenvir}}%
     \fi
-    \null\,%
+    %\null\,%
+    \alignedspace@left%
     \if #1t\vtop \else \if#1b\vbox \else \vcenter \fi\fi \bgroup
         \Let@ \chardef\dspbrk@context\@ne \restore@math@cr
         \spread@equation

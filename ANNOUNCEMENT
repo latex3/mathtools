@@ -1,3 +1,8 @@
+Announcement release 2017/10/30
+
+* fixed \null\, bug in (l|r|)gathered versions, bringing it in line with amsmath
+
+
 Announcement release 2017
 
 * changed amsmath requirelemnt to 2016/11/05 (in order to use the aligend fix)
