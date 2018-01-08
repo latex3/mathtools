@@ -68,7 +68,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: mathtools 2017/10/30 v1.20}
+\Msg{* Package: mathtools 2018/01/08 v1.21}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -131,7 +131,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{mathtools.drv}%
-  [2017/10/30 v1.20 mathematical typesetting tools]
+  [2018/01/08 v1.21 mathematical typesetting tools]
 \documentclass{ltxdoc}
 \IfFileExists{fourier.sty}{\usepackage{fourier}}{}
 \addtolength\marginparwidth{-25pt}
@@ -2713,7 +2713,7 @@ hyperindex=false,
 %    \begin{macrocode}
 %<*package>
 \ProvidesPackage{mathtools}%
-  [2017/10/30 v1.20 mathematical typesetting tools]
+  [2018/01/08 v1.21 mathematical typesetting tools]
 %    \end{macrocode}
 % \changes{v1.10}{2011/02/12}{Might as well make sure that we need the
 % latest version of \texttt{mhsetup}}
@@ -5271,7 +5271,11 @@ hyperindex=false,
       \penalty\predisplaypenalty\vskip\abovedisplayskip%
       \vskip-\lineskiplimit      % CCS
       \vskip\normallineskiplimit % CCS
-      \vskip\l_MT_above_intertext_sep
+%    \end{macrocode}
+% \changes{v1.21}{2018/01/08}{Typo, it should use \texttt{\_below\_}
+% not \texttt{\_above\_}}
+%    \begin{macrocode}
+      \vskip\l_MT_below_intertext_sep
    }%
  }%
 %    \end{macrocode}
@@ -5280,6 +5284,8 @@ hyperindex=false,
 %  us to get the same error messages as \cs{intertext}.
 %  \changes{v1.19}{2017/03/31}{Added}
 %    \begin{macrocode}
+ % also activate \shortintertext, such that is is only available when
+ % \intertext is 
  \MH_let:NwN \shortintertext \shortintertext@
 }
 %    \end{macrocode}
