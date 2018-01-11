@@ -1,3 +1,8 @@
+Announcement release 2018/xx/xx
+
+* fixed typo in manual (\Prop vs \Prob, reported by Shapour Madadpour)
+
+
 Announcement release 2017/10/30
 
 * fixed \null\, bug in (l|r|)gathered versions, bringing it in line with amsmath
