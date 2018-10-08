@@ -1347,7 +1347,7 @@ hyperindex=false,
 %  \medskip\noindent
 %  \textbf{Bug 2:}
 %  \CommentAdded{2015/11/12}  
-%  Due to the way \env{multilined} is implemented, certain
+%  Due to the way \env{multlined} is implemented, certain
 %  constructions does not work inside \env{multlined}. We have added a
 %  hook (\cs{MultlinedHook}) that can be added to. The default value
 %  is a fix for \env{subarray} and thus \cs{substack}.
@@ -1355,7 +1355,8 @@ hyperindex=false,
 %  This can actually be used to fix Bug~1:
 % \begin{verbatim}
 % \usepackage{mathtools,etoolbox}
-% \newlength\Normalbaselineskip{\baselineskip} 
+% \newlength\Normalbaselineskip
+% \setlength\Normalbaselineskip{\baselineskip} 
 % \appto\MultlinedHook{
 %   \setlength\baselineskip{\Normalbaselineskip}
 % }
