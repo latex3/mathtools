@@ -186,6 +186,17 @@ and the derived files
   }%
 }
 
+\newcommand*\SuggestedBy[2]{%
+  \hskip1sp
+  \marginpar{%
+    \parbox[b]{\marginparwidth}{\small\sffamily\raggedright
+      \strut Suggested by\\#1\\#2%
+    }
+  }%
+}
+
+
+
 \newcommand*\cttPosting[2]{%
   \hskip1sp
   \marginpar{%
@@ -203,6 +214,18 @@ and the derived files
     }%
   }%
 }
+
+\newcommand*\tsxchatPosting[3][Requested on]{%
+  \hskip1sp
+  \marginpar{%
+    \parbox[b]{\marginparwidth}{\small\sffamily\raggedright
+     \strut #1 \texttt{\scriptsize tex.stackexchange.com chat} \\#2\\#3%
+    }%
+  }%
+}
+
+
+
 \newcommand*\CommentAdded[1]{%
   \hskip1sp
   \marginpar{%
@@ -267,8 +290,19 @@ and the derived files
 \let\MTtheindex\theindex
 \def\theindex{\MTtheindex\MakePrivateLetters}
 
+
+%\usepackage[draft]{fixme}
+%\fxsetup{
+% multiuser,
+%layout=marginnote,
+%}
+%\providecommand\fxnote[2][]{}
+
+\usepackage{xurl}
+
 \usepackage[final,
 hyperindex=false,
+colorlinks,
 ]{hyperref}
 \renewcommand*\usage[1]{\textit{\hyperpage{#1}}}
 
@@ -607,6 +641,47 @@ hyperindex=false,
 %  for both commands so it makes sense to combine the commands in
 %  one, thus letting \TeX{} make the choice only once rather than
 %  twice.
+%
+%  \begin{codesyntax}
+%    \SpecialEnvIndex{crampedsubarray}\cs{begin}\arg{crampedsubarray}\marg{col}
+%        \meta{contents} \cs{end}\arg{crampedsubarray}\\
+%    \SpecialUsageIndex{\crampedsubstack}
+%    \cs{crampedsubstack}\marg{lines separated by \cs{}\cs{}}
+% \end{codesyntax}
+% \SuggestedBy{Henri Menke}{2019/07/08}
+% If we go back to \eqref{eq:mathclap} and apply \cs{substack}, you'll
+% notice that the cramped style the sum is normally applying is gone:
+% \begin{verbatim}
+%  \[
+%    \sum_{\substack{a^2<b^2<c}}\qquad
+%    \sum_{a^2<b^2<c}
+%  \]
+% \end{verbatim}
+%  \begingroup \fontsize{24}{\baselineskip}\selectfont
+%  \[
+%    \sum_{\substack{a^2<b^2<c}}\qquad
+%    \sum_{a^2<b^2<c}
+%  \]
+%  \endgroup 
+%  We therefore provide a cramped version of
+%  \cs{substack}.\footnote{\cs{substack} is internally implemented via
+%  the \env{subarray}-env, so our cramped version of \cs{substack} is implemented via a
+%  cramped version of this env.}
+% \begin{verbatim}
+%  \[
+%    \sum_{\crampedsubstack{a^2<b^2<c}}\qquad
+%    \sum_{a^2<b^2<c}
+%  \]
+% \end{verbatim}
+%  \begingroup \fontsize{24}{\baselineskip}\selectfont
+%  \[
+%    \sum_{\crampedsubstack{a^2<b^2<c}}\qquad
+%    \sum_{a^2<b^2<c}
+%  \]
+%  \endgroup 
+%  Note: We may need to add a similar hook into multlined. 
+%
+%
 %
 %
 %
@@ -1350,7 +1425,9 @@ hyperindex=false,
 %  Due to the way \env{multlined} is implemented, certain
 %  constructions does not work inside \env{multlined}. We have added a
 %  hook (\cs{MultlinedHook}) that can be added to. The default value
-%  is a fix for \env{subarray} and thus \cs{substack}.
+%  is a fix for \env{subarray} and \env{crampedsubarray} and thus for
+%  \cs{substack} and \cs{crampedsubstack} (and a few others, thus add
+%  to the hook, don't replace it).
 %
 %  This can actually be used to fix Bug~1:
 % \begin{verbatim}
@@ -3859,6 +3936,9 @@ hyperindex=false,
 % \env{multlined}. The default value include a fix to \env{subarray}
 % and thus \cs{substack}. The fix to this environment was suggested by
 % Ulrike Fisher, \url{http://chat.stackexchange.com/transcript/message/25105970#25105970}
+% \changes{v1.22}{2019/07/22}{Also added crampedsubarray}
+% \changes{v1.22}{2019/07/22}{Also added fixes for smallmatrix and the
+% MT versions of these}
 %    \begin{macrocode}
 \newcommand\MultlinedHook{
   \renewenvironment{subarray}[1]{%
@@ -3874,6 +3954,38 @@ hyperindex=false,
   }{%
     \crcr\egroup\egroup
   }
+  \renewenvironment{crampedsubarray}[1]{%
+    \vcenter\bgroup
+    \Let@ \restore@math@cr \default@tag
+    \let\math@cr@@\AMS@math@cr@@  % <--- the fix
+    \baselineskip\fontdimen10 \scriptfont\tw@
+    \advance\baselineskip\fontdimen12 \scriptfont\tw@
+    \lineskip\thr@@\fontdimen8 \scriptfont\thr@@
+    \lineskiplimit\lineskip
+    \ialign\bgroup\ifx c#1\hfil\fi
+    $\m@th\scriptstyle\kern-\nulldelimiterspace\radical\z@{##}$
+    \hfil\crcr
+  }{%
+    \crcr\egroup\egroup
+  }
+   % from mathtolls
+  \def\MT_smallmatrix_begin:N #1{%
+    \Let@\restore@math@cr\default@tag
+    \let\math@cr@@\AMS@math@cr@@  % <--- the fix
+    \baselineskip6\ex@ \lineskip1.5\ex@ \lineskiplimit\lineskip
+    \csname MT_smallmatrix_#1_begin:\endcsname
+  }
+  % from amsmath
+  \renewenvironment{smallmatrix}{\null\,\vcenter\bgroup
+    \Let@\restore@math@cr\default@tag
+    \let\math@cr@@\AMS@math@cr@@  % <--- the fix
+    \baselineskip6\ex@ \lineskip1.5\ex@ \lineskiplimit\lineskip
+    \ialign\bgroup\hfil$\m@th\scriptstyle##$\hfil&&\thickspace\hfil
+    $\m@th\scriptstyle##$\hfil\crcr
+  }{%
+    \crcr\egroup\egroup\,%
+  }
+
 }
 
 %    \end{macrocode}
@@ -5666,6 +5778,40 @@ hyperindex=false,
 %  \end{macro}
 %
 %
+%
+% \subsubsection{Cramped versions of subarray and \cs{substack}}
+%
+% 
+% \changes{v1.22}{2019/07/22}{Added cramped versions of subarray and \cs{substack}}
+% This was suggested by Henri Menke in
+% \url{https://github.com/latex3/latex2e/issues/149} and
+% \url{https://chat.stackexchange.com/transcript/message/50943985#50943985}. As we are slowly moving away from the expl3 like syntax, we'll implement this with an adjusted copy of \env{subarray} from \pkg{amsmath}.
+% \begin{environment}{crampedsubarray}
+%    \begin{macrocode}
+\newenvironment{crampedsubarray}[1]{%
+  \vcenter\bgroup
+  \Let@ \restore@math@cr \default@tag
+  \baselineskip\fontdimen10 \scriptfont\tw@
+  \advance\baselineskip\fontdimen12 \scriptfont\tw@
+  \lineskip\thr@@\fontdimen8 \scriptfont\thr@@
+  \lineskiplimit\lineskip
+  \ialign\bgroup\ifx c#1\hfil\fi
+  $\m@th\scriptstyle\kern-\nulldelimiterspace\radical\z@{##}$% <-- changed line
+  \hfil\crcr%
+}{%
+\crcr\egroup\egroup
+} 
+%    \end{macrocode}
+% \end{environment}
+% \begin{macro}{\crampedsubstack}
+% And the identical implementation for \cs{crampedsubstack}:
+%    \begin{macrocode}
+\newcommand{\crampedsubstack}[1]{\crampedsubarray{c}#1\endcrampedsubarray}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
 %  \section{Macros by Michael J.~Downes}
 %
 %  The macros in this section are all by Michael J.~Downes. Either
@@ -6107,5 +6253,5 @@ hyperindex=false,
 %</package>
 %    \end{macrocode}
 %
-%  \Finale
+%  \ Finale
 \endinput

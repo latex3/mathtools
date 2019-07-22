@@ -1,6 +1,14 @@
-Announcement release 2018/xx/xx
+Announcement release 2019/xx/xx
 
 * fixed typo in manual (\Prop vs \Prob, reported by Shapour Madadpour)
+* added \crampedsubstack and cramedsubarray (suggested by Henri Menke).
+* added multlined hook fixes for smallmatrix and the smallmatrix variants we provide.
+
+
+Announcement release 2018/01/08
+
+* Fixed typo in \intertext, the interface for specifying the space
+  above and below now works as advertised.
 
 
 Announcement release 2017/10/30
