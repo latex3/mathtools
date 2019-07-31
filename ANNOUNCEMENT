@@ -1,4 +1,4 @@
-Announcement release 2019/xx/xx
+Announcement release 2019/07/31
 
 * fixed typo in manual (\Prop vs \Prob, reported by Shapour Madadpour)
 * added \crampedsubstack and cramedsubarray (suggested by Henri Menke).
