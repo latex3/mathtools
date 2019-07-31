@@ -68,7 +68,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: mathtools 2018/01/08 v1.21}
+\Msg{* Package: mathtools 2019/07/31 v1.22}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -131,7 +131,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{mathtools.drv}%
-  [2018/01/08 v1.21 mathematical typesetting tools]
+  [2019/07/31 v1.22 mathematical typesetting tools]
 \documentclass{ltxdoc}
 \IfFileExists{fourier.sty}{\usepackage{fourier}}{}
 \addtolength\marginparwidth{-25pt}
@@ -648,9 +648,9 @@ colorlinks,
 %    \SpecialUsageIndex{\crampedsubstack}
 %    \cs{crampedsubstack}\marg{lines separated by \cs{}\cs{}}
 % \end{codesyntax}
-% \SuggestedBy{Henri Menke}{2019/07/08}
-% If we go back to \eqref{eq:mathclap} and apply \cs{substack}, you'll
-% notice that the cramped style the sum is normally applying is gone:
+% \SuggestedBy{Henri Menke}{2019/07/08} If we go back to
+% \eqref{eq:mathclap} and apply \cs{substack}, you'll notice that the
+% cramped style, the sum would normally apply, is now gone:
 % \begin{verbatim}
 %  \[
 %    \sum_{\substack{a^2<b^2<c}}\qquad
@@ -1313,10 +1313,12 @@ colorlinks,
 %
 % As an extra trick the fences will behave as open and closing fences
 % in constract to their auto-scaling nature.\footnote{\cs{left} and
-%   \cs{right} do \emph{not} produce open and closing fences, thus
-%   the space before or after may be too large. Inside this
-%   construction they behave.}
+% \cs{right} creates an \emph{inner} construction, and not as one
+% might expect something where a preceeding \cs{sin} sees an opening
+% fence, thus the space before or after may be too large. Inside this
+% construction they behave.}
 % 
+%
 %  \subsubsection{The \env{multlined} environment}
 %
 %  \begin{codesyntax}
@@ -2051,7 +2053,11 @@ colorlinks,
 % \end{verbatim}
 % \[ \Set*{ x \in X \given \frac{\sqrt{x}}{x^2+1} > 1 } \]
 % Thus we end up with a syntax much closer to how we read this
-% aloud. Also we hide the `given' symbol for easy replacement.
+% aloud. Also we hide the `given' symbol for easy
+% replacement.\footnote{The \cs{nonscript} construction removes the
+% \cs{:} in sub- and superscript, this might not always be
+% peferable. You can use
+% \cs{mathchoice\{}\cs{:\}\{}\cs{:\}\{}\cs{,\}\{}\cs{,\}} instead of \cs{nonscript}\cs{:}.}
 %
 % Combining with \pkg{etoolbox} it becomes easy to make a function
 % that automatically provide a marker for a blank argument:
@@ -2488,6 +2494,7 @@ colorlinks,
 % (Though a package like \pkg{mhchem} might be more suitable for this
 % type of material.)
 %
+%
 %  \subsection{Declaring math sizes}
 %
 %  \begin{codesyntax}
@@ -2791,7 +2798,7 @@ colorlinks,
 %    \begin{macrocode}
 %<*package>
 \ProvidesPackage{mathtools}%
-  [2018/01/08 v1.21 mathematical typesetting tools]
+  [2019/07/31 v1.22 mathematical typesetting tools]
 %    \end{macrocode}
 % \changes{v1.10}{2011/02/12}{Might as well make sure that we need the
 % latest version of \texttt{mhsetup}}
@@ -3962,30 +3969,29 @@ colorlinks,
     \advance\baselineskip\fontdimen12 \scriptfont\tw@
     \lineskip\thr@@\fontdimen8 \scriptfont\thr@@
     \lineskiplimit\lineskip
-    \ialign\bgroup\ifx c#1\hfil\fi
-    $\m@th\scriptstyle\kern-\nulldelimiterspace\radical\z@{##}$
+    \ialign\bgroup\ifx c##1\hfil\fi
+    $\m@th\scriptstyle\kern-\nulldelimiterspace\radical\z@{####}$
     \hfil\crcr
   }{%
     \crcr\egroup\egroup
   }
    % from mathtolls
-  \def\MT_smallmatrix_begin:N #1{%
+  \def\MT_smallmatrix_begin:N ##1{%
     \Let@\restore@math@cr\default@tag
     \let\math@cr@@\AMS@math@cr@@  % <--- the fix
     \baselineskip6\ex@ \lineskip1.5\ex@ \lineskiplimit\lineskip
-    \csname MT_smallmatrix_#1_begin:\endcsname
+    \csname MT_smallmatrix_##1_begin:\endcsname
   }
   % from amsmath
   \renewenvironment{smallmatrix}{\null\,\vcenter\bgroup
     \Let@\restore@math@cr\default@tag
     \let\math@cr@@\AMS@math@cr@@  % <--- the fix
     \baselineskip6\ex@ \lineskip1.5\ex@ \lineskiplimit\lineskip
-    \ialign\bgroup\hfil$\m@th\scriptstyle##$\hfil&&\thickspace\hfil
-    $\m@th\scriptstyle##$\hfil\crcr
+    \ialign\bgroup\hfil$\m@th\scriptstyle####$\hfil&&\thickspace\hfil
+    $\m@th\scriptstyle####$\hfil\crcr
   }{%
     \crcr\egroup\egroup\,%
   }
-
 }
 
 %    \end{macrocode}
@@ -4709,6 +4715,8 @@ colorlinks,
 %    \begin{macrocode}
 \MHPrecedingSpacesOn
 %    \end{macrocode}
+%
+%
 %
 %  \subsection{Smashing an operator with limits}
 %
@@ -6253,5 +6261,5 @@ colorlinks,
 %</package>
 %    \end{macrocode}
 %
-%  \ Finale
+%  \Finale
 \endinput
