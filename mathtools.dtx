@@ -1582,6 +1582,13 @@ colorlinks,
 %          & + \framebox[4cm][c]{ last part}
 %  \end{align*}
 %
+%
+% \noindent\textbf{Caveat regarding \cs{MoveEqLeft}}: If the first
+% part of the equation starts with say \verb|[a]|, \cs{MoveEqLeft} may
+% attempt to eat it! You can prevent this by specifying the optional
+% argument (remember the default is the same as \cs{MoveEqLeft[2]} or
+% by using \cs{MoveEqLeft\{\}}.
+%
 %  \subsubsection{Boxing a single line in an alignment}
 %  
 %  The \texttt{amsmath} package provie the \cs{boxed} macro to box
