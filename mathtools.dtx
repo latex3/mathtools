@@ -1547,7 +1547,7 @@ colorlinks,
 %  relation within the first line, then all lines in the display
 %  should be aligned at the left most edge of the first line, and all
 %  subsequent lines should be indented by 2\,em (or if needed by a
-%  smaller amount). That is we are talking about displayes that end up
+%  smaller amount). That is we are talking about displays that end up
 %  looking like this
 %  \begin{align*}
 %    \MoveEqLeft \framebox[10cm][c]{Long first line}\\
@@ -1591,12 +1591,11 @@ colorlinks,
 %
 %  \subsubsection{Boxing a single line in an alignment}
 %  
-%  The \texttt{amsmath} package provie the \cs{boxed} macro to box
+%  The \texttt{amsmath} package provides the \cs{boxed} macro to box
 %  material in math mode. But this of course will not work if the box
 %  should cross an alignment point. We provide a macro that
-%  can.\footnote{Note that internally \cs{Aboxed} does use \cs{boxed}.}
-%    \hskip1sp
-%   \marginpar{%
+%  can.\footnote{Note that internally \cs{Aboxed} does use
+%  \cs{boxed}.}  \hskip1sp \marginpar{%
 %    \parbox[b]{\marginparwidth}{\small\sffamily\raggedright
 %      \strut Evolved from a request by\\Merciadri Luca\\
 %       2010/06/28\\on comp.text.tex%
@@ -1744,10 +1743,10 @@ colorlinks,
 %     \shortvdotswithin{=}
 %     & = d
 % \end{align*}
-% Thus \verb?\vdotswithin{=}? create a box corersponding to
-% \verb?{}={}? and typeset a >>$\vdots$<< centered inside it. When doing
-% this as a normal line in an alignment leaves us with excessive space
-% which \verb?\shortvdotswithin{=}? takes care with for us.
+% Thus \verb?\vdotswithin{=}? creates a box corresponding to
+% \verb?{}={}? and typeset a >>$\vdots$<< centered inside it. When
+% doing this as a normal line in an alignment leaves us with excessive
+% space which \verb?\shortvdotswithin{=}? takes care with for us.
 %
 % \verb?\shortvdotswithin{=}? corresponds to
 % \begin{verbatim}
@@ -1827,7 +1826,7 @@ colorlinks,
 %  \cs{shortintertext} and \cs{intertext}.  \tsxPosting{Tobias Weh
 %    \\(referring to a suggestion by Chung-chieh Shan)}{2011/05/29}
 % It can be illustrated using the following example, an interested
-% reader, can apply it with and with out the original \cs{intertext}
+% reader, can apply it with and without the original \cs{intertext}
 % and \cs{shortintertext}.
 % \begin{verbatim}
 % % the original \intertext and \shortintertext
@@ -1845,7 +1844,7 @@ colorlinks,
 % \end{verbatim}
 %
 %  We now fix this internaly for both \cs{intertext} and
-%  \cs{shortintertext}, plus we add the posibility to fine tune
+%  \cs{shortintertext}, plus we add the possibility to fine tune
 %  spacing around these constructions. The original versions can be
 %  brought back using the \texttt{original-x} keys below.
 %  \begin{codesyntax}
@@ -2063,7 +2062,7 @@ colorlinks,
 % aloud. Also we hide the `given' symbol for easy
 % replacement.\footnote{The \cs{nonscript} construction removes the
 % \cs{:} in sub- and superscript, this might not always be
-% peferable. You can use
+% preferable. You can use
 % \cs{mathchoice\{}\cs{:\}\{}\cs{:\}\{}\cs{,\}\{}\cs{,\}} instead of \cs{nonscript}\cs{:}.}
 %
 % Combining with \pkg{etoolbox} it becomes easy to make a function
@@ -2127,9 +2126,10 @@ colorlinks,
 % of arguments. We will consider this for a future release.
 %
 % \medskip\noindent\textbf{Note 2:} If you want to define your own
-% manual scaler macros, it is importent that you besides \cs{foo} also
+% manual scaler macros, it is important that you besides \cs{foo} also
 % defines \cs{fool} and \cs{foor}. When a scaler is specified, in say
-% \cs{abs[\cs{big}]}\marg{arg}, we actually use \cs{bigl} and \cs{bigr}.
+% \cs{abs[\cs{big}]}\marg{arg}, we actually use \cs{bigl} and
+% \cs{bigr}.
 %
 %
 %  \subsubsection{Expert use}
@@ -2138,7 +2138,7 @@ colorlinks,
 %  \cs{DeclarePairedDelimiterX} we make a few changes such that the
 %  auto scaled \cs{left} and \cs{right} fences behave as opening and
 %  closing fences, i.e.\ $\sin(x)$ vs. $\sin\left(x\right)$ (the later
-%  made via \verb|$\sin\left(x\right)$|), notice the gab between
+%  made via \verb|$\sin\left(x\right)$|), notice the gap between
 %  '$\sin$' and '('.  In some special cases it may be useful to be
 %  able to tinker with the behavior.
 %  \begin{codesyntax}
@@ -2167,7 +2167,7 @@ colorlinks,
 %  The two \texttt{nostar...} versions look the same, but they are
 %  not. In most (math) fonts, the first item in this list will be
 %  different from the rest (the superscript sits
-%  higher).\footnote{Interestingly it dod not show up in the font of
+%  higher).\footnote{Interestingly it did not show up in the font of
 %  this manual, which uses the \pkg{fourier} font set.}
 % \begin{verbatim}
 % \mathclose{\rvert}^2\mathclose\rvert^2\rvert^2
@@ -2427,10 +2427,11 @@ colorlinks,
 %
 %  \medskip\noindent \textbf{Caveat:} Italic correction is a
 %  treacherous area. For example any penalties will cancel the italic
-%  correction inserted by \verb|\(| (for an explanation see
-%  \cite{TBT}, section 4.3.3). We have changed Michaels original to
-%  accomodate one specific penalty construction: the \emph{tie}, i.e.,
-%  >>\verb|text~\(|<< will work as expected  (as~of July, 2014).
+%  correction inserted by
+%  \verb|\(| (for an explanation see \cite{TBT}, section 4.3.3). We
+%  have changed Michaels original to accommodate one specific penalty
+%  construction: the \emph{tie}, i.e.,
+%  >>\verb|text~\(|<< will work as expected (as~of July, 2014).
 %
 %  \subsection{Left sub/superscripts}
 %
