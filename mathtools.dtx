@@ -3117,8 +3117,10 @@ colorlinks,
 % \changes{v1.12}{2011/06/08}{Added the falsification of manual tag
 % when show manual tags is off and maual tag is not referred to}
 %  \changes{v1.19}{2017/03/31}{Added MH\_ prefix}
+% \changes{v1.23}{2020/01/17}{Added \cs{kern1sp} in a few places to
+% make sure the tag has a non zero width.}
 %    \begin{macrocode}
-              { \global\MH_set_boolean_F:n {manual_tag} }
+              { \global\MH_set_boolean_F:n {manual_tag} \kern1sp } % kern added 2020
               { \MT_prev_tagform:n {#1} }
               \@safe@activesfalse
           }
@@ -3126,7 +3128,7 @@ colorlinks,
       { 
         \@safe@activestrue
         \@ifundefined{MT_r_\df@label}
-          { }
+          { \kern1sp }% kern added 2020
           { \refstepcounter{equation}\MT_prev_tagform:n {#1} }
         \@safe@activesfalse
       }

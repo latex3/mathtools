@@ -1,7 +1,10 @@
 Announcement release 20XX/XX/XX
 
 * a few topos in the manual (from  Mike Dworski)
-
+* added \kern1sp in a few places related to showonlyrefs preventing
+  equation to add extra blank lines. This fixes both
+  https://tex.stackexchange.com/q/524598/3929 and
+  https://tex.stackexchange.com/q/257928/3929 
 
 
 Announcement release 2019/07/31
