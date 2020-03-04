@@ -48,8 +48,9 @@ probably be an integral part of LaTeX3.
 
 -----
 
-<p>Copyright (C) 2002-2011 Morten Hoegholm <br />
-Copyright (C) 2012-2019 Lars Madsen <br />
-Copyright (C) 2020 Lars Madsen, The LaTeX3 Project <br />
-<a href="https://latex-project.org/">https://latex-project.org/</a> <br />
-All rights reserved.</p>
+Copyright (C) 2002-2011 Morten Hoegholm  
+Copyright (C) 2012-2019 Lars Madsen  
+Copyright (C) 2020 Lars Madsen, The LaTeX3 Project  
+<https://latex-project.org/>  
+All rights reserved.
+
