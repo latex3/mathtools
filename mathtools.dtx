@@ -79,7 +79,8 @@
 This is a generated file.
 
 Copyright (C) 2002-2011 by Morten Hoegholm
-Copyright (C) 2012-     by Lars Madsen
+Copyright (C) 2012-2019 by Lars Madsen
+Copyright (C) 2012-2020 by Lars Madsen, the LaTeX3 project
 
 
 This work may be distributed and/or modified under the
@@ -93,7 +94,7 @@ LaTeX version 2005/12/01 or later.
 This work has the LPPL maintenance status "maintained".
 
 This Current Maintainer of this work is  
-Lars Madsen
+Lars Madsen and the LaTeX3 project
 
 This work consists of the main source file mathtools.dtx
 and the derived files
@@ -324,7 +325,7 @@ colorlinks,
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
 %
-%  \author{Morten H\o gholm, Lars Madsen}
+%  \author{Lars Madsen and the \LaTeX3 team}
 %  \date{\filedate}
 %
 %  \maketitle
@@ -354,19 +355,20 @@ colorlinks,
 %  lists over the years, although more often than not without being
 %  released as stand-alone packages.
 %
-%
 %  The \pkg{mathtools} package is exactly what its name implies: tools
 %  for mathematical typesetting. It is a collection of many of these
 %  often needed small tweaks---with some big tweaks added as well. It
 %  can only do so by having harvesting newsgroups for code and/or you
 %  writing the maintainers with wishes for code to be included, so if
 %  you have any good macros or just macros that help you when writing
-%  mathematics, then don't hesitate to report them. It is
-%  easiest to just contact Lars Madsen at
-%  \begin{quote}\email{daleif@math.au.dk}\end{quote}
-%  This is of course also the address to use in case of bug reports.
-%  Please put `\texttt{mathtools}' in the subject line.
-%  
+%  mathematics, then don't hesitate to report them.
+%
+%  As of 2020, \pkg{mathtools} (and \pkg{empheq}) is now hosted at the
+%  \LaTeX3 team GitHub at
+%  \begin{center}
+%    \url{https://github.com/latex3/mathtools}
+%  \end{center}
+%  So if you have any issue, feel free to register an issue there.
 %
 % \medskip\noindent
 % Update 2013: We now make \cs{(}\cs{)} and \cs[\cs]
@@ -1748,16 +1750,22 @@ colorlinks,
 % doing this as a normal line in an alignment leaves us with excessive
 % space which \verb?\shortvdotswithin{=}? takes care with for us.
 %
-% \verb?\shortvdotswithin{=}? corresponds to
+% The macro call \verb?\shortvdotswithin{=}? corresponds to
 % \begin{verbatim}
 % \MTFlushSpaceAbove
-% & \vdotswithin{=} \\
+% & \vdotswithin{=} 
 % \MTFlushSpaceBelow
 % \end{verbatim}
-% whereas \verb?\shortvdotswithin*{=}? is the case with 
-% \verb?\vdotswithin{=} & \\?. This also means one cannot write more
-% on the line when using \verb?\shortvdotswithin? or the starred
-% version. But one can de-construct the macro and arrive at
+% whereas \verb?\shortvdotswithin*{=}? is the case with
+% \begin{verbatim}
+% \MTFlushSpaceAbove
+% \vdotswithin{=} &
+% \MTFlushSpaceBelow
+% \end{verbatim}
+% Note how \verb?\MTFlushSpaceBelow?  implicitly adds a \verb?\\? at
+% the end of the line. Thus one cannot have more on the line when
+% using \verb?\shortvdotswithin? or the starred version. But, if
+% needed, one can de-construct the macro and arrive at
 % \begin{verbatim}
 % \begin{alignat*}{3}
 %   A&+ B &&= C &&+ D \\
