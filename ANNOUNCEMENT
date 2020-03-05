@@ -1,3 +1,18 @@
+Announcement release 2020/03/xx
+
+* mathtools and empheq is now hosted at https://github.com/latex3/mathtools 
+  
+* Additional ideas for math will now be added to mathtools as amsmath might not
+  be the right home for them at the moment.
+  
+* cleared up some documentation (reported by Frank Mittelbach)
+
+* added \mathstrut to both arguments of \splitfrac and \splitdfrac (before only
+  added to the last arg). This helps when the macro is nested inside it self
+  (reported by Frank Mittelbach)
+
+
+
 Announcement release 2020/01/17
 
 * a few typos in the manual (from  Mike Dworski)
