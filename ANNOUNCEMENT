@@ -7,9 +7,8 @@ Announcement release 2020/03/xx
   
 * cleared up some documentation (reported by Frank Mittelbach)
 
-* added \mathstrut to both arguments of \splitfrac and \splitdfrac (before only
-  added to the last arg). This helps when the macro is nested inside it self
-  (reported by Frank Mittelbach)
+* Explained a bit about nested \splitfrac and their need to be added
+  \mathstrut (reported by Frank Mittelbach)
 
 
 
