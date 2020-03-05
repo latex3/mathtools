@@ -2678,8 +2678,49 @@ colorlinks,
 % the former forces its arguments to be typeset in text-mode math, the
 % latter does not.
 %
-%
-%
+% \medskip\noindent \textbf{Note:} If you try to nest \cs{splitfrac}
+% inside each other you may need to add \cs{mathstrut} to the first
+% argument of the nested fraction to get the spacing look even. It is
+% not added by default as often a more cramped looked is desired:
+% \begin{verbatim}
+%  \[
+%  \frac{
+%      \splitfrac{xy + xy + xy + xy + xy}
+%      {
+%      \splitfrac{xy + xy + xy + xy + xy}
+%                {+ xy + xy + xy + xy}
+%      }
+%    }
+%    {z}
+%  =\frac{
+%      \splitfrac{xy + xy + xy + xy + xy}
+%      {
+%      \splitfrac{\mathstrut xy + xy + xy + xy + xy}
+%                {+ xy + xy + xy + xy}
+%      }
+%    }
+%    {z}
+%  \]
+% \end{verbatim}
+%  \[
+%  \frac{
+%      \splitfrac{xy + xy + xy + xy + xy}
+%      {
+%      \splitfrac{xy + xy + xy + xy + xy}
+%                {+ xy + xy + xy + xy}
+%      }
+%    }
+%    {z}
+%  =\frac{
+%      \splitfrac{xy + xy + xy + xy + xy}
+%      {
+%      \splitfrac{\mathstrut  xy + xy + xy + xy + xy}
+%                {+ xy + xy + xy + xy}
+%      }
+%    }
+%    {z}
+%  \]
+% Note how the line spaces aren't even on the left hand side.
 %
 %
 %
@@ -6142,16 +6183,13 @@ colorlinks,
 %  These commands use \cs{genfrac} to typeset a split fraction. The
 %  thickness of the fraction rule is simply set to zero.
 %    \begin{macrocode}
-% \changes{v1.24}{2020/03/05}{Added \cs{mathstrut} to both arguments
-% not just the first. This makes the line spacing consistent when the
-% macro is nested in side it self.}
 \newcommand*\splitfrac[2]{%
   \genfrac{}{}{0pt}{1}%
-    {\textstyle\mathstrut#1\quad\hfill}%
+    {\textstyle#1\quad\hfill}%
     {\textstyle\hfill\quad\mathstrut#2}%
 }
 \newcommand*\splitdfrac[2]{% 
-  \genfrac{}{}{0pt}{0}{\mathstrut#1\quad\hfill}{\hfill\quad\mathstrut #2}%
+  \genfrac{}{}{0pt}{0}{#1\quad\hfill}{\hfill\quad\mathstrut #2}%
 }
 %    \end{macrocode}
 %  \end{macro}
