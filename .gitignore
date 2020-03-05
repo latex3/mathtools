@@ -1,3 +1,10 @@
 *.pdf
 *.zip
+*.aux
+*.log
+*.toc
+*.fdb_latexmk
+*.out
+*.synctex.gz
 build/
+auto/
