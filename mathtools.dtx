@@ -2723,6 +2723,60 @@ colorlinks,
 % Note how the line spaces aren't even on the left hand side.
 %
 %
+% 
+%
+% \section{New additions}
+%
+% \subsection{Variable math strut}
+%
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\varmathstrut}\cs{varmathstrut}\oarg{depth scale}\marg{scale}
+%  \end{codesyntax}
+%  In typography we use \emph{struts} to ensure specific line
+%  spacing. In text we have the \cs{strut} and in math
+%  \cs{mathstrut}. Both have no width, but equals the height and depth
+%  of an »(« from the text font and math font respectively. At times
+%  we'd like to have a math strut that can be changed. The
+%  \emph{variant} math strut \cs{varmathstrut} does this. In its
+%  normal form the \meta{scale} will be apllied to both the height and
+%  depth of the strut. When both are given, \oarg{depth scale} applies
+%  only to the depth and \marg{scale} only to the height.
+%
+%  \emph{example missing}  
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+% 
 %
 %
 %
@@ -6315,6 +6369,32 @@ colorlinks,
 \MHPrecedingSpacesOn
 %    \end{macrocode}
 %  \end{macro}
+%
+%  \section{Additional features 2020–}
+%
+%
+%    \begin{macrocode}
+\newbox\varmathstrut@box
+\newdimen\varmathstrut@dim
+\def\varmathstrut{\@dblarg\varmathstrut@}
+\def\varmathstrut@[#1]#2{%
+  \def\varmathstrut@dp{#1}%
+  \vphantom{\mathpalette\varmathstrut@do{#2}}%
+}
+\def\varmathstrut@do#1#2{%
+  \setbox\varmathstrut@box\hbox{$#1($}%)%emacs
+   \varmathstrut@dim\dimexpr\ht\varmathstrut@box+\dp\varmathstrut@box\relax
+   \ht\varmathstrut@box\dimexpr\ht\varmathstrut@box
+           +#2\varmathstrut@dim
+           -\varmathstrut@dim
+           \relax
+   \dp\varmathstrut@box\dimexpr\dp\varmathstrut@box
+         +\varmathstrut@dp\varmathstrut@dim
+         -\varmathstrut@dim
+         \relax
+   \box\varmathstrut@box}
+
+%    \end{macrocode}
 %
 %  This is the end of the \pkg{mathtools} package.
 %    \begin{macrocode}
