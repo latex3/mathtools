@@ -2752,11 +2752,11 @@ colorlinks,
 %  is \emph{negative}, it will be a \emph{decrease} in size.
 %
 %  Using \verb|\xmathstrut{A}=\xmathstrut[A]{A}| the strut will be
-%  symmetric (like the original = \verb|\xmathstrut{0}|. If the
-%  optional argument is given and they are not equal the strut will no
-%  longer be symmetric.
+%  symmetric (like the original strut = \verb|\xmathstrut{0}|). If the
+%  optional argument is given as well and they are not equal the strut
+%  will no longer be symmetric.
 %
-%  Example
+%  Example:
 %  \[
 %    \begin{cases*}
 %      \frac{\frac{ x-1 }{ x-\sin x} }{ \sqrt{ 1 -x }} & $x >0$ \\
@@ -2781,6 +2781,13 @@ colorlinks,
 %      0 & otherwise
 %    \end{cases*} \]
 % \end{verbatim}
+%  The above example is inspired (with permission) from a similar
+%  example showcasing \cs{xmathstrut} in the upcoming third edition of
+%  \emph{The LaTeX Companion}. The example is very relevant as the
+%  entries of the \env{cases} environment are typeset in \emph{text
+%  mode} math and thus may end up looking quite squished.\footnote{Why
+%  Frank suggested the macro in the first place.}
+% 
 % As for an example of how the optional argument applies, we make the
 % strut visible:
 %  \newcommand\vfb[1]{\begingroup\fboxsep=0pt\boxed{\,#1\,}\endgroup}
@@ -2791,7 +2798,7 @@ colorlinks,
 % \begin{verbatim}
 % \newcommand\vfb[1]{\begingroup\fboxsep=0pt\boxed{\,#1\,}\endgroup}
 % \[
-%   \llap{\rlap{\rule{18mm}{0.1pt}}\quad}a \vfb{\mathstrut} \ \vfb{\xmathstrut{0}}\
+%   a \vfb{\mathstrut} \ \vfb{\xmathstrut{0}}\
 %   \vfb{\xmathstrut{0.5} } \ \vfb{\xmathstrut[0.5]{0}} a
 % \]
 % \end{verbatim}
