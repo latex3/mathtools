@@ -320,7 +320,7 @@ colorlinks,
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3144}
+%  \CheckSum{3333}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -2737,30 +2737,69 @@ colorlinks,
 % \section{New additions}
 %
 % \subsection{Variable math strut}
-%
 %  \begin{codesyntax}
-%    \SpecialUsageIndex{\xmathstrut}\cs{xmathstrut}\oarg{depth scale}\marg{scale}
+%    \SpecialUsageIndex{\xmathstrut}\cs{xmathstrut}\oarg{depth increase}\marg{increase}
 %  \end{codesyntax}
+% \FeatureRequest{Frank Mittelbach}{2020}
 %  In typography we use \emph{struts} to ensure specific line
 %  spacing. In text we have the \cs{strut} and in math
 %  \cs{mathstrut}. Both have no width, but equals the height and depth
 %  of an »(« from the current text/math font and size.  In math we
 %  often need to make minute adjustments in macro definitiones
 %  etc. The \emph{extended} math strut \cs{xmathstrut} allows to
-%  \emph{scale} the math strut in various ways. Useful if the macro
-%  you are adding it to needs to be used in both normal and script
-%  modes. In its normal form the \meta{scale} will be apllied to both
-%  the height and depth of the strut. When both arguments are given,
-%  \oarg{depth~scale} applies only to the depth and \marg{scale} only
-%  to the height.
+%  \emph{increase} the math strut in various ways. Here the
+%  \meta{increase} is a decimal number, say, \verb|0.1|. If the number
+%  is \emph{negative}, it will be a \emph{decrease} in size.
 %
-%  \emph{example missing}  
+%  Using \verb|\xmathstrut{A}=\xmathstrut[A]{A}| the strut will be
+%  symmetric (like the original = \verb|\xmathstrut{0}|. If the
+%  optional argument is given and they are not equal the strut will no
+%  longer be symmetric.
 %
-%
-%
-%
-%
-%
+%  Example
+%  \[
+%    \begin{cases*}
+%      \frac{\frac{ x-1 }{ x-\sin x} }{ \sqrt{ 1 -x }} & $x >0$ \\
+%      0 & otherwise
+%    \end{cases*}
+%  \qquad\text{vs.}\qquad
+%    \begin{cases*}
+%      \frac{\frac{ \xmathstrut{0.1} x-1 }{ \xmathstrut{0.25} x-\sin x} }{\xmathstrut{0.4} \sqrt{ 1 -x }} & $x >0$ \\
+%      0 & otherwise
+%    \end{cases*}
+%  \]
+% \begin{verbatim}
+%  \[ \begin{cases*}
+%      \frac{\frac{ x-1 }{ x-\sin x} }{ \sqrt{ 1 -x }} & $x >0$ \\
+%      0 & otherwise
+%    \end{cases*}
+%  \qquad\text{vs.}\qquad
+%    \begin{cases*}
+%      \frac{ \frac{ \xmathstrut{0.1} x-1 }
+%                  { \xmathstrut{0.25} x-\sin x} }
+%           {\xmathstrut{0.4} \sqrt{ 1 -x } } & $x >0$ \\
+%      0 & otherwise
+%    \end{cases*} \]
+% \end{verbatim}
+% As for an example of how the optional argument applies, we make the
+% strut visible:
+%  \newcommand\vfb[1]{\begingroup\fboxsep=0pt\boxed{\,#1\,}\endgroup}
+% \[
+%   \llap{\rlap{\rule{18mm}{0.1pt}}\quad}a \vfb{\mathstrut} \ \vfb{\xmathstrut{0}}\
+%   \vfb{\xmathstrut{0.5} } \ \vfb{\xmathstrut[0.5]{0}} a
+% \]
+% \begin{verbatim}
+% \newcommand\vfb[1]{\begingroup\fboxsep=0pt\boxed{\,#1\,}\endgroup}
+% \[
+%   \llap{\rlap{\rule{18mm}{0.1pt}}\quad}a \vfb{\mathstrut} \ \vfb{\xmathstrut{0}}\
+%   \vfb{\xmathstrut{0.5} } \ \vfb{\xmathstrut[0.5]{0}} a
+% \]
+% \end{verbatim}
+% As seen \verb|\xmathstrut{0}| is just the normal math strut, and
+% giving the optional argument result in a strut that is not
+% symmetric.\footnote{Symmetric here means around the \emph{mathematical
+% center line}. In the example the first three clearly have a common
+% horizontal center line and the last is different.}
 %
 %
 %
@@ -6387,14 +6426,19 @@ colorlinks,
 %
 %  \section{Additional features 2020–}
 %
-% 
+% Suggested and implemented by Frank Mittelbach 
+% \begin{macro}{\xmathstrut@box}
+% \begin{macro}{\xmathstrut@dim}
+% \begin{macro}{\xmathstrut}
+% \begin{macro}{\xmathstrut@}
+% \begin{macro}{\xmathstrut@do}
 %  \changes{v1.24}{2020/03/06}{Added \cs{xmathstrut}}
 %    \begin{macrocode}
 \newbox\xmathstrut@box
 \newdimen\xmathstrut@dim
 \def\xmathstrut{\@dblarg\xmathstrut@}
 \def\xmathstrut@[#1]#2{%
-  \def\xmathstrut@dp{#1}%
+  \def\xmathstrut@dp{#1}% 
   \vphantom{\mathpalette\xmathstrut@do{#2}}%
 }
 \def\xmathstrut@do#1#2{%
@@ -6402,15 +6446,18 @@ colorlinks,
    \xmathstrut@dim\dimexpr\ht\xmathstrut@box+\dp\xmathstrut@box\relax
    \ht\xmathstrut@box\dimexpr\ht\xmathstrut@box
            +#2\xmathstrut@dim
-           -\xmathstrut@dim
            \relax
    \dp\xmathstrut@box\dimexpr\dp\xmathstrut@box
          +\xmathstrut@dp\xmathstrut@dim
-         -\xmathstrut@dim
          \relax
    \box\xmathstrut@box}
 
 %    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
 %
 %  This is the end of the \pkg{mathtools} package.
 %    \begin{macrocode}
