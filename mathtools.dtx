@@ -325,7 +325,7 @@ colorlinks,
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
 %
-%  \author{Lars Madsen and the \LaTeX3 team}
+%  \author{Lars Madsen and the \LaTeX3 project}
 %  \date{\filedate}
 %
 %  \maketitle
@@ -1119,6 +1119,12 @@ colorlinks,
 %    A &\xrightleftharpoons[below]{above} B &
 %    A &\xleftrightharpoons[below]{above} B \\
 %  \end{align*}
+%  Change in 2020: In \cs{xLeftarrow}, \cs{xRightarrow} and
+%  \cs{xLeftrightarrow} we added a space to the argument(s), making
+%  the arrow slightly longer and moving the argument away from the
+%  large arrow head.
+% 
+% 
 %
 %
 %
@@ -3471,17 +3477,20 @@ colorlinks,
 %  \begin{macro}{\xLeftrightarrow}
 %
 %  These are straight adaptions from \pkg{amsmath}.
+% \changes{v1.24}{2020/03/13}{Added spaces to move the argument away
+% from the arrow head in \cs{xLeftarrow}, \cs{xRightarrow} and
+% \cs{xLeftrightarrow}. Suggested by FM}
 %    \begin{macrocode}
 \providecommand*\xleftrightarrow[2][]{%
   \ext@arrow 3095\MT_leftrightarrow_fill:{#1}{#2}}
 \def\MT_leftrightarrow_fill:{%
   \arrowfill@\leftarrow\relbar\rightarrow}
 \providecommand*\xLeftarrow[2][]{%
-  \ext@arrow 0055{\Leftarrowfill@}{#1}{#2}}
+  \ext@arrow 0055{\Leftarrowfill@}{\ #1}{\ #2}}
 \providecommand*\xRightarrow[2][]{%
-  \ext@arrow 0055{\Rightarrowfill@}{#1}{#2}}
+  \ext@arrow 0055{\Rightarrowfill@}{#1\ }{#2\ }}
 \providecommand*\xLeftrightarrow[2][]{%
-  \ext@arrow 0055{\Leftrightarrowfill@}{#1}{#2}}
+  \ext@arrow 0055{\Leftrightarrowfill@}{\ #1\ }{\ #2\ }}
 %    \end{macrocode}
 %  \end{macro}
 %  \end{macro}
