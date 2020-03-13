@@ -10,6 +10,11 @@ Announcement release 2020/03/xx
 * Explained a bit about nested \splitfrac and their need to be added
   \mathstrut (reported by Frank Mittelbach)
 
+* added spaces to the arguments of \xLeftarrow, \xRightarrow and
+  \xLeftrightarrow moving the arguments away from the large arrow
+  head(s)
+
+
 
 
 Announcement release 2020/01/17
