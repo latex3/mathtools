@@ -326,7 +326,7 @@ colorlinks,
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
 %
-%  \author{Lars Madsen and the \LaTeX3 project}
+%  \author{Morten Høgholm, Lars Madsen and the \LaTeX3 project}
 %  \date{\filedate}
 %
 %  \maketitle
@@ -2782,12 +2782,14 @@ colorlinks,
 %      0 & otherwise
 %    \end{cases*} \]
 % \end{verbatim}
-%  The above example is inspired (with permission) from a similar
-%  example showcasing \cs{xmathstrut} in the upcoming third edition of
+%  The above example is inspired (with permission) from an example
+%  showcasing \cs{xmathstrut} in the upcoming third edition of
 %  \emph{The LaTeX Companion}. The example is very relevant as the
 %  entries of the \env{cases} environment are typeset in \emph{text
-%  mode} math and thus may end up looking quite squished.\footnote{Why
-%  Frank suggested the macro in the first place.}
+%  style} math and thus may end up looking quite
+%  squished.\footnote{Which is why Frank suggested the macro
+%  (including its implementation) in the
+%  first place.}
 % 
 % As for an example of how the optional argument applies, we make the
 % strut visible:
@@ -2804,10 +2806,10 @@ colorlinks,
 % \]
 % \end{verbatim}
 % As seen \verb|\xmathstrut{0}| is just the normal math strut, and
-% giving the optional argument result in a strut that is not
+% giving the optional may argument result in a strut that is not
 % symmetric.\footnote{Symmetric here means around the \emph{mathematical
 % center line}. In the example the first three clearly have a common
-% horizontal center line and the last is different.}
+% horizontal center line of symmetry whereas the last is different.}
 %
 %
 %
@@ -2952,7 +2954,9 @@ colorlinks,
 %     Ellen Swanson,
 %     \emph{Mathematics into type}.
 %     American Mathematical Society, updated edition, 1999.
-%     Updated by Arlene O'Sean and Antoinette Schleyer.
+%     Updated by Arlene O'Sean and Antoinette Schleyer. Available from
+%     the AMS at \url{http://www.ams.org/arc/styleguide/mit-2.pdf}
+%
 %   \bibitem{TBT}
 %   Victor Eijkhout, \emph{\TeX\ by Topic, A Texnician's Reference}, 2007. 
 %   Freely available at \url{https://ctan.org/pkg/texbytopic}.
@@ -6434,12 +6438,24 @@ colorlinks,
 %
 %  \section{Additional features 2020–}
 %
-% Suggested and implemented by Frank Mittelbach 
+%  The selection below is meant for additions addeed 2020 onwards that
+%  are not integrated into existing macros.
+%
+%  \subsection{\cs{xmathstrut}}
+% 
 % \begin{macro}{\xmathstrut@box}
 % \begin{macro}{\xmathstrut@dim}
 % \begin{macro}{\xmathstrut}
 % \begin{macro}{\xmathstrut@}
 % \begin{macro}{\xmathstrut@do}
+% Suggested and implemented by Frank Mittelbach. The basic idea is to
+% add (or subtract) a fraction of the total height of the normal math
+% strut to both the height and depth of the new strut. The input from
+% the user is suppose to be a decimal number. The value zero results
+% in no change compared to the normal math strut. We deliberately
+% chose to not compare the size of the change to anything, not scale
+% or percentages, it would just have made the documentation harder to
+% explain. 
 %  \changes{v1.24}{2020/03/06}{Added \cs{xmathstrut}}
 %    \begin{macrocode}
 \newbox\xmathstrut@box
