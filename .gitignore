@@ -6,5 +6,9 @@
 *.fdb_latexmk
 *.out
 *.synctex.gz
+*~
+*.drv
+*.ins
+*.bak
 build/
 auto/
