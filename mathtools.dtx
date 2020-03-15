@@ -2741,21 +2741,18 @@ colorlinks,
 %  \begin{codesyntax}
 %    \SpecialUsageIndex{\xmathstrut}\cs{xmathstrut}\oarg{depth increase}\marg{increase}
 %  \end{codesyntax}
-% \FeatureRequest{Frank Mittelbach}{2020}
-%  In typography we use \emph{struts} to ensure specific line
-%  spacing. In text we have the \cs{strut} and in math
-%  \cs{mathstrut}. Both have no width, but equals the height and depth
-%  of an »(« from the current text/math font and size.  In math we
-%  often need to make minute adjustments in macro definitiones
-%  etc. The \emph{extended} math strut \cs{xmathstrut} allows to
-%  \emph{increase} the math strut in various ways. Here the
-%  \meta{increase} is a decimal number, say, \verb|0.1|. If the number
-%  is \emph{negative}, it will be a \emph{decrease} in size.
-%
-%  Using \verb|\xmathstrut{A}=\xmathstrut[A]{A}| the strut will be
-%  symmetric (like the original strut = \verb|\xmathstrut{0}|). If the
-%  optional argument is given as well and they are not equal the strut
-%  will no longer be symmetric.
+%  \FeatureRequest{Frank Mittelbach}{2020} In typography we use
+%  \emph{struts} to ensure specific line spacing. In text we have the
+%  \cs{strut} and in math \cs{mathstrut}. Both have no width, but
+%  equals the height and depth of an »(« from the current text/math
+%  font and size.  In math we often need to make minute adjustments in
+%  macro definitiones etc. The \emph{extended} math strut
+%  \cs{xmathstrut} allows to \emph{increase} the math strut in various
+%  ways. Here the \meta{increase} is a decimal number (mosty often a
+%  fraction between 0 and 1), say, \verb|0.1|. If the number is
+%  \emph{negative}, it will be a \emph{decrease} in size. The change
+%  will be an amount proportional to the total height (height plus
+%  depth) of the original math strut in the current size.
 %
 %  Example:
 %  \[
@@ -2791,6 +2788,11 @@ colorlinks,
 %  (including its implementation) in the
 %  first place.}
 % 
+%  Using \verb|\xmathstrut{A} = \xmathstrut[A]{A}| the strut will be
+%  symmetric (like the original strut \verb|\mathstrut| =
+%  \verb|\xmathstrut{0}|). If the optional argument is given as well
+%  \emph{and they are not equal} the strut will \emph{no longer} be
+%  symmetric.
 % As for an example of how the optional argument applies, we make the
 % strut visible:
 %  \newcommand\vfb[1]{\begingroup\fboxsep=0pt\boxed{\,#1\,}\endgroup}
