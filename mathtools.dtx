@@ -2747,14 +2747,31 @@ colorlinks,
 %  equals the height and depth of an »(« from the current text/math
 %  font and size.  In math we often need to make minute adjustments in
 %  macro definitiones etc. The \emph{extended} math strut
-%  \cs{xmathstrut} allows to \emph{increase} the math strut in various
-%  ways. Here the \meta{increase} is a decimal number (mosty often a
-%  fraction between 0 and 1), say, \verb|0.1|. If the number is
-%  \emph{negative}, it will be a \emph{decrease} in size. The change
-%  will be an amount proportional to the total height (height plus
-%  depth) of the original math strut in the current size.
+%  \cs{xmathstrut} allows to \emph{increase} (decrease if negative)
+%  the math strut in two ways.
 %
-%  Example:
+%  For an \meta{increase} (a decimal number), say~\verb|0.1|,
+%  \begin{center}
+%      \verb|\xmathstrut{0.1}| 
+%  \end{center}
+%  will give you a new strut where 10\% of the \emph{total height of
+%  the normal math stut} (\verb|\mathstrut=\mathstrut{0}|) will be
+%  added to both \emph{the height} and \emph{the depth} of the
+%  original strut (thus 20\% added in total). On the other hand
+%  \begin{center}
+%      \verb|\xmathstrut[0.2]{0.1}| 
+%  \end{center}
+%  will result in a strut where 20\% is added to the depth and 10\% is
+%  added to the height, resulting in a strut that is 30\% larger than
+%  normal. 
+%
+%  The following example is inspired (with permission) from an example
+%  showcasing \cs{xmathstrut} in the upcoming third edition of
+%  \emph{The LaTeX Companion}. The example is very relevant as the
+%  entries of the \env{cases(*)} environment are typeset in \emph{text
+%  style} math and thus may end up looking quite
+%  squished.\footnote{Which is why Frank suggested the macro
+%  (including its implementation) in the first place.}
 %  \[
 %    \begin{cases*}
 %      \frac{\frac{ x-1 }{ x-\sin x} }{ \sqrt{ 1 -x }} & $x >0$ \\
@@ -2779,40 +2796,29 @@ colorlinks,
 %      0 & otherwise
 %    \end{cases*} \]
 % \end{verbatim}
-%  The above example is inspired (with permission) from an example
-%  showcasing \cs{xmathstrut} in the upcoming third edition of
-%  \emph{The LaTeX Companion}. The example is very relevant as the
-%  entries of the \env{cases} environment are typeset in \emph{text
-%  style} math and thus may end up looking quite
-%  squished.\footnote{Which is why Frank suggested the macro
-%  (including its implementation) in the
-%  first place.}
 % 
-%  Using \verb|\xmathstrut{A} = \xmathstrut[A]{A}| the strut will be
-%  symmetric (like the original strut \verb|\mathstrut| =
-%  \verb|\xmathstrut{0}|). If the optional argument is given as well
-%  \emph{and they are not equal} the strut will \emph{no longer} be
-%  symmetric.
-% As for an example of how the optional argument applies, we make the
-% strut visible:
+% To showcase the optional argument, it is
+% probably easiest to make the strut visible. Here you'll see that
+% \verb|\mathstrut| and \verb|\xmathstrut{0}| is the same:
 %  \newcommand\vfb[1]{\begingroup\fboxsep=0pt\boxed{\,#1\,}\endgroup}
 % \[
 %   \llap{\rlap{\rule{18mm}{0.1pt}}\quad}a \vfb{\mathstrut} \ \vfb{\xmathstrut{0}}\
-%   \vfb{\xmathstrut{0.5} } \ \vfb{\xmathstrut[0.5]{0}} a
+%   \vfb{\xmathstrut{0.5} } \  \vfb{\xmathstrut{-0.1} }\  \vfb{\xmathstrut[0.5]{0}} a
 % \]
 % \begin{verbatim}
 % \newcommand\vfb[1]{\begingroup\fboxsep=0pt\boxed{\,#1\,}\endgroup}
 % \[
-%   a \vfb{\mathstrut} \ \vfb{\xmathstrut{0}}\
-%   \vfb{\xmathstrut{0.5} } \ \vfb{\xmathstrut[0.5]{0}} a
+%  a \vfb{\mathstrut}         \   % normal strut
+%  \vfb{\xmathstrut{0}}       \   % just 0 => normal strut
+%  \vfb{\xmathstrut{0.5} }    \   % twice as large 50% + 50%
+%  \vfb{\xmathstrut{-0.1} }   \   % negative gives something smaller
+%  \vfb{\xmathstrut[0.5]{0}} a    % change only the depth
 % \]
 % \end{verbatim}
-% As seen \verb|\xmathstrut{0}| is just the normal math strut, and
-% giving the optional may argument result in a strut that is not
-% symmetric.\footnote{Symmetric here means around the \emph{mathematical
-% center line}. In the example the first three clearly have a common
-% horizontal center line of symmetry whereas the last is different.}
-%
+% -- the last box showcases a strut where we have only changed the
+% depth of the strut. One can see \verb|\xmathstrut[B]{0}| kind of the
+% opposite of \verb|\smash[b]{...}|, the former makes the depth larger
+% and the latter ignores the depth.
 %
 %
 %
@@ -6454,10 +6460,7 @@ colorlinks,
 % add (or subtract) a fraction of the total height of the normal math
 % strut to both the height and depth of the new strut. The input from
 % the user is suppose to be a decimal number. The value zero results
-% in no change compared to the normal math strut. We deliberately
-% chose to not compare the size of the change to anything, not scale
-% or percentages, it would just have made the documentation harder to
-% explain. 
+% in no change compared to the normal math strut. 
 %  \changes{v1.24}{2020/03/06}{Added \cs{xmathstrut}}
 %    \begin{macrocode}
 \newbox\xmathstrut@box
@@ -6467,18 +6470,34 @@ colorlinks,
   \def\xmathstrut@dp{#1}% 
   \vphantom{\mathpalette\xmathstrut@do{#2}}%
 }
+%    \end{macrocode}
+% The algorithm is simple. Start by recording the size (a box) of \verb|$($|
+% in the current style (via \verb|\mathpalette|)
+%    \begin{macrocode}
 \def\xmathstrut@do#1#2{%
   \setbox\xmathstrut@box\hbox{$#1($}%)%emacs
    \xmathstrut@dim\dimexpr\ht\xmathstrut@box+\dp\xmathstrut@box\relax
+%    \end{macrocode}
+% Then manipulate the size of the box by adding the user input times
+% the total height of the original box to the height and depth
+% respectfully. 
+%    \begin{macrocode}
    \ht\xmathstrut@box\dimexpr\ht\xmathstrut@box
            +#2\xmathstrut@dim
            \relax
    \dp\xmathstrut@box\dimexpr\dp\xmathstrut@box
          +\xmathstrut@dp\xmathstrut@dim
          \relax
+%    \end{macrocode}
+% In the end ship the modified box (it is typeset inside a \verb|\vphantom|).
+%    \begin{macrocode}
    \box\xmathstrut@box}
 
 %    \end{macrocode}
+% Do note that this means that for \verb|\xmathstrut{0.1}| 10\% is
+% added twice. But it make explaining \verb|\xmathstrut[0.2]{0.1}| a
+% lot easier as it is just 10\% added to the height and 20\% added to
+% the depth.
 % \end{macro}
 % \end{macro}
 % \end{macro}
