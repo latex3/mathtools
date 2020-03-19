@@ -144,6 +144,7 @@ and the derived files
 \hyphenation{emph-eq}
 \makeatletter
 \providecommand*\pkg[1]{\textsf{#1}}
+\providecommand*\cls[1]{\textsf{#1}}
 \providecommand*\env[1]{\texttt{#1}}
 \providecommand*\email[1]{\href{mailto:#1}{\texttt{#1}}}
 \providecommand*\mode[1]{\texttt{[#1]}}
@@ -2221,7 +2222,40 @@ and the derived files
 %    \begin{macrocode}
   \MH_let:NwN\SetTagPlusEndMark\EQ_tag_plus_endmark:
   \MH_let:NwN\SetOnlyEndMark\EQ_only_endmark:
+%    \end{macrocode}
+% \changes{2.16}{2020/03/19}{Added fix for amsart and amsbook}
+%    \begin{macrocode}
   \l_EQ_temp_linewidth_dim\linewidth
+%    \end{macrocode}
+% Interesting issue here. We set \cs{l_EQ_temp_linewidth_dim} to the
+% effective linewidth, which works nicely when the width dynamically
+% change, e.g.~lists. However classes like \cls{amsart} and
+% \cls{amsbook} will set \cs{displaywidth} to be \cs{columnwidth} no
+% matter what. They do this via \cs{everydisplay} 
+% which is actually too late for when \cs{EQ_initialize:} runs! 
+% We know that \cls{amsart/book} defines
+% \begin{verbatim}
+% \def\fullwidthdisplay{\displayindent\z@ \displaywidth\columnwidth}
+% \end{verbatim}
+% and then adds this to \cs{everydisplay}. So our fix will be to see
+% if \cs{fullwidthdisplay} is defined, run it locally and then extract
+% the value of \cs{displaywidth} using a global scratch variable. If
+% that size is then larger than the current \cs{linewidth} we will use it.
+%    \begin{macrocode}
+  \@tempdima\z@
+  \begingroup
+  \ifdefined\fullwidthdisplay\relax
+    \fullwidthdisplay
+    \global\@tempdima\displaywidth
+  \fi
+  \endgroup
+  \ifdim\@tempdima>\linewidth\relax
+    \l_EQ_temp_linewidth_dim\@tempdima
+  \fi
+  \@tempdima\z@ 
+%    \end{macrocode}
+% -- end of \cls{amsart/-book} fix.
+%    \begin{macrocode}
   \g_EQ_toprow_height_dim\z@
   \g_EQ_bottomrow_depth_dim\z@
   \g_EQ_toptag_height_dim\z@
