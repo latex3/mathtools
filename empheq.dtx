@@ -2338,7 +2338,9 @@ and the derived files
 %  \subsubsection{Separating Tags and Display}
 %
 %  \begin{macro}{\EQ_typeset_tags:}
-%  Typesetting the tags without the display. 
+%  Typesetting the tags without the display.  The main idea here is to
+%  typeset everything inside a box of a massive width, so wide that
+%  the math part is way outside the area of the text block. 
 %    \begin{macrocode}
 \def\EQ_typeset_tags:{%
   \sbox\EQ_tag_box{%
@@ -2354,7 +2356,7 @@ and the derived files
 %  The AMS classes sets \cs{displaywidth} equal to \cs{columnwidth} in
 %  \cs{everydisplay}. This is bad for us as then the reqno equation
 %  numbers are not typeset at the right edge of the parbox we are
-%  in. Simplest solution: Locally reset \cs{columnwidth}.
+%  in. Simplest solution: Locally reset \cs{columnwidth}.  
 %  \changes{v2.15}{2017/03/28}{Resetting \cs{columnwidth} as a fix for
 %  a setting in AMS classes} 
 %    \begin{macrocode}
@@ -3554,7 +3556,8 @@ and the derived files
 %  \cs{shadowbox*} aligns the argument on the baseline, so for the
 %  starred version the trick is to raise the box by the depth of the
 %  argument plus the size of the shadow.
-%    \begin{macrocode}
+%
+\begin{macrocode}
       \MH_if_boolean:nTF {shadowbox_star}{
         \MH_setlength:dn \@tempdima{\z@}%
       }{
@@ -3573,6 +3576,81 @@ and the derived files
 %  \end{macro}
 %
 %
+% \subsection{Adjusting for \cls{amsart} and \cls{amsbook}}
+% \label{sec:adjust-clsams-clsams}
+%
+% As mentioned earlier the \AmS{} classes \cls{amsart} and
+% \cls{amsbook} explicitly sets \cs{displaywidth} to
+% \cs{columnwidth}. The main reason for this (1) they use equation
+% numbers on the left and (2) if an equation is inside a list, they
+% still want the equation to use the full width (the standard classes
+% under \opt{leqno} will have their equation number indented to match
+% the effective line width/indentation).
+%
+% Why is problematic for us? Firstly, this messes up our trick to
+% separate the tags (equation numbers) from the display (as we need
+% the construction to follow our \emph{very large} line
+% width). Secondly this messes up the calculations of \cs{alignsep@},
+% since we can no longer assume that \cs{alignsep@} was calculated
+% against the with of the box we wanted. Here is an example that
+% \begin{verbatim}
+% \makeatletter
+%  \begingroup
+%  \fbox{\parbox{0.5\textwidth}{%
+%      \def\maketag@@@#1{\kern1sp\vphantom{#1}}%
+%      \begin{align}
+%        align &= align & align &= align \\   &= align
+%    \end{align}}}
+%  \par\noindent
+%  \def\fullwidthdisplay{\displayindent\z@ \displaywidth\columnwidth}
+%  \edef\@tempa{\noexpand\fullwidthdisplay\the\everydisplay}
+%  \everydisplay\expandafter{\@tempa}
+%  \fbox{\parbox{0.5\textwidth}{%
+%    \def\maketag@@@#1{\kern1sp\vphantom{#1}}%
+%    \begin{align}
+%      align &= align & align &= align \\  &= align
+%    \end{align}}\vspace{-2\baselineskip}}
+%  \endgroup
+%  \makeatletter
+% \end{verbatim}
+% \makeatletter
+%  \begingroup^^A
+%  \fboxsep=2pt
+%  \abovedisplayskip0pt 
+%  \belowdisplayskip0pt 
+%  \abovedisplayshortskip0pt 
+%  \belowdisplayshortskip0pt
+%  \fbox{\parbox{0.5\textwidth}{%
+%      \def\maketag@@@#1{\kern1sp\vphantom{#1}}%
+%      \begin{align}
+%        align &= align & align &= align \\   &= align
+%    \end{align}}}
+%  \par\noindent
+%  \def\fullwidthdisplay{\displayindent\z@ \displaywidth\columnwidth}^^A
+%  \edef\@tempa{\noexpand\fullwidthdisplay\the\everydisplay}^^A
+%  \everydisplay\expandafter{\@tempa}^^A
+%  \fbox{\parbox{0.5\textwidth}{%
+%    \def\maketag@@@#1{\kern1sp\vphantom{#1}}%
+%    \begin{align}
+%      align &= align & align &= align \\  &= align
+%    \end{align}}\vspace{-2\baselineskip}}
+%  \endgroup
+%  \makeatletter
+%  \par\medskip\noindent
+%  It is pretty obvious that the space between the two alignment
+%  columns are wrong. Like when we handled the tag separation, one
+%  solution could be to explicitly set \cs{columnwidth} to be the
+%  effective line width. Alternatively we could redefine
+%  \cs{fullwidthdisplay} to do nothing. The latter is probably the
+%  less severe.
+%    \begin{macrocode}
+\g@addto@macro\EQ_typeset_display_hook:{
+  % \columnwidth\linewidth
+  \def\fullwidthdisplay{}
+}
+%    \end{macrocode}
+%  
+%  
 %  \section{The \opt{overload} option}
 %  \begin{macro}{\EQ_overload_ams_begin:n}
 %  A helper for saving snapshots:
