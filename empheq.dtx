@@ -2227,11 +2227,10 @@ and the derived files
 %    \begin{macrocode}
   \l_EQ_temp_linewidth_dim\linewidth
 %    \end{macrocode}
-% Interesting issue here. We set \cs{l_EQ_temp_linewidth_dim} to the
-% effective linewidth, which works nicely when the width dynamically
-% change, e.g.~lists. However classes like \cls{amsart} and
-% \cls{amsbook} will set \cs{displaywidth} to be \cs{columnwidth} no
-% matter what. They do this via \cs{everydisplay} 
+% In classes like \cls{amsart} and \cls{amsbook} thye set
+% \cs{displaywidth} to a fixed value. This gives problems inside
+% lists, where these classes want to use the full width, not the
+% effective width. They do this via \cs{everydisplay} 
 % which is actually too late for when \cs{EQ_initialize:} runs! 
 % We know that \cls{amsart/book} defines
 % \begin{verbatim}
