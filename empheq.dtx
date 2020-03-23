@@ -2051,8 +2051,8 @@ and the derived files
     \MH_else:
       \setkeys{\MT_options_name:}{multlined-pos=t}
     \MH_fi:
-      \g@addto@macro\EQ_complete_mathdisplay:{
-        \begin{MTmultlined}\relax}
+    \g@addto@macro\EQ_complete_mathdisplay:{
+      \begin{MTmultlined}\relax}
   }
   \g@addto@macro\EQ_complete_mathdisplay:\EQ_mathbody:
   \MH_if_boolean:nT {outer_mult}{
@@ -2963,7 +2963,7 @@ and the derived files
   \def\EQ_place_display_iv_mult: {\EQ_place_display_iii_mult:}
 %    \end{macrocode}
 %    \begin{macrocode}
-}{
+}{% on to the 'bad' version
 %    \end{macrocode}
 %  The bad
 %    \begin{macrocode}
