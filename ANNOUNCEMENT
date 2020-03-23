@@ -19,6 +19,9 @@ Announcement release 2020/03/xx
 * empheq: fixed some general issues with amsart (-book). (issue #5).
   For now using multline or single alignment column flalign may not work as expected.
 
+* empheq: fixed an overfull \hbox issue when fleqn was active. Also
+  adjusted the use of \linewidth in the code to be able to accomodate
+  for amsart using fixed width displays.
 
 
 
