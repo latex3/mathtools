@@ -2907,67 +2907,67 @@ and the derived files
 % \changes{v2.15}{2017/03/31}{added MH\_ prefix}
 %  \changes{v2.15}{2017/03/31}{added EQ\_ prefix}
 %    \begin{macrocode}
-\MH_keyval_alias_with_addon:nnnn {EmphEqEnv}{multline}{gather}
-  {\MH_set_boolean_T:n {outer_mult}}
-\MH_keyval_alias_with_addon:nnnn {EmphEqEnv}{multline*}{gather*}
-  {\MH_set_boolean_T:n {outer_mult}}
-\def\EQ_modify_linewidth_iii_mult:{
-  \setlength{\l_EQ_temp_linewidth_dim}{%
-    \linewidth-\widthof{\EQ_outerbox:{}}}%
-  \MH_if_dim:w \g_EQ_widesttag_dim>\z@
-    \EQ_multline_modify_linewidth_tag:
-  \MH_else:
-    \EQ_multline_modify_linewidth_notag:
-  \MH_fi:
-  \MH_setlength:dn \l_MT_multwidth_dim{\l_EQ_temp_linewidth_dim}
-}
-\def\EQ_modify_linewidth_iv_mult:{\EQ_modify_linewidth_iii_mult:}
-\def\EQ_find_displaywidth_iii_mult:{%
-  \MH_setlength:dn \l_EQ_displaywidth_dim{\totwidth@}%
-  \MH_if_case:w \l_EQ_alignmentmode_int \MH_or: \MH_or: % #1 & #2:
-  \MH_or: % #3:
-    \MH_addtolength:dn \l_EQ_displaywidth_dim{-\@mathmargin}%
-  \MH_or: % #4:
-    \MH_addtolength:dn \l_EQ_displaywidth_dim{-\@mathmargin}%
-  \MH_fi:}
-\def\EQ_find_displaywidth_iv_mult:{\EQ_find_displaywidth_iii_mult:}
-\def\EQ_place_display_iii_mult:{
-  \MH_if_case:w \l_EQ_alignmentmode_int
-  \MH_or: % #1:
+  \MH_keyval_alias_with_addon:nnnn {EmphEqEnv}{multline}{gather}
+    {\MH_set_boolean_T:n {outer_mult}}
+  \MH_keyval_alias_with_addon:nnnn {EmphEqEnv}{multline*}{gather*}
+    {\MH_set_boolean_T:n {outer_mult}}
+  \def\EQ_modify_linewidth_iii_mult:{
+    \setlength{\l_EQ_temp_linewidth_dim}{%
+      \linewidth-\widthof{\EQ_outerbox:{}}}%
     \MH_if_dim:w \g_EQ_widesttag_dim>\z@
-      \abovedisplayshortskip=\abovedisplayskip
-      \rlap{
-        \kern-.5\linewidth
-        \kern\multlinegap
-        \EQ_use_mathdisplay:
-      }
+      \EQ_multline_modify_linewidth_tag:
     \MH_else:
+      \EQ_multline_modify_linewidth_notag:
+    \MH_fi:
+    \MH_setlength:dn \l_MT_multwidth_dim{\l_EQ_temp_linewidth_dim}
+  }
+  \def\EQ_modify_linewidth_iv_mult:{\EQ_modify_linewidth_iii_mult:}
+  \def\EQ_find_displaywidth_iii_mult:{%
+    \MH_setlength:dn \l_EQ_displaywidth_dim{\totwidth@}%
+    \MH_if_case:w \l_EQ_alignmentmode_int \MH_or: \MH_or: % #1 & #2:
+    \MH_or: % #3:
+      \MH_addtolength:dn \l_EQ_displaywidth_dim{-\@mathmargin}%
+    \MH_or: % #4:
+      \MH_addtolength:dn \l_EQ_displaywidth_dim{-\@mathmargin}%
+    \MH_fi:}
+  \def\EQ_find_displaywidth_iv_mult:{\EQ_find_displaywidth_iii_mult:}
+  \def\EQ_place_display_iii_mult:{
+    \MH_if_case:w \l_EQ_alignmentmode_int
+    \MH_or: % #1:
+      \MH_if_dim:w \g_EQ_widesttag_dim>\z@
+        \abovedisplayshortskip=\abovedisplayskip
+        \rlap{
+          \kern-.5\linewidth
+          \kern\multlinegap
+          \EQ_use_mathdisplay:
+        }
+      \MH_else:
+        \EQ_use_mathdisplay:
+      \MH_fi:
+    \MH_or: % #2:
+      \MH_if_dim:w \g_EQ_widesttag_dim>\z@
+        \llap{
+          \EQ_use_mathdisplay:
+          \kern-.5\linewidth
+          \kern\multlinegap
+        }%
+      \MH_else:
+        \EQ_use_mathdisplay:
+      \MH_fi:
+    \MH_or: % #3:
+      \EQ_use_mathdisplay:
+    \MH_or: % #4:
       \EQ_use_mathdisplay:
     \MH_fi:
-  \MH_or: % #2:
-    \MH_if_dim:w \g_EQ_widesttag_dim>\z@
-      \llap{
-        \EQ_use_mathdisplay:
-        \kern-.5\linewidth
-        \kern\multlinegap
-      }%
-    \MH_else:
-      \EQ_use_mathdisplay:
-    \MH_fi:
-  \MH_or: % #3:
-    \EQ_use_mathdisplay:
-  \MH_or: % #4:
-    \EQ_use_mathdisplay:
-  \MH_fi:
-}
-\def\EQ_place_display_iv_mult: {\EQ_place_display_iii_mult:}
+  }
+  \def\EQ_place_display_iv_mult: {\EQ_place_display_iii_mult:}
 %    \end{macrocode}
 %    \begin{macrocode}
 }{
 %    \end{macrocode}
 %  The bad
 %    \begin{macrocode}
-\def\EQ_generic_multline:nnnnn #1#2#3#4#5{%
+  \def\EQ_generic_multline:nnnnn #1#2#3#4#5{%
 %    \end{macrocode}
 %  This is a very tricky little detail. If we're in \mode{leqno} mode
 %  we need just a wee little width inside the \env{flalign}, so we put
@@ -2982,8 +2982,8 @@ and the derived files
 %  how many users can fix this by themselves?
 % \changes{v2.15}{2017/03/31}{added MH\_ prefix}
 %    \begin{macrocode}
-  \hskip1sp#2#3{{}#5}#4%
-  \MH_if:w *#1\relax\MH_else:\notag\MH_fi:}
+    \hskip1sp#2#3{{}#5}#4%
+    \MH_if:w *#1\relax\MH_else:\notag\MH_fi:}
 %    \end{macrocode}
 %  \end{macro}
 %  \end{macro}
@@ -2994,51 +2994,51 @@ and the derived files
 %  first three are the general purpose ones that also have a starred
 %  version. The other three are for normal use.
 %    \begin{macrocode}
-\def\multleft{\@ifstar{%
-  \MH_if_boolean:nTF {multlined}{
-    \def\EQ_next:{\EQ_multlined_left:n}
-  }{
-    \def\EQ_next:{
-      \EQ_generic_multline:nnnnn {*}{}{\mathrlap}{&&&&&}}
-  }
-  \EQ_next:}{%
-  \MH_if_boolean:nTF {multlined}{
-    \def\EQ_next:{\EQ_multlined_left:n}%
-  }{
-    \def\EQ_next:{
-      \EQ_generic_multline:nnnnn {}{}{\mathrlap}{&&&&&}}
-  }
-  \EQ_next:}}%
-\def\multcenter{\@ifstar{%
-  \MH_if_boolean:nTF {multlined}{
-    \def\EQ_next:{\EQ_multlined_center:n}%
-  }{
-    \def\EQ_next:{
-      \EQ_generic_multline:nnnnn {*}{&&}{\mathclap}{&&&}}
-  }
-  \EQ_next:}{%
-  \MH_if_boolean:nTF {multlined}{
-    \def\EQ_next:{\EQ_multlined_center:n }%
-  }{
-    \def\EQ_next:{
-      \EQ_generic_multline:nnnnn {}{&&}{\mathclap}{&&&}}
-  }
-  \EQ_next:}}%
-\def\multright{\@ifstar{%
-  \MH_if_boolean:nTF {multlined}{
-    \def\EQ_next:{\EQ_multlined_right:n }%
-  }{
-    \def\EQ_next:{
-      \EQ_generic_multline:nnnnn {*}{&&&&&}{\mathllap}{}}
-  }
-  \EQ_next:}{%
-  \MH_if_boolean:nTF {multlined}{
-    \def\EQ_next:{\EQ_multlined_right:n }%
-  }{
-    \def\EQ_next:{
-      \EQ_generic_multline:nnnnn {}{&&&&&}{\mathllap}{}}
-  }
-  \EQ_next:}}
+  \def\multleft{\@ifstar{%
+    \MH_if_boolean:nTF {multlined}{
+      \def\EQ_next:{\EQ_multlined_left:n}
+    }{
+      \def\EQ_next:{
+        \EQ_generic_multline:nnnnn {*}{}{\mathrlap}{&&&&&}}
+    }
+    \EQ_next:}{%
+    \MH_if_boolean:nTF {multlined}{
+      \def\EQ_next:{\EQ_multlined_left:n}%
+    }{
+      \def\EQ_next:{
+        \EQ_generic_multline:nnnnn {}{}{\mathrlap}{&&&&&}}
+    }
+    \EQ_next:}}%
+  \def\multcenter{\@ifstar{%
+    \MH_if_boolean:nTF {multlined}{
+      \def\EQ_next:{\EQ_multlined_center:n}%
+    }{
+      \def\EQ_next:{
+        \EQ_generic_multline:nnnnn {*}{&&}{\mathclap}{&&&}}
+    }
+    \EQ_next:}{%
+    \MH_if_boolean:nTF {multlined}{
+      \def\EQ_next:{\EQ_multlined_center:n }%
+    }{
+      \def\EQ_next:{
+        \EQ_generic_multline:nnnnn {}{&&}{\mathclap}{&&&}}
+    }
+    \EQ_next:}}%
+  \def\multright{\@ifstar{%
+    \MH_if_boolean:nTF {multlined}{
+      \def\EQ_next:{\EQ_multlined_right:n }%
+    }{
+      \def\EQ_next:{
+        \EQ_generic_multline:nnnnn {*}{&&&&&}{\mathllap}{}}
+    }
+    \EQ_next:}{%
+    \MH_if_boolean:nTF {multlined}{
+      \def\EQ_next:{\EQ_multlined_right:n }%
+    }{
+      \def\EQ_next:{
+        \EQ_generic_multline:nnnnn {}{&&&&&}{\mathllap}{}}
+    }
+    \EQ_next:}}
 %    \end{macrocode}
 %  \end{macro}
 %  \end{macro}
@@ -3050,55 +3050,55 @@ and the derived files
 %  be placed in the first line.
 %  \changes{v2.15}{2017/03/31}{added MH\_ prefixes}
 %    \begin{macrocode}
-\def\multfirst{%
-  \MH_if_boolean:nTF {multlined}{
-     \def\EQ_next:{\EQ_multlined_left:n }%
-  }{
-    \MH_if_case:w \l_EQ_alignmentmode_int
-    \MH_or: % #1:
-      \def\EQ_next:{\multleft}%
-    \MH_or: % #2:
-      \def\EQ_next:{\multleft*}%
-    \MH_or: % #3:
-      \def\EQ_next:{\multleft}%
-    \MH_or: % #4:
-      \def\EQ_next:{\multleft*}%
-    \MH_fi:
-  }
-  \EQ_next:}
+  \def\multfirst{%
+    \MH_if_boolean:nTF {multlined}{
+       \def\EQ_next:{\EQ_multlined_left:n }%
+    }{
+      \MH_if_case:w \l_EQ_alignmentmode_int
+      \MH_or: % #1:
+        \def\EQ_next:{\multleft}%
+      \MH_or: % #2:
+        \def\EQ_next:{\multleft*}%
+      \MH_or: % #3:
+        \def\EQ_next:{\multleft}%
+      \MH_or: % #4:
+        \def\EQ_next:{\multleft*}%
+      \MH_fi:
+    }
+    \EQ_next:}
 %    \end{macrocode}
 %  Pretend the star was never there.
 %    \begin{macrocode}
-\def\multmiddle{%
-  \def\EQ_next:{%
-    \MH_if_boolean:nTF {multlined}{
-      \expandafter\EQ_multlined_center:n
-    }{
-      \expandafter\multcenter
-    }
-  }%
-  \@ifstar{\EQ_next:}{\EQ_next:}}
+  \def\multmiddle{%
+    \def\EQ_next:{%
+      \MH_if_boolean:nTF {multlined}{
+        \expandafter\EQ_multlined_center:n
+      }{
+        \expandafter\multcenter
+      }
+    }%
+    \@ifstar{\EQ_next:}{\EQ_next:}}
 %    \end{macrocode}
 %  If we're  using the \mode{reqno} option, the equation number
 %  should be placed in the last line.
 %  \changes{v2.15}{2017/03/31}{added MH\_ prefixes}
 %    \begin{macrocode}
-\def\multlast{%
-  \MH_if_boolean:nTF {multlined}{
-     \def\EQ_next:{\EQ_multlined_right:n }%
-  }{
-    \MH_if_case:w \l_EQ_alignmentmode_int
-    \MH_or: % #1:
-      \def\EQ_next:{\multright*}%
-    \MH_or: % #2:
-      \def\EQ_next:{\multright}%
-    \MH_or: % #3:
-      \def\EQ_next:{\multright*}%
-    \MH_or: % #4:
-      \def\EQ_next:{\multright}%
-    \MH_fi:
-  }
-  \EQ_next:}
+  \def\multlast{%
+    \MH_if_boolean:nTF {multlined}{
+       \def\EQ_next:{\EQ_multlined_right:n }%
+    }{
+      \MH_if_case:w \l_EQ_alignmentmode_int
+      \MH_or: % #1:
+        \def\EQ_next:{\multright*}%
+      \MH_or: % #2:
+        \def\EQ_next:{\multright}%
+      \MH_or: % #3:
+        \def\EQ_next:{\multright*}%
+      \MH_or: % #4:
+        \def\EQ_next:{\multright}%
+      \MH_fi:
+    }
+    \EQ_next:}
 %    \end{macrocode}
 %  \end{macro}
 %  \end{macro}
@@ -3106,9 +3106,9 @@ and the derived files
 %  \begin{macro}{\multlinedwidth}
 %  Here begins the code for \env{multlined}.
 %    \begin{macrocode}
-\MH_new_boolean:n {multlined}
-\newdimen\multlinedwidth
-\MH_setlength:dn \multlinedwidth{.7\linewidth}
+  \MH_new_boolean:n {multlined}
+  \newdimen\multlinedwidth
+  \MH_setlength:dn \multlinedwidth{.7\linewidth}
 %    \end{macrocode}
 %  \end{macro}
 %  \begin{environment}{multlined}
@@ -3120,25 +3120,25 @@ and the derived files
 %  Some trickery as we want to scan for two optional arguments that
 %  may be interchanged.
 %    \begin{macrocode}
-\renewenvironment{multlined}%
-  {\MH_nospace_ifnextchar:Nnn [  {\EQ_multlined_I:w}
-                                 {\EQ_multlined_I:w[c]}
-  }
-  { \endaligned }
-\def\EQ_multlined_I:w[#1]{%
-  \MH_nospace_ifnextchar:Nnn[  {\EQ_multlined_II:w[#1]}
-                               {\EQ_multlined_II:w[#1][\multlinedwidth]}}
-\def\EQ_multlined_II:w[#1][#2]{%
+  \renewenvironment{multlined}%
+    {\MH_nospace_ifnextchar:Nnn [  {\EQ_multlined_I:w}
+                                   {\EQ_multlined_I:w[c]}
+    }
+    { \endaligned }
+  \def\EQ_multlined_I:w[#1]{%
+    \MH_nospace_ifnextchar:Nnn[  {\EQ_multlined_II:w[#1]}
+                                 {\EQ_multlined_II:w[#1][\multlinedwidth]}}
+  \def\EQ_multlined_II:w[#1][#2]{%
 %    \end{macrocode}
 %  We tell \LaTeX\ that we're in \env{multlined}.
 %    \begin{macrocode}
-  \MH_set_boolean_T:n {multlined}
+    \MH_set_boolean_T:n {multlined}
 %    \end{macrocode}
 %  \changes{v2.10}{2004/07/26}{Fixed restoration of \cmd{\\}}
 %  Restore the meaning of \cmd{\\} inside \env{multlined}, else it
 %  wouldn't work in the \env{equation} environment.
 %    \begin{macrocode}
-  \MH_let:NwN \Let@\MT_saved_Let:
+    \MH_let:NwN \Let@\MT_saved_Let:
 %    \end{macrocode}
 %  Then check the first optional argument and call
 %  \cs{EQ_multlined_III:w}, which sets \cs{multlinewidth} if
@@ -3146,21 +3146,21 @@ and the derived files
 %  three columns).
 % \changes{v2.15}{2017/03/31}{added MH\_ prefix}
 %    \begin{macrocode}
-  \MH_if:w t#1\relax \EQ_multlined_III:nn {#1}{#2}%
-  \MH_else:
-    \MH_if:w b#1\relax \EQ_multlined_III:nn {#1}{#2}%
+    \MH_if:w t#1\relax \EQ_multlined_III:nn {#1}{#2}%
     \MH_else:
-      \MH_if:w c#1\relax \EQ_multlined_III:nn {#1}{#2}%
+      \MH_if:w b#1\relax \EQ_multlined_III:nn {#1}{#2}%
       \MH_else:
-        \EQ_multlined_III:nn {#2}{#1}%
+        \MH_if:w c#1\relax \EQ_multlined_III:nn {#1}{#2}%
+        \MH_else:
+          \EQ_multlined_III:nn {#2}{#1}%
+        \MH_fi:
       \MH_fi:
     \MH_fi:
-  \MH_fi:
-  \mkern-\thinmuskip
-  \EQ_next:}
-\def\EQ_multlined_III:nn #1#2{%
-  \def\EQ_next:{\setlength\multlinedwidth{#2}%
-                          \start@aligned{#1}{\thr@@}}}
+    \mkern-\thinmuskip
+    \EQ_next:}
+  \def\EQ_multlined_III:nn #1#2{%
+    \def\EQ_next:{\setlength\multlinedwidth{#2}%
+                            \start@aligned{#1}{\thr@@}}}
 %    \end{macrocode}
 %  \end{macro}
 %  \end{macro}
@@ -3172,12 +3172,12 @@ and the derived files
 %  The internal versions of \cs{multleft} etc.\ adapted for
 %  \env{multlined}.
 %    \begin{macrocode}
-\def\EQ_multlined_left:n #1{%
-  \mathrlap{#1}&\hskip.5\multlinedwidth&&\hskip.5\multlinedwidth&&}
-\def\EQ_multlined_center:n #1{%
-  &\hskip.5\multlinedwidth&&\mathclap{#1}\hskip.5\multlinedwidth&&}
-\def\EQ_multlined_right:n #1{%
-  &\hskip.5\multlinedwidth&&\hskip.5\multlinedwidth&&\mathllap{#1}}
+  \def\EQ_multlined_left:n #1{%
+    \mathrlap{#1}&\hskip.5\multlinedwidth&&\hskip.5\multlinedwidth&&}
+  \def\EQ_multlined_center:n #1{%
+    &\hskip.5\multlinedwidth&&\mathclap{#1}\hskip.5\multlinedwidth&&}
+  \def\EQ_multlined_right:n #1{%
+    &\hskip.5\multlinedwidth&&\hskip.5\multlinedwidth&&\mathllap{#1}}
 %    \end{macrocode}
 %  \end{macro}
 %  \end{macro}
