@@ -5,16 +5,20 @@ Announcement release 2020/03/xx
 * Additional ideas for math will now be added to mathtools as amsmath might not
   be the right home for them at the moment.
   
-* cleared up some documentation (reported by Frank Mittelbach)
+* cleared up some documentation (reported by Frank Mittelbach,, issue #1)
 
 * Explained a bit about nested \splitfrac and their need to be added
-  \mathstrut (reported by Frank Mittelbach)
+  \mathstrut (reported by Frank Mittelbach, issue #2)
 
 * added spaces to the arguments of \xLeftarrow, \xRightarrow and
   \xLeftrightarrow moving the arguments away from the large arrow
-  head(s)
+  head(s) (suggested by Frank Mittelbach, issue #3)
 
-* added \xmathstrut an adjustable extention to the normal \mathstrut
+* added \xmathstrut an adjustable extention to the normal \mathstrut (issue #4)
+
+* empheq: fixed some general issues with amsart (-book). (issue #5).
+  For now using multline or single alignment column flalign may not work as expected.
+
 
 
 
