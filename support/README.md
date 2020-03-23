@@ -4,7 +4,7 @@ Support folder
 This is just some support tools for making sample files when testing
 various option combinations and/or classes.
 
-It could probably also be written in Lua (I just don;t know Lua ;-)
+It could probably also be written in Lua (I just don't know Lua ;-)
 
 /daleif
 
