@@ -152,6 +152,17 @@ and the derived files
 \addtolength\marginparwidth{-30pt}
 
 
+\newcommand\lineref[1]{
+  \begingroup
+  % \p@CodelineNo \normalfont  \scriptsize  475
+  \let\p@CodelineNo\relax
+  \let\normalfont\relax
+  %\let\scriptsize\relax
+  \ref{#1}
+  \endgroup
+}
+
+
 \newcommand*\AddDescribe[3]{%
   \@namedef{Describe#1}{\leavevmode\@bsphack\begingroup\MakePrivateLetters
     \@nameuse{Describe@#1}}
@@ -1876,6 +1887,7 @@ and the derived files
 %  \begin{macro}{\l_EQ_totalwidth_dim}
 %  \begin{macro}{\l_EQ_displaywidth_dim}
 %  \begin{macro}{\l_EQ_temp_linewidth_dim}
+%  \begin{macro}{\l_EQ_linewidth_dim}
 %  \begin{macro}{\EmphEqdelimitershortfall}
 %  \begin{macro}{\EmphEqdelimiterfactor}
 %  \begin{macro}{\g_EQ_toptag_height_dim}
@@ -1891,9 +1903,13 @@ and the derived files
 \newdimen\l_EQ_displaywidth_dim
 %    \end{macrocode}
 %  Just to make it accessible.
+% \changes{v2.16}{2020/03/23}{Added \cs{l_EQ_linewidth_dim} since due
+% to the \AmS\ classes being able to not rely on \cs{linewidth} can be
+% useful.}
 %    \begin{macrocode}
 \def\EmphEqdisplaywidth{\l_EQ_displaywidth_dim}
 \newdimen\l_EQ_temp_linewidth_dim
+\newdimen\l_EQ_linewidth_dim
 \newdimen\EmphEqdelimitershortfall
 \newcount\EmphEqdelimiterfactor
 \EmphEqdelimiterfactor950
@@ -1905,6 +1921,7 @@ and the derived files
 \newdimen\g_EQ_widesttag_dim
 \def\EmphEqtagwidth{\g_EQ_widesttag_dim}
 %    \end{macrocode}
+%  \end{macro}
 %  \end{macro}
 %  \end{macro}
 %  \end{macro}
@@ -2223,9 +2240,12 @@ and the derived files
   \MH_let:NwN\SetTagPlusEndMark\EQ_tag_plus_endmark:
   \MH_let:NwN\SetOnlyEndMark\EQ_only_endmark:
 %    \end{macrocode}
-% \changes{2.16}{2020/03/19}{Added fix for amsart and amsbook}
+% \changes{v2.16}{2020/03/19}{Added fix for amsart and amsbook}
+% \changes{v2.16}{2020/03/23}{Added additional length as it is useful
+% against amsart and friends}
 %    \begin{macrocode}
   \l_EQ_temp_linewidth_dim\linewidth
+  \l_EQ_linewidth_dim\linewidth
 %    \end{macrocode}
 % In classes like \cls{amsart} and \cls{amsbook} thye set
 % \cs{displaywidth} to a fixed value. This gives problems inside
@@ -2239,7 +2259,9 @@ and the derived files
 % and then adds this to \cs{everydisplay}. So our fix will be to see
 % if \cs{fullwidthdisplay} is defined, run it locally and then extract
 % the value of \cs{displaywidth} using a global scratch variable. If
-% that size is then larger than the current \cs{linewidth} we will use it.
+% that size is then larger than the current \cs{linewidth} we will use
+% it. Additionally we also save this value in a static length, so we
+% can use this everywhere instead of \cs{linewidth}.
 %    \begin{macrocode}
   \@tempdima\z@
   \begingroup
@@ -2250,6 +2272,7 @@ and the derived files
   \endgroup
   \ifdim\@tempdima>\linewidth\relax
     \l_EQ_temp_linewidth_dim\@tempdima
+    \l_EQ_linewidth_dim\@tempdima
   \fi
   \@tempdima\z@ 
 %    \end{macrocode}
@@ -2763,9 +2786,13 @@ and the derived files
 %  math display.
 % \changes{v2.15}{2017/03/31}{added MH\_ prefix}
 % \changes{v2.15}{2017/03/31}{added EQ\_ prefix}
+% \changes{v2.16}{2020/03/23}{switched \cs{linewidth} to
+% \cs{l_EQ_linewidth_dim} due to amsart forcing full width displays}
 %    \begin{macrocode}
     \setlength{\l_EQ_temp_linewidth_dim}{%
-      \linewidth-\l_EQ_totalwidth_dim-\widthof{\EQ_outerbox:{}}}%
+      % \linewidth
+      \l_EQ_linewidth_dim
+      -\l_EQ_totalwidth_dim-\widthof{\EQ_outerbox:{}}}%
   \MH_fi:}
 \def\EQ_modify_linewidth_ii:{\EQ_modify_linewidth_i:}
 \def\EQ_find_displaywidth_i:{%
@@ -2813,6 +2840,13 @@ and the derived files
 %  This was fairly easy, but then I had to take care of \ldots
 %
 %  \subsubsection{The \env{multline} Family}
+%
+%  \emph{Note: These next three paragraphs are rather confusing. They
+%  are referring to an older implementation (also available via the
+%  \opt{oldmultline} option, where the \env{multline} feature was
+%  implemented via \env{flalign}, nowadays we use \env{multlined} from
+%  \pkg{mathtools} wrapped inside a \env{gather} for the equation number.}
+%
 %  This was quite a pickle. Its implementation in \pkg{amsmath} is
 %  very strange indeed; for instance the tag is typeset in the
 %  measuring phase! So instead I thought I could fake it, but how
@@ -2834,6 +2868,10 @@ and the derived files
 %  \cs{MakeKeyvalAliasAddon} now}
 %  Then we make \env{multline} into an alias for {flalign} but with
 %  an extra switch \cs{ifEQ_multline:} set to true.
+% 
+%  Note this version of the \env{multline} code is being used when we
+%  use the \emph{bad} \env{multline} implementation, see code line
+%  \lineref{goodandbad} onwards.
 %    \begin{macrocode}
 \MH_keyval_alias_with_addon:nnnn {EmphEqEnv}{multline}
   {flalign}{\MH_set_boolean_T:n {multline}}
@@ -2899,13 +2937,16 @@ and the derived files
 \MH_let:NwN \endMTmultlined \endmultlined
 %    \end{macrocode}
 %  \end{environment}
-%  We make a choice here: the good \env{multline} or the bad?
+% We make a choice here: the good \env{multline} or the bad?
+% \refstepcounter{CodelineNo}\label{goodandbad}\addtocounter{CodelineNo}{-1}
 %    \begin{macrocode}
 \MH_if_boolean:nTF {good_mult}{
 %    \end{macrocode}
 %  The good:
 % \changes{v2.15}{2017/03/31}{added MH\_ prefix}
 %  \changes{v2.15}{2017/03/31}{added EQ\_ prefix}
+% \changes{v2.16}{2020/03/23}{switched \cs{linewidth} to
+% \cs{l_EQ_linewidth_dim} due to amsart forcing full width displays}
 %    \begin{macrocode}
   \MH_keyval_alias_with_addon:nnnn {EmphEqEnv}{multline}{gather}
     {\MH_set_boolean_T:n {outer_mult}}
@@ -2913,13 +2954,34 @@ and the derived files
     {\MH_set_boolean_T:n {outer_mult}}
   \def\EQ_modify_linewidth_iii_mult:{
     \setlength{\l_EQ_temp_linewidth_dim}{%
-      \linewidth-\widthof{\EQ_outerbox:{}}}%
+      % \linewidth
+      \l_EQ_linewidth_dim
+      -\widthof{\EQ_outerbox:{}}}%
     \MH_if_dim:w \g_EQ_widesttag_dim>\z@
       \EQ_multline_modify_linewidth_tag:
     \MH_else:
       \EQ_multline_modify_linewidth_notag:
     \MH_fi:
     \MH_setlength:dn \l_MT_multwidth_dim{\l_EQ_temp_linewidth_dim}
+%    \end{macrocode}
+% Here is an interesting issue. We have just calculated
+% \cs{l_MT_multwidth_dim} which will be the width of the internal
+% \env{multline}. But we are typesetting inside \env{gather} inside a
+% box of width \cs{l_EQ_temp_linewidth_dim} so the effective width of
+% the display is \cs{@mathmargin} less. Solution: add \cs{@mathmargin}
+% back in:
+% \changes{v2.16}{2020/03/23}{Added \cs{@mathmargin} back into the box
+% width}
+%    \begin{macrocode}
+    \MH_if_case:w \l_EQ_alignmentmode_int
+    \MH_or: \MH_or: % 1 and 2
+    \MH_or:
+      \MH_addtolength:dn
+        \l_EQ_temp_linewidth_dim{\@mathmargin}%
+    \MH_or:
+        \MH_addtolength:dn
+          \l_EQ_temp_linewidth_dim{\@mathmargin}%
+    \MH_fi:
   }
   \def\EQ_modify_linewidth_iv_mult:{\EQ_modify_linewidth_iii_mult:}
   \def\EQ_find_displaywidth_iii_mult:{%
@@ -2931,13 +2993,18 @@ and the derived files
       \MH_addtolength:dn \l_EQ_displaywidth_dim{-\@mathmargin}%
     \MH_fi:}
   \def\EQ_find_displaywidth_iv_mult:{\EQ_find_displaywidth_iii_mult:}
+%    \end{macrocode}
+% \changes{v2.16}{2020/03/23}{switched \cs{linewidth} to
+% \cs{l_EQ_linewidth_dim} due to amsart forcing full width displays}
+%    \begin{macrocode}
   \def\EQ_place_display_iii_mult:{
     \MH_if_case:w \l_EQ_alignmentmode_int
     \MH_or: % #1:
       \MH_if_dim:w \g_EQ_widesttag_dim>\z@
         \abovedisplayshortskip=\abovedisplayskip
         \rlap{
-          \kern-.5\linewidth
+          % \kern-.5\linewidth
+          \kern-.5\l_EQ_linewidth_dim
           \kern\multlinegap
           \EQ_use_mathdisplay:
         }
@@ -2948,7 +3015,8 @@ and the derived files
       \MH_if_dim:w \g_EQ_widesttag_dim>\z@
         \llap{
           \EQ_use_mathdisplay:
-          \kern-.5\linewidth
+          % \kern-.5\linewidth
+          \kern-.5\l_EQ_linewidth_dim
           \kern\multlinegap
         }%
       \MH_else:
@@ -3105,10 +3173,15 @@ and the derived files
 %  \end{macro}
 %  \begin{macro}{\multlinedwidth}
 %  Here begins the code for \env{multlined}.
+% \changes{v2.16}{2020/03/23}{switched \cs{linewidth} to
+% \cs{l_EQ_linewidth_dim} due to amsart forcing full width displays}
 %    \begin{macrocode}
   \MH_new_boolean:n {multlined}
   \newdimen\multlinedwidth
-  \MH_setlength:dn \multlinedwidth{.7\linewidth}
+  \MH_setlength:dn \multlinedwidth{
+    % .7\linewidth
+    0.7\l_EQ_linewidth_dim
+  }
 %    \end{macrocode}
 %  \end{macro}
 %  \begin{environment}{multlined}
@@ -3191,12 +3264,16 @@ and the derived files
 %  \subsubsection{The Code for \env{flalign} \& \env{multline}}
 % \changes{v2.15}{2017/03/31}{added MH\_ prefix}
 %  \changes{v2.15}{2017/03/31}{added EQ\_ prefix}
+% \changes{v2.16}{2020/03/23}{switched \cs{linewidth} to
+% \cs{l_EQ_linewidth_dim} due to amsart forcing full width displays}
 %    \begin{macrocode}
 \EQ_new_equationtype:nnn {EmphEqEnv}{flalign}{5}
 \EQ_new_equationtype:nnn {EmphEqEnv}{flalign*}{6}
 \def\EQ_modify_linewidth_v:{%
   \setlength{\l_EQ_temp_linewidth_dim}{%
-    \linewidth-\l_EQ_totalwidth_dim-\widthof{\EQ_outerbox:{}}}%
+    % \linewidth
+    \l_EQ_linewidth_dim
+    -\l_EQ_totalwidth_dim-\widthof{\EQ_outerbox:{}}}%
   \MH_if_dim:w \g_EQ_widesttag_dim>\z@
     \MH_if_boolean:nTF {multline}{
       \EQ_multline_modify_linewidth_tag:
@@ -3226,16 +3303,24 @@ and the derived files
   \MH_setlength:dn
     \l_EQ_displaywidth_dim{\l_EQ_temp_linewidth_dim}}
 \def\EQ_find_displaywidth_vi:{\EQ_find_displaywidth_v:}
+%    \end{macrocode}
+% \changes{v2.16}{2020/03/23}{switched \cs{linewidth} to
+% \cs{l_EQ_linewidth_dim} due to amsart forcing full width displays}
+%    \begin{macrocode}
 \def\EQ_place_display_v:{%
   \MH_if_case:w \l_EQ_alignmentmode_int
   \MH_or: % #1:
     \MH_if_dim:w \g_EQ_widesttag_dim>\z@
       \MH_if_boolean:nTF {multline}{
-        \rlap{\kern\multlinegap  \kern-.5\linewidth
+        \rlap{\kern\multlinegap
+          % \kern-.5\linewidth
+          \kern-.5\l_EQ_linewidth_dim
           \EQ_use_mathdisplay:
           \kern-\mintagsep  \kern\multlinetaggap}%
       }{
-        \rlap{\kern-.5\linewidth\EQ_use_mathdisplay:}%
+        \rlap{%\kern-.5\linewidth
+          \kern-.5\l_EQ_linewidth_dim
+          \EQ_use_mathdisplay:}%
       }
     \MH_else:
       \EQ_use_mathdisplay:
@@ -3245,9 +3330,15 @@ and the derived files
       \MH_if_boolean:nTF {multline}{
         \llap{\kern-\mintagsep \kern\multlinetaggap
           \EQ_use_mathdisplay:
-          \kern\multlinegap  \kern-.5\linewidth}%
+          \kern\multlinegap
+          % \kern-.5\linewidth
+          \kern-.5\l_EQ_linewidth_dim
+        }%
       }{
-        \llap{\EQ_use_mathdisplay:\kern-.5\linewidth}%
+        \llap{\EQ_use_mathdisplay:
+          % \kern-.5\linewidth
+          \kern-.5\l_EQ_linewidth_dim
+        }%
       }
     \MH_else:
       \EQ_use_mathdisplay:
