@@ -3344,7 +3344,13 @@ and the derived files
       \EQ_use_mathdisplay:
     \MH_fi:
   \MH_or: % #3:
-    \MH_if_boolean:nF {multline}{ \kern-\multlinetaggap }
+%    \end{macrocode}
+% \changes{v2.16}{2020/03/24}{\cs{multlinetaggap} should be added when
+% \opt{multline} is true, and if false \cs{\@mathmargin} should ned
+% kerned away}
+%    \begin{macrocode}
+    \MH_if_boolean:nTF {multline}{ \kern-\multlinetaggap }
+                                 { \kern-\@mathmargin    } 
     \EQ_use_mathdisplay:
   \MH_or: % #4:
     \MH_if_dim:w \g_EQ_widesttag_dim>\z@
