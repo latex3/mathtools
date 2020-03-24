@@ -1,4 +1,4 @@
-Announcement release 2020/03/xx
+Announcement release 2020/03/24
 
 * mathtools and empheq is now hosted at https://github.com/latex3/mathtools 
   
@@ -16,12 +16,8 @@ Announcement release 2020/03/xx
 
 * added \xmathstrut an adjustable extention to the normal \mathstrut (issue #4)
 
-* empheq: fixed some general issues with amsart (-book). (issue #5).
-  For now using multline or single alignment column flalign may not work as expected.
-
-* empheq: fixed an overfull \hbox issue when fleqn was active. Also
-  adjusted the use of \linewidth in the code to be able to accomodate
-  for amsart using fixed width displays.
+* empheq: fixed several issues related to amsart/-book plus a few others
+  (issues #5, #6 and #8)
 
 
 
