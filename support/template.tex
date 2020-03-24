@@ -10,62 +10,12 @@
 \usepackage{xcolor}
 \newcommand*\mybluebox[1]{\colorbox{blue!20}{\hspace{0.5em}#1\hspace{0.5em}}}
 %\empheqset{box=\fbox}
-\empheqset{box=\mybluebox,left=L\Rightarrow,}
+%\empheqset{box=\mybluebox,left=L\Rightarrow,}
+\empheqset{box=\mybluebox,}
 \MHInternalSyntaxOn
 %\def\EQ_use_mathdisplay:{%
 %  \EQ_outerbox:{\fbox{\usebox{\EQ_mathdisplay_box}}}}
 \MHInternalSyntaxOff
-
-
-
-
-
-% \makeatletter
-% \renewcommand*{\Gm@pageframes}{%
-%   \vb@xt@\z@{%
-%    \ifGm@showcrop
-%     \vb@xt@\z@{\vskip-1\Gm@truedimen in\vskip\Gm@layoutvoffset%
-%      \hb@xt@\z@{\hskip-1\Gm@truedimen in\hskip\Gm@layouthoffset%
-%       \vb@xt@\Gm@layoutheight{%
-%        \let\protect\relax
-%    %    \hb@xt@\Gm@layoutwidth{\Gm@cropmark(-1,1,-3,3)\hfil\Gm@cropmark(1,1,3,3)}%
-%        \vfil
-%        \hb@xt@\Gm@layoutwidth{\Gm@cropmark(-1,-1,-3,-3)\hfil\Gm@cropmark(1,-1,3,-3)}}%
-%      \hss}%
-%     \vss}%
-%    \fi%
-%    \ifGm@showframe
-%     \if@twoside
-%      \ifodd\count\z@
-%        \let\@themargin\oddsidemargin
-%      \else
-%        \let\@themargin\evensidemargin
-%      \fi
-%     \fi
-%     \moveright\@themargin%
-%     \vb@xt@\z@{%
-%      \vskip\topmargin\vb@xt@\z@{\vss\Gm@hrule}%
-%      \vskip\headheight\vb@xt@\z@{\vss\Gm@hruled}%
-%      \vskip\headsep\vb@xt@\z@{\vss\Gm@hrule}%
-%      \@tempdima\textwidth
-%      \advance\@tempdima by \marginparsep
-%      \advance\@tempdima by \marginparwidth
-%      \if@mparswitch
-%       \ifodd\count\z@
-%        \Gm@vrules@mpi
-%       \else
-%        \Gm@vrules@mpii
-%       \fi
-%      \else
-%       \Gm@vrules@mpi
-%      \fi
-%      \vb@xt@\z@{\vss\Gm@hrule}%
-%      \vskip\footskip\vb@xt@\z@{\vss\Gm@hruled}%
-%      \vss}%
-%     \fi%
-%   }}%
-
-% \makeatother
 
 
 
@@ -74,7 +24,7 @@
 % just to make sure the settings in each class is the same (besides \displaywidth)
 \leftmargini=25pt
 \makeatletter
-\@mathmargin\leftmargini
+\@mathmargin=23pt
 \makeatother
 
 
@@ -87,38 +37,5 @@
 \input{sample}
 \end{document}
 
-% some saved  code
-
-\usepackage{tikz}
-\usetikzlibrary{calc}
-
-
-
-\MHInternalSyntaxOn
-
-\newcommand\dlfhook{%
-  \ifdim\l_EQ_displaywidth_dim>\z@
-  \ifnum\l_EQ_equationtype_int=3\else
-  \ifnum\l_EQ_equationtype_int=4\else
-    \rlap{\tikz[remember~picture]\coordinate(A) at (0,0);
-  \begin{tikzpicture}[overlay,remember~picture]
-    \node[text~width=4cm,anchor=west] at
-    ($(A~-|~current~page.north~east)-(4.5cm,0)$) {%
-      \footnotesize
-      dispw:~\the\l_EQ_displaywidth_dim\\
-      alignsep:~\the\alignsep@\\
-      %\settowidth\@tempdimc{\widthof{\EQ_outerbox:{}}}
-      %\the\@tempdimc%
-      %eqnshift:~\the\eqnshift@
-      tagshift:~\the\tagshift@\\
-      % mathmargin:~\the\@mathmargin\\
-      %\the\leftmargini
-      %\the\l_EQ_equationtype_int
-      \par
-    };
-  \end{tikzpicture}}
-  \fi\fi
- \fi
-}
 
 
