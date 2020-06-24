@@ -2785,14 +2785,14 @@ colorlinks,
 %  \]
 % \begin{verbatim}
 %  \[ \begin{cases*}
-%      \frac{\frac{ x-1 }{ x-\sin x} }{ \sqrt{ 1 -x }} & $x >0$ \\
+%      \frac{ \frac{ x-1 }{ x-\sin x } }{ \sqrt{ 1-x } } & $x>0$ \\
 %      0 & otherwise
 %    \end{cases*}
 %  \qquad\text{vs.}\qquad
 %    \begin{cases*}
 %      \frac{ \frac{ \xmathstrut{0.1} x-1 }
-%                  { \xmathstrut{0.25} x-\sin x} }
-%           {\xmathstrut{0.4} \sqrt{ 1 -x } } & $x >0$ \\
+%                  { \xmathstrut{0.25} x-\sin x } }
+%           {\xmathstrut{0.4} \sqrt{ 1-x } }             & $x>0$ \\
 %      0 & otherwise
 %    \end{cases*} \]
 % \end{verbatim}
@@ -2808,11 +2808,13 @@ colorlinks,
 % \begin{verbatim}
 % \newcommand\vfb[1]{\begingroup\fboxsep=0pt\boxed{\,#1\,}\endgroup}
 % \[
-%  a \vfb{\mathstrut}         \   % normal strut
-%  \vfb{\xmathstrut{0}}       \   % just 0 => normal strut
-%  \vfb{\xmathstrut{0.5} }    \   % twice as large 50% + 50%
-%  \vfb{\xmathstrut{-0.1} }   \   % negative gives something smaller
-%  \vfb{\xmathstrut[0.5]{0}} a    % change only the depth
+% a
+%    \vfb{ \mathstrut }          \   % normal strut
+%    \vfb{ \xmathstrut{0} }      \   % just 0 => normal strut
+%    \vfb{ \xmathstrut{0.5} }    \   % twice as large 50% + 50%
+%    \vfb{ \xmathstrut{-0.1} }   \   % negative gives something smaller
+%    \vfb{ \xmathstrut[0.5]{0} }     % change only the depth
+% a
 % \]
 % \end{verbatim}
 % -- the last box showcases a strut where we have only changed the
