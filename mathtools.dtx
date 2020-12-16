@@ -5901,8 +5901,10 @@ colorlinks,
 %    \end{macrocode}
 %  Create a box containing the math and force a cramped style by
 %  issuing a non-existing radical.
+% \changes{v1.25}{2020/12/16}{Don't set \cs{nulldelimiterspace} to
+% zero, back kern intead, solves issue \#18}
 %    \begin{macrocode}
-  \sbox\z@{$\m@th#1\nulldelimiterspace=\z@\radical\z@{#2}$}
+  \sbox\z@{$\m@th#1\kern-\nulldelimiterspace\radical\z@{#2}$}
 %    \end{macrocode}
 %  Then make sure the height is correct.
 %    \begin{macrocode}
