@@ -1,7 +1,15 @@
 Announcement release 2021/xx/xx
 
+For mathtools.dtx:
+
 * fixed issue #18, thanks to RuixiZhang42
 * fixed issue #20 (via https://tex.stackexchange.com/a/252412/3929)
+
+For mhsetup.dtx
+
+* fixed issue #15 by adding \MH_group_align_safe_begin/end: to
+  \MH_nospace_ifnextchar:Nnn. That way it should also work in tested
+  alignments. Solution provided by Phelype Oleinik
 
 
 

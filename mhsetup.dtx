@@ -162,7 +162,7 @@ and the derived files
 %</driver>
 %  \fi
 %
-%  \CheckSum{298}
+%  \CheckSum{301}
 %
 %  \GetFileInfo{mhsetup.drv}
 %
@@ -576,11 +576,16 @@ and the derived files
 %  \begin{macro}{\MH_nospace_protected_testopt:n}
 %  Scanning for the next character but disallow spaces.
 % \changes{v1.3}{2017/03/31}{Added MH\_ prefix to several \cs{if...} macros}
+% \changes{v1.4}{2021/01/14}{Added
+% \cs{MH\_group\_align\_safe\_begin/end:} as suggested by
+% Phelype Oleinik  in issue \#15. This enables
+% \cs{MH\_nospace\_ifnextchar:Nnn} to work correctly inside nested alignments}
 %    \begin{macrocode}
 \long\def\MH_nospace_ifnextchar:Nnn #1#2#3{
+  \MH_group_align_safe_begin: % added 2021/01/14
   \MH_let:NwN\reserved@d=~#1
-  \def\reserved@a{#2}
-  \def\reserved@b{#3}
+  \def\reserved@a{\MH_group_align_safe_end: #2} % changed 2021/01/14
+  \def\reserved@b{\MH_group_align_safe_end: #3} % changed 2021/01/14
   \futurelet\@let@token\MH_nospace_nextchar:
 }
 \def\MH_nospace_nextchar:{
