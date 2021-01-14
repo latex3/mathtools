@@ -4731,21 +4731,24 @@ colorlinks,
 %  both columns, while \env{dcases*} has text in the second column.
 %  \changes{v1.08}{2010/06/10}{changed to match the change in
 %  \cs{newcases} plus added rcases and drcases}
+% \changes{v1.25}{2021/01/14}{Replaced \texttt{\{\#\#\}} by
+% \texttt{\#\#}, otherwise one cannot counteract the \cs{hfil} in the
+% definition with a \cs{hfil(l)} in a cell. Related to issue \#20 and https://tex.stackexchange.com/a/252412/3929}
 %    \begin{macrocode}
 \newcases{dcases}{\quad}{%
-  $\m@th\displaystyle{##}$\hfil}{$\m@th\displaystyle{##}$\hfil}{\lbrace}{.}
+  $\m@th\displaystyle##$\hfil}{$\m@th\displaystyle##$\hfil}{\lbrace}{.}
 \newcases{dcases*}{\quad}{%
-  $\m@th\displaystyle{##}$\hfil}{{##}\hfil}{\lbrace}{.}
+  $\m@th\displaystyle##$\hfil}{##\hfil}{\lbrace}{.}
 \newcases{rcases}{\quad}{%
-  $\m@th{##}$\hfil}{$\m@th{##}$\hfil}{.}{\rbrace}
+  $\m@th##$\hfil}{$\m@th##$\hfil}{.}{\rbrace}
 \newcases{rcases*}{\quad}{%
-  $\m@th{##}$\hfil}{{##}\hfil}{.}{\rbrace}
+  $\m@th##$\hfil}{##\hfil}{.}{\rbrace}
 \newcases{drcases}{\quad}{%
-  $\m@th\displaystyle{##}$\hfil}{$\m@th\displaystyle{##}$\hfil}{.}{\rbrace}
+  $\m@th\displaystyle##$\hfil}{$\m@th\displaystyle##$\hfil}{.}{\rbrace}
 \newcases{drcases*}{\quad}{%
-  $\m@th\displaystyle{##}$\hfil}{{##}\hfil}{.}{\rbrace}
+  $\m@th\displaystyle##$\hfil}{##\hfil}{.}{\rbrace}
 \newcases{cases*}{\quad}{%
-  $\m@th{##}$\hfil}{{##}\hfil}{\lbrace}{.}
+  $\m@th##$\hfil}{##\hfil}{\lbrace}{.}
 %    \end{macrocode}
 %  \end{environment}
 %  \end{environment}
