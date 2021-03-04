@@ -321,7 +321,7 @@ colorlinks,
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3340}
+%  \CheckSum{3343}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -5937,7 +5937,14 @@ colorlinks,
       3
     \fi
     \advance\dimen@-\ht\z@ \ht\z@=-\dimen@
-    \box\z@
+%    \end{macrocode}
+% Leave vertical mode before typesetting the box and add a
+% \texttt{\{\}} in front to gard against unnecessary reboxing  
+% \changes{v1.25}{2021/03/04}{Added vmode protection and reboxing
+% gard, see issue \#19}
+%    \begin{macrocode}
+    \ifvmode\leavevmode\fi
+    {}\box\z@
 }
 %    \end{macrocode}
 %  \end{macro}
