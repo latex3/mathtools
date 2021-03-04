@@ -321,7 +321,7 @@ colorlinks,
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3343}
+%  \CheckSum{3350}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -5793,24 +5793,26 @@ colorlinks,
 %  \begin{macro}{\MT_mathclap:Nn}
 %  First we'll \cs{provide} those macros (they are so simple that I
 %  think other packages might define them as well).
+% \changes{v1.15}{2021/03/04}{Add \cs{relax} before the \cs{ifx}'s to
+% prevent corner case premature expansions}
 %    \begin{macrocode}
 \providecommand*\clap[1]{\hb@xt@\z@{\hss#1\hss}}
 \providecommand*\mathllap[1][\@empty]{
-  \ifx\@empty#1\@empty
+  \relax\ifx\@empty#1\@empty
     \expandafter \mathpalette \expandafter \MT_mathllap:Nn
   \else
     \expandafter \MT_mathllap:Nn \expandafter #1
   \fi
 }
 \providecommand*\mathrlap[1][\@empty]{
-  \ifx\@empty#1\@empty
+  \relax\ifx\@empty#1\@empty
     \expandafter \mathpalette \expandafter \MT_mathrlap:Nn
   \else
     \expandafter \MT_mathrlap:Nn \expandafter #1
   \fi
 }
 \providecommand*\mathclap[1][\@empty]{
-  \ifx\@empty#1\@empty
+  \relax\ifx\@empty#1\@empty
     \expandafter \mathpalette \expandafter \MT_mathclap:Nn
   \else
     \expandafter \MT_mathclap:Nn \expandafter #1
@@ -5897,9 +5899,11 @@ colorlinks,
 %
 %  \begin{macro}{\cramped}
 %  Make sure the expansion is timed correctly.
+% \changes{v1.15}{2021/03/04}{Add \cs{relax} before the \cs{ifx}'s to
+% prevent corner case premature expansions}
 %    \begin{macrocode}
 \providecommand*\cramped[1][\@empty]{
-  \ifx\@empty#1\@empty
+  \relax\ifx\@empty#1\@empty
     \expandafter \mathpalette \expandafter \MT_cramped_internal:Nn
   \else
     \expandafter \MT_cramped_internal:Nn \expandafter #1
@@ -5959,9 +5963,11 @@ colorlinks,
 %  \begin{macro}{\crampedrlap}
 %  \begin{macro}{\MT_cramped_rlap_internal:Nn}
 %  Cramped versions of \cs{mathXlap} (for speed). Made by the author.
+% \changes{v1.15}{2021/03/04}{Add \cs{relax} before the \cs{ifx}'s to
+% prevent corner case premature expansions}
 %    \begin{macrocode}
 \providecommand*\crampedllap[1][\@empty]{
-  \ifx\@empty#1\@empty
+  \relax\ifx\@empty#1\@empty
     \expandafter \mathpalette \expandafter \MT_cramped_llap_internal:Nn
   \else
     \expandafter \MT_cramped_llap_internal:Nn \expandafter #1
@@ -5971,7 +5977,7 @@ colorlinks,
   {}\llap{\MT_cramped_internal:Nn #1{#2}}
 }
 \providecommand*\crampedclap[1][\@empty]{
-  \ifx\@empty#1\@empty
+  \relax\ifx\@empty#1\@empty
     \expandafter \mathpalette \expandafter \MT_cramped_clap_internal:Nn
   \else
     \expandafter \MT_cramped_clap_internal:Nn \expandafter #1
@@ -5981,7 +5987,7 @@ colorlinks,
   {}\clap{\MT_cramped_internal:Nn #1{#2}}
 }
 \providecommand*\crampedrlap[1][\@empty]{
-  \ifx\@empty#1\@empty
+  \relax\ifx\@empty#1\@empty
     \expandafter \mathpalette \expandafter \MT_cramped_rlap_internal:Nn
   \else
     \expandafter \MT_cramped_rlap_internal:Nn \expandafter #1
