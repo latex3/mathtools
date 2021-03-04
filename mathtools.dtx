@@ -697,7 +697,7 @@ colorlinks,
 %    \cs{smashoperator}\oarg{pos}\marg{operator with limits}
 %  \end{codesyntax}
 %  \FeatureRequest{Lars Madsen}{2004/05/04}
-%  Above we shoved how to get \LaTeX{} to ignore the width of the
+%  Above we showed how to get \LaTeX{} to ignore the width of the
 %  subscript of an operator. However this approach takes a lot of
 %  extra typing, especially if you have a wide superscript, meaning
 %  you have to put in \cs{crampedclap} in both sub- and superscript.
@@ -2157,7 +2157,9 @@ colorlinks,
 %  '$\sin$' and '('.  In some special cases it may be useful to be
 %  able to tinker with the behavior.
 %  \begin{codesyntax}
-%    \SpecialUsageIndex{\reDeclarePairedDelimiterInnerWrapper}\cs{reDeclarePairedDelimiterInnerWrapper}\marg{macro name}\marg{\textnormal{\texttt{star}} or \textnormal{\texttt{nostarnonscaled}} or \textnormal{\texttt{nostarscaled}}}\marg{code}
+%    \SpecialUsageIndex{\reDeclarePairedDelimiterInnerWrapper}
+%    \cs{reDeclarePairedDelimiterInnerWrapper}\marg{macro name}\%\\
+%    \qquad \marg{\textnormal{\texttt{star}} or \textnormal{\texttt{nostarnonscaled}} or \textnormal{\texttt{nostarscaled}}}\marg{code}
 %  \end{codesyntax}
 %  Internally several macros are created, including three call backs
 %  that take care of the formatting. There is one internal macro for
@@ -2298,6 +2300,7 @@ colorlinks,
 %  \cs{vcentcolon} is a shorthand for such a vertically centered
 %  colon, and can be used as in |$a \vcentcolon= b$| and results in
 %  the desired output:  $a \vcentcolon= b$. % for now
+%  See also the \pkg{colonequals} package.
 %
 %  Typing \cs{vcentcolon} every time is quite tedious, so one can use
 %  the key \key{centercolon} to make the colon active instead.
@@ -2537,8 +2540,8 @@ colorlinks,
 %  been fixed in \LaTeX, this fix will be removed from
 %  \pkg{mathtools}.
 %
-% The \CommentAdded{2015/11/12} fix was added to the \LaTeX{} kernel i 2015. We will continue to
-% provide it on older kernels.
+%  The \CommentAdded{2015/11/12} fix was added to the \LaTeX{} kernel
+%  in 2015. We will continue to provide it on older kernels.
 %
 %  \subsection{Spreading equations}\label{sec:spread}
 %
@@ -2927,21 +2930,19 @@ colorlinks,
 %
 %
 % \begin{thebibliography}{9}
-%  \bibitem{Perlis01}
-%    Alexander R. Perlis,
-%    \emph{A complement to \cs{smash}, \cs{llap}, and \cs{rlap}},
-%    TUGboat 22(4) (2001).
-%  \bibitem{Ams99}
-%    American Mathematical Society and Michael Downes,
-%    \emph{Technical notes on the \pkg{amsmath} package}. Version 2.0,
-%    1999/10/29.
-%    (Available from CTAN as file \texttt{technote.tex}.)
-%  \bibitem{Ams00}
-%    Frank Mittelbach, Rainer Sch\"opf, Michael Downes, David M.~Jones
-%    and David Carlisle,
-%    \emph{The \pkg{amsmath} package}. Version 2.17e,
-%    2020/01/20. Maintained by the \LaTeX3 project.
-%    (Available from CTAN as file \texttt{amsmath.dtx}.)
+% \bibitem{Perlis01} Alexander R. Perlis, \emph{A complement to
+%   \cs{smash}, \cs{llap}, and \cs{rlap}}, TUGboat 22(4)
+%   (2001). Available at
+%   \url{https://www.tug.org/TUGboat/tb22-4/tb72perlS.pdf}.
+% \bibitem{Ams99} American Mathematical Society and Michael Downes,
+%   \emph{Technical notes on the \pkg{amsmath} package}. Version 2.0,
+%   1999/10/29. Available from CTAN as
+%   \url{http://mirrors.ctan.org/macros/latex/required/amsmath/technote.pdf}.
+% \bibitem{Ams00} Frank Mittelbach, Rainer Sch\"opf, Michael Downes,
+%   David M.~Jones and David Carlisle, \emph{The \pkg{amsmath}
+%   package}. Version 2.17e, 2020/01/20. Maintained by the \LaTeX3
+%   project.  Available from CTAN as file
+%   \url{http://mirrors.ctan.org/macros/latex/required/amsmath/amsmath.dtx}.
 %  \bibitem{A-W:MG04}
 %    Frank Mittelbach and Michel Goossens.
 %     \emph{The {\LaTeX} Companion}.
@@ -2949,24 +2950,21 @@ colorlinks,
 %    Boston, Massachusetts, 2 edition, 2004.
 %    With Johannes Braams, David Carlisle, and Chris Rowley.
 %
-% \bibitem{Carl99}
-%   David Carlisle,
-%   \emph{The \pkg{keyval} Package}.
-%   Version 1.15, 2014/10/28.
-%   (Available from CTAN as file \texttt{keyval.dtx}.)
+%  \bibitem{Carl99} David Carlisle, \emph{The \pkg{keyval} Package}.
+%    Version 1.15, 2014/10/28.  Available from CTAN via
+%    \url{https://ctan.org/pkg/keyval}.
 %
-%  \bibitem{Voss:2004}
-%    Herbert Vo\ss,
-%    \emph{Math mode}. Version 2.47,
-%    2014/01/30.
-%    (Available from CTAN as file \texttt{Mathmode.pdf}.)
+%  \bibitem{Voss:2004} Herbert Vo\ss, \emph{Math mode}. Version 2.47,
+%    2014/01/30.  Available from CTAN as
+%    \url{http://mirrors.ctan.org/obsolete/info/math/voss/mathmode/Mathmode.pdf}. Please
+%    note that the author sees the document as obsolete.
 %  
 %   \bibitem{Swanson} 
 %     Ellen Swanson,
 %     \emph{Mathematics into type}.
 %     American Mathematical Society, updated edition, 1999.
 %     Updated by Arlene O'Sean and Antoinette Schleyer. Available from
-%     the AMS at \url{https://www.ams.org/arc/styleguide/mit-2.pdf}
+%     the AMS at \url{https://www.ams.org/arc/styleguide/mit-2.pdf}.
 %
 %   \bibitem{TBT}
 %   Victor Eijkhout, \emph{\TeX\ by Topic, A Texnician's Reference}, 2007. 
