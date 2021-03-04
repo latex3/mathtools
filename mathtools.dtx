@@ -81,7 +81,7 @@ This is a generated file.
 
 Copyright (C) 2002-2011 by Morten Hoegholm
 Copyright (C) 2012-2019 by Lars Madsen
-Copyright (C) 2020      by Lars Madsen, the LaTeX3 project
+Copyright (C) 2020-     by Lars Madsen, the LaTeX3 project
 
 
 This work may be distributed and/or modified under the
@@ -321,7 +321,7 @@ colorlinks,
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3333}
+%  \CheckSum{3340}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -704,8 +704,8 @@ colorlinks,
 %  To make things easier, \pkg{mathtools} provides a
 %  \cs{smashoperator} command, which simply ignores the width of the
 %  sub- and superscript. It also takes an optional argument,
-%  \texttt{l}, \texttt{r}, or \texttt{lr} (default), denoting which
-%  side of the operator should be ignored (smashed).
+%  \texttt{l}, \texttt{r}, or \texttt{lr} (default, rl is an alias for
+%  lr), denoting which side of the operator should be ignored (smashed).
 %  \begin{verbatim}
 %    \[
 %      V = \sum_{1\le i\le j\le n}^{\infty} V_{ij}                  \quad
@@ -4919,12 +4919,19 @@ colorlinks,
 %  specialized commands \cs{MT_smop_smash_l:NNNNN},
 %  \cs{MT_smop_smash_r:NNNNN}, or the default
 %  \cs{MT_smop_smash_lr:NNNNN}.
+%  \changes{v1.25}{2021/03/04}{Verify that opt arg corresponds to
+%  something predefined}
 %    \begin{macrocode}
 \newcommand*\smashoperator[2][lr]{
-  \def\MT_smop_use:NNNNN {\@nameuse{MT_smop_smash_#1:NNNNN}}
-  \toks@{#2}
-  \expandafter\MT_smop_get_args:wwwNnNn
+  \@ifundefined{MT_smop_smash_#1:NNNNN}{
+    \PackageError{mathtools}{Opt~ arg~ '#1'~ for~ \@backslashchar smashoperator~
+      is~ not~ supported.\MessageBreak Use~ l,~r~or~lr~ (default)}{}
+  }{
+    \def\MT_smop_use:NNNNN {\@nameuse{MT_smop_smash_#1:NNNNN}}
+    \toks@{#2}
+    \expandafter\MT_smop_get_args:wwwNnNn
     \the\toks@\@nil\@nil\@nil\@nil\@nil\@nil\@@nil
+  }
 }
 %    \end{macrocode}
 %  \end{macro}
@@ -5125,12 +5132,17 @@ colorlinks,
 }
 %    \end{macrocode}
 %  The `lr' variant
+% \changes{v1.25}{2021/03/04}{add `rl' as an alias for `lr'}
 %    \begin{macrocode}
 \def\MT_smop_smash_lr:NNNNN #1#2#3#4#5{
   \MT_smop_needed_args:NNNNN #1#2#3#4#5
 }
 %    \end{macrocode}
-%
+% Add `rl' as an alias for `lr'
+%    \begin{macrocode}
+\MH_let:NwN \MT_smop_smash_rl:NNNNN \MT_smop_smash_lr:NNNNN
+%    \end{macrocode}
+% 
 %
 %  \subsection{Adjusting limits}
 %
