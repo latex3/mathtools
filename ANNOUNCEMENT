@@ -2,18 +2,19 @@ Announcement release 2021/xx/xx
 
 For mathtools.dtx:
 
-* fixed issue #18, thanks to RuixiZhang42
+* fixed issue #18, thanks to Ruixi Zhang
 * fixed issue #20 (via https://tex.stackexchange.com/a/252412/3929)
 * fixed issue #22 
 * fixed issue #21, suggestions for documentation by Rimole.
 * fixed issue #19
+* fixed issue #17, thanks to Ruixi Zhang and David Carlisle
+
 
 For mhsetup.dtx
 
 * fixed issue #15 by adding \MH_group_align_safe_begin/end: to
   \MH_nospace_ifnextchar:Nnn. That way it should also work in tested
   alignments. Solution provided by Phelype Oleinik
-
 
 
 Announcement release 2020/03/24
@@ -36,7 +37,6 @@ Announcement release 2020/03/24
 
 * empheq: fixed several issues related to amsart/-book plus a few others
   (issues #5, #6 and #8)
-
 
 
 Announcement release 2020/01/17

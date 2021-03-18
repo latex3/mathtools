@@ -321,7 +321,7 @@ colorlinks,
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3350}
+%  \CheckSum{3364}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -1967,11 +1967,11 @@ colorlinks,
 %
 %  Thus
 %  \begin{quote}
-%    \cs{DeclarePairedDelimiter}\marg{cmd}\marg{left_delim}\marg{right_delim}
+%   \cs{DeclarePairedDelimiter}\marg{cmd}\marg{left_delim}\marg{right_delim}
 %  \end{quote}
 %  is the same thing as
 %  \begin{quote}
-%    \cs{DeclarePairedDelimiterX}\marg{cmd}\verb|[1]|\marg{left_delim}\marg{right_delim}\verb|{#1}|
+%   \cs{DeclarePairedDelimiterX}\marg{cmd}\texttt{[1]}\marg{left_delim}\marg{right_delim}\rlap{\texttt{\{\#1\}}}
 %  \end{quote}
 %  %
 %  Let us do some examples. First we want to prepare a macro for inner
@@ -2936,12 +2936,12 @@ colorlinks,
 %   \url{https://www.tug.org/TUGboat/tb22-4/tb72perlS.pdf}.
 % \bibitem{Ams99} American Mathematical Society and Michael Downes,
 %   \emph{Technical notes on the \pkg{amsmath} package}. Version 2.0,
-%   1999/10/29. Available from CTAN as
+%   1999/10/29. Available via
 %   \url{http://mirrors.ctan.org/macros/latex/required/amsmath/technote.pdf}.
 % \bibitem{Ams00} Frank Mittelbach, Rainer Sch\"opf, Michael Downes,
 %   David M.~Jones and David Carlisle, \emph{The \pkg{amsmath}
 %   package}. Version 2.17e, 2020/01/20. Maintained by the \LaTeX3
-%   project.  Available from CTAN as file
+%   project.  Available as file
 %   \url{http://mirrors.ctan.org/macros/latex/required/amsmath/amsmath.dtx}.
 %  \bibitem{A-W:MG04}
 %    Frank Mittelbach and Michel Goossens.
@@ -2951,13 +2951,13 @@ colorlinks,
 %    With Johannes Braams, David Carlisle, and Chris Rowley.
 %
 %  \bibitem{Carl99} David Carlisle, \emph{The \pkg{keyval} Package}.
-%    Version 1.15, 2014/10/28.  Available from CTAN via
+%    Version 1.15, 2014/10/28.  Available via
 %    \url{https://ctan.org/pkg/keyval}.
 %
 %  \bibitem{Voss:2004} Herbert Vo\ss, \emph{Math mode}. Version 2.47,
-%    2014/01/30.  Available from CTAN as
+%    2014/01/30.  Available as
 %    \url{http://mirrors.ctan.org/obsolete/info/math/voss/mathmode/Mathmode.pdf}. Please
-%    note that the author sees the document as obsolete.
+%    note that the author has marked the document as \emph{obsolete}.
 %  
 %   \bibitem{Swanson} 
 %     Ellen Swanson,
@@ -2966,9 +2966,9 @@ colorlinks,
 %     Updated by Arlene O'Sean and Antoinette Schleyer. Available from
 %     the AMS at \url{https://www.ams.org/arc/styleguide/mit-2.pdf}.
 %
-%   \bibitem{TBT}
-%   Victor Eijkhout, \emph{\TeX\ by Topic, A Texnician's Reference}, 2007. 
-%   Freely available at \url{https://ctan.org/pkg/texbytopic}.
+%   \bibitem{TBT} Victor Eijkhout, \emph{\TeX\ by Topic, A Texnician's
+%     Reference}, 2007.  The book is available at
+%     \url{https://ctan.org/pkg/texbytopic}.
 %  \end{thebibliography}
 %
 %
@@ -4159,7 +4159,13 @@ colorlinks,
     \lineskip\thr@@\fontdimen8 \scriptfont\thr@@
     \lineskiplimit\lineskip
     \ialign\bgroup\ifx c##1\hfil\fi
-    $\m@th\scriptstyle\kern-\nulldelimiterspace\radical\z@{####}$
+%    \end{macrocode}
+% \changes{v1.25}{2021/03/18}{use \cs{MT_cramped_internal:Nn} instead,
+% see issue \#17}
+% Here we should use the proper cramped internal macro
+%    \begin{macrocode}
+    %% $\m@th\scriptstyle\kern-\nulldelimiterspace\radical\z@{####}$
+    \span\MT_cramped_internal:Nn \scriptstyle {####}%
     \hfil\crcr
   }{%
     \crcr\egroup\egroup
@@ -5920,8 +5926,12 @@ colorlinks,
 %  issuing a non-existing radical.
 % \changes{v1.25}{2020/12/16}{Don't set \cs{nulldelimiterspace} to
 % zero, back kern intead, solves issue \#18}
+% \changes{v1.25}{2021/03/18}{placed \cs{sbox}\cs{z@} by
+% \cs{setbox}\cs{z@}\cs{hbox} to better handle expansion in
+% \env{crampedsubarray}, see issue \#17}
 %    \begin{macrocode}
-  \sbox\z@{$\m@th#1\kern-\nulldelimiterspace\radical\z@{#2}$}
+  %% \sbox\z@{$\m@th#1\kern-\nulldelimiterspace\radical\z@{#2}$}
+  \setbox\z@\hbox{$\m@th#1\kern-\nulldelimiterspace\radical\z@{#2}$}
 %    \end{macrocode}
 %  Then make sure the height is correct.
 %    \begin{macrocode}
@@ -6023,7 +6033,14 @@ colorlinks,
   \lineskip\thr@@\fontdimen8 \scriptfont\thr@@
   \lineskiplimit\lineskip
   \ialign\bgroup\ifx c#1\hfil\fi
-  $\m@th\scriptstyle\kern-\nulldelimiterspace\radical\z@{##}$% <-- changed line
+%    \end{macrocode}
+% Though here we ought to use the proper cramped internal macro, as
+% otherwise there will be a slight difference in vertical spacing
+% \changes{v1.25}{2021/03/18}{Added \cs{MT_cramped_internal:Nn}, see
+% issue \#17}
+%    \begin{macrocode}
+  %%$\m@th\scriptstyle\kern-\nulldelimiterspace\radical\z@{##}$% <-- changed line
+  \span\MT_cramped_internal:Nn \scriptstyle {##}%
   \hfil\crcr%
 }{%
 \crcr\egroup\egroup
