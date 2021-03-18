@@ -1,6 +1,6 @@
-Announcement release 2021/xx/xx
+Announcement release 2021/03/18
 
-For mathtools.dtx:
+For mathtools.dtx v1.25:
 
 * fixed issue #18, thanks to Ruixi Zhang
 * fixed issue #20 (via https://tex.stackexchange.com/a/252412/3929)
@@ -10,7 +10,7 @@ For mathtools.dtx:
 * fixed issue #17, thanks to Ruixi Zhang and David Carlisle
 
 
-For mhsetup.dtx
+For mhsetup.dtx v1.4:
 
 * fixed issue #15 by adding \MH_group_align_safe_begin/end: to
   \MH_nospace_ifnextchar:Nnn. That way it should also work in tested
