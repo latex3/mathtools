@@ -321,7 +321,7 @@ colorlinks,
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3519}
+%  \CheckSum{3529}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -4140,111 +4140,115 @@ colorlinks,
 %    \begin{macrocode}
 \ifx\directlua\@undefined
   % THIS IS NORMAL
-\newcommand\MultlinedHook{
-  \renewenvironment{subarray}[1]{%
-    \vcenter\bgroup
-    \Let@ \restore@math@cr \default@tag
-    \let\math@cr@@\AMS@math@cr@@  % <--- the fix
-    \baselineskip\fontdimen10 \scriptfont\tw@
-    \advance\baselineskip\fontdimen12 \scriptfont\tw@
-    \lineskip\thr@@\fontdimen8 \scriptfont\thr@@
-    \lineskiplimit\lineskip
-    \ialign\bgroup\ifx c##1\hfil\fi
-    $\m@th\scriptstyle####$\hfil\crcr
-  }{%
-    \crcr\egroup\egroup
-  }
-  \renewenvironment{crampedsubarray}[1]{%
-    \vcenter\bgroup
-    \Let@ \restore@math@cr \default@tag
-    \let\math@cr@@\AMS@math@cr@@  % <--- the fix
-    \baselineskip\fontdimen10 \scriptfont\tw@
-    \advance\baselineskip\fontdimen12 \scriptfont\tw@
-    \lineskip\thr@@\fontdimen8 \scriptfont\thr@@
-    \lineskiplimit\lineskip
-    \ialign\bgroup\ifx c##1\hfil\fi
+  \newcommand\MultlinedHook{
+    \renewenvironment{subarray}[1]{%
+      \vcenter\bgroup
+      \Let@ \restore@math@cr \default@tag
+      \let\math@cr@@\AMS@math@cr@@  % <--- the fix
+      \baselineskip\fontdimen10 \scriptfont\tw@
+      \advance\baselineskip\fontdimen12 \scriptfont\tw@
+      \lineskip\thr@@\fontdimen8 \scriptfont\thr@@
+      \lineskiplimit\lineskip
+      \ialign\bgroup\ifx c##1\hfil\fi
+      $\m@th\scriptstyle####$\hfil\crcr
+    }{%
+      \crcr\egroup\egroup
+    }
+    \renewenvironment{crampedsubarray}[1]{%
+      \vcenter\bgroup
+      \Let@ \restore@math@cr \default@tag
+      \let\math@cr@@\AMS@math@cr@@  % <--- the fix
+      \baselineskip\fontdimen10 \scriptfont\tw@
+      \advance\baselineskip\fontdimen12 \scriptfont\tw@
+      \lineskip\thr@@\fontdimen8 \scriptfont\thr@@
+      \lineskiplimit\lineskip
+      \ialign\bgroup\ifx c##1\hfil\fi
 %    \end{macrocode}
 % \changes{v1.25}{2021/03/18}{use \cs{MT_cramped_internal:Nn} instead,
 % see issue \#17}
 % Here we should use the proper cramped internal macro
 %    \begin{macrocode}
       \span\MT_cramped_internal:Nn \scriptstyle {####}%
-    \hfil\crcr
-  }{%
-    \crcr\egroup\egroup
+      \hfil\crcr
+    }{%
+      \crcr\egroup\egroup
+    }
+    % from mathtools
+    \def\MT_smallmatrix_begin:N ##1{%
+      \Let@\restore@math@cr\default@tag
+      \let\math@cr@@\AMS@math@cr@@  % <--- the fix
+      \baselineskip6\ex@ \lineskip1.5\ex@ \lineskiplimit\lineskip
+      \csname MT_smallmatrix_##1_begin:\endcsname
+    }
+    % from amsmath
+    \renewenvironment{smallmatrix}{\null\,\vcenter\bgroup
+      \Let@\restore@math@cr\default@tag
+      \let\math@cr@@\AMS@math@cr@@  % <--- the fix
+      \baselineskip6\ex@ \lineskip1.5\ex@ \lineskiplimit\lineskip
+      \ialign\bgroup\hfil$\m@th\scriptstyle####$\hfil&&\thickspace\hfil
+      $\m@th\scriptstyle####$\hfil\crcr
+    }{%
+      \crcr\egroup\egroup\,%
+    }
   }
-   % from mathtools
-  \def\MT_smallmatrix_begin:N ##1{%
-    \Let@\restore@math@cr\default@tag
-    \let\math@cr@@\AMS@math@cr@@  % <--- the fix
-    \baselineskip6\ex@ \lineskip1.5\ex@ \lineskiplimit\lineskip
-    \csname MT_smallmatrix_##1_begin:\endcsname
-  }
-  % from amsmath
-  \renewenvironment{smallmatrix}{\null\,\vcenter\bgroup
-    \Let@\restore@math@cr\default@tag
-    \let\math@cr@@\AMS@math@cr@@  % <--- the fix
-    \baselineskip6\ex@ \lineskip1.5\ex@ \lineskiplimit\lineskip
-    \ialign\bgroup\hfil$\m@th\scriptstyle####$\hfil&&\thickspace\hfil
-    $\m@th\scriptstyle####$\hfil\crcr
-  }{%
-    \crcr\egroup\egroup\,%
-  }
-}
 \else
 %    \end{macrocode}
 % The LuaLaTeX version, only difference is the definition of crampedsubarray
 %    \begin{macrocode}
   % THIS IS LUALATEX
-\newcommand\MultlinedHook{
-  \renewenvironment{subarray}[1]{%
-    \vcenter\bgroup
-    \Let@ \restore@math@cr \default@tag
-    \let\math@cr@@\AMS@math@cr@@  % <--- the fix
-    \baselineskip\fontdimen10 \scriptfont\tw@
-    \advance\baselineskip\fontdimen12 \scriptfont\tw@
-    \lineskip\thr@@\fontdimen8 \scriptfont\thr@@
-    \lineskiplimit\lineskip
-    \ialign\bgroup\ifx c##1\hfil\fi
-    $\m@th\scriptstyle####$\hfil\crcr
-  }{%
-    \crcr\egroup\egroup
+  \newcommand\MultlinedHook{
+    % from amsmath
+    \newenvironment{subarray}[1]{%
+      \vcenter\bgroup
+      \Let@ \restore@math@cr \default@tag
+      \let\math@cr@@\AMS@math@cr@@  % <--- the fix
+      \baselineskip \Umathstacknumup \scriptstyle
+      \advance\baselineskip \Umathstackdenomdown \scriptstyle
+      \lineskip \Umathstackvgap \scriptstyle
+      \lineskiplimit \lineskip
+      \ialign\bgroup\ifx c##1\hfil\fi
+      \Ustartmath
+      \m@th\scriptstyle####
+      \Ustopmath
+      \hfil\crcr
+    }{%
+      \crcr\egroup\egroup
+    }
+    % from mathtools
+    \newenvironment{crampedsubarray}[1]{%
+      \vcenter\bgroup
+      \Let@ \restore@math@cr \default@tag
+      \let\math@cr@@\AMS@math@cr@@  % <--- the fix
+      \baselineskip \Umathstacknumup \scriptstyle
+      \advance\baselineskip \Umathstackdenomdown \scriptstyle
+      \lineskip \Umathstackvgap \scriptstyle
+      \lineskiplimit \lineskip
+      \ialign\bgroup\ifx c##1\hfil\fi
+      \Ustartmath
+        \crampedscriptstyle{####}
+      \Ustopmath
+      \hfil\crcr
+    }{%
+      \crcr\egroup\egroup
+    }
+    % from mathtools
+    \def\MT_smallmatrix_begin:N ##1{%
+      \Let@\restore@math@cr\default@tag
+      \let\math@cr@@\AMS@math@cr@@  % <--- the fix
+      \baselineskip6\ex@ \lineskip1.5\ex@ \lineskiplimit\lineskip
+      \csname MT_smallmatrix_##1_begin:\endcsname
+    }
+    % from amsmath
+    \renewenvironment{smallmatrix}{\null\,\vcenter\bgroup
+      \Let@\restore@math@cr\default@tag
+      \let\math@cr@@\AMS@math@cr@@  % <--- the fix
+      \baselineskip6\ex@ \lineskip1.5\ex@ \lineskiplimit\lineskip
+      \ialign\bgroup\hfil$\m@th\scriptstyle####$\hfil&&\thickspace\hfil
+      $\m@th\scriptstyle####$\hfil\crcr
+    }{%
+      \crcr\egroup\egroup\,%
+    }
   }
-  % from mathtools
-  \newenvironment{crampedsubarray}[1]{%
-    \vcenter\bgroup
-    \Let@ \restore@math@cr \default@tag
-    \let\math@cr@@\AMS@math@cr@@  % <--- the fix
-    \baselineskip \Umathstacknumup \scriptstyle
-    \advance\baselineskip \Umathstackdenomdown \scriptstyle
-    \lineskip \Umathstackvgap \scriptstyle
-    \lineskiplimit \lineskip
-    \ialign\bgroup\ifx c#1\hfil\fi
-    \Ustartmath
-      \crampedscriptstyle{####}
-    \Ustopmath
-    \hfil\crcr
-  }{%
-    \crcr\egroup\egroup
-  }
-   % from mathtools
-  \def\MT_smallmatrix_begin:N ##1{%
-    \Let@\restore@math@cr\default@tag
-    \let\math@cr@@\AMS@math@cr@@  % <--- the fix
-    \baselineskip6\ex@ \lineskip1.5\ex@ \lineskiplimit\lineskip
-    \csname MT_smallmatrix_##1_begin:\endcsname
-  }
-  % from amsmath
-  \renewenvironment{smallmatrix}{\null\,\vcenter\bgroup
-    \Let@\restore@math@cr\default@tag
-    \let\math@cr@@\AMS@math@cr@@  % <--- the fix
-    \baselineskip6\ex@ \lineskip1.5\ex@ \lineskiplimit\lineskip
-    \ialign\bgroup\hfil$\m@th\scriptstyle####$\hfil&&\thickspace\hfil
-    $\m@th\scriptstyle####$\hfil\crcr
-  }{%
-    \crcr\egroup\egroup\,%
-  }
-}
 \fi
 
 
@@ -6020,6 +6024,25 @@ colorlinks,
     {}\box\z@
 }
 %    \end{macrocode}
+% For LuaLaTeX we can use much less code as they have
+% their own direct \cs{cramped...} macros. Directly listed 
+% from \verb|lualatex-math.sty| v1.9 2020/09/25 by Philipp Stephani. Quote: ``Here the
+% additional set of braces is absolutely necessary, otherwise the changed
+% mathematical style would be applied to the material after the
+% \cs{mathchoice} construct.  As the original (mathtools) command works in both text and
+% math mode, we use \cs{ensuremath} here.''
+%    \begin{macrocode}
+\ifx\directlua\@undefined\else
+  \def\MT_cramped_internal:Nn #1#2{
+    {
+      \ensuremath {
+        \use:c { cramped \cs_to_str:N #1 } #2
+      }
+    }
+  }
+\fi
+  
+%    \end{macrocode}
 %  \end{macro}
 %
 %  \subsubsection{Cramped versions of \texttt{\textbackslash
@@ -6104,8 +6127,9 @@ colorlinks,
 % \changes{v1.25}{2021/03/18}{Added \cs{MT_cramped_internal:Nn}, see
 % issue \#17}
 %    \begin{macrocode}
-  %%$\m@th\scriptstyle\kern-\nulldelimiterspace\radical\z@{##}$% <-- changed line
-  \span\MT_cramped_internal:Nn \scriptstyle {##}%
+     %%$\m@th\scriptstyle\kern-\nulldelimiterspace\radical\z@{##}$% <-- changed line
+    \span\MT_cramped_internal:Nn \scriptstyle {##}%
+  \hfil\crcr
 }{%
   \crcr\egroup\egroup
 }

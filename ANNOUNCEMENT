@@ -2,7 +2,9 @@ Announcement release 2021/03/xx
 
 For mathtools.dtx v1.26:
 
-* fixed issue #24
+* LuaLaTeX has cramped primitives build in. We ought to use those when LuaLaTeX is used.
+  LuaLaTeX brances added,  fixing issue #24.
+  Special thanks to Marcel Krüger, Ulrike Fischer and Philipp Stephani.
 
 Announcement release 2021/03/18
 
