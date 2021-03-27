@@ -321,7 +321,7 @@ colorlinks,
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3364}
+%  \CheckSum{3519}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -4135,7 +4135,11 @@ colorlinks,
 % \changes{v1.22}{2019/07/22}{Also added crampedsubarray}
 % \changes{v1.22}{2019/07/22}{Also added fixes for smallmatrix and the
 % MT versions of these}
+% \changes{v1.26}{2021/03/27}{We need a lualatex branch of this as
+% well. We need to find a better way to manage this. Patching?}
 %    \begin{macrocode}
+\ifx\directlua\@undefined
+  % THIS IS NORMAL
 \newcommand\MultlinedHook{
   \renewenvironment{subarray}[1]{%
     \vcenter\bgroup
@@ -4164,13 +4168,12 @@ colorlinks,
 % see issue \#17}
 % Here we should use the proper cramped internal macro
 %    \begin{macrocode}
-    %% $\m@th\scriptstyle\kern-\nulldelimiterspace\radical\z@{####}$
-    \span\MT_cramped_internal:Nn \scriptstyle {####}%
+      \span\MT_cramped_internal:Nn \scriptstyle {####}%
     \hfil\crcr
   }{%
     \crcr\egroup\egroup
   }
-   % from mathtolls
+   % from mathtools
   \def\MT_smallmatrix_begin:N ##1{%
     \Let@\restore@math@cr\default@tag
     \let\math@cr@@\AMS@math@cr@@  % <--- the fix
@@ -4188,6 +4191,62 @@ colorlinks,
     \crcr\egroup\egroup\,%
   }
 }
+\else
+%    \end{macrocode}
+% The LuaLaTeX version, only difference is the definition of crampedsubarray
+%    \begin{macrocode}
+  % THIS IS LUALATEX
+\newcommand\MultlinedHook{
+  \renewenvironment{subarray}[1]{%
+    \vcenter\bgroup
+    \Let@ \restore@math@cr \default@tag
+    \let\math@cr@@\AMS@math@cr@@  % <--- the fix
+    \baselineskip\fontdimen10 \scriptfont\tw@
+    \advance\baselineskip\fontdimen12 \scriptfont\tw@
+    \lineskip\thr@@\fontdimen8 \scriptfont\thr@@
+    \lineskiplimit\lineskip
+    \ialign\bgroup\ifx c##1\hfil\fi
+    $\m@th\scriptstyle####$\hfil\crcr
+  }{%
+    \crcr\egroup\egroup
+  }
+  % from mathtools
+  \newenvironment{crampedsubarray}[1]{%
+    \vcenter\bgroup
+    \Let@ \restore@math@cr \default@tag
+    \let\math@cr@@\AMS@math@cr@@  % <--- the fix
+    \baselineskip \Umathstacknumup \scriptstyle
+    \advance\baselineskip \Umathstackdenomdown \scriptstyle
+    \lineskip \Umathstackvgap \scriptstyle
+    \lineskiplimit \lineskip
+    \ialign\bgroup\ifx c#1\hfil\fi
+    \Ustartmath
+      \crampedscriptstyle{####}
+    \Ustopmath
+    \hfil\crcr
+  }{%
+    \crcr\egroup\egroup
+  }
+   % from mathtools
+  \def\MT_smallmatrix_begin:N ##1{%
+    \Let@\restore@math@cr\default@tag
+    \let\math@cr@@\AMS@math@cr@@  % <--- the fix
+    \baselineskip6\ex@ \lineskip1.5\ex@ \lineskiplimit\lineskip
+    \csname MT_smallmatrix_##1_begin:\endcsname
+  }
+  % from amsmath
+  \renewenvironment{smallmatrix}{\null\,\vcenter\bgroup
+    \Let@\restore@math@cr\default@tag
+    \let\math@cr@@\AMS@math@cr@@  % <--- the fix
+    \baselineskip6\ex@ \lineskip1.5\ex@ \lineskiplimit\lineskip
+    \ialign\bgroup\hfil$\m@th\scriptstyle####$\hfil&&\thickspace\hfil
+    $\m@th\scriptstyle####$\hfil\crcr
+  }{%
+    \crcr\egroup\egroup\,%
+  }
+}
+\fi
+
 
 %    \end{macrocode}
 %  \end{macro}
@@ -6019,12 +6078,18 @@ colorlinks,
 % \subsubsection{Cramped versions of subarray and \cs{substack}}
 %
 % 
-% \changes{v1.22}{2019/07/22}{Added cramped versions of subarray and \cs{substack}}
-% This was suggested by Henri Menke in
+% \changes{v1.22}{2019/07/22}{Added cramped versions of subarray and
+% \cs{substack}} This was suggested by Henri Menke in
 % \url{https://github.com/latex3/latex2e/issues/149} and
-% \url{https://chat.stackexchange.com/transcript/message/50943985#50943985}. As we are slowly moving away from the expl3 like syntax, we'll implement this with an adjusted copy of \env{subarray} from \pkg{amsmath}.
+% \url{https://chat.stackexchange.com/transcript/message/50943985#50943985}.
+% As we are slowly moving away from the expl3 like syntax, we'll
+% implement this
+% with an adjusted copy of \env{subarray} from \pkg{amsmath}.
+% \changes{v1.26}{2021/03/27}{Fresh copy of subarray from \pkg{amsmath}
+% including the lualatex branch}
 % \begin{environment}{crampedsubarray}
 %    \begin{macrocode}
+\ifx\directlua\@undefined
 \newenvironment{crampedsubarray}[1]{%
   \vcenter\bgroup
   \Let@ \restore@math@cr \default@tag
@@ -6041,10 +6106,29 @@ colorlinks,
 %    \begin{macrocode}
   %%$\m@th\scriptstyle\kern-\nulldelimiterspace\radical\z@{##}$% <-- changed line
   \span\MT_cramped_internal:Nn \scriptstyle {##}%
-  \hfil\crcr%
 }{%
-\crcr\egroup\egroup
-} 
+  \crcr\egroup\egroup
+}
+\else
+\newenvironment{crampedsubarray}[1]{%
+  \vcenter\bgroup
+  \Let@ \restore@math@cr \default@tag
+  \baselineskip \Umathstacknumup \scriptstyle
+  \advance\baselineskip \Umathstackdenomdown \scriptstyle
+  \lineskip \Umathstackvgap \scriptstyle
+  \lineskiplimit \lineskip
+  \ialign\bgroup\ifx c#1\hfil\fi
+  \Ustartmath
+%    \end{macrocode}
+% Here we simply use the build in cramped command from LuaLaTeX
+%    \begin{macrocode}
+    \crampedscriptstyle{##}
+  \Ustopmath
+  \hfil\crcr
+}{%
+  \crcr\egroup\egroup
+}
+\fi
 %    \end{macrocode}
 % \end{environment}
 % \begin{macro}{\crampedsubstack}
