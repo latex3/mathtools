@@ -335,7 +335,7 @@ colorlinks,
 %  \begin{abstract}
 %    \noindent The \pkg{mathtools} package is an extension package to
 %    \pkg{amsmath}. There are two things on \pkg{mathtools}' agenda:
-%    (1)~correct various bugs/defeciencies in \pkg{amsmath} until
+%    (1)~correct various bugs/deficiencies in \pkg{amsmath} until
 %    these are fixed by the \AmS{} and (2)~provide useful tools
 %    for mathematical typesetting, be it a small macro for
 %    typesetting a prescript or an underbracket, or entirely new
@@ -400,7 +400,7 @@ colorlinks,
 %  The option \opt{fixamsmath} (default) fixes two bugs in
 %  \pkg{amsmath}.\footnote{See the online \LaTeX{} bugs database
 %  \url{http://www.latex-project.org/cgi-bin/ltxbugs2html} under
-%  \AmS\LaTeX{} problem reports 3591 and 3614.} Should you for some
+%  \AmS-\LaTeX{} problem reports 3591 and 3614.} Should you for some
 %  reason not want to fix these bugs then just add the option
 %  \opt{donotfixamsmathbugs} (if you can do it without typos). The
 %  reason for this extremely long name is that I really don't see why
@@ -553,14 +553,14 @@ colorlinks,
 %  \endgroup
 %  Notice how the limit of the right summation sign is typeset in a
 %  more compact style than the left. It is because \TeX{} sets the
-%  limits of operators in a \emph{cramped} style. For each of \TeX'
+%  limits of operators in a \emph{cramped} style. For each of \TeX's
 %  four math styles (\cs{displaystyle}, \cs{textstyle},
 %  \cs{scriptstyle}, and \cs{scriptscriptstyle}), there also exists a
 %  cramped style that doesn't raise exponents as much. Besides in the
 %  limits of operators, \TeX{} also automatically uses these cramped
 %  styles in radicals such as \cs{sqrt} and in the denominators of
 %  fractions, but unfortunately there are no primitive commands that
-%  allows you to detect crampedness or switch to it.
+%  allow you to detect crampedness or switch to it.
 %
 %  \pkg{mathtools} offers the command \cs{cramped} which forces a
 %  cramped style in normal un-cramped math. Additionally you can
@@ -594,7 +594,7 @@ colorlinks,
 %  \end{quote}
 %  Typesetting on a grid is generally considered quite desirable, but
 %  as the second line of the example shows, the exponents of $2$
-%  causes the line to be too tall for the normal value of
+%  cause the line to be too tall for the normal value of
 %  \cs{baselineskip}, so \TeX{} inserts a \cs{lineskip} (normal value
 %  is \the\lineskip). In order to circumvent the problem, we can
 %  force a cramped style so that the exponents aren't raised as much:
@@ -785,7 +785,7 @@ colorlinks,
 %  \label{sec:swapping}
 %
 %  One feature that the plain old \env{equation} environment has that
-%  the \AmS\ environments does not (because of technical reasons), is
+%  the \AmS\ environments do not (because of technical reasons) is
 %  the feature of using less space above the equation if the situation
 %  presents itself. The \AmS\ environments cannot do this, but one can
 %  manually, using  
@@ -822,7 +822,7 @@ colorlinks,
 %
 %  In this section various tools for altering the appearance of tags
 %  are shown. All of the tools here can be used at any point in the
-%  document but they should probably be affect the whole document, so
+%  document but they should probably affect the whole document, so
 %  the preamble is the best place to issue them.
 %
 %  \subsubsection{The appearance of tags}
@@ -994,8 +994,8 @@ colorlinks,
 %  \cs{ref}. 
 %
 %  \medskip\noindent\textbf{BUG 1:} Unfortunately the use of the
-%  \key{showonlyref} introduce a bug within amsmath's typesetting
-%  of formula versus equation number. This bug manifest itself by
+%  \key{showonlyref} introduces a bug within amsmath's typesetting
+%  of formula versus equation number. This bug manifests itself by
 %  allowing formulas to be typeset close to or over the equation
 %  number.  Currently no general fix is known, other than making sure
 %  that one's formulas are not long enough to touch the equation
@@ -1007,7 +1007,7 @@ colorlinks,
 %  number is recorded such that the formula or the equation number can
 %  be moved (if necessary) in the typesetting part. When
 %  \key{showonlyref} is enabled, the width of the equation number
-%  depend on whether or not this number is referred~to. To determine
+%  depends on whether or not this number is referred~to. To determine
 %  this, we need to know the current label. But the current label is
 %  \emph{not} known in the measuring phase. Thus the measured width is
 %  always zero (because no label equals not referred to) and therefore
@@ -1019,7 +1019,7 @@ colorlinks,
 % \pkg{ntheorem} option \key{thmmarks} is active. The shown equation
 % numbers may come out wrong (seems to be multiplied by 2). Or the end
 % marker may be placed in the wrong place if a proof ends with a
-% displayed formula, and that formula is not refered to.
+% displayed formula, and that formula is not referred to.
 %
 % There are two possible solutions to this both involving \pkg{empheq}.  
 % The easiest fix is to add the following line
@@ -1029,7 +1029,7 @@ colorlinks,
 % before loading \pkg{ntheorem}. But the \texttt{overload} option of
 % course disables things like \cs{intertext} and \cs{shotintertext}.
 %
-% The other thing to try is to use drop the \texttt{overload} option
+% The other thing to try is to drop the \texttt{overload} option
 % and use \env{empheq} on the very last expression, as in
 % \begin{verbatim}
 %   \begin{empheq}{align}
@@ -1205,13 +1205,13 @@ colorlinks,
 %  As \cs{overbrace} has the exact same problems, there are good
 %  reasons for \pkg{mathtools} to make redefinitions of
 %  \cs{underbrace} and \cs{overbrace}. These new versions work
-%  equally well in all font sizes and fixes the spacing issues and
+%  equally well in all font sizes and fix the spacing issues and
 %  apart from working with the default Computer Modern fonts, they
 %  also work with the packages \pkg{mathpazo}, \pkg{pamath},
 %  \pkg{fourier}, \pkg{eulervm}, \pkg{cmbright}, and \pkg{mathptmx}.
 %  If you use the \pkg{ccfonts} to get the full Concrete fonts, the
 %  original version saved under the names \cs{LaTeXunderbrace} and
-%  \cs{LaTeXoverbrace} are better, due to of the special design of
+%  \cs{LaTeXoverbrace} is better, due to the special design of
 %  the Concrete extensible braces. In that case you should probably
 %  just add the lines
 %  \begin{verbatim}
@@ -1270,7 +1270,7 @@ colorlinks,
 %  type valid in the usual \env{array} environment.
 %
 %  While we are at it, we also provide fenced versions of the
-%  \env{smallmatrix} environment, To keep up with the naming of the
+%  \env{smallmatrix} environment. To keep up with the naming of the
 %  large matrix environments, we provide both a starred and a
 %  non-starred version. Since \env{smallmatrix} is defined in a
 %  different manner than the \env{matrix} environment, the option to
@@ -1324,7 +1324,7 @@ colorlinks,
 % As an extra trick the fences will behave as open and closing fences
 % in constract to their auto-scaling nature.\footnote{\cs{left} and
 % \cs{right} creates an \emph{inner} construction, and not as one
-% might expect something where a preceeding \cs{sin} sees an opening
+% might expect something where a preceding \cs{sin} sees an opening
 % fence, thus the space before or after may be too large. Inside this
 % construction they behave.}
 % 
@@ -1435,7 +1435,7 @@ colorlinks,
 %  \textbf{Bug 2:}
 %  \CommentAdded{2015/11/12}  
 %  Due to the way \env{multlined} is implemented, certain
-%  constructions does not work inside \env{multlined}. We have added a
+%  constructions do not work inside \env{multlined}. We have added a
 %  hook (\cs{MultlinedHook}) that can be added to. The default value
 %  is a fix for \env{subarray} and \env{crampedsubarray} and thus for
 %  \cs{substack} and \cs{crampedsubstack} (and a few others, thus add
@@ -1484,7 +1484,7 @@ colorlinks,
 %    \cs{end}\arg{cases*}
 %  \end{codesyntax}
 %  \FeatureRequest{Lars Madsen}{2004/07/01}
-%  Anyone who have tried to use an integral in the regular
+%  Anyone who has tried to use an integral in the regular
 %  \env{cases} environment from \pkg{amsmath} will have noticed that
 %  it is set as
 %  \[
@@ -1552,7 +1552,7 @@ colorlinks,
 %    \SpecialEnvIndex{\MoveEqLeft}\cs{MoveEqLeft}\oarg{number}
 %  \end{codesyntax}
 %  \ProvidedBy{Lars Madsen}{2008/06/05} In \cite{Swanson}, Ellen
-%  Swanson recommends that when ever one has a long displayed formula,
+%  Swanson recommends that whenever one has a long displayed formula,
 %  spanning several lines, and it is unfeasible to align against a
 %  relation within the first line, then all lines in the display
 %  should be aligned at the left most edge of the first line, and all
@@ -1596,7 +1596,7 @@ colorlinks,
 % \noindent\textbf{Caveat regarding \cs{MoveEqLeft}}: If the first
 % part of the equation starts with say \verb|[a]|, \cs{MoveEqLeft} may
 % attempt to eat it! You can prevent this by specifying the optional
-% argument (remember the default is the same as \cs{MoveEqLeft[2]} or
+% argument (remember the default is the same as \cs{MoveEqLeft[2]}) or
 % by using \cs{MoveEqLeft\{\}}.
 %
 %  \subsubsection{Boxing a single line in an alignment}
@@ -1635,7 +1635,7 @@ colorlinks,
 % \end{align*}
 % One can have multiple boxes on each line, and the
 % >>\texttt{\textnormal{\&}}\quad right hand side<< can even be
-% missing. Here is an example of how the padding in the box can be changed
+% missing. Here is an example of how the padding in the box can be changed.
 % \begin{verbatim}
 % \begin{align*}
 %   \setlength\fboxsep{1em}
@@ -1648,7 +1648,7 @@ colorlinks,
 %   \Aboxed{ f(x) &= 0 } & \Aboxed{ g(x) &= b} \\
 %   \Aboxed{ h(x) }      & \Aboxed{ i(x) }   
 % \end{align*}
-% Note how the \cs{fboxsep} change only affect the box coming
+% Note how the \cs{fboxsep} change only affects the box coming
 % immediately after it.  
 %
 %  \marginpar{\strut\\%
@@ -1713,7 +1713,7 @@ colorlinks,
 %
 % \subsubsection{Centered \texorpdfstring{\cs{vdots}}{\textbackslash vdots}}
 %
-%  If one want to mark a vertical continuation, there is
+%  If one wants to mark a vertical continuation, there is
 %  the \verb?\vdots? command, but combine this with an alignment and
 %  we get something rather suboptimal
 % \FeatureRequest{Bruno Le Floch \\(and many others)}{2011/01/25}
@@ -1754,7 +1754,7 @@ colorlinks,
 %     & = d
 % \end{align*}
 % Thus \verb?\vdotswithin{=}? creates a box corresponding to
-% \verb?{}={}? and typeset a >>$\vdots$<< centered inside it. When
+% \verb?{}={}? and typesets a >>$\vdots$<< centered inside it. When
 % doing this as a normal line in an alignment leaves us with excessive
 % space which \verb?\shortvdotswithin{=}? takes care with for us.
 %
@@ -1842,7 +1842,7 @@ colorlinks,
 %  \cs{shortintertext} and \cs{intertext}.  \tsxPosting{Tobias Weh
 %    \\(referring to a suggestion by Chung-chieh Shan)}{2011/05/29}
 % It can be illustrated using the following example, an interested
-% reader, can apply it with and without the original \cs{intertext}
+% reader can apply it with and without the original \cs{intertext}
 % and \cs{shortintertext}.
 % \begin{verbatim}
 % % the original \intertext and \shortintertext
@@ -1859,8 +1859,8 @@ colorlinks,
 % \myline
 % \end{verbatim}
 %
-%  We now fix this internaly for both \cs{intertext} and
-%  \cs{shortintertext}, plus we add the possibility to fine tune
+%  We now fix this internally for both \cs{intertext} and
+%  \cs{shortintertext}, plus we add the possibility to fine-tune
 %  spacing around these constructions. The original versions can be
 %  brought back using the \texttt{original-x} keys below.
 %  \begin{codesyntax}
@@ -1909,7 +1909,7 @@ colorlinks,
 %    \abs{\frac{a}{b}}
 %  \]
 %  Here it won't give a nice result, so you have to manually put in
-%  either \cs{left}--\cs{right} pair or a \cs{bigl}--\cs{bigr} pair.
+%  either a \cs{left}--\cs{right} pair or a \cs{bigl}--\cs{bigr} pair.
 %  Both methods mean that you have to delete your \cs{abs} command,
 %  which may not sound like an ideal solution.
 %
@@ -1959,10 +1959,10 @@ colorlinks,
 %  \cs{DeclarePairedDelimiterX} extends the features of
 %  \cs{DeclarePairedDelimiter} such that the user will get a macro
 %  which is fenced off at either end, plus the capability to provide
-%  the \meta{body} for what ever the macro should do within these
+%  the \meta{body} for whatever the macro should do within these
 %  fences.
 %
-%  Inside the \meta{body} part, the macro \cs{delimsize} refer to the
+%  Inside the \meta{body} part, the macro \cs{delimsize} refers to the
 %  size of the outer fences. It can then be used inside \meta{body} to
 %  scale any inner fences.
 %
@@ -2041,8 +2041,8 @@ colorlinks,
 % is a feature of the \cs{left}\dots\cs{right} construction).
 % \fi
 %
-% With the inner scaling, we can provide macros whos syntax closely
-% follow the mathematical meaning. Fx for building sets, try
+% With the inner scaling, we can provide macros whose syntax closely
+% follows the mathematical meaning. Fx for building sets, try
 % this\footnote{The reason for using a separate \cs{SetSymbol} macro
 % has to do with complicated set definitions, where the condition
 % spans several lines. In this case \cs{Set} cannot be used. Thus it
@@ -2082,7 +2082,7 @@ colorlinks,
 % \cs{mathchoice\{}\cs{:\}\{}\cs{:\}\{}\cs{,\}\{}\cs{,\}} instead of \cs{nonscript}\cs{:}.}
 %
 % Combining with \pkg{etoolbox} it becomes easy to make a function
-% that automatically provide a marker for a blank argument:
+% that automatically provides a marker for a blank argument:
 % \begin{verbatim}
 % \usepackage{etoolbox}
 % \DeclarePairedDelimiterX\norm[1]\lVert\rVert{
@@ -2128,14 +2128,14 @@ colorlinks,
 % \end{verbatim}
 % Thus giving support for \verb|\Prob{A \given B}|.
 % 
-% \medskip\noindent\textbf{Note 1:} As the number of arguments increase
+% \medskip\noindent\textbf{Note 1:} As the number of arguments increases
 % the \cs{DeclarePairedDelimiter...} macros become hard for users to
 % understand. A key-value interface would be better. This is planed
 % for a future release. In
 % \url{http://tex.stackexchange.com/a/136767/3929} there is a
 % suggested replacement for \cs{DeclarePairedDelimiter}, that greatly
 % reduces the number of macros and provides a key-val
-% interface. However, the code use \pkg{xparse}, and if we want to use
+% interface. However, the code uses \pkg{xparse}, and if we want to use
 % \pkg{xparse} for some of our macros, we might just as well rewrite
 % the entire \pkg{mathtools} package in \pkg{expl3}. Also it is not
 % obvious how to get \pkg{xparse} to support \verb|[3]| for the number
@@ -2143,7 +2143,7 @@ colorlinks,
 %
 % \medskip\noindent\textbf{Note 2:} If you want to define your own
 % manual scaler macros, it is important that you besides \cs{foo} also
-% defines \cs{fool} and \cs{foor}. When a scaler is specified, in say
+% define \cs{fool} and \cs{foor}. When a scaler is specified, in say
 % \cs{abs[\cs{big}]}\marg{arg}, we actually use \cs{bigl} and
 % \cs{bigr}.
 %
@@ -2176,7 +2176,7 @@ colorlinks,
 % \reDeclarePairedDelimiterInnerWrapper\abs{nostarnonscaled}{\mathinner{#1#2#3}}
 % \reDeclarePairedDelimiterInnerWrapper\abs{nostarscaled}{\mathinner{#1#2#3}}
 % \end{verbatim}
-%  The default values for the call backs corresponds to
+%  The default values for the call backs correspond to
 % \begin{verbatim}
 % star:            \mathopen{}\mathclose\bgroup #1#2\aftergroup\egroup #3
 % nostarnonscaled: \mathopen#1#2\mathclose#3
@@ -2205,7 +2205,7 @@ colorlinks,
 %  construction. Currently, this can only be applied to macros made
 %  using \cs{DeclarePairedDelimiter} and \emph{not} macros made using
 %  \cs{DeclarePairedDelimiterX} or \cs{DeclarePairedDelimiterXPP} as
-%  the contents is typeset inside a group (to limit \cs{delimsize})
+%  the contents are typeset inside a group (to limit \cs{delimsize})
 %  and thus hide any \verb|&| or \verb|\\| from \env{align} and
 %  \env{align} breaks down.
 %
@@ -2300,7 +2300,7 @@ colorlinks,
 %  the equal sign, leading to an odd-looking output. The command
 %  \cs{vcentcolon} is a shorthand for such a vertically centered
 %  colon, and can be used as in |$a \vcentcolon= b$| and results in
-%  the desired output:  $a \vcentcolon= b$. % for now
+%  the desired output:  $a \vcentcolon= b$.
 %  See also the \pkg{colonequals} package.
 %
 %  Typing \cs{vcentcolon} every time is quite tedious, so one can use
@@ -2341,11 +2341,11 @@ colorlinks,
 %    \SpecialUsageIndex{\Colonsim}\cs{Colonsim}\\
 %    \SpecialUsageIndex{\dblcolon}\cs{dblcolon}
 %  \end{codesyntax}
-%  The font packages \pkg{txfonts} and \pkg{pxfonts} provides various
+%  The font packages \pkg{txfonts} and \pkg{pxfonts} provide various
 %  symbols that include a vertically centered colon but with tighter
 %  spacing. For example, the combination |:=| exists as the symbol
 %  \cs{coloneqq} which typesets as $\coloneqq$ instead of
-%  $\vcentcolon=$. The primary disadvantage of using these fonts are
+%  $\vcentcolon=$. The primary disadvantage of using these fonts is
 %  the support packages' lack of support for \pkg{amsmath} (and thus
 %  \pkg{mathtools}) and worse yet, the side-bearings are way too
 %  tight; see~\cite{A-W:MG04} for examples. If you're not using these
@@ -2375,11 +2375,11 @@ colorlinks,
 %  \end{codesyntax}
 %
 %  \noindent
-%  \textbf{Note:} that these symbols are constructed via
+%  \textbf{Note:} These symbols are constructed via
 %  features from the \pkg{graphicx} package, and thus may not display
 %  correctly in most DVI previewers. Also note that \cs{nuparrow} and
 %  \cs{ndownarrow} are constructed via \cs{nrightarrow} and
-%  \cs{nleftarrrow} respectively, so these needs to be
+%  \cs{nleftarrrow} respectively, so these need to be
 %  present. Usually this is done via \pkg{amssymb}, but some packages
 %  may be incompatible with \pkg{amssymb} so the user will have to
 %  load \pkg{amssymb} or a similar package, that provides
@@ -2442,13 +2442,13 @@ colorlinks,
 %  \par
 %  \end{quote}
 %  \noindent
-%  As of 2013, \cs(\cs) are robust, as is the italic corrected versions.
+%  As of 2013, \cs(\cs) are robust, as are the italic corrected versions.
 %
 %  \medskip\noindent \textbf{Caveat:} Italic correction is a
 %  treacherous area. For example any penalties will cancel the italic
 %  correction inserted by
 %  \verb|\(| (for an explanation see \cite{TBT}, section 4.3.3). We
-%  have changed Michaels original to accommodate one specific penalty
+%  have changed Michael's original to accommodate one specific penalty
 %  construction: the \emph{tie}, i.e.,
 %  >>\verb|text~\(|<< will work as expected (as~of July, 2014).
 %
@@ -2692,7 +2692,7 @@ colorlinks,
 % \medskip\noindent \textbf{Note:} If you try to nest \cs{splitfrac}
 % inside each other you may need to add \cs{mathstrut} to the first
 % argument of the nested fraction to get the spacing look even. It is
-% not added by default as often a more cramped looked is desired:
+% not added by default as often a more cramped look is desired:
 % \begin{verbatim}
 %  \[
 %  \frac{
@@ -2748,9 +2748,9 @@ colorlinks,
 %  \FeatureRequest{Frank Mittelbach}{2020} In typography we use
 %  \emph{struts} to ensure specific line spacing. In text we have the
 %  \cs{strut} and in math \cs{mathstrut}. Both have no width, but
-%  equals the height and depth of an »(« from the current text/math
+%  equal the height and depth of an »(« from the current text/math
 %  font and size.  In math we often need to make minute adjustments in
-%  macro definitiones etc. The \emph{extended} math strut
+%  macro definitions etc. The \emph{extended} math strut
 %  \cs{xmathstrut} allows to \emph{increase} (decrease if negative)
 %  the math strut in two ways.
 %
@@ -2759,7 +2759,7 @@ colorlinks,
 %      \verb|\xmathstrut{0.1}| 
 %  \end{center}
 %  will give you a new strut where 10\% of the \emph{total height of
-%  the normal math stut} (\verb|\mathstrut=\xmathstrut{0}|) will be
+%  the normal math strut} (\verb|\mathstrut=\xmathstrut{0}|) will be
 %  added to both \emph{the height} and \emph{the depth} of the
 %  original strut (thus 20\% gets added in total). On the other hand
 %  \begin{center}
