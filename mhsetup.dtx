@@ -190,7 +190,7 @@ and the derived files
 %  \cs{InternalSyntaxOn} which makes |_| and |:| letters and then
 %  automatically restores the category codes at the end of the
 %  package. This usually works fine but when you try to load
-%  \pkg{amstext} you will experience that \TeX{} goes into an
+%  \pkg{\mbox{amstext}} you will experience that \TeX{} goes into an
 %  infinite loop. Packages containing code like
 %  |\@for\@tempa:=\@tempb\do{...}| will not work correctly either,
 %  thus we provide an alternative version here with the pair of
@@ -207,7 +207,7 @@ and the derived files
 %  The standard behavior of scanning for optional arguments in
 %  \LaTeX{} allows any number of spaces preceding the optional
 %  argument and that is not always good in math. For that reason
-%  \pkg{amsmath} makes sure that commands like |\\| disallows spaces
+%  \pkg{amsmath} makes sure that commands like |\\| disallow spaces
 %  before the optional argument but at the same time it fails to
 %  provide ``safe'' environments. What would you expect from the
 %  following input?
@@ -338,7 +338,7 @@ and the derived files
 %  The whole idea is to provide programming tools that are convenient
 %  but not yet widely available. I hope this'll be obsolete soon!
 %
-%  Firstly we setup a few helper functions.
+%  Firstly we set up a few helper functions.
 %  \begin{macro}{\MH_let:NwN}
 %  An alias for \cs{let}.
 %    \begin{macrocode}
@@ -354,8 +354,8 @@ and the derived files
 %    \end{macrocode}
 %  \end{macro}
 %  \begin{macro}{\MH_let:cc}
-%  This one has takes a \cs{csname}-\cs{endcsname} name and \cs{let}s
-%  it to a another \cs{csname}-\cs{endcsname} name. To be used in
+%  This one takes a \cs{csname}-\cs{endcsname} name and \cs{let}s
+%  it to another \cs{csname}-\cs{endcsname} name. To be used in
 %  constructions with weird characters like \texttt{*} or alike in
 %  them and can take a \cs{global} prefix if wanted (we want that
 %  later on).
