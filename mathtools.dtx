@@ -322,7 +322,7 @@ colorlinks,
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3529}
+%  \CheckSum{3520}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -2996,6 +2996,9 @@ colorlinks,
 % We'd like to make \cs{(}\cs{)} and \cs{[}\cs{]} robust. This can
 % easily be done via the \pkg{fixltx2e} package, but auto loading that
 % package may cause problems for some. We make copies instead.
+% Update 2021: We have removed robustifying \cs{(}\cs{)}\cs{[}\cs{]}
+% as this is now in the \LaTeX\ kernel. We still use
+% \verb|\EQ_MakeRobust| elsewhere though.
 % \begin{macro}{\EQ_MakeRobust}
 % \begin{macro}{\forced_EQ_MakeRobust}
 %    \begin{macrocode}
@@ -3129,18 +3132,20 @@ colorlinks,
 }
 %    \end{macrocode}
 %  \end{macro}
-% \changes{v1.13}{2013/02/11}{Make \cs{(}\cs{)} and \cs{[}\cs{]}
-% robust}
-% We start of with making \cs{(}\cs{)} and \cs{[}\cs{]} robust,
-% unless the user explicitly asked us not to.
-%    \begin{macrocode}
-\MH_if_boolean:nT {robustify}{
-  \EQ_MakeRobust\(
-  \EQ_MakeRobust\)
-  \EQ_MakeRobust\[
-  \EQ_MakeRobust\]
-}
-%    \end{macrocode}
+% ^^A \changes{v1.13}{2013/02/11}{Make \cs{(}\cs{)} and \cs{[}\cs{]}
+% ^^A robust}
+% ^^A We start of with making \cs{(}\cs{)} and \cs{[}\cs{]} robust,
+% ^^A unless the user explicitly asked us not to.
+% ^^A \changes{v1.28}{2021/12/31}{Removed robustifying \cs{(}\cs{)} and
+% ^^A \cs{[}\cs{]} as this is now in the \LaTeX{} kernel.}
+% ^^A %    \begin{macrocode}
+% ^^A \MH_if_boolean:nT {robustify}{
+% ^^A  \EQ_MakeRobust\(
+% ^^A  \EQ_MakeRobust\)
+% ^^A  \EQ_MakeRobust\[
+% ^^A  \EQ_MakeRobust\]
+% ^^A }
+% ^^A %    \end{macrocode}
 %
 %
 %  \section{Macros I got ideas for myself}
