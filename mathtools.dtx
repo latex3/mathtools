@@ -239,6 +239,7 @@ and the derived files
 }
 
 
+
 \expandafter\def\expandafter\MakePrivateLetters\expandafter{%
   \MakePrivateLetters  \catcode`\_=11\relax
 }
@@ -292,6 +293,20 @@ and the derived files
 
 \let\MTtheindex\theindex
 \def\theindex{\MTtheindex\MakePrivateLetters}
+
+
+\NewDocumentCommand\Framebox{ O{} O{} m }{%
+  \IfNoValueTF{#1}{%
+    \framebox{\footnotesize\strut #3}%
+  }{%
+    \IfNoValueTF{#2}{%
+      \framebox[#1][#2]{\footnotesize\strut #3}%
+    }{%
+      \framebox[#1]{\footnotesize\strut #3}%
+    }%
+  }%
+}
+
 
 
 %\usepackage[draft]{fixme}
@@ -1358,19 +1373,21 @@ colorlinks,
 %  right and preceded by a hard space of size \key{lastline-preskip}.
 %  Both these hard spaces have a default value of \cs{multlinegap}.
 %  Here we use a `t' in the first optional argument denoting a
-%  top-aligned building block (the default is `c').
+%  top-aligned building block (the default is `c').\footnote{The helper macro
+%  \cs{Framebox}\marg{...} is equivalent to
+%  \cs{framebox}\marg{\cs{footnotesize}\cs{strut} ...}}
 %  \begin{verbatim}
 %    \[
 %      A = \begin{multlined}[t]
-%            \framebox[4cm]{first} \\
-%            \framebox[4cm]{last}
+%            \Framebox[4cm]{first} \\
+%            \Framebox[4cm]{last}
 %          \end{multlined} B
 %    \]
 %  \end{verbatim}
 %    \[
 %      A = \begin{multlined}[t]
-%            \framebox[4cm]{first} \\
-%            \framebox[4cm]{last}
+%            \Framebox[4cm]{first} \\
+%            \Framebox[4cm]{last}
 %          \end{multlined} B
 %    \]
 %  Note also that \env{multlined} gives you access to an extended
@@ -1379,25 +1396,25 @@ colorlinks,
 %  \begin{verbatim}
 %    \[
 %      \begin{multlined}
-%        \framebox[.65\columnwidth]{First line}        \\
-%        \framebox[.5\columnwidth]{Second line}        \\
+%        \Framebox[.65\columnwidth]{First line}        \\
+%        \Framebox[.5\columnwidth]{Second line}        \\
 %        \shoveleft{L+E+F+T}                           \\
 %        \shoveright{R+I+G+H+T}                        \\
 %        \shoveleft[1cm]{L+E+F+T}                      \\
 %        \shoveright[\widthof{$R+I+G+H+T$}]{R+I+G+H+T} \\
-%        \framebox[.65\columnwidth]{Last line}
+%        \Framebox[.65\columnwidth]{Last line}
 %      \end{multlined}
 %    \]
 %  \end{verbatim}
 %  \[
 %    \begin{multlined}
-%      \framebox[.65\columnwidth]{First line} \\
-%      \framebox[.5\columnwidth]{Second line} \\
+%      \Framebox[.65\columnwidth]{First line} \\
+%      \Framebox[.5\columnwidth]{Second line} \\
 %      \shoveleft{L+E+F+T}         \\
 %      \shoveright{R+I+G+H+T}         \\
 %      \shoveleft[1cm]{L+E+F+T}         \\
 %      \shoveright[\widthof{$R+I+G+H+T$}]{R+I+G+H+T}         \\
-%      \framebox[.65\columnwidth]{Last line}
+%      \Framebox[.65\columnwidth]{Last line}
 %    \end{multlined}
 %  \]
 %
@@ -1406,15 +1423,15 @@ colorlinks,
 %  \begin{verbatim}
 %    \[
 %      \begin{multlined}[b][7cm]
-%        \framebox[4cm]{first} \\
-%        \framebox[4cm]{last}
+%        \Framebox[4cm]{first} \\
+%        \Framebox[4cm]{last}
 %      \end{multlined} = B
 %    \]
 %  \end{verbatim}
 %    \[
 %       \begin{multlined}[b][7cm]
-%            \framebox[4cm]{first} \\
-%            \framebox[4cm]{last}
+%            \Framebox[4cm]{first} \\
+%            \Framebox[4cm]{last}
 %          \end{multlined} = B
 %    \]
 %  There can be two optional arguments (position and width) and
@@ -1496,6 +1513,7 @@ colorlinks,
 %  \pkg{mathtools} provides two environments similar to \env{cases}.
 %  Using the \env{dcases} environment you get the same output as with
 %  \env{cases} except that the rows are set in display style.
+% \newpage
 %  \begin{verbatim}
 %  \[
 %    \begin{dcases}
@@ -1560,8 +1578,8 @@ colorlinks,
 %  smaller amount). That is we are talking about displays that end up
 %  looking like this
 %  \begin{align*}
-%    \MoveEqLeft \framebox[10cm][c]{Long first line}\\
-%    & = \framebox[6cm][c]{ \hphantom{g} 2nd line}\\ 
+%    \MoveEqLeft \Framebox[10cm][c]{Long first line}\\
+%    & = \Framebox[6cm][c]{2nd line}\\ 
 %    & \leq \dots
 %  \end{align*}
 %  Traditionally one could do this by starting subsequent lines by
@@ -1569,8 +1587,8 @@ colorlinks,
 %  was made using \cs{MoveEqLeft}:
 %  \begin{verbatim}
 %  \begin{align*}
-%    \MoveEqLeft \framebox[10cm][c]{Long first line}\\
-%    & = \framebox[6cm][c]{ \hphantom{g} 2nd line}\\ 
+%    \MoveEqLeft \Framebox[10cm][c]{Long first line}\\
+%    & = \Framebox[6cm][c]{2nd line}\\ 
 %    & \leq \dots
 %  \end{align*}
 %  \end{verbatim}
@@ -1581,15 +1599,15 @@ colorlinks,
 %  to accommodate the extra distance to the alignment point:
 %  \begin{verbatim}
 %  \begin{align*}
-%    \MoveEqLeft[3] \framebox[10cm][c]{Part 1}\\
-%     = {} & \framebox[8cm][c]{2nd line}\\ 
-%          & + \framebox[4cm][c]{ last part}
+%    \MoveEqLeft[3] \Framebox[10cm][c]{Part 1}\\
+%     = {} & \Framebox[8cm][c]{2nd line}\\ 
+%          & + \Framebox[4cm][c]{last part}
 %  \end{align*}
 %  \end{verbatim}
 %  \begin{align*}
-%    \MoveEqLeft[3] \framebox[10cm][c]{Long first line}\\
-%     = {} & \framebox[6cm][c]{  2nd line}\\ 
-%          & + \framebox[4cm][c]{ last part}
+%    \MoveEqLeft[3] \Framebox[10cm][c]{Long first line}\\
+%     = {} & \Framebox[6cm][c]{2nd line}\\ 
+%          & + \Framebox[4cm][c]{last part}
 %  \end{align*}
 %
 %
@@ -1735,6 +1753,7 @@ colorlinks,
 %    \SpecialKeyIndex{shortvdotsadjustabove}\makebox{$\key{shortvdotsadjustabove}=\meta{length}$}\\
 %    \SpecialKeyIndex{shortvdotsadjustbelow}\makebox{$\key{shortvdotsadjustbelow}=\meta{length}$}
 %  \end{codesyntax}
+% \newpage\noindent
 %  Two examples in one
 % \begin{verbatim}
 % \begin{align*}
