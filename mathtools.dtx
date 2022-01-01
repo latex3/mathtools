@@ -337,7 +337,7 @@ colorlinks,
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3520}
+%  \CheckSum{3581}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -1140,10 +1140,22 @@ colorlinks,
 %  \cs{xLeftrightarrow} we added a space to the argument(s), making
 %  the arrow slightly longer and moving the argument away from the
 %  large arrow head.
-% 
-% 
 %
-%
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\xlongrightarrow}
+%    \cs{xlongrightarrow}\oarg{sub}\marg{sup}\texttt{~~~~}
+%    \SpecialUsageIndex{\xlongleftarrow}
+%    \cs{xlongleftarrow}\oarg{sub}\marg{sup}\texttt{~~~~}
+% \end{codesyntax}
+%  \FeatureRequest{rbrito {\footnotesize (issue \#12)}}{added 2022}%
+% Similar to \cs{xright/leftarrow} but based on the \emph{long}
+% versions. For short arguments it says the same length as the
+% \cs{long...} base arrow.
+% \begin{align*}
+%   A & \longrightarrow B & A & \longleftarrow B \\
+%   A & \xlongrightarrow[b]{a} B & A & \xlongleftarrow[b]{a} B \\
+%   A & \xlongrightarrow[below]{above} B & A & \xlongleftarrow[below]{above} B \\
+% \end{align*}
 %
 %  \subsubsection{Braces and brackets}
 %
@@ -1445,7 +1457,7 @@ colorlinks,
 %  not work as expected. The implementation contains an `invisible'
 %  line after the first \env{multline} row, inside an \env{array} this
 %  line is no longer `invisible' because \env{array} sets
-%  \cs{baselineskip} to zero. Currently we have no general workaround
+%  \cs{baselineskip} to zero. We have no general workaround
 %  for this. 
 %
 %  \medskip\noindent
@@ -1513,7 +1525,6 @@ colorlinks,
 %  \pkg{mathtools} provides two environments similar to \env{cases}.
 %  Using the \env{dcases} environment you get the same output as with
 %  \env{cases} except that the rows are set in display style.
-% \newpage
 %  \begin{verbatim}
 %  \[
 %    \begin{dcases}
@@ -1576,7 +1587,10 @@ colorlinks,
 %  should be aligned at the left most edge of the first line, and all
 %  subsequent lines should be indented by 2\,em (or if needed by a
 %  smaller amount). That is we are talking about displays that end up
-%  looking like this
+%  looking like this\footnote{Maintainer (daleif)'s note: This is one
+%  of my most used constructions whenever I edit manuscripts. I'd
+%  rather use this than for example \env{multline} as I find it give
+%  the text a more consistent look.}
 %  \begin{align*}
 %    \MoveEqLeft \Framebox[10cm][c]{Long first line}\\
 %    & = \Framebox[6cm][c]{2nd line}\\ 
@@ -1678,6 +1692,33 @@ colorlinks,
 % necessary to \emph{hide} constructions like matrices that also make
 % use of \texttt{\&}. Just add a set of braces around the construction
 % you want to hide. 
+%
+% \medskip\noindent\textbf{Tip:} At times users want a \cs{Aboxed}
+% with a different type of box. To help we provide a \cs{Aboxed} builder:
+%  \begin{codesyntax}
+%    \SpecialUsageIndex{\MakeAboxedCommand}\cs{MakeAboxedCommand}\cs{Aboxedname}\cs{boxmacro}
+%  \end{codesyntax}
+% where \cs{boxname} should be a macro taking a single argument. The
+% normal \cs{Aboxed} is the same as
+% \verb|\MakeAboxedCommand\Aboxed\fbox|. Thus you can do
+% \newcommand\myboxA[1]{\fcolorbox{gray}{yellow}{#1}}
+% \newcommand\myboxB[1]{{\fboxsep=5pt\fboxrule=2pt\fbox{#1}}}
+% \MakeAboxedCommand\AboxedA\myboxA
+% \MakeAboxedCommand\AboxedB\myboxB
+% \begin{align*}
+%   \AboxedA{ f(x) &= x^2 } & \AboxedB{ f(x) &= x^2 }
+% \end{align*}
+% via
+% \begin{verbatim}
+% \newcommand\myboxA[1]{\fcolorbox{gray}{yellow}{#1}}
+% \newcommand\myboxB[1]{{\fboxsep=5pt\fboxrule=2pt\fbox{#1}}}
+% \MakeAboxedCommand\AboxedA\myboxA
+% \MakeAboxedCommand\AboxedB\myboxB
+% \begin{align*}
+%   \AboxedA{ f(x) &= x^2 } & \AboxedB{ f(x) &= x^2 } 
+% \end{align*}
+% \end{verbatim}
+% 
 %
 %  \subsubsection{Adding arrows between lines in an alignment}
 %
@@ -3565,6 +3606,8 @@ colorlinks,
 % \changes{v1.24}{2020/03/13}{Added spaces to move the argument away
 % from the arrow head in \cs{xLeftarrow}, \cs{xRightarrow} and
 % \cs{xLeftrightarrow}. Suggested by FM}
+% \changes{1.28}{2022/01/01}{Added \cs{xlongrightarrow} and
+% \cs{xlongleftarrow} as suggested in Issue \#12}
 %    \begin{macrocode}
 \providecommand*\xleftrightarrow[2][]{%
   \ext@arrow 3095\MT_leftrightarrow_fill:{#1}{#2}}
@@ -3602,6 +3645,13 @@ colorlinks,
   \arrowfill@\leftharpoondown\relbar\relbar}
 \def\MT_leftharpoonup_fill:{%
   \arrowfill@\leftharpoonup\relbar\relbar}
+%    \end{macrocode}
+% 2022: added \verb+_fill:+ macros based upon \cs{longrightarrow} and \cs{longleftarrow}
+%    \begin{macrocode}
+\def\MT_longrightarrow_fill:{%
+  \arrowfill@\relbar\relbar\longrightarrow}
+\def\MT_longleftarrow_fill:{%
+  \arrowfill@\longleftarrow\relbar\relbar}
 \providecommand*\xrightharpoondown[2][]{%
   \ext@arrow 0359\MT_rightharpoondown_fill:{#1}{#2}}
 \providecommand*\xrightharpoonup[2][]{%
@@ -3622,6 +3672,14 @@ colorlinks,
   \setbox0=\hbox{%
     $\ext@arrow 3095\MT_leftharpoondown_fill:{#1}{\phantom{#2}}$}%
   \kern-\wd0 \lower.22ex\box0}}
+%    \end{macrocode}
+% 2022: added \verb+\xlong...+ macros based upon \cs{longrightarrow}
+% and \cs{longleftarrow}
+%    \begin{macrocode}
+\providecommand*\xlongrightarrow[2][]{%
+  \ext@arrow 0359\MT_longrightarrow_fill:{#1}{#2}}
+\providecommand*\xlongleftarrow[2][]{%
+  \ext@arrow 3095\MT_longleftarrow_fill:{#1}{#2}}
 %    \end{macrocode}
 %  \end{macro}
 %  \end{macro}
@@ -5373,11 +5431,54 @@ colorlinks,
 \def\@Aboxed#1&#2&#3\ENDDNE{%
   \ifnum0=`{}\fi \setbox \z@
     \hbox{$\displaystyle#1{}\m@th$\kern\fboxsep \kern\fboxrule }%
-    \edef\@tempa {\kern  \wd\z@ &\kern -\the\wd\z@ \fboxsep
-        \the\fboxsep \fboxrule \the\fboxrule }\@tempa \boxed {#1#2}%
+    \edef\@tempa {\kern  \wd\z@ &\kern -\the\wd\z@ 
+%    \end{macrocode}
+% The \verb|\fboxsep\the\fboxsep...| line ensures that you can use
+% \verb|\fboxsep=10pt\Aboxed{...}| in a pinch.
+%    \begin{macrocode}
+     \fboxsep\the\fboxsep \fboxrule \the\fboxrule }\@tempa \boxed {#1#2}%
 } 
 %    \end{macrocode}
 % \end{macro}
+%
+% \begin{macro}{\MakeAboxedCommand}
+%   \changes{1.28}{2022/01/01}{Added}
+% At times users want macros equivalent to \cs{Aboxed} but with a
+% different box as the base. So we provide one
+%    \begin{macrocode}
+\newcommand\MakeAboxedCommand[2]{
+  % #1: command to create
+  % #2: box command to use
+  \newcommand#1[1]{\let\bgroup{\romannumeral-`}%
+    \@nameuse{@@\MH_cs_to_str:N #1}##1&&\ENDDNE}
+  \@namedef{@@\MH_cs_to_str:N #1}##1&##2&##3\ENDDNE{%
+%    \end{macrocode}
+% Instead of hardcoding the kerning of box rule and box sep, we record
+% the width of an empty box and kern half of it.
+%    \begin{macrocode}
+    \settowidth\@tempdimc{#2{}}%
+    \ifnum0=`{}\fi \setbox \z@
+    \hbox{$\displaystyle##1{}\m@th$\kern0.5\@tempdimc}%
+%    \end{macrocode}
+% The \verb|\fboxsep\the\fboxsep...| line enables
+% \verb|\fboxsep=10\Command{...&...}|. Of course only works for boxed
+% that uses \cs{fboxsep} and \cs{fboxrule}.
+%    \begin{macrocode}
+    \edef\@tempa{\kern\wd\z@&\kern-\the\wd\z@%
+       \fboxsep\the\fboxsep \fboxrule \the\fboxrule}%
+    \@tempa%
+%    \end{macrocode}
+% Instead of using \cs{boxed} directly, we mimick the definition of
+% \cs{boxed} and should thus be able to use any box.
+%    \begin{macrocode}
+    #2{\m@th$\displaystyle ##1##2$}%  
+  }
+}
+
+%    \end{macrocode}
+% 
+% \end{macro}
+%
 %
 % \begin{macro}{\ArrowBetweenLines}
 %   \changes{v1.05}{2008/06/05}{Added \cs{ArrowBetweenLines} as it
