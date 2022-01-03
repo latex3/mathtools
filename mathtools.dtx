@@ -295,15 +295,11 @@ and the derived files
 \def\theindex{\MTtheindex\MakePrivateLetters}
 
 
-\NewDocumentCommand\Framebox{ O{} O{} m }{%
+\NewDocumentCommand\Framebox{ o O{c} m }{%
   \IfNoValueTF{#1}{%
     \framebox{\footnotesize\strut #3}%
   }{%
-    \IfNoValueTF{#2}{%
-      \framebox[#1][#2]{\footnotesize\strut #3}%
-    }{%
-      \framebox[#1]{\footnotesize\strut #3}%
-    }%
+    \framebox[#1][#2]{\footnotesize\strut #3}%
   }%
 }
 
