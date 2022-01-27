@@ -2050,12 +2050,12 @@ colorlinks,
 %   \cs{braket}, this is very important when a scalable delimiter is
 %   being used and it does not present itself as a left or right
 %   delimiter. You will see why it is needed if you use
-%   \verb|\braket{A}{-B}| in a version without
+%   \verb|\braket{A}{-B}{C}| in a version without
 %   \verb|\mathopen{}|.\footnote{Basically, the problem is that
 %   \cs{vert} is a `symbol', thus $\vert-B$ is interpreted
-%   \emph{subtraction}, not a symbol followed by negative $B$. When
-%   \cs{mathopen\{\}} is added, \TeX\ is told that an opening
-%   delimiter just occurred, and it will adjust the minus
+%   \emph{subtraction}, not a symbol followed by negative $B$ (aka a
+%   sign). When \cs{mathopen\{\}} is added, \TeX\ is told that an
+%   opening delimiter just occurred, and it will adjust the minus
 %   accordingly.}
 % \end{itshape}
 %
