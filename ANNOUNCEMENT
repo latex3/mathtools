@@ -2,10 +2,12 @@ Announcement release 2022/xx/xx
 
 For mathtools.dtx v1.28:
 
-* fixed typo in section 3.4.4 (strange \hphantom{g})
-* removed robustifying \(\)\[\], it is now in the LaTeX kernel
-* added \xlongrightarrow and \xlongleftarrow
-* added \MakeAboxedCommand to generate \Aboxed like macros
+* added note about \eqref and showonlyrefs (#33)
+* fixed typo in note about strange 3-arg \bracket command (#34)
+* fixed typo in section 3.4.4 (strange \hphantom{g}) (#32)
+* removed robustifying \(\)\[\], it is now in the LaTeX kernel (#30)
+* added \xlongrightarrow and \xlongleftarrow (#12)
+* added \MakeAboxedCommand to generate \Aboxed like macros (#32)
 
 Announcement release 2021/04/12
 
