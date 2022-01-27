@@ -907,6 +907,13 @@ colorlinks,
 %    \SpecialKeyIndex{showmanualtags}$\key{showmanualtags}=\texttt{true}\vert\texttt{false}$\\
 %    \SpecialUsageIndex{\refeq}\cs{refeq}\marg{label}
 %  \end{codesyntax}
+%  First of, one should always use \cs{eqref} when referring to
+%  equation numbers. When \opt{showonlyrefs} is true, we monitor
+%  \cs{eqref}\marg{label}, and those used will get an equation number,
+%  whereas those not used will not. Note: We do \emph{not} monitor the
+%  normal \cs{ref} command! See the follow paragraph for situations
+%  for what to do when \cs{eqref} cannot be used to refer to the equation. 
+% 
 %  An equation where the tag is produced with a manual \cs{tag*}
 %  shouldn't be referenced with the normal \cs{eqref} because that
 %  would format it according to the current tag format. Using just
