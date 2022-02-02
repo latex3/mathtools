@@ -2,7 +2,7 @@
 %
 % Copyright (C) 2004-2011 by Morten Hoegholm
 % Copyright (C) 2012-2019 by Lars Madsen
-% Copyright (C) 2020      by Lars Madsen, The LaTeX3 team
+% Copyright (C) 2020-     by Lars Madsen, The LaTeX3 team
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -133,7 +133,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{mathtools.drv}%
-  [2021/04/12 v1.27 mathematical typesetting tools]
+  [2022/02/02 v1.28 mathematical typesetting tools]
 \documentclass{ltxdoc}
   
 \IfFileExists{fourier.sty}{\usepackage{fourier}}{}
@@ -1797,8 +1797,7 @@ colorlinks,
 %    \SpecialKeyIndex{shortvdotsadjustabove}\makebox{$\key{shortvdotsadjustabove}=\meta{length}$}\\
 %    \SpecialKeyIndex{shortvdotsadjustbelow}\makebox{$\key{shortvdotsadjustbelow}=\meta{length}$}
 %  \end{codesyntax}
-% \newpage\noindent
-%  Two examples in one
+% Two examples in one
 % \begin{verbatim}
 % \begin{align*}
 %   a &= b              \\
@@ -2872,6 +2871,7 @@ colorlinks,
 %   \llap{\rlap{\rule{18mm}{0.1pt}}\quad}a \vfb{\mathstrut} \ \vfb{\xmathstrut{0}}\
 %   \vfb{\xmathstrut{0.5} } \  \vfb{\xmathstrut{-0.1} }\  \vfb{\xmathstrut[0.5]{0}} a
 % \]
+% \newpage
 % \begin{verbatim}
 % \newcommand\vfb[1]{\begingroup\fboxsep=0pt\boxed{\,#1\,}\endgroup}
 % \[
@@ -3046,7 +3046,7 @@ colorlinks,
 %    \begin{macrocode}
 %<*package>
 \ProvidesPackage{mathtools}%
-  [2021/04/12 v1.27 mathematical typesetting tools]
+  [2021/02/02 v1.28 mathematical typesetting tools]
 %    \end{macrocode}
 % \changes{v1.10}{2011/02/12}{Might as well make sure that we need the
 % latest version of \texttt{mhsetup}}
