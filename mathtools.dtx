@@ -427,7 +427,7 @@ colorlinks,
 %  \begin{verbatim}
 %  \[
 %      \begin{gathered}
-%        [p] = 100 \\
+%        [t] = 100 \\
 %        [v] = 200
 %      \end{gathered}
 %  \]
@@ -439,15 +439,16 @@ colorlinks,
 %        [v] = 200
 %      \end{gathered}
 %  \]
-%  Yes, the \texttt{[p]} has been gobbled without any warning
-%  whatsoever.\footnote{\pkg{amsmath} thought the \texttt[p] was an
-%  optional argument, checked if it was \texttt{t} or \texttt{b} and
-%  when both tests failed, assumed it was a \texttt{c}.} This is
-%  hardly what you'd expect as an end user, as the desired output was
-%  probably something like this instead:
+%  Yes, the \texttt{[t]} has been gobbled without warning! Note, with
+%  modern \pkg{amsmath} \verb|\begin{gathered}[x]| will eat \verb|[x]|
+%    and \emph{issue a warning unless} \texttt{x} is \texttt{t},
+%    \texttt{b} or \texttt{c}.\footnote{Older \pkg{amsmath} will
+%    silently gobble the argument.}  This is hardly what you'd expect
+%    as an end user, as the desired output was probably something like
+%    this instead:
 %  \[
 %      \begin{gathered}[c]
-%        [p] = 100 \\
+%        [t] = 100 \\
 %        [v] = 200
 %      \end{gathered}
 %  \]
