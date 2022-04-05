@@ -2210,6 +2210,15 @@ colorlinks,
 % \cs{abs[\cs{big}]}\marg{arg}, we actually use \cs{bigl} and
 % \cs{bigr}.
 %
+% \medskip\noindent\textbf{Note 3:} In the unlikely event that you
+% choose to use, say, \verb+\section{Foo $\norm[\big]{bar}$}+ you will
+% get an error because \cs{big} is getting expanded too early. Sadly,
+% due to how \cs{DeclarePairedDelimiter} is implemented one cannot use
+% \verb|[\protect\big]|. At present (until \pkg{amsmath} makes
+% \cs{big} and friends robust), the best
+% solution\footnote{\protect\url{https://tex.stackexchange.com/a/639238/3929}}
+% is to load the \pkg{etoolbox} package and add \verb|\robustify\big|
+% and similar to your preamble.
 %
 %  \subsubsection{Expert use}
 %
