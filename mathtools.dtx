@@ -333,7 +333,7 @@ colorlinks,
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3581}
+%  \CheckSum{3591}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -2398,40 +2398,68 @@ colorlinks,
 %  it provide any hooks to deal with math. So currently no general
 %  solution exists for this problem.
 %
-%  \begin{codesyntax}
-%    \SpecialUsageIndex{\coloneqq}\cs{coloneqq}\texttt{~~~~~}
-%    \SpecialUsageIndex{\Coloneqq}\cs{Coloneqq}\texttt{~~~~~}
-%    \SpecialUsageIndex{\coloneq}\cs{coloneq}\texttt{~~~}
-%    \SpecialUsageIndex{\Coloneq}\cs{Coloneq}\\
-%    \SpecialUsageIndex{\eqqcolon}\cs{eqqcolon}\texttt{~~~~~}
-%    \SpecialUsageIndex{\Eqqcolon}\cs{Eqqcolon}\texttt{~~~~~}
-%    \SpecialUsageIndex{\eqcolon}\cs{eqcolon}\texttt{~~~}
-%    \SpecialUsageIndex{\Eqcolon}\cs{Eqcolon}\\
-%    \SpecialUsageIndex{\colonapprox}\cs{colonapprox}\texttt{~~}
-%    \SpecialUsageIndex{\Colonapprox}\cs{Colonapprox}\texttt{~~}
-%    \SpecialUsageIndex{\colonsim}\cs{colonsim}\texttt{~~}
-%    \SpecialUsageIndex{\Colonsim}\cs{Colonsim}\\
-%    \SpecialUsageIndex{\dblcolon}\cs{dblcolon}
-%  \end{codesyntax}
-%  The font packages \pkg{txfonts} and \pkg{pxfonts} provide various
-%  symbols that include a vertically centered colon but with tighter
-%  spacing. For example, the combination |:=| exists as the symbol
-%  \cs{coloneqq} which typesets as $\coloneqq$ instead of
-%  $\vcentcolon=$. The primary disadvantage of using these fonts is
-%  the support packages' lack of support for \pkg{amsmath} (and thus
-%  \pkg{mathtools}) and worse yet, the side-bearings are way too
-%  tight; see~\cite{A-W:MG04} for examples. If you're not using these
-%  fonts, \pkg{mathtools} provides the symbols for you. Here are a few
-%  examples:
-%  \begin{verbatim}
-%  \[
-%    a \coloneqq b \quad c \Colonapprox d \quad e \dblcolon f
-%  \]
-%  \end{verbatim}
-%  \[
-%    a \coloneqq b \quad c \Colonapprox d \quad e \dblcolon f
-%  \]
+% ^^A \begin{codesyntax}
+% ^^A   \SpecialUsageIndex{\coloneqq}\cs{coloneqq}\texttt{~~~~~}
+% ^^A   \SpecialUsageIndex{\Coloneqq}\cs{Coloneqq}\texttt{~~~~~}
+% ^^A   \SpecialUsageIndex{\coloneq}\cs{coloneq}\texttt{~~~}
+% ^^A   \SpecialUsageIndex{\Coloneq}\cs{Coloneq}\\
+% ^^A   \SpecialUsageIndex{\eqqcolon}\cs{eqqcolon}\texttt{~~~~~}
+% ^^A   \SpecialUsageIndex{\Eqqcolon}\cs{Eqqcolon}\texttt{~~~~~}
+% ^^A   \SpecialUsageIndex{\eqcolon}\cs{eqcolon}\texttt{~~~}
+% ^^A   \SpecialUsageIndex{\Eqcolon}\cs{Eqcolon}\\
+% ^^A   \SpecialUsageIndex{\colonapprox}\cs{colonapprox}\texttt{~~}
+% ^^A   \SpecialUsageIndex{\Colonapprox}\cs{Colonapprox}\texttt{~~}
+% ^^A   \SpecialUsageIndex{\colonsim}\cs{colonsim}\texttt{~~}
+% ^^A   \SpecialUsageIndex{\Colonsim}\cs{Colonsim}\\
+% ^^A   \SpecialUsageIndex{\dblcolon}\cs{dblcolon}
+% ^^A \end{codesyntax}
+% \begin{center}
+%   \small
+%   \newcommand\SSS[1]{\SpecialUsageIndex{#1}\texttt{\detokenize{#1}} & $#1$ }
+%   \fbox{\begin{tabular}{*{8}{l} }
+%    \SSS{\coloneq}  & 
+%    \SSS{\Coloneqq} &
+%    \SSS{\Coloneq} 
+%  \\
+%    \SSS{\eqcolon}  & 
+%    \SSS{\Eqqcolon} &
+%    \SSS{\Eqcolon}
+% \\
+%    \SSS{\colonapprox} &
+%    \SSS{\Colonapprox} &
+%    \SSS{\colonsim}    &
+%    \SSS{\Colonsim} 
+% \\
+% \SSS{\dblcolon}
+% \\
+%  \multicolumn{8}{l}{\itshape Legacy duplicate names:}  \\
+%    \SSS{\coloneqq} & \SSS{\eqqcolon} & 
+%  \end{tabular}}
+%  \end{center}
+%  Some font packages define a series of colon+symbol macros. In order
+%  to let users use these without having to change font we also
+%  provide a selection here. They were originally copied from the
+%  \pkg{txfonts} and \pkg{pxfonts} package (which are now superseeded
+%  by \pkg{newtxmath} and \pkg{newpxmath}). We provide some here for
+%  completeness (thus you don't have to change font to get them). Note
+%  that the symbol definitions are delayed until document start, such
+%  that similar macronames from fonts packages can take
+%  precedence.
+
+% not finished yet, see \url{https://chat.stackexchange.com/transcript/message/61422074#61422074}
 %
+%  \medskip\noindent
+%  \textbf{Breaking change 2022/06/22:} As is listed in the manual for
+%  \pkg{newtxmath}, \cmd{\coloneq} and \cmd{\eqcolon} generated the
+%  wrong symbols. This has now also been fixed in \pkg{mathtools}.
+% 
+%  If, for some reason you needed the symbol
+%  $\vcentcolon\mathrel{\mkern-1.2mu}\mathrel{-}$ (the old version of
+%  \cs{coloneq}), then it can be defined via
+% \begin{verbatim}
+% \providecommand*\COLONEQ{\vcentcolon\mathrel{\mkern-1.2mu}\mathrel{-}}
+% \providecommand*\EQCOLON{\mathrel{-}\mathrel{\mkern-1.2mu}\vcentcolon}
+% \end{verbatim}
 %
 %
 %  \subsubsection{A few missing symbols}
@@ -3949,13 +3977,15 @@ colorlinks,
 %    \begin{macrocode}
 \AtBeginDocument{
   \providecommand*\dblcolon{\vcentcolon\mathrel{\mkern-.9mu}\vcentcolon}
+  \providecommand*\coloneq{\vcentcolon\mathrel{\mkern-1.2mu}=}
   \providecommand*\coloneqq{\vcentcolon\mathrel{\mkern-1.2mu}=}
   \providecommand*\Coloneqq{\dblcolon\mathrel{\mkern-1.2mu}=}
-  \providecommand*\coloneq{\vcentcolon\mathrel{\mkern-1.2mu}\mathrel{-}}
+  %\providecommand*\coloneq{\vcentcolon\mathrel{\mkern-1.2mu}\mathrel{-}}
   \providecommand*\Coloneq{\dblcolon\mathrel{\mkern-1.2mu}\mathrel{-}}
   \providecommand*\eqqcolon{=\mathrel{\mkern-1.2mu}\vcentcolon}
   \providecommand*\Eqqcolon{=\mathrel{\mkern-1.2mu}\dblcolon}
-  \providecommand*\eqcolon{\mathrel{-}\mathrel{\mkern-1.2mu}\vcentcolon}
+  %\providecommand*\eqcolon{\mathrel{-}\mathrel{\mkern-1.2mu}\vcentcolon}
+  \providecommand*\eqcolon{=\mathrel{\mkern-1.2mu}\vcentcolon}
   \providecommand*\Eqcolon{\mathrel{-}\mathrel{\mkern-1.2mu}\dblcolon}
   \providecommand*\colonapprox{\vcentcolon\mathrel{\mkern-1.2mu}\approx}
   \providecommand*\Colonapprox{\dblcolon\mathrel{\mkern-1.2mu}\approx}
