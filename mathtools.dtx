@@ -333,7 +333,7 @@ colorlinks,
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3591}
+%  \CheckSum{3681}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -462,6 +462,15 @@ colorlinks,
 %  If you however want to preserve the more dangerous standard
 %  optional spaces, simply choose the option \opt{allowspaces}.
 %
+%  \begin{codesyntax}
+%  \SpecialOptIndex{legacycolonsymbols}\opt{legacycolonsymbols}
+%  \end{codesyntax}
+%  As of Summer 2022, we've had to rename several \cs{...colon...}
+%  symbol macros in order to have a consistent naming scheme across
+%  different packages.\footnote{For example with \pkg{unicode-math}.}
+%  If needed, this package option brings back the original
+%  \cs{...colon...} definitions. See page~\pageref{colonsymbols} for
+%  more information.
 %
 %  \section{Tools for mathematical typesetting}
 %
@@ -479,7 +488,8 @@ colorlinks,
 %  \end{verbatim}
 %  More information on the keys later on.
 %
-%  \subsection{Fine-tuning mathematical layout}
+%
+% \subsection{Fine-tuning mathematical layout}
 %
 %  Sometimes you need to tweak the layout of formulas a little to get
 %  the best result and this part of the manual describes the various
@@ -2398,6 +2408,7 @@ colorlinks,
 %  it provide any hooks to deal with math. So currently no general
 %  solution exists for this problem.
 %
+%  \subsubsection{Some extra symbols involving vertically centered colon}
 % ^^A \begin{codesyntax}
 % ^^A   \SpecialUsageIndex{\coloneqq}\cs{coloneqq}\texttt{~~~~~}
 % ^^A   \SpecialUsageIndex{\Coloneqq}\cs{Coloneqq}\texttt{~~~~~}
@@ -2414,7 +2425,7 @@ colorlinks,
 % ^^A   \SpecialUsageIndex{\dblcolon}\cs{dblcolon}
 % ^^A \end{codesyntax}
 % \begin{center}
-%   \small
+%   \small\label{colonsymbols}
 %   \newcommand\SSS[1]{\SpecialUsageIndex{#1}\texttt{\detokenize{#1}} & $#1$ }
 %   \fbox{\begin{tabular}{*{8}{l} }
 %    \SSS{\coloneq}  & 
@@ -3205,6 +3216,17 @@ colorlinks,
   \MH_set_boolean_F:n {robustify} 
 }
 %    \end{macrocode}
+% \changes{v1.29}{2022/06/24}{Added package option to bring back old
+% colon symbols} 
+%  As of juni/july 2022 we've had to rename several of the provided
+%  \cs{...colon...} macros. If needed this package option brings them back.
+%    \begin{macrocode}
+\MH_new_boolean:n {legacycolonsymbols}
+\MH_set_boolean_F:n {legacycolonsymbols} 
+\DeclareOption{legacycolonsymbols}{
+  \MH_set_boolean_T:n {legacycolonsymbols} 
+}
+%    \end{macrocode}
 %  Pass all other options directly to \pkg{amsmath}.
 %    \begin{macrocode}
 \DeclareOption*{
@@ -3969,28 +3991,52 @@ colorlinks,
 %  \begin{macro}{\colonsim}
 %  \begin{macro}{\Colonsim}
 %  This is just to simulate all the \cs{..colon..} symbols from
-%  \pkg{txfonts} and \pkg{pxfonts}.
+% \pkg{txfonts} and \pkg{pxfonts}.
+% \noindent
+% \textbf{2022/06/24:} Actually these were inconsistenly named in \pkg{txfonts}
+% and \pkg{pxfonts}. Some was properly renamed in \pkg{newtxmath} and
+% \pkg{newpxmath}, but not all.
 % \changes{v1.08c}{2010/11/17}{Enclosed all in \cs{mathrel}}
 % \changes{v1.18}{2015/11/12}{Moved the enclosing \cs{mathrel} to
 % \cs{mkern}. This is a result of
 % \url{http://chat.stackexchange.com/transcript/message/23630342#23630342} and \url{http://chat.stackexchange.com/transcript/message/25348032#25348032}}
 %    \begin{macrocode}
-\AtBeginDocument{
-  \providecommand*\dblcolon{\vcentcolon\mathrel{\mkern-.9mu}\vcentcolon}
-  \providecommand*\coloneq{\vcentcolon\mathrel{\mkern-1.2mu}=}
-  \providecommand*\coloneqq{\vcentcolon\mathrel{\mkern-1.2mu}=}
-  \providecommand*\Coloneqq{\dblcolon\mathrel{\mkern-1.2mu}=}
-  %\providecommand*\coloneq{\vcentcolon\mathrel{\mkern-1.2mu}\mathrel{-}}
-  \providecommand*\Coloneq{\dblcolon\mathrel{\mkern-1.2mu}\mathrel{-}}
-  \providecommand*\eqqcolon{=\mathrel{\mkern-1.2mu}\vcentcolon}
-  \providecommand*\Eqqcolon{=\mathrel{\mkern-1.2mu}\dblcolon}
-  %\providecommand*\eqcolon{\mathrel{-}\mathrel{\mkern-1.2mu}\vcentcolon}
-  \providecommand*\eqcolon{=\mathrel{\mkern-1.2mu}\vcentcolon}
-  \providecommand*\Eqcolon{\mathrel{-}\mathrel{\mkern-1.2mu}\dblcolon}
-  \providecommand*\colonapprox{\vcentcolon\mathrel{\mkern-1.2mu}\approx}
-  \providecommand*\Colonapprox{\dblcolon\mathrel{\mkern-1.2mu}\approx}
-  \providecommand*\colonsim{\vcentcolon\mathrel{\mkern-1.2mu}\sim}
-  \providecommand*\Colonsim{\dblcolon\mathrel{\mkern-1.2mu}\sim}
+\MH_if_boolean:nTF {legacycolonsymbols}{
+  \AtBeginDocument{
+    \providecommand*\dblcolon{\vcentcolon\mathrel{\mkern-.9mu}\vcentcolon}
+    % \providecommand*\coloneq{\vcentcolon\mathrel{\mkern-1.2mu}=} % new value
+    \providecommand*\coloneqq{\vcentcolon\mathrel{\mkern-1.2mu}=}
+    \providecommand*\Coloneqq{\dblcolon\mathrel{\mkern-1.2mu}=}
+    \providecommand*\coloneq{\vcentcolon\mathrel{\mkern-1.2mu}\mathrel{-}}
+    \providecommand*\Coloneq{\dblcolon\mathrel{\mkern-1.2mu}\mathrel{-}}
+    \providecommand*\eqqcolon{=\mathrel{\mkern-1.2mu}\vcentcolon}
+    \providecommand*\Eqqcolon{=\mathrel{\mkern-1.2mu}\dblcolon}
+    \providecommand*\eqcolon{\mathrel{-}\mathrel{\mkern-1.2mu}\vcentcolon}
+    % \providecommand*\eqcolon{=\mathrel{\mkern-1.2mu}\vcentcolon} % new value
+    \providecommand*\Eqcolon{\mathrel{-}\mathrel{\mkern-1.2mu}\dblcolon}
+    \providecommand*\colonapprox{\vcentcolon\mathrel{\mkern-1.2mu}\approx}
+    \providecommand*\Colonapprox{\dblcolon\mathrel{\mkern-1.2mu}\approx}
+    \providecommand*\colonsim{\vcentcolon\mathrel{\mkern-1.2mu}\sim}
+    \providecommand*\Colonsim{\dblcolon\mathrel{\mkern-1.2mu}\sim}
+  }
+}{
+  \AtBeginDocument{
+    \providecommand*\dblcolon{\vcentcolon\mathrel{\mkern-.9mu}\vcentcolon}
+    \providecommand*\coloneq{\vcentcolon\mathrel{\mkern-1.2mu}=} % new value
+    \providecommand*\coloneqq{\vcentcolon\mathrel{\mkern-1.2mu}=}
+    \providecommand*\Coloneqq{\dblcolon\mathrel{\mkern-1.2mu}=}
+    %\providecommand*\coloneq{\vcentcolon\mathrel{\mkern-1.2mu}\mathrel{-}}
+    \providecommand*\Coloneq{\dblcolon\mathrel{\mkern-1.2mu}\mathrel{-}}
+    \providecommand*\eqqcolon{=\mathrel{\mkern-1.2mu}\vcentcolon}
+    \providecommand*\Eqqcolon{=\mathrel{\mkern-1.2mu}\dblcolon}
+    %\providecommand*\eqcolon{\mathrel{-}\mathrel{\mkern-1.2mu}\vcentcolon}
+    \providecommand*\eqcolon{=\mathrel{\mkern-1.2mu}\vcentcolon} % new value
+    \providecommand*\Eqcolon{\mathrel{-}\mathrel{\mkern-1.2mu}\dblcolon}
+    \providecommand*\colonapprox{\vcentcolon\mathrel{\mkern-1.2mu}\approx}
+    \providecommand*\Colonapprox{\dblcolon\mathrel{\mkern-1.2mu}\approx}
+    \providecommand*\colonsim{\vcentcolon\mathrel{\mkern-1.2mu}\sim}
+    \providecommand*\Colonsim{\dblcolon\mathrel{\mkern-1.2mu}\sim}
+  }
 }
 %    \end{macrocode}
 %  \end{macro}
