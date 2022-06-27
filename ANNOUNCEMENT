@@ -4,6 +4,10 @@ For mathtools.dtx v1.29
 
 * In section `Special mathtools options` clearified when `gathered` of pure amsmath might give a warning. (#38)
 * Added 3.6 note 3: about \section{foo $\norm[\big]{bar}$}.
+* Renamed a few colon combo symbols and added a few extra for completeness. (#44)
+  A package option is available to revert the change.
+* Added a warning if mathtools is loaded *after* `unicode-math` (#43)
+
 
 For mathtools.dtx v1.28a:
 
