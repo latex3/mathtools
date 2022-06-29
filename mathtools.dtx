@@ -333,7 +333,7 @@ colorlinks,
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3905}
+%  \CheckSum{3740}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -2449,20 +2449,20 @@ colorlinks,
 %   \newcommand\SSS[2]{\SpecialUsageIndex{#1}\texttt{\detokenize{#1}}&$\@nameuse{#2}$}
 %   \makeatother
 %   \fbox{\begin{tabular}{*{8}{l}}
-%     \SSS{\coloneqq}{MT@coloneq} & \SSS{\Coloneqq}{MT@dblcoloneq}
-%     & \SSS{\coloneq}{MT@colondash} & \SSS{Coloneq}{MT@dblcolondash} \\
-%     \SSS{\eqqcolon}{MT@eqcolon} & \SSS{\Eqqcolon}{MT@eqdblcolon}
-%     & \SSS{\eqcolon}{MT@dashcolon} & \SSS{\Eqcolon}{MT@dashdblcolon} \\
-%     \SSS{\colonapprox}{MT@colonapprox} & \SSS{\Colonapprox}{MT@dblcolonapprox}
-%     & \SSS{\colonsim}{MT@colonsim}   & \SSS{\Colonsim}{MT@dblcolonsim} \\
-%     \SSS{\dblcolon}{MT@dblcolon}\\
+%     \SSS{\coloneqq}{MATHT@coloneq} & \SSS{\Coloneqq}{MATHT@dblcoloneq}
+%     & \SSS{\coloneq}{MATHT@colondash} & \SSS{Coloneq}{MATHT@dblcolondash} \\
+%     \SSS{\eqqcolon}{MATHT@eqcolon} & \SSS{\Eqqcolon}{MATHT@eqdblcolon}
+%     & \SSS{\eqcolon}{MATHT@dashcolon} & \SSS{\Eqcolon}{MATHT@dashdblcolon} \\
+%     \SSS{\colonapprox}{MATHT@colonapprox} & \SSS{\Colonapprox}{MATHT@dblcolonapprox}
+%     & \SSS{\colonsim}{MATHT@colonsim}   & \SSS{\Colonsim}{MATHT@dblcolonsim} \\
+%     \SSS{\dblcolon}{MATHT@dblcolon}\\
 %    \noalign{\smallskip}
 %    \multicolumn{8}{l}{\itshape Extra symbols added Summer 2022:}  \\
 %    \noalign{\smallskip}
-%    \SSS{\approxcolon}{MT@approxcolon} & \SSS{\Approxcolon}{MT@approxdblcolon}
-%    & \SSS{\simcolon}{MT@simcolon}  & \SSS{\Simcolon}{MT@simdblcolon} \\
-%    \SSS{\colondash}{MT@colondash} & \SSS{\Colondash}{MT@dblcolondash}
-%    & \SSS{\dashcolon}{MT@dashcolon} & \SSS{\Dashcolon}{MT@dashdblcolon}
+%    \SSS{\approxcolon}{MATHT@approxcolon} & \SSS{\Approxcolon}{MATHT@approxdblcolon}
+%    & \SSS{\simcolon}{MATHT@simcolon}  & \SSS{\Simcolon}{MATHT@simdblcolon} \\
+%    \SSS{\colondash}{MATHT@colondash} & \SSS{\Colondash}{MATHT@dblcolondash}
+%    & \SSS{\dashcolon}{MATHT@dashcolon} & \SSS{\Dashcolon}{MATHT@dashdblcolon}
 %   \end{tabular}}\par\smallskip
 %  Colon symbol names with \opt{legacycolonsymbols} package option.
 % \end{center}
@@ -3985,23 +3985,23 @@ colorlinks,
 %  \end{macro}
 %  \end{macro}
 % \end{macro}
-%  \begin{macro}{\MT@dblcolon}
-%  \begin{macro}{\MT@coloneq}
-%  \begin{macro}{\MT@dblcoloneq}
-%  \begin{macro}{\MT@colondash}
-%  \begin{macro}{\MT@dblcolondash}
-%  \begin{macro}{\MT@eqcolon}
-%  \begin{macro}{\MT@eqdblcolon}
-%  \begin{macro}{\MT@dashcolon}
-%  \begin{macro}{\MT@dashdblcolon}
-%  \begin{macro}{\MT@colonapprox}
-%  \begin{macro}{\MT@dblcolonapprox}
-%  \begin{macro}{\MT@approxcolon}
-%  \begin{macro}{\MT@approxdblcolon}
-%  \begin{macro}{\MT@colonsim}
-%  \begin{macro}{\MT@dblcolonsim}
-%  \begin{macro}{\MT@simcolon}
-%  \begin{macro}{\MT@simdblcolon}
+%  \begin{macro}{\MATHT@dblcolon}
+%  \begin{macro}{\MATHT@coloneq}
+%  \begin{macro}{\MATHT@dblcoloneq}
+%  \begin{macro}{\MATHT@colondash}
+%  \begin{macro}{\MATHT@dblcolondash}
+%  \begin{macro}{\MATHT@eqcolon}
+%  \begin{macro}{\MATHT@eqdblcolon}
+%  \begin{macro}{\MATHT@dashcolon}
+%  \begin{macro}{\MATHT@dashdblcolon}
+%  \begin{macro}{\MATHT@colonapprox}
+%  \begin{macro}{\MATHT@dblcolonapprox}
+%  \begin{macro}{\MATHT@approxcolon}
+%  \begin{macro}{\MATHT@approxdblcolon}
+%  \begin{macro}{\MATHT@colonsim}
+%  \begin{macro}{\MATHT@dblcolonsim}
+%  \begin{macro}{\MATHT@simcolon}
+%  \begin{macro}{\MATHT@simdblcolon}
 % We can now use \cs{vcentcolon} to define some colon related
 % symbols. Orinally the names of these macro names came from
 % \pkg{txfonts} and \pkg{pxfonts}. Though it turned out that some of
@@ -4015,23 +4015,23 @@ colorlinks,
 % \changes{v1.29}{2022/06/27}{Moved symbol defs into separate MT named
 % macros}
 %    \begin{macrocode}
-\newcommand*\MT@dblcolon{\vcentcolon\mathrel{\mkern-.9mu}\vcentcolon}
-\newcommand*\MT@coloneq{\vcentcolon\mathrel{\mkern-1.2mu}=}
-\newcommand*\MT@dblcoloneq{\dblcolon\mathrel{\mkern-1.2mu}=}
-\newcommand*\MT@colondash{\vcentcolon\mathrel{\mkern-1.2mu}\mathrel{-}}
-\newcommand*\MT@dblcolondash{\dblcolon\mathrel{\mkern-1.2mu}\mathrel{-}}
-\newcommand*\MT@eqcolon{=\mathrel{\mkern-1.2mu}\vcentcolon}
-\newcommand*\MT@eqdblcolon{=\mathrel{\mkern-1.2mu}\dblcolon}
-\newcommand*\MT@dashcolon{\mathrel{-}\mathrel{\mkern-1.2mu}\vcentcolon}
-\newcommand*\MT@dashdblcolon{\mathrel{-}\mathrel{\mkern-1.2mu}\dblcolon}
-\newcommand*\MT@colonapprox{\vcentcolon\mathrel{\mkern-1.2mu}\approx}
-\newcommand*\MT@dblcolonapprox{\dblcolon\mathrel{\mkern-1.2mu}\approx}
-\newcommand*\MT@approxcolon{\approx\mathrel{\mkern-1.2mu}\vcentcolon}
-\newcommand*\MT@approxdblcolon{\approx\mathrel{\mkern-1.2mu}\dblcolon}
-\newcommand*\MT@colonsim{\vcentcolon\mathrel{\mkern-1.2mu}\sim}
-\newcommand*\MT@dblcolonsim{\dblcolon\mathrel{\mkern-1.2mu}\sim}
-\newcommand*\MT@simcolon{\sim\mathrel{\mkern-1.2mu}\vcentcolon}
-\newcommand*\MT@simdblcolon{\sim\mathrel{\mkern-1.2mu}\dblcolon}
+\newcommand*\MATHT@dblcolon{\vcentcolon\mathrel{\mkern-.9mu}\vcentcolon}
+\newcommand*\MATHT@coloneq{\vcentcolon\mathrel{\mkern-1.2mu}=}
+\newcommand*\MATHT@dblcoloneq{\dblcolon\mathrel{\mkern-1.2mu}=}
+\newcommand*\MATHT@colondash{\vcentcolon\mathrel{\mkern-1.2mu}\mathrel{-}}
+\newcommand*\MATHT@dblcolondash{\dblcolon\mathrel{\mkern-1.2mu}\mathrel{-}}
+\newcommand*\MATHT@eqcolon{=\mathrel{\mkern-1.2mu}\vcentcolon}
+\newcommand*\MATHT@eqdblcolon{=\mathrel{\mkern-1.2mu}\dblcolon}
+\newcommand*\MATHT@dashcolon{\mathrel{-}\mathrel{\mkern-1.2mu}\vcentcolon}
+\newcommand*\MATHT@dashdblcolon{\mathrel{-}\mathrel{\mkern-1.2mu}\dblcolon}
+\newcommand*\MATHT@colonapprox{\vcentcolon\mathrel{\mkern-1.2mu}\approx}
+\newcommand*\MATHT@dblcolonapprox{\dblcolon\mathrel{\mkern-1.2mu}\approx}
+\newcommand*\MATHT@approxcolon{\approx\mathrel{\mkern-1.2mu}\vcentcolon}
+\newcommand*\MATHT@approxdblcolon{\approx\mathrel{\mkern-1.2mu}\dblcolon}
+\newcommand*\MATHT@colonsim{\vcentcolon\mathrel{\mkern-1.2mu}\sim}
+\newcommand*\MATHT@dblcolonsim{\dblcolon\mathrel{\mkern-1.2mu}\sim}
+\newcommand*\MATHT@simcolon{\sim\mathrel{\mkern-1.2mu}\vcentcolon}
+\newcommand*\MATHT@simdblcolon{\sim\mathrel{\mkern-1.2mu}\dblcolon}
 %    \end{macrocode}
 %  \end{macro}
 %  \end{macro}
@@ -4072,53 +4072,53 @@ colorlinks,
 %    \begin{macrocode}
 \MH_if_boolean:nTF {legacycolonsymbols}{
   \AtBeginDocument{
-    \providecommand*\dblcolon{\MT@dblcolon}
-    \providecommand*\coloneqq{\MT@coloneq}
-    \providecommand*\Coloneqq{\MT@dblcoloneq}
-    \providecommand*\coloneq{\MT@colondash}
-    \providecommand*\Coloneq{\MT@dblcolondash}
-    \providecommand*\eqqcolon{\MT@eqcolon}
-    \providecommand*\Eqqcolon{\MT@eqdblcolon}
-    \providecommand*\eqcolon{\MT@dashcolon}
-    \providecommand*\Eqcolon{\MT@dashdblcolon}
-    \providecommand*\colonapprox{\MT@colonapprox}
-    \providecommand*\Colonapprox{\MT@dblcolonapprox}
-    \providecommand*\colonsim{\MT@colonsim}
-    \providecommand*\Colonsim{\MT@dblcolonsim}
+    \providecommand*\dblcolon{\MATHT@dblcolon}
+    \providecommand*\coloneqq{\MATHT@coloneq}
+    \providecommand*\Coloneqq{\MATHT@dblcoloneq}
+    \providecommand*\coloneq{\MATHT@colondash}
+    \providecommand*\Coloneq{\MATHT@dblcolondash}
+    \providecommand*\eqqcolon{\MATHT@eqcolon}
+    \providecommand*\Eqqcolon{\MATHT@eqdblcolon}
+    \providecommand*\eqcolon{\MATHT@dashcolon}
+    \providecommand*\Eqcolon{\MATHT@dashdblcolon}
+    \providecommand*\colonapprox{\MATHT@colonapprox}
+    \providecommand*\Colonapprox{\MATHT@dblcolonapprox}
+    \providecommand*\colonsim{\MATHT@colonsim}
+    \providecommand*\Colonsim{\MATHT@dblcolonsim}
     % new
-    \providecommand*\approxcolon{\MT@approxcolon}
-    \providecommand*\Approxcolon{\MT@approxdblcolon}
-    \providecommand*\simcolon{\MT@simcolon}
-    \providecommand*\Simcolon{\MT@simdblcolon}
-    \providecommand*\colondash{\MT@colondash}
-    \providecommand*\Colondash{\MT@dblcolondash}
-    \providecommand*\dashcolon{\MT@dashcolon}
-    \providecommand*\Dashcolon{\MT@dashdblcolon}
+    \providecommand*\approxcolon{\MATHT@approxcolon}
+    \providecommand*\Approxcolon{\MATHT@approxdblcolon}
+    \providecommand*\simcolon{\MATHT@simcolon}
+    \providecommand*\Simcolon{\MATHT@simdblcolon}
+    \providecommand*\colondash{\MATHT@colondash}
+    \providecommand*\Colondash{\MATHT@dblcolondash}
+    \providecommand*\dashcolon{\MATHT@dashcolon}
+    \providecommand*\Dashcolon{\MATHT@dashdblcolon}
   }
 }{
   \AtBeginDocument{
-    \providecommand*\dblcolon{\MT@dblcolon}
-    \providecommand*\coloneqq{\MT@coloneq}   % duplet
-    \providecommand*\Coloneqq{\MT@dblcoloneq}% duplet
-    \providecommand*\coloneq{\MT@coloneq}    % changed
-    \providecommand*\Coloneq{\MT@dblcoloneq} % changed
-    \providecommand*\eqqcolon{\MT@eqcolon}   % duplet
-    \providecommand*\Eqqcolon{\MT@eqdblcolon}% duplet
-    \providecommand*\eqcolon{\MT@eqcolon}    % changed
-    \providecommand*\Eqcolon{\MT@eqdblcolon} % changed
-    \providecommand*\colonapprox{\MT@colonapprox}
-    \providecommand*\Colonapprox{\MT@dblcolonapprox}
-    \providecommand*\colonsim{\MT@colonsim}
-    \providecommand*\Colonsim{\MT@dblcolonsim}
+    \providecommand*\dblcolon{\MATHT@dblcolon}
+    \providecommand*\coloneqq{\MATHT@coloneq}   % duplet
+    \providecommand*\Coloneqq{\MATHT@dblcoloneq}% duplet
+    \providecommand*\coloneq{\MATHT@coloneq}    % changed
+    \providecommand*\Coloneq{\MATHT@dblcoloneq} % changed
+    \providecommand*\eqqcolon{\MATHT@eqcolon}   % duplet
+    \providecommand*\Eqqcolon{\MATHT@eqdblcolon}% duplet
+    \providecommand*\eqcolon{\MATHT@eqcolon}    % changed
+    \providecommand*\Eqcolon{\MATHT@eqdblcolon} % changed
+    \providecommand*\colonapprox{\MATHT@colonapprox}
+    \providecommand*\Colonapprox{\MATHT@dblcolonapprox}
+    \providecommand*\colonsim{\MATHT@colonsim}
+    \providecommand*\Colonsim{\MATHT@dblcolonsim}
     % new
-    \providecommand*\approxcolon{\MT@approxcolon}
-    \providecommand*\Approxcolon{\MT@approxdblcolon}
-    \providecommand*\simcolon{\MT@simcolon}
-    \providecommand*\Simcolon{\MT@simdblcolon}
-    \providecommand*\colondash{\MT@colondash}
-    \providecommand*\Colondash{\MT@dblcolondash}
-    \providecommand*\dashcolon{\MT@dashcolon}
-    \providecommand*\Dashcolon{\MT@dashdblcolon}
+    \providecommand*\approxcolon{\MATHT@approxcolon}
+    \providecommand*\Approxcolon{\MATHT@approxdblcolon}
+    \providecommand*\simcolon{\MATHT@simcolon}
+    \providecommand*\Simcolon{\MATHT@simdblcolon}
+    \providecommand*\colondash{\MATHT@colondash}
+    \providecommand*\Colondash{\MATHT@dblcolondash}
+    \providecommand*\dashcolon{\MATHT@dashcolon}
+    \providecommand*\Dashcolon{\MATHT@dashdblcolon}
   }
 }
 %    \end{macrocode}
