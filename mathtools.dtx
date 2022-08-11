@@ -1118,6 +1118,20 @@ colorlinks,
 %    \[
 %      A \xLeftarrow[under]{over} B
 %    \]
+%    \textbf{Caveat for \cs{xmapsto}:} Whenever \textsf{lualatex} and
+%    \pkg{unicode-math} is used, the macro \cs{xmapsto} will not work
+%    correctly (a random 7 appears). This is due to how we define
+%    \cs{xmapsto}: the symbol »\,$\mapstochar{}$\,« (via \cs{mapstochar}, setup in the \LaTeX{}
+%    kernel) and and extensible \cs{rightarrow}. The symbol behind
+%    \cs{mapstochar} is not defined in unicode, and thus is not available
+%    in the unicode math fonts.\footnote{The symbol $\mapsto$
+%    \emph{is} in unicode and \pkg{unicode-math} maps \cs{mapsto} onto
+%    this symbol in the unicode math font. Whereas without
+%    \pkg{unicode-math}, \cs{mapsto} is a symbol constructed by
+%    combining \cs{mapstochar} and \cs{rightarrow}.  On the other hand
+%    \textsf{lualatex} \emph{does} have some special macros to create
+%    extensible arrows, but \emph{none} of them can write above
+%    \emph{and} below at the same time. So for now we leave this unresolved.}
 %  \begin{codesyntax}
 %    \SpecialUsageIndex{\xrightharpoondown}
 %    \cs{xrightharpoondown}\oarg{sub}\marg{sup}\texttt{~~~~}
