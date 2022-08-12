@@ -1,3 +1,12 @@
+Announcement release 202x/xx/xx
+
+For mathtools.dtx v1.30
+
+* Added a caveat about \xmapsto when ever unicode-math is loaded. The
+  macro does not work as the symbol marking the bar at the start is
+  not available under unicode-math.
+
+
 Announcement release 2022/06/29
 
 For mathtools.dtx v1.29
