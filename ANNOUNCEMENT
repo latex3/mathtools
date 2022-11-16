@@ -5,7 +5,7 @@ For mathtools.dtx v1.30
 * Added a caveat about \xmapsto when ever unicode-math is loaded. The
   macro does not work as the symbol marking the bar at the start is
   not available under unicode-math. (#45)
-* Added a default \MT_active_colon_false for when centercolon=true has
+* Added a default \MT_active_colon_false: for when centercolon=true has
   never been executed (#49)
 
 
