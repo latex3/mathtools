@@ -1185,6 +1185,24 @@ colorlinks,
 %   A & \xlongrightarrow[b]{a} B & A & \xlongleftarrow[b]{a} B \\
 %   A & \xlongrightarrow[below]{above} B & A & \xlongleftarrow[below]{above} B \\
 % \end{align*}
+%%  \begin{codesyntax}
+%    \SpecialUsageIndex{\xLongrightarrow}
+%    \cs{xLongrightarrow}\oarg{sub}\marg{sup}\texttt{~~~~}
+%    \SpecialUsageIndex{\xLongleftarrow}
+%    \cs{xLongleftarrow}\oarg{sub}\marg{sup}\texttt{~~~~}
+% \end{codesyntax}
+%  \FeatureRequest{quarkQuark {\footnotesize (issue \#51)}}{added 2024}%
+% Similar to \cs{xRight/Leftarrow} but based on the \emph{long}
+% versions. For short arguments it stays the same length as the
+% \cs{long...} base arrow.
+% \begin{align*}
+%   A & \xLongrightarrow B & A & \Longleftarrow B \\
+%   A & \xLongrightarrow[b]{a} B & A & \xLongleftarrow[b]{a} B \\
+%   A & \xLongrightarrow[below]{above} B & A & \xLongleftarrow[below]{above} B \\
+% \end{align*}
+
+%
+%
 %
 %  \subsubsection{Braces and brackets}
 %
@@ -2038,8 +2056,8 @@ colorlinks,
 %  are used we internally convert them into their \cs{...l} and
 %  \cs{...r} variants. Therefore if you define your own manual
 %  scalers, remember to also have -l and -r variants.
-%
-%  \paragraph{New from version 1.30.} You can now use »\verb|.|« (dot)
+% \\
+%  \emph{New from version 1.30.} You can now use »\verb|.|« (dot)
 %  as an empty delimiter, for macros what only have a delimiter on one
 %  side.\footnote{The syntax is borrowed from
 %  \cs{left.}\cs{frac\{1\}\{2\}}\cs{right}\cs{rvert} where the dot marks an empty
@@ -3815,8 +3833,31 @@ colorlinks,
   \arrowfill@{\mapstochar\relbar}\relbar\rightarrow}
 %    \end{macrocode}
 %  \end{macro}
-%  \end{macro}
+% \end{macro}
+% 2024 (v1.30): Added \verb+\xLongrightarrow+ and \verb+\xLongleftarrow+. Code by muzimuchi on GitHub. I added extra spaces like for |\xRightarrow| above.
+% \begin{macro}{\MT_Longrightarrow_fill:}
+% \begin{macro}{\MT_Longleftarrow_fill:}
+% \begin{macro}{\xLongrightarrow}
+% \begin{macro}{\xLongleftarrow}
+%    \begin{macrocode}
+\def\MT_Longrightarrow_fill:{%
+  \arrowfill@\Relbar\Relbar\Longrightarrow}
+\def\MT_Longleftarrow_fill:{%
+  \arrowfill@\Longleftarrow\Relbar\Relbar}
+
+\providecommand*\xLongrightarrow[2][]{%
+  \ext@arrow 0359\MT_Longrightarrow_fill:{#1\ }{#2\ }}
+\providecommand*\xLongleftarrow[2][]{%
+  \ext@arrow 3095\MT_Longleftarrow_fill:{\ #1}{\ #2}}
+
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
 %  \subsection{Underbrackets etc.}
+%
 %  \begin{macro}{\underbracket}
 %  \begin{macro}{\MT_underbracket_I:w}
 %  \begin{macro}{\MT_underbracket_II:w}
