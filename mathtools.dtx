@@ -333,7 +333,7 @@ colorlinks,
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3740}
+%  \CheckSum{3754}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -2034,6 +2034,17 @@ colorlinks,
 %      \]
 %  \end{itemize}
 %
+%  \paragraph{A note on the delimiters.}  Whenever the manual scalings
+%  are used we internally convert them into their \cs{...l} and
+%  \cs{...r} variants. Therefore if you define your own manual
+%  scalers, remember to also have -l and -r variants.
+%
+%  \paragraph{New from version 1.30.} You can now use »\verb|.|« (dot)
+%  as an empty delimiter, for macros what only have a delimiter on one
+%  side.\footnote{The syntax is borrowed from
+%  \cs{left.}\cs{frac\{1\}\{2\}}\cs{right}\cs{rvert} where the dot marks an empty
+%  delimiter. }
+%
 %  \begin{codesyntax}
 %    \SpecialUsageIndex{\DeclarePairedDelimiterX}
 %    \cs{DeclarePairedDelimiterX}\marg{cmd}\oarg{num args}\marg{left_delim}\marg{right_delim}\marg{body}\\
@@ -2276,7 +2287,7 @@ colorlinks,
 %  The default values for the call backs correspond to
 % \begin{verbatim}
 % star:            \mathopen{}\mathclose\bgroup #1#2\aftergroup\egroup #3
-% nostarnonscaled: \mathopen#1#2\mathclose#3
+% nostarnonscaled: \ifx.#1\else\mathopen#1\fi#2\ifx.#3\else\mathclose#3\fi
 % nostarscaled:    \mathopen{#1}#2\mathclose{#3}
 % \end{verbatim}
 %  The two \texttt{nostar...} versions look the same, but they are
@@ -4000,7 +4011,7 @@ colorlinks,
 % \changes{v1.30}{2022/11/15}{Forgot to define a default
 % \cs{MT\_active\_colon_false:}, who would run centercolon=false
 % before it being true?}
-%    \end{macrocode}
+%    \behin{macrocode}
 \def\MT_active_colon_false:{}
 %    \end{macrocode}
 %  \end{macro}
@@ -4618,8 +4629,13 @@ colorlinks,
     \@namedef{MT_delim_\MH_cs_to_str:N #1 _nostarscaled_wrapper:nnn}##1##2##3{
       \mathopen{##1}##2\mathclose{##3}
     }
+%    \end{macrocode}
+%   \changes{v1.30}{2024/01/18}{Changed the nostarnonscaled to support the empty scaler (dot).}
+%   If we want to support the empty scaler (dot) we need a test in the non-scaled case, otherwise a dot would be left in the output.
+%   Test sugggested by David Carlisle.
+%    \begin{macrocode}
     \@namedef{MT_delim_\MH_cs_to_str:N #1 _nostarnonscaled_wrapper:nnn}##1##2##3{
-      \mathopen##1##2\mathclose##3
+      \ifx.##1\else\mathopen##1\fi##2\ifx.##3\else\mathclose##3\fi
     }
   }
 
