@@ -9,6 +9,7 @@ For mathtools.dtx v1.30
   never been executed (#49)
 * Gave \DeclarePairedDelimiter... support for the empty scaler (dot) (#41)
 * Added \xLongrightarrow and \xLongleftarrow (requested in #51)
+* Added a bracing group inside \newtagform such that the inner format only applies to the number (fixes #54)
 
 
 Announcement release 2022/06/29

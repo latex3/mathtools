@@ -3336,10 +3336,11 @@ colorlinks,
 %  commands similar to \cs{tagform@} only this will give us tag form
 %  \emph{types}. The actual code is very similar to the one in
 %  \pkg{amsmath}.
+% \changes{v1.30}{2024/01/19}{Add group so \#2 (the inner format) does not leak}
 %    \begin{macrocode}
 \def\MT_define_tagform:nwnn #1[#2]#3#4{
   \@namedef{MT_tagform_#1:n}##1
-    {\maketag@@@{#3\ignorespaces#2{##1}\unskip\@@italiccorr#4}}
+    {\maketag@@@{#3\ignorespaces{#2{##1}}\unskip\@@italiccorr#4}}
 }
 %    \end{macrocode}
 %  \end{macro}
