@@ -137,8 +137,13 @@ and the derived files
 \documentclass{ltxdoc}
 \usepackage{mathpazo}
 \usepackage[overload]{empheq}
-\usepackage{xcolor,varioref,booktabs,fancybox}
+\usepackage{xcolor,varioref,booktabs,fancybox,iftex}
 \usepackage[overload]{textcase}
+
+\iftutex\else
+  \usepackage[T1]{fontenc}
+\fi
+
 
 \pagestyle{headings}
 \hyphenation{emph-eq}
