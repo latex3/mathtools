@@ -333,7 +333,7 @@ colorlinks,
 %
 %  \GetFileInfo{mathtools.drv}
 %
-%  \CheckSum{3772}
+%  \CheckSum{3775}
 %
 %  \title{The \pkg{mathtools} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}}
@@ -6707,12 +6707,23 @@ colorlinks,
           \MH_if_dim:w \lastskip>\z@
             \skip@\lastskip\unskip
 %    \end{macrocode}
-%  \changes{v1.15}{2014/07/16}{Added penalty workaround}
-%  Here is the fix.
-%  \changes{v1.19}{2017/03/31}{Added MH\_ prefix}
+% \changes{v1.15}{2014/07/16}{Added penalty workaround}
+% Here is the fix.
+% \changes{v1.19}{2017/03/31}{Added MH\_ prefix}
+% The code we inserted here in 2014, had a bug in it. The intent was
+% to move the penalty on to the other side of the italic correction.
+% But when we reinsert the penalty we only test if the scratch
+% counter is non-zero, so it may insert random penalties depending
+% on the non-zero value of \cs{count@}. Simple fix: initialise \cs{count@}.
+% \changes{v1.31}{2024/10/03}{Added missing counter initialisation, fixing issue \#62}
+% In chat David C. mentioned that \verb|\ifnum\lastnodetype=13| is a better
+% test than \verb|\ifnum\lastpenalty>\z@|. Just leaving this here for when we do the
+% Expl3 conversion.
 %    \begin{macrocode}
             \MH_if_num:w \lastpenalty>\z@
               \count@\lastpenalty\unpenalty
+            \MH_else:
+              \count@\z@
             \MH_fi:
             \@@italiccorr
 %    \end{macrocode}
@@ -6728,8 +6739,12 @@ colorlinks,
             \@@italiccorr
           \MH_fi:
         \MH_fi:
-      \MH_fi:
-      $\MH_fi:
+%    \end{macrocode}
+% 
+% \changes{v1.31}{2024/10/03}{Also fixed typo here, the last two \cs{fi} comes from non-MH syntax}
+%    \begin{macrocode}
+      \fi
+      $\fi
     }
   }
 }

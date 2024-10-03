@@ -1,5 +1,9 @@
 Announcement release 2024/xx/xx
 
+For mathtools.dtx v1.31
+
+* Fix bug in mathic reported by Lorents Landgren (#62). A scratch counter was not properly initialised.
+
 For empheq.dtx v1.3x
 
 * Fixed typo in manual reported by campa
