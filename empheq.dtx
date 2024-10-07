@@ -168,6 +168,9 @@ and the derived files
 }
 
 
+
+
+
 \newcommand*\AddDescribe[3]{%
   \@namedef{Describe#1}{\leavevmode\@bsphack\begingroup\MakePrivateLetters
     \@nameuse{Describe@#1}}
@@ -2878,7 +2881,7 @@ and the derived files
 % 
 %  Note this version of the \env{multline} code is being used when we
 %  use the \emph{bad} \env{multline} implementation, see code line
-%  \lineref{goodandbad} onwards.
+%  \lineref{goodandbad}  onwards.
 %    \begin{macrocode}
 \MH_keyval_alias_with_addon:nnnn {EmphEqEnv}{multline}
   {flalign}{\MH_set_boolean_T:n {multline}}
@@ -2944,9 +2947,12 @@ and the derived files
 \MH_let:NwN \endMTmultlined \endmultlined
 %    \end{macrocode}
 %  \end{environment}
-% We make a choice here: the good \env{multline} or the bad?
-% ^^A daleif 2024/10/07: the line below fails
-% ^^A \stepcounter{CodelineNo}\label{goodandbad}\addtocounter{CodelineNo}{-1}
+%  We make a choice here: the good \env{multline} or the bad?
+%  \makeatletter
+%  ^^A daleif: want to refer to the next line number, but \refstepcounter really does not like that is going on in \theCodelineNo.
+%  ^^A The following was suggested by Ulrike in chat.
+% \phantomsection\stepcounter{CodelineNo}\protected@edef\@currentlabel{\arabic{CodelineNo}}\label{goodandbad}\addtocounter{CodelineNo}{-1}
+% \makeatother
 %    \begin{macrocode}
 \MH_if_boolean:nTF {good_mult}{
 %    \end{macrocode}
