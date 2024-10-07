@@ -69,7 +69,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: empheq 2020/03/24 v2.16 empheq}
+\Msg{* Package: empheq 2024/08/09 v2.17 empheq}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -133,7 +133,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{empheq.drv}%
-  [2020/03/24 v2.16 Emphasizing equations]
+  [2024/08/09 v2.17 Emphasizing equations]
 \documentclass{ltxdoc}
 \usepackage{mathpazo}
 \usepackage[overload]{empheq}
@@ -343,6 +343,7 @@ and the derived files
 \end{document}
 %</driver>
 % \fi
+%  \changes{v2.17}{2024/08/09}{Fixed typo in manual} 
 %  \changes{v2.16}{2020/03/24}{fixed several bugs related to amsart/-book}
 %  \changes{v2.15}{2017/03/31}{Fixed a bug in relation to the AMS
 %  classes and completed prefixing macros belonging to \pkg{mhsetup}
@@ -381,7 +382,7 @@ and the derived files
 %  release}
 %
 %  \GetFileInfo{empheq.drv}
-%  \CheckSum{2495}
+%  \CheckSum{2635}
 %
 %  \title{The \pkg{empheq} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}\\
@@ -1758,7 +1759,7 @@ and the derived files
 %    \begin{macrocode}
 %<*package>
 \ProvidesPackage{empheq}%
-  [2017/03/31 v2.15 Emphasizing equations]
+  [2024/08/09 v2.17 Emphasizing equations]
 %    \end{macrocode}
 % \changes{v2.15}{2017/03/31}{Bumped required mhsetup release}
 %    \begin{macrocode}
@@ -2944,7 +2945,8 @@ and the derived files
 %    \end{macrocode}
 %  \end{environment}
 % We make a choice here: the good \env{multline} or the bad?
-% \refstepcounter{CodelineNo}\label{goodandbad}\addtocounter{CodelineNo}{-1}
+% ^^A daleif 2024/10/07: the line below fails
+% ^^A \stepcounter{CodelineNo}\label{goodandbad}\addtocounter{CodelineNo}{-1}
 %    \begin{macrocode}
 \MH_if_boolean:nTF {good_mult}{
 %    \end{macrocode}
@@ -4564,5 +4566,5 @@ and the derived files
 %    \begin{macrocode}
 %</package>
 %    \end{macrocode}
-% Finale
+% \Finale
 \endinput

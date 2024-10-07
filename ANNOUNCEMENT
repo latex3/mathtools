@@ -1,10 +1,17 @@
-Announcement release 2024/xx/xx
+Announcement release 2024/10/07
 
 For mathtools.dtx v1.31
 
-* Fix bug in mathic reported by Lorents Landgren (#62). A scratch counter was not properly initialised.
+* Fix bug in the mathic option, initially reported in private email by
+  Lorents Landgren (#62).
 
-For empheq.dtx v1.3x
+  A scratch counter was not properly initialised causing penalties to
+  be inserted where they should not.
+
+  Note that this fix is likely to change line breaks in existing
+  documents that uses the mathic option.
+
+For empheq.dtx v2.17
 
 * Fixed typo in manual reported by campa
 
