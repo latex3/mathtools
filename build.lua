@@ -9,3 +9,6 @@ unpackfiles  = {"*.dtx"}
 
 -- Release a TDS-style zip
 packtdszip  = true
+
+-- empheq doc needs 4 runs to get labels right
+typesetruns = 4

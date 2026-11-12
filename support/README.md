@@ -9,7 +9,7 @@ It could probably also be written in Lua (I just don't know Lua ;-)
 /daleif
 
 
-Copyright (C) 2020 Lars Madsen, The LaTeX3 Project  
-<https://latex-project.org/>  
+Copyright (C) 2020 Lars Madsen, The LaTeX Project
+<https://latex-project.org/>
 All rights reserved.
 

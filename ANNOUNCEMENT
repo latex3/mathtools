@@ -1,7 +1,10 @@
-Announcement release 2026/08/14
+Announcement release 2026/11/12
 
 For mathtools.dtx v1.32
+
 * Fix centercolon option with unicode math
+* Ignore spaces at end of starred cases environments (#72)
+* Fix extra space when containing align-type environments (#60)
 
 Announcement release 2024/10/07
 
@@ -38,7 +41,7 @@ Announcement release 2022/06/29
 
 For mathtools.dtx v1.29
 
-* In section `Special mathtools options` clearified when `gathered` of pure amsmath might give a warning. (#38)
+* In section `Special mathtools options` clarified when `gathered` of pure amsmath might give a warning. (#38)
 * Added 3.6 note 3: about \section{foo $\norm[\big]{bar}$}.
 * Renamed a few colon combo symbols and added a few extra for completeness. (#44)
   A package option is available to revert the change.
@@ -73,7 +76,7 @@ Announcement release 2021/03/28
 For mathtools.dtx v1.26:
 
 * LuaLaTeX has cramped primitives build in. We ought to use those when LuaLaTeX is used.
-  LuaLaTeX brances added,  fixing issue #24.
+  LuaLaTeX branches added,  fixing issue #24.
   Special thanks to Marcel Krüger, Ulrike Fischer and Philipp Stephani.
 
 Announcement release 2021/03/18
@@ -82,7 +85,7 @@ For mathtools.dtx v1.25:
 
 * fixed issue #18, thanks to Ruixi Zhang
 * fixed issue #20 (via https://tex.stackexchange.com/a/252412/3929)
-* fixed issue #22 
+* fixed issue #22
 * fixed issue #21, suggestions for documentation by Rimole.
 * fixed issue #19
 * fixed issue #17, thanks to Ruixi Zhang and David Carlisle
@@ -98,10 +101,10 @@ For mhsetup.dtx v1.4:
 Announcement release 2020/03/24
 
 * mathtools and empheq is now hosted at https://github.com/latex3/mathtools 
-  
+
 * Additional ideas for math will now be added to mathtools as amsmath might not
   be the right home for them at the moment.
-  
+
 * cleared up some documentation (reported by Frank Mittelbach,, issue #1)
 
 * Explained a bit about nested \splitfrac and their need to be added
@@ -111,7 +114,7 @@ Announcement release 2020/03/24
   \xLeftrightarrow moving the arguments away from the large arrow
   head(s) (suggested by Frank Mittelbach, issue #3)
 
-* added \xmathstrut an adjustable extention to the normal \mathstrut (issue #4)
+* added \xmathstrut an adjustable extension to the normal \mathstrut (issue #4)
 
 * empheq: fixed several issues related to amsart/-book plus a few others
   (issues #5, #6 and #8)
@@ -123,7 +126,7 @@ Announcement release 2020/01/17
 * added \kern1sp in a few places related to showonlyrefs preventing
   equation to add extra blank lines. This fixes both
   https://tex.stackexchange.com/q/524598/3929 and
-  https://tex.stackexchange.com/q/257928/3929 
+  https://tex.stackexchange.com/q/257928/3929
 
 
 Announcement release 2019/07/31
@@ -175,17 +178,17 @@ Announcement release 2017
   will now give an error.
 
 * Removed `-\jot` from the multlined implementation (invisible line). Issue reported in at
-  least <http://tex.stackexchange.com/a/258162/3929> and
+  least <https://tex.stackexchange.com/a/258162/3929> and
   <https://tex.stackexchange.com/q/369156/3929>. It is not 100% correct, but better than
   with `-\jot`.
 
-* fixed bug in empheq in relation to AMS clases
+* fixed bug in empheq in relation to AMS classes
 
 * renamed macros in mhsetup, mathtools and empheq such that any xxx_yyy: macro should now
-  contain EQ, MH or HT as a prefix or infix. Thus making everyting truely separate from
+  contain EQ, MH or HT as a prefix or infix. Thus making everything truly separate from
   expl3 defined syntax.
 
-* changed \shortintertext such that as long as 'original-intertext=false' (the default), 
+* changed \shortintertext such that as long as 'original-intertext=false' (the default),
   \shortintertext now only work in the same context as \intertext
 
 * \shortintertext is now also an error inside the empheq construction

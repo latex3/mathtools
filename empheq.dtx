@@ -2,20 +2,20 @@
 %
 % Copyright (C) 2002-2007 by Morten Hoegholm
 % Copyright (C) 2012-2019 by Lars Madsen
-% Copyright (C) 2020      by Lars Madsen, The LaTeX3 Project
+% Copyright (C) 2020      by Lars Madsen, The LaTeX Project
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
 % version 1.3 of this license or (at your option) any later
 % version. The latest version of this license is in
-%    http://www.latex-project.org/lppl.txt
+%    https://www.latex-project.org/lppl.txt
 % and version 1.3 or later is part of all distributions of
 % LaTeX version 2005/12/01 or later.
 %
 % This work has the LPPL maintenance status "maintained".
 %
 % This Current Maintainer of this work is
-% Lars Madsen, The LaTeX3 Project
+% Lars Madsen, The LaTeX Project
 %
 % This work consists of the main source file empheq.dtx
 % and the derived files
@@ -44,7 +44,7 @@
 %    use A4 as paper format:
 %       \PassOptionsToClass{a4paper}{article}
 %
-%    Programm calls to get the documentation (example):
+%    Program calls to get the documentation (example):
 %       pdflatex empheq.dtx
 %       makeindex -s gind.ist empheq.idx
 %       pdflatex empheq.dtx
@@ -81,21 +81,21 @@ This is a generated file.
 
 Copyright (C) 2002-2007 by Morten Hoegholm
 Copyright (C) 2012-2019 by Lars Madsen
-Copyright (C) 2020-     by Lars Madsen, The LaTeX3 Project
+Copyright (C) 2020-     by Lars Madsen, The LaTeX Project
 
 
 This work may be distributed and/or modified under the
 conditions of the LaTeX Project Public License, either
 version 1.3 of this license or (at your option) any later
 version. The latest version of this license is in
-   http://www.latex-project.org/lppl.txt
+   https://www.latex-project.org/lppl.txt
 and version 1.3 or later is part of all distributions of
 LaTeX version 2005/12/01 or later.
 
 This work has the LPPL maintenance status "maintained".
 
 This Current Maintainer of this work is
-Lars Madsen, The LaTeX3 Project
+Lars Madsen, The LaTeX Project
 
 This work consists of the main source file empheq.dtx
 and the derived files
@@ -390,7 +390,7 @@ and the derived files
 %  \title{The \pkg{empheq} package\thanks{This file has version number
 %  \fileversion, last revised \filedate.}\\
 %  Emphasizing equations in \LaTeXe}
-%  \author{Morten Hoegholm, Lars Madsen, The LaTeX3 Project}
+%  \author{Morten Høgholm, Lars Madsen, and the \LaTeX{} Project}
 %  
 %  \date{\filedate}
 %
@@ -472,7 +472,7 @@ and the derived files
 %    \end{empheq}
 %  Maybe not the most impressive example, but as you can see the
 %  contents of the environment are exactly the same as for the regular
-%  \env{align*} evironment from \pkg{amsmath}. The rest of the \AmS{}
+%  \env{align*} environment from \pkg{amsmath}. The rest of the \AmS{}
 %  environments are chosen the same way by typing the name as the
 %  mandatory argument of \env{empheq} with the exception of the
 %  \env{alignat} environment. For this you have to specify the number
@@ -494,7 +494,7 @@ and the derived files
 %  \vref{tab:environments}. Not supported is the standard \LaTeX{}
 %  \env{eqnarray} environment as it is fundamentally
 %  deficient.\footnote{See for instance
-%  \url{http://www.tex.ac.uk/cgi-bin/texfaq2html?label=eqnarray}}
+%  \url{https://texfaq.org/FAQ-eqnarray}.}
 %
 %  \begin{table}
 %  \centering
@@ -810,7 +810,7 @@ and the derived files
 %  The \pkg{ntheorem} package is supported by means of the
 %  \opt{ntheorem} option. In order for this to work properly, an
 %  \pkg{amsmath} bug\footnote{See the \LaTeX{} Bugs Database
-%  \url{http://www.latex-project.org/cgi-bin/ltxbugs2html} under
+%  \url{https://www.latex-project.org/cgi-bin/ltxbugs2html} under
 %  \AmS-\LaTeX{} problem report 3624.} is fixed. For more information
 %  on this option see \S \vref{sec:ntheorem-support}.
 %
@@ -1725,7 +1725,7 @@ and the derived files
 %   Sebastian Rahtz,
 %   \emph{Hypertext marks in \LaTeX} Version v6.74m,
 %   2003/11/30.
-%   (Available from \url{http://www.tug.org/applications/hyperref} as file
+%   (Available from \url{https://www.tug.org/applications/hyperref} as file
 %   \texttt{hyperref.dtx}.)
 %
 % \bibitem{Carl99}
@@ -3360,7 +3360,7 @@ and the derived files
   \MH_or: % #3:
 %    \end{macrocode}
 % \changes{v2.16}{2020/03/24}{\cs{multlinetaggap} should be added when
-% \opt{multline} is true, and if false \cs{\@mathmargin} should ned
+% \opt{multline} is true, and if false \cs{\@mathmargin} should need
 % kerned away}
 %    \begin{macrocode}
     \MH_if_boolean:nTF {multline}{ \kern-\multlinetaggap }
@@ -3445,7 +3445,7 @@ and the derived files
 %    \end{macrocode}
 % \begin{macro}{\empheqeqrefbase}
 %   This macro is used to locally redefine \cs{eqref}, it will just
-%   point at \cs{textup}, the user can then redefine it if nessary.
+%   point at \cs{textup}, the user can then redefine it if necessary.
 %    \begin{macrocode}
 \let\empheqeqrefbase\textup
 %    \end{macrocode}
@@ -3989,7 +3989,7 @@ and the derived files
 %  \begin{macro}{\raise@tag}
 %  \changes{v1.06}{2004/03/13}{Fixed \pkg{amsmath} bug \# 3624}
 %  This corrects a bug\footnote{See
-%  \url{http://www.latex-project.org/cgi-bin/ltxbugs2html?pr=amslatex/3624}}
+%  \url{https://www.latex-project.org/cgi-bin/ltxbugs2html?pr=amslatex/3624}}
 %  in \pkg{amsmath} that could cause tags to cross page boundaries
 %  without warning. The \cs{nobreak} is the addition.
 % \changes{v2.15}{2017/03/31}{added MH\_ prefix}
