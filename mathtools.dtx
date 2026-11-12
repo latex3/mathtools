@@ -69,7 +69,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: mathtools 2024/10/04 v1.31}
+\Msg{* Package: mathtools 2026/08/14 v1.32}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -133,7 +133,7 @@ and the derived files
 %<*driver>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{mathtools.drv}%
-  [2024/10/04 v1.31 mathematical typesetting tools]
+  [2026/08/14 v1.32 mathematical typesetting tools]
 \documentclass{ltxdoc}
   
 \IfFileExists{fourier.sty}{\usepackage{fourier}}{}
@@ -2452,6 +2452,10 @@ colorlinks,
 %  it provide any hooks to deal with math. So currently no general
 %  solution exists for this problem.
 %
+%  Furthermore, \texttt{centercolon} is usually \emph{not} needed with OpenType math fonts.
+%  Most math fonts loaded with \pkg{unicode-math} or \pkg{lua-unicode-math} have a colon that
+%  is better aligned with the equals sign than non-Unicode math fonts like Computer Modern.
+%
 %  \subsubsection{Some extra symbols involving vertically centered colon}
 %
 %  Inspired by the \pkg{txfonts} and \pkg{pxfonts} we provide some colon+symbol combinations such that they will be
@@ -3138,7 +3142,7 @@ colorlinks,
 %    \begin{macrocode}
 %<*package>
 \ProvidesPackage{mathtools}%
-  [2024/10/04 v1.31 mathematical typesetting tools]
+  [2026/08/14 v1.32 mathematical typesetting tools]
 %    \end{macrocode}
 % \changes{v1.10}{2011/02/12}{Might as well make sure that we need the
 % latest version of \texttt{mhsetup}}
@@ -4011,6 +4015,7 @@ colorlinks,
 % is explicitly requested (before it was always assigned even if : remained
 % catcode 12). This allows better interaction with packages like babel
 % that also make colon active.
+% \changes{2026/08/14}{v1.32}{Adapt centercolon code for unicode math}
 %    \begin{macrocode}
 \def\vcentcolon{\mathrel{\mathop\ordinarycolon}}
 \providecommand\ordinarycolon{:}
@@ -4021,7 +4026,11 @@ colorlinks,
     \ifnum\mathcode`\:=32768\relax
       \let\ordinarycolon= :%
     \else
-      \mathchardef\ordinarycolon\mathcode`\: %
+      \ifx\Umathcharnumdef\@undefined
+        \mathchardef\ordinarycolon\mathcode`\: %
+      \else
+        \Umathcharnumdef\ordinarycolon\Umathcodenum`\: %
+      \fi
     \fi 
     \let :\vcentcolon
   }
@@ -4043,8 +4052,13 @@ colorlinks,
   \MT_activate_colon
   \MH_if_boolean:nF {center_colon}{
     \MH_set_boolean_T:n {center_colon}
-    \edef\MT_active_colon_false:
-      {\mathcode`\noexpand\:=\the\mathcode`\:\relax}
+    \ifx\Umathcodenum\@undefined
+      \edef\MT_active_colon_false:
+        {\mathcode`\noexpand\:=\the\mathcode`\:\relax}
+    \else
+      \edef\MT_active_colon_false:
+        {\Umathcode`\noexpand\:=\the\Umathcodenum`\:\relax}
+    \fi
     \mathcode`\:=32768
   }
 }

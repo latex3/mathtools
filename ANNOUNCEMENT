@@ -1,3 +1,8 @@
+Announcement release 2026/08/14
+
+For mathtools.dtx v1.32
+* Fix centercolon option with unicode math
+
 Announcement release 2024/10/07
 
 For mathtools.dtx v1.31
