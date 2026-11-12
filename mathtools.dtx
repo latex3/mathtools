@@ -5156,21 +5156,22 @@ colorlinks,
 % \changes{v1.25}{2021/01/14}{Replaced \texttt{\{\#\#\}} by
 % \texttt{\#\#}, otherwise one cannot counteract the \cs{hfil} in the
 % definition with a \cs{hfil(l)} in a cell. Related to issue \#20 and https://tex.stackexchange.com/a/252412/3929}
+% \changes{v1.32}{Ignore spaces at end of starred cases environments (gh/72)}
 %    \begin{macrocode}
 \newcases{dcases}{\quad}{%
   $\m@th\displaystyle##$\hfil}{$\m@th\displaystyle##$\hfil}{\lbrace}{.}
 \newcases{dcases*}{\quad}{%
-  $\m@th\displaystyle##$\hfil}{##\hfil}{\lbrace}{.}
+  $\m@th\displaystyle##$\hfil}{\ignorespaces##\unskip\hfil}{\lbrace}{.}
 \newcases{rcases}{\quad}{%
   $\m@th##$\hfil}{$\m@th##$\hfil}{.}{\rbrace}
 \newcases{rcases*}{\quad}{%
-  $\m@th##$\hfil}{##\hfil}{.}{\rbrace}
+  $\m@th##$\hfil}{\ignorespaces##\unskip\hfil}{.}{\rbrace}
 \newcases{drcases}{\quad}{%
   $\m@th\displaystyle##$\hfil}{$\m@th\displaystyle##$\hfil}{.}{\rbrace}
 \newcases{drcases*}{\quad}{%
-  $\m@th\displaystyle##$\hfil}{##\hfil}{.}{\rbrace}
+  $\m@th\displaystyle##$\hfil}{\ignorespaces##\unskip\hfil}{.}{\rbrace}
 \newcases{cases*}{\quad}{%
-  $\m@th##$\hfil}{##\hfil}{\lbrace}{.}
+  $\m@th##$\hfil}{\ignorespaces##\unskip\hfil}{\lbrace}{.}
 %    \end{macrocode}
 %  \end{environment}
 %  \end{environment}
