@@ -2,7 +2,7 @@ Announcement release 2026/11/12
 
 For mathtools.dtx v1.32
 
-* Fix centercolon option with unicode math
+* Fix centercolon option with unicode math (#66)
 * Ignore spaces at end of starred cases environments (#72)
 * Fix extra space when containing align-type environments (#60)
 
